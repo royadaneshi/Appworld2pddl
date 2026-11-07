@@ -1,0 +1,82 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2592,
+    "output_tokens": 8207,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "60d0b5b_2",
+  "instruction": "The last Venmo payment request I sent to Cory was an accident and they approved it. Send them the money back.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "venmo.login",
+    "venmo.show_sent_payment_requests",
+    "venmo.create_transaction",
+    "supervisor.complete_task"
+  ],
+  "notes": "Two-app task (phone for contact lookup, venmo for the refund). supervisor.show_profile exposes the login usernames (phone number for phone, email for venmo); show_account_passwords exposes passwords. phone.search_contacts (query=Cory) yields Cory's email, which gates venmo.show_sent_payment_requests (status=approved) that discovers the latest approved request to Cory and its amount (static request-to/request-status/request-amount facts stand in for the unknown runtime values). venmo.create_transaction must use the discovered email and the request's amount; its effect (refunded req) is the single goal condition besides (task-completed). supervisor-complete-task takes the refunded request as a non-API task-record parameter and is forced last by (not (task-completed)) on all other actions. Description is modeled because the reference solution passes it; evaluation only checks receiver and amount.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.create_transaction",
+        "venmo.login",
+        "venmo.show_sent_payment_requests"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login username-7763361246 password-phone token-venmo)",
+      "(venmo-login username-chelsea-burch-at-gmail-com password-venmo token-phone)",
+      "(phone-search-contacts token-venmo query-cory cory cory-email)",
+      "(venmo-show-sent-payment-requests token-phone status-approved cory cory-email req-cory-latest-approved)",
+      "(venmo-create-transaction cory-email amount-accident-cost token-phone description-returning-the-accidental-payment cory req-cory-latest-approved)",
+      "(supervisor-complete-task req-cory-latest-approved)"
+    ],
+    "message": "",
+    "seconds": 0.79
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 82.8,
+  "effort": "xhigh"
+}

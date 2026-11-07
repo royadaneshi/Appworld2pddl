@@ -1,0 +1,62 @@
+[
+  {
+    "object": "jefsmith-at-gmail-com",
+    "value": "jefsmith@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "phone-3272301258",
+    "value": "3272301258",
+    "from_api": "supervisor.show_profile",
+    "field": "phone_number"
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-sibling",
+    "value": "sibling",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "sibling",
+    "value": "sibling",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "sibling-txn-1",
+    "value": null,
+    "from_api": "venmo.show_social_feed",
+    "field": "transaction_id of a feed entry (iterate all pages) whose created_at falls on yesterday (2023-05-17, relative to phone.get_current_date_and_time) and whose sender.email or receiver.email is in the set of emails returned by phone.search_contacts(query=\"sibling\", relationship=\"sibling\") (field email); first such entry"
+  },
+  {
+    "object": "sibling-txn-2",
+    "value": null,
+    "from_api": "venmo.show_social_feed",
+    "field": "transaction_id of the second feed entry matching the same rule (yesterday + sibling participant); one placeholder per matching entry at runtime"
+  }
+]

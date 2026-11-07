@@ -1,0 +1,32 @@
+[
+  {
+    "object": "joseharr-at-gmail-com",
+    "value": "joseharr@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "unliked-undownloaded-song",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song"
+  },
+  {
+    "object": "unliked-undownloaded-album",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of every library album (iterate all pages) whose album_id is not in spotify.show_liked_albums and whose song_ids are not all contained in spotify.show_downloaded_songs; call remove_album_from_library once per such album"
+  }
+]

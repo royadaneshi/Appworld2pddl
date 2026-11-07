@@ -1,0 +1,93 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 3567,
+    "output_tokens": 30329,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "ce359b5_2",
+  "instruction": "Remove all songs from my Spotify song library and playlists that were released after 2021 year.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_song",
+    "spotify.remove_song_from_library",
+    "spotify.show_song",
+    "spotify.show_playlist_library",
+    "spotify.show_playlist",
+    "spotify.show_song",
+    "spotify.remove_song_from_playlist",
+    "spotify.remove_song_from_playlist",
+    "spotify.show_song",
+    "supervisor.complete_task"
+  ],
+  "notes": "Schematic instance: the song library (object my-song-library of type song-library) and playlists are both 'collection's so that a single spotify-show-song action can require the song's id to have been discovered by listing its collection ((listed ?c) via show_song_library or show_playlist); show_playlist additionally requires (playlists-listed) from show_playlist_library. Release years are hidden static facts (released-after-2021 ?s) that a removal may only exploit after spotify.show_song asserts (release-known ?s), so no song can be removed without inspecting it, and songs released in or before 2021 can never be removed (their memberships are invariants, matching the evaluation's 'no extra removals'). Because STRIPS cannot state 'no after-2021 song remains' universally, the number of offending memberships (library:2023, playlist-1:2023, playlist-1:2022 = 3) is encoded as a discrete count (pending-removals n3) decremented by each removal; supervisor-complete-task requires (pending-removals n0), which entails the explicit (not (contains ...)) goal facts, and every other action requires (not (task-completed)), so completion is last. The api_sequence is an agent-faithful valid plan that also inspects the old songs (2019, 2020); an optimal planner plan omits those two show_song calls since they are not needed to reach the goal. Supervisor's spotify username is the profile email obtained via supervisor.show_profile; complete_task is called with status success and no answer.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.login",
+        "spotify.remove_song_from_library",
+        "spotify.remove_song_from_playlist",
+        "spotify.show_playlist",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "spotify.show_song_library",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login jefsmith-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-playlist-library spotify-token)",
+      "(spotify-show-playlist playlist-1 spotify-token)",
+      "(spotify-show-song-library spotify-token my-song-library)",
+      "(spotify-show-song song-released-2022 playlist-1)",
+      "(spotify-remove-song-from-playlist playlist-1 song-released-2022 spotify-token n3 n2)",
+      "(spotify-show-song song-released-2023 playlist-1)",
+      "(spotify-remove-song-from-library song-released-2023 spotify-token my-song-library n2 n1)",
+      "(spotify-remove-song-from-playlist playlist-1 song-released-2023 spotify-token n1 n0)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.12
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 367.3,
+  "effort": "xhigh"
+}

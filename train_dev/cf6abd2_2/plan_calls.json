@@ -1,0 +1,88 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login siwhit-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "siwhit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-bucket-list bucket-list-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "bucket list"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note bucket-list-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the result whose title is the Bucket List note (first match for query \"bucket list\")",
+          "object": "bucket-list-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-update-note bucket-list-note simple-note-token content-bucket-list-unchecked taking-a-solo-backpacking-trip)",
+      "api": "simple_note.update_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the result whose title is the Bucket List note (first match for query \"bucket list\")",
+          "object": "bucket-list-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content with the line \"[x] Taking a solo backpacking trip\" replaced by \"[ ] Taking a solo backpacking trip\" (everything else unchanged)",
+          "object": "content-bucket-list-unchecked"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task taking-a-solo-backpacking-trip)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

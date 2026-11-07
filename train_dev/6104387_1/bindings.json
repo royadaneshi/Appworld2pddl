@@ -1,0 +1,56 @@
+[
+  {
+    "object": "ka-burt-at-gmail-com",
+    "value": "ka_burt@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-song",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of each song-library entry, unioned with song_ids of each album from spotify.show_album_library and song_ids of each playlist from spotify.show_playlist_library (all pages); deduplicated set, iterate show_song over every unique id"
+  },
+  {
+    "object": "library-song-artist",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "artists[*].id (iterate show_artist over every artist of every song)"
+  },
+  {
+    "object": "backups-spotify-csv",
+    "value": "~/backups/spotify.csv",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "spotify-backup-csv-content",
+    "value": null,
+    "from_api": "spotify.show_artist",
+    "field": "CSV text built at runtime: header line \"Title,Artists\" followed by one line per unique song \"<show_song.title>,<show_artist.name joined by |>\""
+  }
+]

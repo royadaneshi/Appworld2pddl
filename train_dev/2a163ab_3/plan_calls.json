@@ -1,0 +1,115 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-number-8683971586 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8683971586",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login ja-solomon-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-coworker coworker)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "coworker",
+        "relationship": "coworker"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-social-feed phone-token)",
+      "api": "venmo.show_social_feed",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-like-transaction txn-recent-coworker-1 phone-token coworker-1)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of each feed entry (all pages) whose created_at falls on yesterday or today (relative to phone.get_current_date_and_time) and whose sender.email or receiver.email is in the set of email values returned by phone.search_contacts(relationship=\"coworker\")",
+          "object": "txn-recent-coworker-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-like-transaction txn-recent-coworker-2 phone-token coworker-2)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "same selection rule as txn-recent-coworker-1 (one object per qualifying feed transaction)",
+          "object": "txn-recent-coworker-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

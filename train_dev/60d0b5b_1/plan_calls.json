@@ -1,0 +1,98 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login tammy-phone-2738013302 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2738013302",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login tammy-email-ta-weav-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "ta.weav@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts venmo-token query-robert robert robert-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "Robert"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-sent-payment-requests phone-token status-approved robert robert-email accidental-request amount-of-accidental-request)",
+      "api": "venmo.show_sent_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "status": "approved"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-transaction robert-email amount-of-accidental-request phone-token note-returning-the-accidental-payment robert accidental-request)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Robert\"",
+          "object": "robert-email"
+        },
+        "amount": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "amount of the most recent (first listed) request with status approved whose receiver.email == robert-email",
+          "object": "amount-of-accidental-request"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "Returning the accidental payment"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task accidental-request robert amount-of-accidental-request)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

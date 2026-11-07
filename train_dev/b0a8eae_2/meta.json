@@ -1,0 +1,94 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2723,
+    "output_tokens": 23414,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "b0a8eae_2",
+  "instruction": "Start playing a playlist on Spotify that has enough songs for my workout today. I do not want to have to change the playlist in the middle of my workout. The workout plan is in Simple Note.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "simple_note",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.get_current_date_and_time",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "spotify.login",
+    "spotify.show_playlist_library",
+    "spotify.show_song",
+    "spotify.show_song",
+    "spotify.play_music",
+    "supervisor.complete_task"
+  ],
+  "notes": "Knowledge chain: show_profile gives the login username, show_account_passwords the passwords, get_current_date_and_time the weekday (2023-05-24 is a Wednesday). search_notes with query 'workout' discovers the workout-plan note id; show_note, combined with the known weekday and the static plan-duration fact, yields today's workout duration. show_playlist_library lists playlists and their song ids; summing song durations is modeled without numerics as an ordered chain of show_song calls per playlist (song-to-check/followed-by, last song wraps to the first), so play_music on a playlist requires its last song's duration to be known (hence all songs looked up) and the static long-enough fact relating the playlist to the workout duration. play_music(playlist_id) replaces the queue with the playlist and starts playing, matching the evaluation (player playing, queue == playlist songs, total duration >= workout minutes). The actual number of songs/playlists is unknown; two songs and one distractor playlist are representative. supervisor-complete-task takes the played playlist as a non-API record parameter so its precondition equals the goal; no answer is passed since the task is not a question.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "spotify.login",
+        "spotify.play_music",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(simple-note-login ch-brow-at-gmail-com simple-note-password simple-note-token)",
+      "(spotify-login ch-brow-at-gmail-com spotify-password spotify-token)",
+      "(simple-note-search-notes simple-note-token query-workout workout-plan-note)",
+      "(simple-note-show-note workout-plan-note simple-note-token wednesday workout-duration-today)",
+      "(spotify-show-playlist-library spotify-token)",
+      "(spotify-show-song song-1 playlist-long-enough song-2)",
+      "(spotify-show-song song-2 playlist-long-enough song-1)",
+      "(spotify-play-music spotify-token playlist-long-enough song-2 workout-duration-today)",
+      "(supervisor-complete-task playlist-long-enough)"
+    ],
+    "message": "",
+    "seconds": 1.16
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 260.9,
+  "effort": "xhigh"
+}

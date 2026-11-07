@@ -1,0 +1,32 @@
+[
+  {
+    "object": "paul-mill-at-gmail-com",
+    "value": "paul_mill@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "most-played-song",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "union of song_ids over all albums (iterate page_index until empty); select the song_id whose spotify.show_song play_count is maximal"
+  },
+  {
+    "object": "most-played-song-title",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "title of the selected (max play_count) song"
+  }
+]

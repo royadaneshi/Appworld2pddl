@@ -1,0 +1,78 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2318,
+    "output_tokens": 7326,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "cf6abd2_2",
+  "instruction": "Mark \"Taking a solo backpacking trip\" in my Bucket List Simple Note as not done.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "simple_note"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "simple_note.update_note",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (simple_note). The supervisor's email (login username) is obtained via supervisor.show_profile and the password via supervisor.show_account_passwords. The Bucket List note id is discovered by search_notes with query 'bucket list' (effect known-id); show_note reads the current content (effect content-read), which is needed to build the updated content where only the checkbox of 'Taking a solo backpacking trip' is flipped from [x] to [ ]. update_note is called with note_id, access_token and the new content only (title/tags/pinned untouched, per the evaluation). The content object is a runtime value derived from show_note's response. supervisor-complete-task takes the target activity as a non-API record parameter so its precondition can mirror the goal; it is called with no answer (status success).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "simple_note.update_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(simple-note-login siwhit-at-gmail-com simple-note-password simple-note-token)",
+      "(simple-note-search-notes simple-note-token query-bucket-list bucket-list-note)",
+      "(simple-note-show-note bucket-list-note simple-note-token)",
+      "(simple-note-update-note bucket-list-note simple-note-token content-bucket-list-unchecked taking-a-solo-backpacking-trip)",
+      "(supervisor-complete-task taking-a-solo-backpacking-trip)"
+    ],
+    "message": "",
+    "seconds": 0.78
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 75.6,
+  "effort": "xhigh"
+}

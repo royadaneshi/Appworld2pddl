@@ -1,0 +1,160 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-login username-lindseysimpson-at-gmail-com password-file-system token-file-system)",
+      "api": "file_system.login",
+      "args": {
+        "username": "lindseysimpson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "password-file-system"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory token-file-system dir-home substring-internet entry-type-files file-internet-bill-last-month)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "directory_path": "~/",
+        "substring": "internet",
+        "entry_type": "files"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-login username-3567801924 password-phone token-venmo)",
+      "api": "phone.login",
+      "args": {
+        "username": "3567801924",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "password-phone"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-login username-lindseysimpson-at-gmail-com password-venmo token-file-system)",
+      "api": "venmo.login",
+      "args": {
+        "username": "lindseysimpson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "password-venmo"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts token-venmo query-roommate relationship-roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "query": "roommate",
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-show-file file-internet-bill-last-month token-file-system amount-bill-share)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path whose name contains last month's YYYY-MM (month before the date from phone.get_current_date_and_time, i.e. 2023-04)",
+          "object": "file-internet-bill-last-month"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-create-payment-request email-roommate-1 amount-bill-share token-file-system note-internet-bill-for-the-last-month request-roommate-1 roommate-1)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the first contact with relationship roommate (paginate over all pages)",
+          "object": "email-roommate-1"
+        },
+        "amount": {
+          "$from": "file_system.show_file",
+          "field": "content: parse the number after \"Total Amount => $\", then round(total / (number_of_roommates + 1))",
+          "object": "amount-bill-share"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "description": "internet bill for the last month."
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-create-payment-request email-roommate-2 amount-bill-share token-file-system note-internet-bill-for-the-last-month request-roommate-2 roommate-2)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the second contact with relationship roommate (paginate over all pages)",
+          "object": "email-roommate-2"
+        },
+        "amount": {
+          "$from": "file_system.show_file",
+          "field": "content: parse the number after \"Total Amount => $\", then round(total / (number_of_roommates + 1))",
+          "object": "amount-bill-share"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "description": "internet bill for the last month."
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task request-roommate-1 request-roommate-2 amount-bill-share note-internet-bill-for-the-last-month)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

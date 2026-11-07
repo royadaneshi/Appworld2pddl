@@ -1,0 +1,50 @@
+[
+  {
+    "object": "jefsmith-at-gmail-com",
+    "value": "jefsmith@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "playlist-1",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id (each playlist in the paginated library listing)"
+  },
+  {
+    "object": "song-released-2023",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021"
+  },
+  {
+    "object": "song-released-2022",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id; selected because spotify.show_song release_date year > 2021"
+  },
+  {
+    "object": "song-released-2019",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id; spotify.show_song release_date year <= 2021, so it is kept"
+  },
+  {
+    "object": "song-released-2020",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id; spotify.show_song release_date year <= 2021, so it is kept"
+  }
+]

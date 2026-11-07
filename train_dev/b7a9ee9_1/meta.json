@@ -1,0 +1,88 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2114,
+    "output_tokens": 13813,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "b7a9ee9_1",
+  "instruction": "Follow all artists of all classical-genre songs in any of my playlists on Spotify.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_playlist_library",
+    "spotify.show_playlist",
+    "spotify.show_playlist",
+    "spotify.show_song",
+    "spotify.show_song",
+    "spotify.show_song",
+    "spotify.follow_artist",
+    "spotify.follow_artist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (spotify) with a set-valued goal. Knowledge flow: show_profile -> username, show_account_passwords -> password, login -> token; show_playlist_library reveals the user's playlists (nullary library-shown gate, since one paginated call reveals all), show_playlist reveals the songs of a playlist (playlist-shown gate on the static contains facts), show_song reveals genre/artists (song-shown gate). follow_artist is only applicable for an artist of a shown song whose genre is the constant classical, so non-classical artists can never be followed (matches the exact-set evaluation); (not (following ?ar)) deduplicates artists shared by several classical songs. Because the actual library contents are unknown, the problem is a representative instance (2 playlists, 3 songs, 2 classical artists, 1 pop artist); the classical artists to follow are domain constants so that supervisor-complete-task's precondition can state the full task goal without quantification. The planner may skip show_song for the non-classical song since it does not contribute to the goal; a real agent must inspect every song to learn its genre. The extra ?p / ?s parameters of show-song / follow-artist are not API arguments (null in action_params).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.follow_artist",
+        "spotify.login",
+        "spotify.show_playlist",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login jasonsimp-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-playlist-library spotify-token)",
+      "(spotify-show-playlist playlist-1 spotify-token)",
+      "(spotify-show-playlist playlist-2 spotify-token)",
+      "(spotify-show-song song-1 playlist-1)",
+      "(spotify-follow-artist classical-artist-1 spotify-token song-1)",
+      "(spotify-show-song song-3 playlist-2)",
+      "(spotify-follow-artist classical-artist-2 spotify-token song-3)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.21
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 153.6,
+  "effort": "xhigh"
+}

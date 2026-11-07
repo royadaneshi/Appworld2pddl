@@ -1,0 +1,162 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login jefsmith-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jefsmith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-playlist-library spotify-token)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (each playlist in the paginated library listing)",
+          "object": "playlist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-song-library spotify-token my-song-library)",
+      "api": "spotify.show_song_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song song-released-2022 playlist-1)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id; selected because spotify.show_song release_date year > 2021",
+          "object": "song-released-2022"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-released-2022 spotify-token n3 n2)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (each playlist in the paginated library listing)",
+          "object": "playlist-1"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id; selected because spotify.show_song release_date year > 2021",
+          "object": "song-released-2022"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-song song-released-2023 playlist-1)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021",
+          "object": "song-released-2023"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-remove-song-from-library song-released-2023 spotify-token my-song-library n2 n1)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021",
+          "object": "song-released-2023"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-released-2023 spotify-token n1 n0)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (each playlist in the paginated library listing)",
+          "object": "playlist-1"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021",
+          "object": "song-released-2023"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

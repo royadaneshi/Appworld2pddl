@@ -1,0 +1,92 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2723,
+    "output_tokens": 14408,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "b0a8eae_1",
+  "instruction": "Start playing a playlist on Spotify that has enough songs for my workout today. I do not want to have to change the playlist in the middle of my workout. The workout plan is in Simple Note.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "simple_note",
+    "spotify",
+    "phone"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "phone.get_current_date_and_time",
+    "simple_note.show_note",
+    "spotify.login",
+    "spotify.show_playlist_library",
+    "spotify.show_song",
+    "spotify.play_music",
+    "supervisor.complete_task"
+  ],
+  "notes": "Plan: show_profile gives the login email, show_account_passwords the passwords; simple_note login + search_notes('workout') + show_note retrieves the workout plan, whose per-weekday duration is parsed using today's weekday from phone.get_current_date_and_time (2023-05-23 is a Tuesday), modeled by the nullary (date-known) precondition on show_note. On Spotify, show_playlist_library lists playlists with their song_ids; show_song (no token needed) is called per song to sum durations, modeled with a single representative song object and a representative playlist object long-enough-playlist defined by the static fact (long-enough-for playlist duration). play_music with playlist_id replaces the queue with that playlist and starts playing, asserting (workout-playlist-playing), the only goal condition besides (task-completed). Loop over playlists/songs is collapsed to one representative object each; the agent repeats show_song/pagination at runtime as needed. complete_task takes no answer since the task is not a question.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "spotify.login",
+        "spotify.play_music",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(simple-note-login timothy-whit-at-gmail-com simple-note-password simple-note-token)",
+      "(spotify-login timothy-whit-at-gmail-com spotify-password simple-note-token)",
+      "(simple-note-search-notes simple-note-token query-workout workout-note)",
+      "(simple-note-show-note workout-note simple-note-token workout-duration-today)",
+      "(spotify-show-playlist-library simple-note-token long-enough-playlist)",
+      "(spotify-show-song playlist-song long-enough-playlist)",
+      "(spotify-play-music simple-note-token long-enough-playlist workout-duration-today)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 0.99
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 150.0,
+  "effort": "xhigh"
+}

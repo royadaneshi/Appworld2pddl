@@ -1,0 +1,140 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login jasonsimp-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jasonsimp@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-playlist-library spotify-token)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (each entry, iterate all pages)",
+          "object": "playlist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (each entry, iterate all pages)",
+          "object": "playlist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song song-1 playlist-1)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id",
+          "object": "song-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-follow-artist classical-artist-1 spotify-token song-1)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id where genre == \"classical\" (deduplicated across songs)",
+          "object": "classical-artist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-song song-3 playlist-2)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id",
+          "object": "song-3"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-follow-artist classical-artist-2 spotify-token song-3)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id where genre == \"classical\" (deduplicated across songs)",
+          "object": "classical-artist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

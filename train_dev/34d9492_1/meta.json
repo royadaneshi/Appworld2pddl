@@ -1,0 +1,90 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 3017,
+    "output_tokens": 17260,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "34d9492_1",
+  "instruction": "Arrange my \"~/photographs/vacations/\" directory by organizing the photos from three vacations. The files created in February and March of this year correspond to Petra and Budapest, respectively, while the others are from Amsterdam. Move them into sub-directories named after their respective vacation spots, maintaining the original file names.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "file_system",
+    "phone"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "file_system.login",
+    "phone.get_current_date_and_time",
+    "file_system.show_directory",
+    "file_system.show_file",
+    "file_system.move_file",
+    "file_system.show_file",
+    "file_system.move_file",
+    "file_system.show_file",
+    "file_system.move_file",
+    "supervisor.complete_task"
+  ],
+  "notes": "Only file_system needs a login; phone.get_current_date_and_time is a token-free call used to establish 'this year' before classifying files by created_at. The directory contents are unknown up front, so photo-feb / photo-mar / photo-other are placeholder records, one per vacation category, standing for every file that show_directory lists in ~/photographs/vacations/ (the executor repeats show_file + move_file for each real file). Their true creation period is a hidden world fact (created-in) that show_file turns into agent knowledge (known-created-in); month-destination encodes Feb->Petra, Mar->Budapest, anything else->Amsterdam, and moved-path pairs each source with its destination path inside the target sub-directory with the original file name. move_file creates the sub-directories implicitly (the evaluation expects Directory records to be added, none deleted), so no create_directory call is modeled. The file and target-directory records are domain constants so that supervisor-complete-task can require every goal move in its precondition and be forced to be the last action.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.login",
+        "file_system.move_file",
+        "file_system.show_directory",
+        "file_system.show_file",
+        "phone.get_current_date_and_time",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile paul paul-mill-at-gmail-com)",
+      "(file-system-login paul-mill-at-gmail-com file-system-password file-system-token)",
+      "(file-system-show-directory file-system-token vacations-dir)",
+      "(file-system-show-file photo-feb file-system-token vacations-dir february-2023)",
+      "(file-system-show-file photo-mar file-system-token vacations-dir march-2023)",
+      "(file-system-show-file photo-other file-system-token vacations-dir other-date)",
+      "(file-system-move-file photo-feb photo-feb-in-petra file-system-token february-2023 petra-dir)",
+      "(file-system-move-file photo-mar photo-mar-in-budapest file-system-token march-2023 budapest-dir)",
+      "(file-system-move-file photo-other photo-other-in-amsterdam file-system-token other-date amsterdam-dir)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.19
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 185.7,
+  "effort": "xhigh"
+}

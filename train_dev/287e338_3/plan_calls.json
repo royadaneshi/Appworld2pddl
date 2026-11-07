@@ -1,0 +1,78 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login carbrown-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "carbrown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-recommendations spotify-token recommended-song)",
+      "api": "spotify.show_recommendations",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-song recommended-song top-artist)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id of every item, iterating page_index over all pages (representative of the whole recommendation list)",
+          "object": "recommended-song"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-artist top-artist top-artist-name)",
+      "api": "spotify.show_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id \u2014 the artist id occurring most often across the show_song responses of all recommended songs",
+          "object": "top-artist"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task top-artist-name)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "spotify.show_artist",
+          "field": "name",
+          "object": "top-artist-name"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

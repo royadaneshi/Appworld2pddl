@@ -1,0 +1,97 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-artists query-edm edm followers-23)",
+      "api": "spotify.search_artists",
+      "args": {
+        "query": "EDM",
+        "genre": "EDM",
+        "min_follower_count": 23
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-login joseph-webe-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "joseph.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-follow-artist artist-1 spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of 1st result (iterate page_index until empty; keep only results with genre == \"EDM\" and follower_count >= 23)",
+          "object": "artist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-follow-artist artist-2 spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of 2nd result (same filtered, paginated result list)",
+          "object": "artist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-follow-artist artist-3 spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of 3rd result (same filtered, paginated result list)",
+          "object": "artist-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

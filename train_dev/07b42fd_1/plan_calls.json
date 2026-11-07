@@ -1,0 +1,97 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-artists query-classical classical count-22)",
+      "api": "spotify.search_artists",
+      "args": {
+        "query": "classical",
+        "genre": "classical",
+        "min_follower_count": 22
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-login eri-powe-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "eri_powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-follow-artist classical-artist-1 spotify-token classical count-22)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of 1st result with genre == \"classical\" and follower_count >= 22 (iterate page_index until results are empty)",
+          "object": "classical-artist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-follow-artist classical-artist-2 spotify-token classical count-22)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of 2nd matching result",
+          "object": "classical-artist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-follow-artist classical-artist-3 spotify-token classical count-22)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of 3rd matching result",
+          "object": "classical-artist-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

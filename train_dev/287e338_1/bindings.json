@@ -1,0 +1,38 @@
+[
+  {
+    "object": "kyl-moor-at-gmail-com",
+    "value": "kyl_moor@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "recommended-song",
+    "value": null,
+    "from_api": "spotify.show_recommendations",
+    "field": "song_id of every item, iterating page_index until the result list is empty"
+  },
+  {
+    "object": "top-artist",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "artists[].id aggregated over all recommended songs; select the artist id with the highest occurrence count"
+  },
+  {
+    "object": "top-artist-name",
+    "value": null,
+    "from_api": "spotify.show_artist",
+    "field": "name"
+  }
+]

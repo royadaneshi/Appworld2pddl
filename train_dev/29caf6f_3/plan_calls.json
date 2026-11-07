@@ -1,0 +1,132 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-2444880289 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2444880289",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-login pa-ritter-at-gmail-com simple-note-password phone-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "pa_ritter@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token query-leslie leslie leslie-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Leslie"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-text-messages phone-token query-recommendation-suggestion-movie leslie-phone-number leslie-request-message leslie requested-director)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "recommendation suggestion movie",
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Leslie\"",
+          "object": "leslie-phone-number"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-search-notes phone-token query-movie-recommendation-suggestion note-movie-recommendations)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "movie recommendation suggestion"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(simple-note-show-note note-movie-recommendations phone-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the first note matching the query",
+          "object": "note-movie-recommendations"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-send-text-message leslie-phone-number reply-movie-titles phone-token leslie requested-director note-movie-recommendations)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Leslie\"",
+          "object": "leslie-phone-number"
+        },
+        "message": {
+          "$from": "simple_note.show_note",
+          "field": "content; parse movie entries (title line + \" - director\" line), keep titles whose director equals requested-director, join with \", \"",
+          "object": "reply-movie-titles"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task leslie reply-movie-titles)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

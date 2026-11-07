@@ -1,0 +1,181 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login jepowell-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-album-library spotify-token)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-downloaded-songs spotify-token)",
+      "api": "spotify.show_downloaded_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-liked-albums spotify-token)",
+      "api": "spotify.show_liked_albums",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-remove-album-from-library album-liked-partly-downloaded spotify-token)",
+      "api": "spotify.remove_album_from_library",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id (all pages) where album_id is in spotify.show_liked_albums[].album_id but some entry of song_ids is NOT in spotify.show_downloaded_songs[].song_id; one removal call per such album",
+          "object": "album-liked-partly-downloaded"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-remove-album-from-library album-not-liked spotify-token)",
+      "api": "spotify.remove_album_from_library",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id (all pages) where album_id is NOT in spotify.show_liked_albums[].album_id; one removal call per such album",
+          "object": "album-not-liked"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-liked-songs spotify-token)",
+      "api": "spotify.show_liked_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-song-library spotify-token)",
+      "api": "spotify.show_song_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-remove-song-from-library song-downloaded-not-liked spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (all pages) where song_id is in spotify.show_downloaded_songs[].song_id but NOT in spotify.show_liked_songs[].song_id; one removal call per such song",
+          "object": "song-downloaded-not-liked"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-remove-song-from-library song-liked-not-downloaded spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (all pages) where song_id is in spotify.show_liked_songs[].song_id but NOT in spotify.show_downloaded_songs[].song_id; one removal call per such song",
+          "object": "song-liked-not-downloaded"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-remove-song-from-library song-not-liked-not-downloaded spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (all pages) where song_id is neither in spotify.show_liked_songs[].song_id nor in spotify.show_downloaded_songs[].song_id; one removal call per such song",
+          "object": "song-not-liked-not-downloaded"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

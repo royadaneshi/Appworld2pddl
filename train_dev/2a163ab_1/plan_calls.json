@@ -1,0 +1,115 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time today)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-3383946795 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3383946795",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login username-mel-bailey-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "mel.bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-roommate roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "roommate",
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-social-feed phone-token)",
+      "api": "venmo.show_social_feed",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-like-transaction tx-today-roommate-1 phone-token roommate-1 roommate today)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of each feed entry (paginate page_index) whose created_at is today and whose sender.email or receiver.email is one of the roommate emails",
+          "object": "tx-today-roommate-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-like-transaction tx-today-roommate-2 phone-token roommate-2 roommate today)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of each feed entry (paginate page_index) whose created_at is today and whose sender.email or receiver.email is one of the roommate emails",
+          "object": "tx-today-roommate-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task tx-today-roommate-1 tx-today-roommate-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

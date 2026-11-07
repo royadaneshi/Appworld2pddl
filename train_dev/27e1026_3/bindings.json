@@ -1,0 +1,32 @@
+[
+  {
+    "object": "br-ritt-at-gmail-com",
+    "value": "br_ritt@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "oldest-song",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "song_id with the minimum release_date over the union of: show_song_library song_ids (release_date via show_song), show_album_library song_ids (album release_date), show_playlist_library song_ids (release_date via show_song); all library listings paginated over page_index"
+  },
+  {
+    "object": "oldest-song-title",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "title (of the oldest-released song)"
+  }
+]

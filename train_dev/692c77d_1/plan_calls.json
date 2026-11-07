@@ -1,0 +1,122 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login as-moore-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "as_moore@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-liked-songs spotify-token)",
+      "api": "spotify.show_liked_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-playlist-library spotify-token)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-song-reviews song-a as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_ids (union over all playlists, all pages) intersected with song_id values of spotify.show_liked_songs (all pages); representative target song for which spotify.show_song_reviews(user_email=supervisor email) returns no review -> needs review_song",
+          "object": "song-a"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song-reviews song-b as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_ids (union over all playlists) intersected with spotify.show_liked_songs song_id; representative target song whose existing supervisor review has rating < 5 -> needs update_song_review",
+          "object": "song-b"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-review-song song-a rating-5 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_ids (union over all playlists, all pages) intersected with song_id values of spotify.show_liked_songs (all pages); representative target song for which spotify.show_song_reviews(user_email=supervisor email) returns no review -> needs review_song",
+          "object": "song-a"
+        },
+        "rating": 5,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-update-song-review review-b spotify-token rating-5 song-b)",
+      "api": "spotify.update_song_review",
+      "args": {
+        "review_id": {
+          "$from": "spotify.show_song_reviews",
+          "field": "song_review_id of the review returned for song-b with user_email == supervisor email",
+          "object": "review-b"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "rating": 5
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

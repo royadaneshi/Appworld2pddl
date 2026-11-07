@@ -1,0 +1,78 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login timothy-whit-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "timothy.whit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-recommendations spotify-token recommended-song)",
+      "api": "spotify.show_recommendations",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-song recommended-song least-recommended-artist)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id of every item (iterate page_index until empty)",
+          "object": "recommended-song"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-artist least-recommended-artist least-recommended-artist-name)",
+      "api": "spotify.show_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id aggregated over all recommended songs; pick the artist id with the lowest count",
+          "object": "least-recommended-artist"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task least-recommended-artist-name least-recommended-artist)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "spotify.show_artist",
+          "field": "name",
+          "object": "least-recommended-artist-name"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

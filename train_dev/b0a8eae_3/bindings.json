@@ -1,0 +1,62 @@
+[
+  {
+    "object": "eri-powe-at-gmail-com",
+    "value": "eri_powe@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-workout",
+    "value": "workout",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "workout-plan-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the note whose title mentions workout/exercise (iterate pages)"
+  },
+  {
+    "object": "workout-duration-today",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content -> block whose 'day:' equals today's weekday (Thursday, from phone.get_current_date_and_time) -> duration_mins"
+  },
+  {
+    "object": "long-enough-playlist",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id of the first playlist (iterate pages) whose sum of spotify.show_song duration over its song_ids, divided by 60, is >= workout_duration_mins"
+  },
+  {
+    "object": "long-enough-playlist-songs",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "song_ids of the candidate playlist; spotify.show_song is called once per song_id and the durations are summed"
+  }
+]

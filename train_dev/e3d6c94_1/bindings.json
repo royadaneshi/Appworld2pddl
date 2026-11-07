@@ -1,0 +1,56 @@
+[
+  {
+    "object": "jasonsimp-at-gmail-com",
+    "value": "jasonsimp@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "rec-song-1",
+    "value": null,
+    "from_api": "spotify.show_recommendations",
+    "field": "song_id (iterate all pages; keep after spotify.show_song shows genre == \"classical\" and release_date >= 2023-01-01)"
+  },
+  {
+    "object": "rec-song-2",
+    "value": null,
+    "from_api": "spotify.show_recommendations",
+    "field": "song_id (iterate all pages; keep after spotify.show_song shows genre == \"classical\" and release_date >= 2023-01-01)"
+  },
+  {
+    "object": "rec-song-3",
+    "value": null,
+    "from_api": "spotify.show_recommendations",
+    "field": "song_id (recommended song whose show_song details fail the filter: not released this year)"
+  },
+  {
+    "object": "rec-song-4",
+    "value": null,
+    "from_api": "spotify.show_recommendations",
+    "field": "song_id (recommended song whose show_song details fail the filter: genre not classical)"
+  },
+  {
+    "object": "spotify-recommended-songs-playlist",
+    "value": null,
+    "from_api": "spotify.create_playlist",
+    "field": "playlist_id"
+  },
+  {
+    "object": "title-spotify-recommended-songs",
+    "value": "Spotify Recommended Songs",
+    "from_api": null,
+    "field": null
+  }
+]

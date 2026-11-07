@@ -1,0 +1,81 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2596,
+    "output_tokens": 9826,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "60d0b5b_3",
+  "instruction": "The last Venmo payment request I sent to Brandon was an accident and they approved it. Send them the money back.",
+  "difficulty": 2,
+  "apps_used": [
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "venmo.login",
+    "venmo.show_sent_payment_requests",
+    "venmo.create_transaction",
+    "supervisor.complete_task"
+  ],
+  "notes": "Two apps (phone, venmo) declared as constants. supervisor.show_profile yields the login usernames (phone number for phone, email for venmo), modeled via static (login-username app u) facts gated by (profile-known). Brandon's email is a runtime entity: (email-of brandon brandon-email) is a static association, (known-email ...) becomes true only after phone.search_contacts with query 'Brandon'. The latest approved sent payment request to Brandon and its amount are modeled as runtime objects discovered by venmo.show_sent_payment_requests (status='approved', filtered by receiver email); its effect (refund-amount-known brandon amt) gates venmo.create_transaction, which must send exactly that amount to Brandon's email (description is optional but used, as in the reference). supervisor.complete_task takes the person/amount task records (not API args) so its precondition equals the goal's task-specific condition; no answer is required. Goal: transaction sent to Brandon for the request amount plus (task-completed).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.create_transaction",
+        "venmo.login",
+        "venmo.show_sent_payment_requests"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login username-2444880289 phone-password venmo-token)",
+      "(venmo-login username-pa-ritter-at-gmail-com venmo-password phone-token)",
+      "(phone-search-contacts venmo-token query-brandon brandon brandon-email)",
+      "(venmo-show-sent-payment-requests phone-token status-approved brandon brandon-email last-approved-request-to-brandon amount-of-last-request-to-brandon)",
+      "(venmo-create-transaction brandon-email amount-of-last-request-to-brandon phone-token desc-returning-the-accidental-payment brandon)",
+      "(supervisor-complete-task brandon amount-of-last-request-to-brandon)"
+    ],
+    "message": "",
+    "seconds": 1.15
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 98.7,
+  "effort": "xhigh"
+}

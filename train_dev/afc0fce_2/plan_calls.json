@@ -1,0 +1,212 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-7195945426 password-phone token-venmo)",
+      "api": "phone.login",
+      "args": {
+        "username": "7195945426",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "password-phone"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login username-robertmartinez-at-gmail-com password-venmo token-phone)",
+      "api": "venmo.login",
+      "args": {
+        "username": "robertmartinez@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "password-venmo"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts token-venmo query-friend relationship-friend)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "query": "friend",
+        "relationship": "friend"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-transactions token-phone friend-1-email date-2023-05-26 direction-received friend-1)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each returned contact (iterate all pages); one per friend",
+          "object": "friend-1-email"
+        },
+        "min_created_at": "2023-05-26",
+        "direction": "received"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-show-transactions token-phone friend-2-email date-2023-05-26 direction-received friend-2)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each returned contact (iterate all pages); one per friend",
+          "object": "friend-2-email"
+        },
+        "min_created_at": "2023-05-26",
+        "direction": "received"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-create-transaction-comment txn-1 comment-thanks token-phone friend-1)",
+      "api": "venmo.create_transaction_comment",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (iterate all pages) for the friend's user_email",
+          "object": "txn-1"
+        },
+        "comment": "Thanks!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-create-transaction-comment txn-2 comment-thanks token-phone friend-1)",
+      "api": "venmo.create_transaction_comment",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (iterate all pages) for the friend's user_email",
+          "object": "txn-2"
+        },
+        "comment": "Thanks!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-like-transaction txn-1 token-phone friend-1)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (iterate all pages) for the friend's user_email",
+          "object": "txn-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-like-transaction txn-2 token-phone friend-1)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (iterate all pages) for the friend's user_email",
+          "object": "txn-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-create-transaction-comment txn-3 comment-thanks token-phone friend-2)",
+      "api": "venmo.create_transaction_comment",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (iterate all pages) for the friend's user_email",
+          "object": "txn-3"
+        },
+        "comment": "Thanks!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-like-transaction txn-3 token-phone friend-2)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (iterate all pages) for the friend's user_email",
+          "object": "txn-3"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

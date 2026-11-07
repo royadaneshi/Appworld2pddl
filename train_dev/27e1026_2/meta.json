@@ -1,0 +1,80 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2147,
+    "output_tokens": 16059,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "27e1026_2",
+  "instruction": "What is the title of the newest released song in my Spotify account from across my song, album and playlist libraries?",
+  "difficulty": 1,
+  "apps_used": [
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_album_library",
+    "spotify.show_playlist_library",
+    "spotify.show_song",
+    "supervisor.complete_task"
+  ],
+  "notes": "Read-only question task (evaluation requires no DB changes), so every action is a lookup. supervisor.show_profile supplies the Spotify username (email) and show_account_passwords the password; login yields the token. The three library listings (song, album, playlist; paginated in practice) each set a scanned flag. The newest song can only be identified after all three are gathered, so spotify-show-song requires all three flags; it abstracts both the per-song release_date lookups (for song-library and playlist songs; album songs take the album's release_date) and the final title lookup of the arg-max song. The static title-of fact links the answer song to its title object; complete_task passes that title as the answer and is forced last by (not (task-completed)) on all actions.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.login",
+        "spotify.show_album_library",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "spotify.show_song_library",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login jes-mill-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-album-library spotify-token)",
+      "(spotify-show-playlist-library spotify-token)",
+      "(spotify-show-song-library spotify-token)",
+      "(spotify-show-song newest-released-song newest-released-song-title)",
+      "(supervisor-complete-task newest-released-song-title newest-released-song)"
+    ],
+    "message": "",
+    "seconds": 1.12
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 194.4,
+  "effort": "xhigh"
+}

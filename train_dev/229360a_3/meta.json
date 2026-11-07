@@ -1,0 +1,90 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 3123,
+    "output_tokens": 15976,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "229360a_3",
+  "instruction": "I need to cleanup my Spotify libraries. Keep only those songs and albums in my song and album library, respectively, that I have liked or downloaded, and remove the rest. An album is downloaded if all songs in it are downloaded. Keep my playlist library as is for now.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_album_library",
+    "spotify.show_downloaded_songs",
+    "spotify.show_liked_songs",
+    "spotify.remove_song_from_library",
+    "spotify.show_liked_albums",
+    "spotify.remove_album_from_library",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app (spotify) cleanup task with no answer. The library contents are unknown up front, so the model uses representative entities: one song/album of each kind (liked -> keep, downloaded/fully-downloaded -> keep, neither -> remove). liked-song / downloaded-song / liked-album / album-downloaded are static world facts in :init (not agent knowledge); the agent may only act on them after the corresponding listing APIs have been called (song-library-known, album-library-known, downloaded-songs-known, liked-songs-known, liked-albums-known). 'Album is downloaded iff all its songs are downloaded' needs universal quantification, so it is abstracted into the static predicate album-downloaded, which the agent derives at runtime from show_album_library song_ids and show_downloaded_songs; album removal therefore requires both album-library-known and downloaded-songs-known. Remove actions are only applicable to entities that are neither liked nor downloaded, which protects kept items and makes the goal exact (no additions, only the unkept records removed). The six library entities are declared as domain constants so that supervisor-complete-task's precondition can literally mirror the problem goal; the username comes from supervisor.show_profile (profile-known gates login). Pagination (page_index) of the listing calls is not modeled; at runtime each listing is iterated over all pages and the remove actions are repeated for every matching record. Reference plan: show_profile, show_account_passwords, login, show_song_library, show_album_library, show_downloaded_songs, show_liked_songs, remove_song_from_library, show_liked_albums, remove_album_from_library, complete_task (11 steps).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.login",
+        "spotify.remove_album_from_library",
+        "spotify.remove_song_from_library",
+        "spotify.show_album_library",
+        "spotify.show_downloaded_songs",
+        "spotify.show_liked_albums",
+        "spotify.show_liked_songs",
+        "spotify.show_song_library",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login joseharr-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-album-library spotify-token)",
+      "(spotify-show-downloaded-songs spotify-token)",
+      "(spotify-show-liked-albums spotify-token)",
+      "(spotify-remove-album-from-library unliked-undownloaded-album spotify-token)",
+      "(spotify-show-liked-songs spotify-token)",
+      "(spotify-show-song-library spotify-token)",
+      "(spotify-remove-song-from-library unliked-undownloaded-song spotify-token)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.18
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 168.1,
+  "effort": "xhigh"
+}

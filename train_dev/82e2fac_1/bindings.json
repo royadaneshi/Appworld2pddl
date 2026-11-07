@@ -1,0 +1,32 @@
+[
+  {
+    "object": "joyce-weav-at-gmail-com",
+    "value": "joyce-weav@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "most-liked-playlist-song",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "union of song_ids over all playlists (iterate page_index until empty); the id whose spotify.show_song like_count is maximal"
+  },
+  {
+    "object": "title-of-most-liked-song",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "title of the song with the maximum like_count among all playlist songs"
+  }
+]

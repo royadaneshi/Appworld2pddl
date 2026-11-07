@@ -1,0 +1,87 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2656,
+    "output_tokens": 16135,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "2a163ab_1",
+  "instruction": "Like all the venmo transactions from today involving any of my roommates on my venmo social feed.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.get_current_date_and_time",
+    "phone.search_contacts",
+    "venmo.login",
+    "venmo.show_social_feed",
+    "venmo.like_transaction",
+    "venmo.like_transaction",
+    "supervisor.complete_task"
+  ],
+  "notes": "Model: supervisor.show_profile yields the login usernames (phone number for phone, email for venmo); show_account_passwords yields passwords; phone.get_current_date_and_time fixes 'today'; phone.search_contacts (query+relationship = roommate) makes the roommate set known (contacts-searched); venmo.show_social_feed exposes the feed transactions. venmo-like-transaction is only applicable to feed transactions that involve a contact with the searched relationship and are dated on the known current date, so distractor transactions (yesterday's roommate transaction, today's non-roommate transaction) can never be liked, which matches the evaluation requiring the liked set to equal exactly today's roommate transactions. The number of target transactions (two) and roommates (two) is illustrative; at runtime one like_transaction call is made per matching feed entry. Because goals are object-specific and quantified goals are disallowed, supervisor-complete-task takes the target transactions as non-API record parameters and requires them to be distinct and liked; it is forced last via (not (task-completed)) on all other actions. No task answer is needed (complete_task called with no answer).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.like_transaction",
+        "venmo.login",
+        "venmo.show_social_feed"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time today)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login username-3383946795 phone-password venmo-token)",
+      "(venmo-login username-mel-bailey-at-gmail-com venmo-password phone-token)",
+      "(phone-search-contacts venmo-token query-roommate roommate)",
+      "(venmo-show-social-feed phone-token)",
+      "(venmo-like-transaction tx-today-roommate-1 phone-token roommate-1 roommate today)",
+      "(venmo-like-transaction tx-today-roommate-2 phone-token roommate-2 roommate today)",
+      "(supervisor-complete-task tx-today-roommate-1 tx-today-roommate-2)"
+    ],
+    "message": "",
+    "seconds": 1.22
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 173.4,
+  "effort": "xhigh"
+}

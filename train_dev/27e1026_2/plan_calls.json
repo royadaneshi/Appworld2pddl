@@ -1,0 +1,90 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login jes-mill-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jes.mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-album-library spotify-token)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-playlist-library spotify-token)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-song-library spotify-token)",
+      "api": "spotify.show_song_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song newest-released-song newest-released-song-title)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song",
+          "field": "song_id with the maximum release_date over the union of ids collected from spotify.show_song_library (items[].song_id, release_date via spotify.show_song), spotify.show_album_library (items[].song_ids, release_date from the album item) and spotify.show_playlist_library (items[].song_ids, release_date via spotify.show_song); all three listings paginated over page_index",
+          "object": "newest-released-song"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task newest-released-song-title newest-released-song)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "spotify.show_song",
+          "field": "title",
+          "object": "newest-released-song-title"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

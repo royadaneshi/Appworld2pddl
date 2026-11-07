@@ -1,0 +1,115 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-3272301258 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3272301258",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login jefsmith-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "jefsmith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token query-sibling sibling)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "sibling",
+        "relationship": "sibling"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-social-feed venmo-token)",
+      "api": "venmo.show_social_feed",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-like-transaction sibling-txn-1 venmo-token)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of a feed entry (iterate all pages) whose created_at falls on yesterday (2023-05-17, relative to phone.get_current_date_and_time) and whose sender.email or receiver.email is in the set of emails returned by phone.search_contacts(query=\"sibling\", relationship=\"sibling\") (field email); first such entry",
+          "object": "sibling-txn-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-like-transaction sibling-txn-2 venmo-token)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the second feed entry matching the same rule (yesterday + sibling participant); one placeholder per matching entry at runtime",
+          "object": "sibling-txn-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task sibling-txn-1 sibling-txn-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

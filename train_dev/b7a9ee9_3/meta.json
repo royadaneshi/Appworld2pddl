@@ -1,0 +1,88 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2113,
+    "output_tokens": 17433,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "b7a9ee9_3",
+  "instruction": "Follow all artists of all indie-genre songs in any of my playlists on Spotify.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_playlist_library",
+    "spotify.show_playlist",
+    "spotify.show_song",
+    "spotify.show_song",
+    "spotify.show_playlist",
+    "spotify.show_song",
+    "spotify.follow_artist",
+    "spotify.follow_artist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app (spotify) task with no answer. The database structure (which songs are in which playlist, each song's genre and artists) is unknown to the agent up front, so it is modeled as static world facts in :init (in-playlist, song-genre, song-artist) that the agent can only exploit after the corresponding lookup: show_playlist_library makes playlist ids known (library-listed), show_playlist reveals a playlist's songs (playlist-shown, used with in-playlist to justify show_song, whose extra ?p parameter is not an API argument), and show_song reveals genre/artists (song-inspected, used with song-genre/song-artist to gate follow_artist, whose extra ?s parameter is the justifying indie song). follow_artist is only applicable for an artist of an inspected song whose genre is the constant indie, so non-indie artists (rock-artist-1) can never be followed, matching the evaluation (added followings == exactly the indie artists, none removed). The problem is a representative instance: 2 playlists, 2 indie songs (sharing one artist, to show set/dedup semantics via (not (following ?ar))) and 1 non-indie song. Because supervisor-complete-task must structurally require every goal condition with no API parameters, the artists that must be followed are declared as domain constants (indie-artist-1, indie-artist-2) along with spotify and indie; all other entities are problem objects. Inspecting the non-indie song is applicable but not goal-required in the model (a planner may omit it); the reference sequence includes it since a real agent must check every song's genre. show_playlist_library must be paginated at runtime.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.follow_artist",
+        "spotify.login",
+        "spotify.show_playlist",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login ma-smith-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-playlist-library spotify-token)",
+      "(spotify-show-playlist playlist-1 spotify-token)",
+      "(spotify-show-playlist playlist-2 spotify-token)",
+      "(spotify-show-song indie-song-1 playlist-1)",
+      "(spotify-follow-artist indie-artist-1 spotify-token indie-song-1)",
+      "(spotify-show-song indie-song-2 playlist-2)",
+      "(spotify-follow-artist indie-artist-2 spotify-token indie-song-2)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.18
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 202.2,
+  "effort": "xhigh"
+}

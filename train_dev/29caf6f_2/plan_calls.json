@@ -1,0 +1,132 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-8346699249 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8346699249",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-login username-gl-moore-at-gmail-com simple-note-password phone-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "gl.moore@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token query-laura laura laura-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Laura"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-text-messages phone-token query-recommendation-suggestion-movie laura-phone-number laura laura-request-message laura-requested-director)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "recommendation suggestion movie",
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Laura\"",
+          "object": "laura-phone-number"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-search-notes phone-token query-movie-recommendation-suggestion movie-recommendations-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "movie recommendation suggestion"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(simple-note-show-note movie-recommendations-note phone-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the first result (dont_reorder_pinned=true)",
+          "object": "movie-recommendations-note"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-send-text-message laura-phone-number reply-movie-titles phone-token laura laura-requested-director movie-recommendations-note)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Laura\"",
+          "object": "laura-phone-number"
+        },
+        "message": {
+          "$from": "simple_note.show_note",
+          "field": "content; drop first line, split entries on blank lines, take title (line 1) of entries whose director line (\"- <name> - director\") matches laura-requested-director, join with \", \"",
+          "object": "reply-movie-titles"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task laura reply-movie-titles)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

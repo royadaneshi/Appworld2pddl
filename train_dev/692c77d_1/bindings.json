@@ -1,0 +1,56 @@
+[
+  {
+    "object": "as-moore-at-gmail-com",
+    "value": "as_moore@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "rating-5",
+    "value": "5",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "song-a",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "song_ids (union over all playlists, all pages) intersected with song_id values of spotify.show_liked_songs (all pages); representative target song for which spotify.show_song_reviews(user_email=supervisor email) returns no review -> needs review_song"
+  },
+  {
+    "object": "song-b",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "song_ids (union over all playlists) intersected with spotify.show_liked_songs song_id; representative target song whose existing supervisor review has rating < 5 -> needs update_song_review"
+  },
+  {
+    "object": "song-d",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "song_ids intersected with liked song_id; representative target song whose existing supervisor review already has rating 5 -> no change needed"
+  },
+  {
+    "object": "review-b",
+    "value": null,
+    "from_api": "spotify.show_song_reviews",
+    "field": "song_review_id of the review returned for song-b with user_email == supervisor email"
+  },
+  {
+    "object": "review-d",
+    "value": null,
+    "from_api": "spotify.show_song_reviews",
+    "field": "song_review_id of the review returned for song-d (already rated 5, not updated)"
+  }
+]

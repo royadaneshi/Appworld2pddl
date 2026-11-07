@@ -1,0 +1,289 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-login susanmiller-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "susanmiller@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password of the entry whose account_name == 'file_system'",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token vacations-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/photographs/vacations/"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file photo-apr-1 file-system-token vacations-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is in April of the current year (first such file)",
+          "object": "photo-apr-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-move-file photo-apr-1 seoul-photo-apr-1 file-system-token vacations-dir seoul-dir april-2023 count-6 count-5)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is in April of the current year (first such file)",
+          "object": "photo-apr-1"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photographs/vacations/Seoul/' + basename(photo-apr-1)",
+          "object": "seoul-photo-apr-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-file photo-apr-2 file-system-token vacations-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is in April of the current year (second such file)",
+          "object": "photo-apr-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-move-file photo-apr-2 seoul-photo-apr-2 file-system-token vacations-dir seoul-dir april-2023 count-5 count-4)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is in April of the current year (second such file)",
+          "object": "photo-apr-2"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photographs/vacations/Seoul/' + basename(photo-apr-2)",
+          "object": "seoul-photo-apr-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-show-file photo-jan-1 file-system-token vacations-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is in January of the current year (year from phone.get_current_date_and_time) (first such file)",
+          "object": "photo-jan-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-move-file photo-jan-1 athens-photo-jan-1 file-system-token vacations-dir athens-dir january-2023 count-4 count-3)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is in January of the current year (year from phone.get_current_date_and_time) (first such file)",
+          "object": "photo-jan-1"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photographs/vacations/Athens/' + basename(photo-jan-1)",
+          "object": "athens-photo-jan-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(file-system-show-file photo-jan-2 file-system-token vacations-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is in January of the current year (second such file)",
+          "object": "photo-jan-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-move-file photo-jan-2 athens-photo-jan-2 file-system-token vacations-dir athens-dir january-2023 count-3 count-2)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is in January of the current year (second such file)",
+          "object": "photo-jan-2"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photographs/vacations/Athens/' + basename(photo-jan-2)",
+          "object": "athens-photo-jan-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(file-system-show-file photo-other-1 file-system-token vacations-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is neither January nor April of the current year (first such file)",
+          "object": "photo-other-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(file-system-move-file photo-other-1 paris-photo-other-1 file-system-token vacations-dir paris-dir other-date count-2 count-1)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is neither January nor April of the current year (first such file)",
+          "object": "photo-other-1"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photographs/vacations/Paris/' + basename(photo-other-1)",
+          "object": "paris-photo-other-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(file-system-show-file photo-other-2 file-system-token vacations-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is neither January nor April of the current year (second such file)",
+          "object": "photo-other-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(file-system-move-file photo-other-2 paris-photo-other-2 file-system-token vacations-dir paris-dir other-date count-1 count-0)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose file_system.show_file created_at is neither January nor April of the current year (second such file)",
+          "object": "photo-other-2"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photographs/vacations/Paris/' + basename(photo-other-2)",
+          "object": "paris-photo-other-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

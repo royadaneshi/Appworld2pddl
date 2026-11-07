@@ -1,0 +1,121 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login nicholas-weber-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "nicholas.weber@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token vacations-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/photographs/vacations/"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-compress-directory spot-dir-1 file-system-token spot-zip-1 flag-true flag-true vacations-dir)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "1st sub-directory path in the listing of ~/photographs/vacations/ (recursive=false)",
+          "object": "spot-dir-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "\"~/photographs/vacations/\" + basename(spot-dir-1) + \".zip\"",
+          "object": "spot-zip-1"
+        },
+        "delete_directory": true,
+        "overwrite": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-compress-directory spot-dir-2 file-system-token spot-zip-2 flag-true flag-true vacations-dir)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "2nd sub-directory path in the listing of ~/photographs/vacations/",
+          "object": "spot-dir-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "\"~/photographs/vacations/\" + basename(spot-dir-2) + \".zip\"",
+          "object": "spot-zip-2"
+        },
+        "delete_directory": true,
+        "overwrite": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-compress-directory spot-dir-3 file-system-token spot-zip-3 flag-true flag-true vacations-dir)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "3rd sub-directory path in the listing of ~/photographs/vacations/",
+          "object": "spot-dir-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "\"~/photographs/vacations/\" + basename(spot-dir-3) + \".zip\"",
+          "object": "spot-zip-3"
+        },
+        "delete_directory": true,
+        "overwrite": true
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task spot-dir-1 spot-dir-2 spot-dir-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "object": "timothy-whit-at-gmail-com",
+    "value": "timothy.whit@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-workout",
+    "value": "workout",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "workout-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the note (any page) whose title contains \"workout\" or \"exercise\""
+  },
+  {
+    "object": "workout-duration-today",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: parse the day block whose 'day:' equals today's weekday (from phone.get_current_date_and_time, Tuesday) and read its 'duration_mins:' value"
+  },
+  {
+    "object": "long-enough-playlist",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id of the first playlist (any page) whose summed song durations (spotify.show_song duration, seconds/60) >= workout_duration_mins"
+  },
+  {
+    "object": "playlist-song",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "song_ids of the candidate playlist (show_song is called for each id to sum durations)"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "object": "jepowell-at-gmail-com",
+    "value": "jepowell@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "song-liked-downloaded",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id (all pages) where song_id is in spotify.show_liked_songs[].song_id AND in spotify.show_downloaded_songs[].song_id; kept, never passed to an API"
+  },
+  {
+    "object": "song-liked-not-downloaded",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id (all pages) where song_id is in spotify.show_liked_songs[].song_id but NOT in spotify.show_downloaded_songs[].song_id; one removal call per such song"
+  },
+  {
+    "object": "song-downloaded-not-liked",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id (all pages) where song_id is in spotify.show_downloaded_songs[].song_id but NOT in spotify.show_liked_songs[].song_id; one removal call per such song"
+  },
+  {
+    "object": "song-not-liked-not-downloaded",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id (all pages) where song_id is neither in spotify.show_liked_songs[].song_id nor in spotify.show_downloaded_songs[].song_id; one removal call per such song"
+  },
+  {
+    "object": "album-liked-all-downloaded",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id (all pages) where album_id is in spotify.show_liked_albums[].album_id AND every entry of the album's song_ids is in spotify.show_downloaded_songs[].song_id; kept, never passed to an API"
+  },
+  {
+    "object": "album-liked-partly-downloaded",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id (all pages) where album_id is in spotify.show_liked_albums[].album_id but some entry of song_ids is NOT in spotify.show_downloaded_songs[].song_id; one removal call per such album"
+  },
+  {
+    "object": "album-not-liked",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id (all pages) where album_id is NOT in spotify.show_liked_albums[].album_id; one removal call per such album"
+  }
+]

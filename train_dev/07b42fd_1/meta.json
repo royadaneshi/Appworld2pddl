@@ -1,0 +1,79 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1910,
+    "output_tokens": 8251,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "07b42fd_1",
+  "instruction": "Follow all the classical artists on Spotify that have at least 22 followers.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.search_artists",
+    "spotify.follow_artist",
+    "spotify.follow_artist",
+    "spotify.follow_artist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (spotify) plus supervisor lookups. The number of matching classical artists is unknown a priori, so three placeholder artist constants stand for the search result set; at runtime one spotify.follow_artist call is issued per artist returned by search_artists (query='classical', genre='classical', min_follower_count=22, paging over page_index until empty), filtered to genre == classical. The artists are declared as domain constants so that supervisor-complete-task's precondition can enumerate every goal condition, as required. search_artists needs no access token; follow_artist carries extra non-API parameters (genre, follower-count) only to link each follow to the completed search via the static artist-matches facts. The username is read from supervisor.show_profile (email), hence profile-known is a login precondition. No answer is passed to complete_task since the task is not a question. Evaluation requires only additions to UserArtistFollowing, all of genre classical with follower_count >= 22, which the goal mirrors via (following ...).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.follow_artist",
+        "spotify.login",
+        "spotify.search_artists",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(spotify-search-artists query-classical classical count-22)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login eri-powe-at-gmail-com spotify-password spotify-token)",
+      "(spotify-follow-artist classical-artist-1 spotify-token classical count-22)",
+      "(spotify-follow-artist classical-artist-2 spotify-token classical count-22)",
+      "(spotify-follow-artist classical-artist-3 spotify-token classical count-22)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.15
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 88.8,
+  "effort": "xhigh"
+}

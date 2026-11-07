@@ -1,0 +1,80 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-artists query-reggae reggae followers-21)",
+      "api": "spotify.search_artists",
+      "args": {
+        "query": "reggae",
+        "genre": "reggae",
+        "min_follower_count": 21
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-login morgan-harrison-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "morgan-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-follow-artist reggae-artist-1 spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of 1st result (iterate all page_index values, keep results with genre == \"reggae\" and follower_count >= 21)",
+          "object": "reggae-artist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-follow-artist reggae-artist-2 spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of 2nd result (same selection rule; one follow step per returned artist)",
+          "object": "reggae-artist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task reggae-artist-1 reggae-artist-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

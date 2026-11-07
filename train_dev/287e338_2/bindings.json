@@ -1,0 +1,38 @@
+[
+  {
+    "object": "timothy-whit-at-gmail-com",
+    "value": "timothy.whit@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "recommended-song",
+    "value": null,
+    "from_api": "spotify.show_recommendations",
+    "field": "song_id of every item (iterate page_index until empty)"
+  },
+  {
+    "object": "least-recommended-artist",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "artists[].id aggregated over all recommended songs; pick the artist id with the lowest count"
+  },
+  {
+    "object": "least-recommended-artist-name",
+    "value": null,
+    "from_api": "spotify.show_artist",
+    "field": "name"
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "object": "phone-number-7826309761",
+    "value": "7826309761",
+    "from_api": "supervisor.show_profile",
+    "field": "phone_number"
+  },
+  {
+    "object": "cod-smith-at-gmail-com",
+    "value": "cod.smith@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "relationship-coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "query-work-dinner",
+    "value": "Work Dinner",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "work-dinner-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the result (query \"Work Dinner\") whose created_at >= start of yesterday"
+  },
+  {
+    "object": "coworker-2-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the coworker contact whose first_name appears in a '- <name> => $<share>' line of the note and who has NOT sent a received venmo transaction with description \"Work Dinner\" since yesterday (venmo.show_transactions, sender.email)"
+  },
+  {
+    "object": "coworker-3-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of another such pending coworker contact (same selection rule as coworker-2-email)"
+  },
+  {
+    "object": "share-coworker-2",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=>' (strip '$') on the line naming coworker-2"
+  },
+  {
+    "object": "share-coworker-3",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=>' (strip '$') on the line naming coworker-3"
+  },
+  {
+    "object": "work-dinner",
+    "value": "Work Dinner",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "direction-received",
+    "value": "received",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "date-2023-05-19",
+    "value": "2023-05-19",
+    "from_api": "phone.get_current_date_and_time",
+    "field": "current_date_and_time minus 1 day, formatted %Y-%m-%d"
+  }
+]

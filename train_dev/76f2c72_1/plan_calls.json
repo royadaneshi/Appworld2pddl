@@ -1,0 +1,129 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-login ja-solomon-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password of the entry where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token electricity-bills-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/bills/electricity"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file this-year-bill-1 file-system-token electricity-bills-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "1st returned file path whose name contains the current year (2023, per phone.get_current_date_and_time)",
+          "object": "this-year-bill-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-file this-year-bill-2 file-system-token this-year-bill-1)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "2nd returned file path whose name contains the current year (2023)",
+          "object": "this-year-bill-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-file this-year-bill-3 file-system-token this-year-bill-2)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "3rd returned file path whose name contains the current year (2023)",
+          "object": "this-year-bill-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-show-file this-year-bill-4 file-system-token this-year-bill-3)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "4th returned file path whose name contains the current year (2023)",
+          "object": "this-year-bill-4"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task total-electricity-cost-this-year this-year-bill-4)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "file_system.show_file",
+          "field": "sum over all this-year bill files of the number following 'Total Amount => $' in content",
+          "object": "total-electricity-cost-this-year"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

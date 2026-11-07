@@ -1,0 +1,44 @@
+[
+  {
+    "object": "brenda-webe-at-gmail-com",
+    "value": "brenda.webe@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email (used both as spotify login username and as user_email filter of show_song_reviews)"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "rating-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "song-lib-unreviewed",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of a library song (all pages) whose song_id is absent from spotify.show_liked_songs and for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns no review"
+  },
+  {
+    "object": "song-lib-reviewed",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of a library song (all pages) whose song_id is absent from spotify.show_liked_songs and for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns an existing review"
+  },
+  {
+    "object": "review-of-song-lib-reviewed",
+    "value": null,
+    "from_api": "spotify.show_song_reviews",
+    "field": "song_review_id of the supervisor's review of that song"
+  }
+]

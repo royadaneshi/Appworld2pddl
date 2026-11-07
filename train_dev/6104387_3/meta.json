@@ -1,0 +1,94 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 4062,
+    "output_tokens": 16991,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "6104387_3",
+  "instruction": "Export a unique list of all the songs in my song and album library and all playlists in my Spotify account into \"~/backups/spotify_songs.csv\" file in my file system. The file should have headers, \"Title\" and \"Artists\" and artists should be separated by \"|\". Terminate my account after this backup is complete.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "spotify",
+    "file_system"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_album_library",
+    "spotify.show_playlist_library",
+    "spotify.show_song",
+    "spotify.show_artist",
+    "file_system.login",
+    "file_system.create_file",
+    "spotify.delete_account",
+    "supervisor.complete_task"
+  ],
+  "notes": "Two apps are logged into (spotify, file_system); the username is the supervisor email from show_profile and passwords come from show_account_passwords. The unbounded set of songs/artists is modeled with one representative song object (library-song, standing for every id in the deduplicated union of song library, album library song_ids and playlist song_ids, obtained by paginating the three listing APIs) and one representative artist object; at runtime spotify.show_song and spotify.show_artist are repeated per id. show_song requires all three listings so the export is the full union. show_song/show_artist are public APIs and need no token. file_system.create_file is forced to the exact backup path via the static backup-path fact and to the CSV content built from the looked-up titles/artist names via csv-of; it also creates the parent ~/backups directory implicitly. Account termination (spotify.delete_account) is only allowed after the backup file exists, and it invalidates the spotify token. supervisor.complete_task takes no answer (status success) and is structurally last.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.create_file",
+        "file_system.login",
+        "spotify.delete_account",
+        "spotify.login",
+        "spotify.show_album_library",
+        "spotify.show_artist",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "spotify.show_song_library",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login chrharrison-at-gmail-com file-system-password file-system-token)",
+      "(spotify-login chrharrison-at-gmail-com spotify-password file-system-token)",
+      "(spotify-show-album-library file-system-token)",
+      "(spotify-show-playlist-library file-system-token)",
+      "(spotify-show-song-library file-system-token)",
+      "(spotify-show-song library-song library-song-artist)",
+      "(spotify-show-artist library-song-artist)",
+      "(file-system-create-file backups-spotify-songs-csv file-system-token csv-title-artists library-song library-song-artist)",
+      "(spotify-delete-account file-system-token)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 0.99
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 186.7,
+  "effort": "xhigh"
+}

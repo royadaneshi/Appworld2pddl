@@ -1,0 +1,50 @@
+[
+  {
+    "object": "la-mcco-at-gmail-com",
+    "value": "la-mcco@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-song-2019",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of each library entry (iterate page_index); release_date.year <= 2021 confirmed via spotify.show_song"
+  },
+  {
+    "object": "library-song-2023",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of each library entry (iterate page_index); release_date.year > 2021 confirmed via spotify.show_song"
+  },
+  {
+    "object": "playlist-1",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id of each playlist (iterate page_index)"
+  },
+  {
+    "object": "playlist-song-2020",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id for the playlist; release_date.year <= 2021 confirmed via spotify.show_song"
+  },
+  {
+    "object": "playlist-song-2022",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id for the playlist; release_date.year > 2021 confirmed via spotify.show_song"
+  }
+]

@@ -1,0 +1,94 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 4059,
+    "output_tokens": 12742,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "6104387_2",
+  "instruction": "Export a unique list of all the songs in my song and album library and all playlists in my Spotify account into \"~/backups/spotify_library.csv\" file in my file system. The file should have headers, \"Title\" and \"Artists\" and artists should be separated by \"|\". Terminate my account after this backup is complete.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "spotify",
+    "file_system"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_album_library",
+    "spotify.show_playlist_library",
+    "spotify.show_song",
+    "spotify.show_artist",
+    "file_system.login",
+    "file_system.create_file",
+    "spotify.delete_account",
+    "supervisor.complete_task"
+  ],
+  "notes": "The set of songs is unknown at planning time, so the model uses a representative song object (library-song) and a representative artist object (library-artist) linked by the static fact (song-artist ...). spotify-show-song requires all three library listings (songs, albums, playlists) to be done, reflecting that the unique union of song ids must be collected first; at runtime the agent loops show_song over every unique id (paginating the listings) and show_artist over every artist id. file_system.create_file carries the file path, the composed CSV content and the access token; its precondition demands that the song title and artist name are known, and its effect asserts (backup-complete) which gates spotify.delete_account so that the account is terminated only after the backup. create_file is assumed to create the ~/backups directory as needed (no create_directory call in the reference). supervisor.complete_task takes no answer and requires (backup-complete) and (account-deleted spotify); every other action requires (not (task-completed)). The app constant for file_system is named file-system to keep hyphenated PDDL names.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.create_file",
+        "file_system.login",
+        "spotify.delete_account",
+        "spotify.login",
+        "spotify.show_album_library",
+        "spotify.show_artist",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "spotify.show_song_library",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login sab-brown-at-gmail-com file-system-password file-system-token)",
+      "(spotify-login sab-brown-at-gmail-com spotify-password file-system-token)",
+      "(spotify-show-album-library file-system-token)",
+      "(spotify-show-playlist-library file-system-token)",
+      "(spotify-show-song-library file-system-token)",
+      "(spotify-show-song library-song)",
+      "(spotify-show-artist library-artist library-song)",
+      "(file-system-create-file backups-spotify-library-csv file-system-token library-csv-content library-song library-artist)",
+      "(spotify-delete-account file-system-token)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.19
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 134.7,
+  "effort": "xhigh"
+}

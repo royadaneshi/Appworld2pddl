@@ -1,0 +1,97 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 3243,
+    "output_tokens": 19122,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "22cc237_2",
+  "instruction": "I went on a dinner with some of my friends yesterday. I paid the entire bill to simplify the payment. I've made a note of individual shares in simple note. Some people have already sent me their share on venmo. Make payment requests for others with a description note \"Friends Dinner\".",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "simple_note",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.get_current_date_and_time",
+    "phone.login",
+    "phone.search_contacts",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "venmo.login",
+    "venmo.show_transactions",
+    "venmo.create_payment_request",
+    "venmo.create_payment_request",
+    "supervisor.complete_task"
+  ],
+  "notes": "The actual friend names, shares, and who has already paid are only known at runtime (note content, phone contacts, venmo transactions). The problem assumes a representative instance: three friends listed in the 'Friends Dinner' note, one (dinner-friend-1) has already sent a 'Friends Dinner' venmo transaction, two (dinner-friend-2, dinner-friend-3) are pending and must each get a payment request for their note share with description 'Friends Dinner'. Hidden data (contact emails, note shares, already-paid status) is encoded as static init facts but is only usable after the corresponding lookup flags (contacts-searched, note-read, transactions-checked) are set by phone.search_contacts, simple_note.show_note and venmo.show_transactions; create_payment_request is blocked for anyone already paid and cannot be duplicated. Pending friends, their amounts and the description are domain constants so that supervisor-complete-task's precondition can state the goal conditions; they are not re-declared in the problem. Pagination, sort_by and the note date filter are handled at runtime (search_notes requires current-datetime-known for the 'created since yesterday' selection).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.create_payment_request",
+        "venmo.login",
+        "venmo.show_transactions"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login username-6017026518 password-phone token-venmo)",
+      "(simple-note-login username-kri-powe-at-gmail-com password-simple-note token-phone)",
+      "(simple-note-search-notes token-phone query-friends-dinner note-friends-dinner)",
+      "(venmo-login username-kri-powe-at-gmail-com password-venmo token-phone)",
+      "(venmo-show-transactions token-phone direction-received datetime-2023-05-19)",
+      "(phone-search-contacts token-venmo query-friend relationship-friend)",
+      "(simple-note-show-note note-friends-dinner token-phone)",
+      "(venmo-create-payment-request email-friend-2 amount-share-2 token-phone description-friends-dinner dinner-friend-2 note-friends-dinner)",
+      "(venmo-create-payment-request email-friend-3 amount-share-3 token-phone description-friends-dinner dinner-friend-3 note-friends-dinner)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.22
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 205.9,
+  "effort": "xhigh"
+}

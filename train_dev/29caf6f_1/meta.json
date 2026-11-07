@@ -1,0 +1,97 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 18594,
+    "output_tokens": 16345,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 58446
+  },
+  "task_id": "29caf6f_1",
+  "instruction": "Christopher has asked for my movie recommendations via phone text message. Reply to them with a list of comma-separated movie titles from my Simple Note account as per their request.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "simple_note"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.search_text_messages",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "phone.send_text_message",
+    "supervisor.complete_task"
+  ],
+  "notes": "Fixed the name clash: the predicate formerly named requested-director collided with the object of the same name; the predicate is now request-director-of and the object is christopher-requested-director. Model otherwise unchanged: supervisor.show_profile supplies the phone username (phone number) and simple_note username (email); show_account_passwords supplies passwords. phone.search_contacts discovers Christopher's phone number; phone.search_text_messages filtered by that number finds the request text and thereby the requested director; simple_note.search_notes (dont_reorder_pinned=true) locates the movie note and show_note reveals its content. The reply message is statically tied (reply-for) to the director and note so send_text_message is only applicable after both lookups. Goal demands one text sent to Christopher with the filtered titles, then supervisor.complete_task (no answer) last; every other action requires (not (task-completed)).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.login",
+        "phone.search_contacts",
+        "phone.search_text_messages",
+        "phone.send_text_message",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-username-3155673041 phone-password phone-token)",
+      "(simple-note-login simple-note-username-joyce-weav-at-gmail-com simple-note-password phone-token)",
+      "(phone-search-contacts phone-token query-christopher christopher christopher-phone-number)",
+      "(phone-search-text-messages phone-token query-recommendation-suggestion-movie christopher-phone-number christopher christopher-request-message christopher-requested-director)",
+      "(simple-note-search-notes phone-token query-movie-recommendation-suggestion flag-true movie-recommendations-note)",
+      "(simple-note-show-note movie-recommendations-note phone-token)",
+      "(phone-send-text-message christopher-phone-number reply-movie-titles phone-token christopher christopher-requested-director movie-recommendations-note)",
+      "(supervisor-complete-task christopher reply-movie-titles)"
+    ],
+    "message": "",
+    "seconds": 0.83
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "parse_error",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "parse_error",
+      "planning_message": "UPProblemDefinitionError: Name requested-director already defined! Different elements of a problem can have the same name if the environment flag error_used_name is disabled."
+    },
+    {
+      "attempt": 2,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 162.0,
+  "effort": "xhigh"
+}

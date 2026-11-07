@@ -1,0 +1,32 @@
+[
+  {
+    "object": "jes-mill-at-gmail-com",
+    "value": "jes.mill@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "newest-released-song",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "song_id with the maximum release_date over the union of ids collected from spotify.show_song_library (items[].song_id, release_date via spotify.show_song), spotify.show_album_library (items[].song_ids, release_date from the album item) and spotify.show_playlist_library (items[].song_ids, release_date via spotify.show_song); all three listings paginated over page_index"
+  },
+  {
+    "object": "newest-released-song-title",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "title"
+  }
+]

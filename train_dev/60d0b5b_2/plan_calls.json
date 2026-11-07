@@ -1,0 +1,98 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-7763361246 password-phone token-venmo)",
+      "api": "phone.login",
+      "args": {
+        "username": "7763361246",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "password-phone"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login username-chelsea-burch-at-gmail-com password-venmo token-phone)",
+      "api": "venmo.login",
+      "args": {
+        "username": "chelsea-burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "password-venmo"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts token-venmo query-cory cory cory-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "query": "Cory"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-sent-payment-requests token-phone status-approved cory cory-email req-cory-latest-approved)",
+      "api": "venmo.show_sent_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        },
+        "status": "approved"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-transaction cory-email amount-accident-cost token-phone description-returning-the-accidental-payment cory req-cory-latest-approved)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Cory\"",
+          "object": "cory-email"
+        },
+        "amount": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "amount of the latest (first-listed, status=approved) request whose receiver.email == cory-email",
+          "object": "amount-accident-cost"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
+        },
+        "description": "Returning the accidental payment"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task req-cory-latest-approved)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

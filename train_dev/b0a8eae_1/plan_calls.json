@@ -1,0 +1,126 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-login timothy-whit-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "timothy.whit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-login timothy-whit-at-gmail-com spotify-password simple-note-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "timothy.whit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-search-notes simple-note-token query-workout workout-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "workout"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-show-note workout-note simple-note-token workout-duration-today)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note (any page) whose title contains \"workout\" or \"exercise\"",
+          "object": "workout-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-playlist-library simple-note-token long-enough-playlist)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-song playlist-song long-enough-playlist)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_ids of the candidate playlist (show_song is called for each id to sum durations)",
+          "object": "playlist-song"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-play-music simple-note-token long-enough-playlist workout-duration-today)",
+      "api": "spotify.play_music",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the first playlist (any page) whose summed song durations (spotify.show_song duration, seconds/60) >= workout_duration_mins",
+          "object": "long-enough-playlist"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

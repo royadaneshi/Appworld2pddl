@@ -1,0 +1,130 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login joseharr-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "joseharr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-album-library spotify-token)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-downloaded-songs spotify-token)",
+      "api": "spotify.show_downloaded_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-liked-albums spotify-token)",
+      "api": "spotify.show_liked_albums",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-remove-album-from-library unliked-undownloaded-album spotify-token)",
+      "api": "spotify.remove_album_from_library",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of every library album (iterate all pages) whose album_id is not in spotify.show_liked_albums and whose song_ids are not all contained in spotify.show_downloaded_songs; call remove_album_from_library once per such album",
+          "object": "unliked-undownloaded-album"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-liked-songs spotify-token)",
+      "api": "spotify.show_liked_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-song-library spotify-token)",
+      "api": "spotify.show_song_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song",
+          "object": "unliked-undownloaded-song"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

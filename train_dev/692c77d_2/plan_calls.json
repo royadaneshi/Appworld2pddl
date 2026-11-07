@@ -1,0 +1,122 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login brenda-webe-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "brenda.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-liked-songs spotify-token)",
+      "api": "spotify.show_liked_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-song-library spotify-token)",
+      "api": "spotify.show_song_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-song-reviews song-lib-reviewed brenda-webe-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song (all pages) whose song_id is absent from spotify.show_liked_songs and for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns an existing review",
+          "object": "song-lib-reviewed"
+        },
+        "user_email": "brenda.webe@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song-reviews song-lib-unreviewed brenda-webe-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song (all pages) whose song_id is absent from spotify.show_liked_songs and for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns no review",
+          "object": "song-lib-unreviewed"
+        },
+        "user_email": "brenda.webe@gmail.com"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-update-song-review review-of-song-lib-reviewed spotify-token rating-1 song-lib-reviewed)",
+      "api": "spotify.update_song_review",
+      "args": {
+        "review_id": {
+          "$from": "spotify.show_song_reviews",
+          "field": "song_review_id of the supervisor's review of that song",
+          "object": "review-of-song-lib-reviewed"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "rating": 1
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-review-song song-lib-unreviewed rating-1 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song (all pages) whose song_id is absent from spotify.show_liked_songs and for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns no review",
+          "object": "song-lib-unreviewed"
+        },
+        "rating": 1,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task song-lib-reviewed song-lib-unreviewed)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

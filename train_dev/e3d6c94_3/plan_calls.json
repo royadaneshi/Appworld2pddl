@@ -1,0 +1,135 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-login caiburc-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "caiburc@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-create-playlist title-rnb-recommendation spotify-token rnb-recommendation-playlist)",
+      "api": "spotify.create_playlist",
+      "args": {
+        "title": "R&B Recommendation",
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-recommendations spotify-token)",
+      "api": "spotify.show_recommendations",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song rec-song-1)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id (iterate all pages); keep only if spotify.show_song returns genre == \"R&B\" and release_date year == current year from phone.get_current_date_and_time (2023); first qualifying song",
+          "object": "rec-song-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-add-song-to-playlist rnb-recommendation-playlist rec-song-1 spotify-token)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "rnb-recommendation-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id (iterate all pages); keep only if spotify.show_song returns genre == \"R&B\" and release_date year == current year from phone.get_current_date_and_time (2023); first qualifying song",
+          "object": "rec-song-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-song rec-song-2)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id (iterate all pages); keep only if spotify.show_song returns genre == \"R&B\" and release_date year == current year (2023); second qualifying song",
+          "object": "rec-song-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-add-song-to-playlist rnb-recommendation-playlist rec-song-2 spotify-token)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "rnb-recommendation-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id (iterate all pages); keep only if spotify.show_song returns genre == \"R&B\" and release_date year == current year (2023); second qualifying song",
+          "object": "rec-song-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task rnb-recommendation-playlist rec-song-1 rec-song-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

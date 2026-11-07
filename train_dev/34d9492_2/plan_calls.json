@@ -1,0 +1,172 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-login spencer-powell-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "spencer.powell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token vacations-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/photographs/vacations/"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file photo-1 file-system-token vacations-dir march-this-year)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose show_file created_at falls in March of the current year (year from phone.get_current_date_and_time)",
+          "object": "photo-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-file photo-2 file-system-token vacations-dir april-this-year)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose show_file created_at falls in April of the current year",
+          "object": "photo-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-file photo-3 file-system-token vacations-dir other-month)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose show_file created_at is in any other month/year",
+          "object": "photo-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-move-file photo-1 rome-photo-1 file-system-token march-this-year rome)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose show_file created_at falls in March of the current year (year from phone.get_current_date_and_time)",
+          "object": "photo-1"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Rome/\" + original file name of photo-1",
+          "object": "rome-photo-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-move-file photo-2 santorini-photo-2 file-system-token april-this-year santorini)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose show_file created_at falls in April of the current year",
+          "object": "photo-2"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Santorini/\" + original file name of photo-2",
+          "object": "santorini-photo-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-move-file photo-3 berlin-photo-3 file-system-token other-month berlin)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "a listed file path whose show_file created_at is in any other month/year",
+          "object": "photo-3"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Berlin/\" + original file name of photo-3",
+          "object": "berlin-photo-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

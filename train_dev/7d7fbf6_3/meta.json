@@ -1,0 +1,79 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2545,
+    "output_tokens": 9232,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "7d7fbf6_3",
+  "instruction": "The \"~/pictures/\" directory in my file system has photo files organized in sub-directories for each vacation spot. Compress them and save them in \"~/pictures/vacations/<vacation_spot>.zip\" for each vacation spot, and then delete all vacation spot sub-directories. Here, <vacation_spot> is the name of the vacation spot as it appears in the sub-directory name.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "file_system"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "file_system.login",
+    "file_system.show_directory",
+    "file_system.compress_directory",
+    "file_system.compress_directory",
+    "file_system.compress_directory",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (file_system). Flow mirrors the reference solution: show_profile (username) + show_account_passwords -> login -> show_directory on ~/pictures/vacations/ with recursive=false (asserts directory-listed, which unlocks the statically declared sub-directories) -> compress_directory per sub-directory with compressed_file_path=~/pictures/vacations/<spot>.zip, delete_directory=true, overwrite=true (effects: compressed + directory-deleted, which is exactly what the evaluation checks: new .zip files added, sub-directories and their files removed, no directories added) -> complete_task with no answer. The number of vacation-spot sub-directories is unknown until runtime; the model uses 3 placeholder directory/zip pairs, declared as domain constants so supervisor-complete-task can list every goal condition in its precondition; at runtime the agent repeats compress_directory once per actual listed sub-directory. Boolean API arguments (recursive, delete_directory, overwrite) are modeled as flag objects flag-true/flag-false with static is-true/is-false facts. The extra ?root parameter of compress-directory is not an API argument; it only ties the sub-directory to the listed parent.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.compress_directory",
+        "file_system.login",
+        "file_system.show_directory",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login adrian-burt-at-gmail-com file-system-password file-system-token)",
+      "(file-system-show-directory file-system-token pictures-vacations-dir flag-false)",
+      "(file-system-compress-directory vacation-dir-1 file-system-token vacation-zip-1 flag-true flag-true pictures-vacations-dir)",
+      "(file-system-compress-directory vacation-dir-2 file-system-token vacation-zip-2 flag-true flag-true pictures-vacations-dir)",
+      "(file-system-compress-directory vacation-dir-3 file-system-token vacation-zip-3 flag-true flag-true pictures-vacations-dir)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 0.82
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 95.7,
+  "effort": "xhigh"
+}

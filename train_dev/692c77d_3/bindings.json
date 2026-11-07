@@ -1,0 +1,44 @@
+[
+  {
+    "object": "jes-mill-at-gmail-com",
+    "value": "jes.mill@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == 'spotify'"
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "rating-4",
+    "value": "4",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "song-lib-liked-reviewed",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "song_ids of every library album (all pages) intersected with song_id values from spotify.show_liked_songs (all pages); the members for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns a non-empty list"
+  },
+  {
+    "object": "song-lib-liked-unreviewed",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "song_ids of every library album (all pages) intersected with song_id values from spotify.show_liked_songs (all pages); the members for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns an empty list"
+  },
+  {
+    "object": "review-existing-lower",
+    "value": null,
+    "from_api": "spotify.show_song_reviews",
+    "field": "song_review_id of the supervisor's existing review of the song"
+  }
+]

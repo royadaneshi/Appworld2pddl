@@ -1,0 +1,97 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 3242,
+    "output_tokens": 25988,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "22cc237_1",
+  "instruction": "I went on a dinner with some of my coworkers yesterday. I paid the entire bill to simplify the payment. I've made a note of individual shares in simple note. Some people have already sent me their share on venmo. Make payment requests for others with a description note \"Work Dinner\".",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "simple_note",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.get_current_date_and_time",
+    "phone.login",
+    "phone.search_contacts",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "venmo.login",
+    "venmo.show_transactions",
+    "venmo.create_payment_request",
+    "venmo.create_payment_request",
+    "supervisor.complete_task"
+  ],
+  "notes": "The real coworker set, their shares and who already paid are only known at runtime, so the problem uses placeholder coworkers: coworker-1 (already sent a 'Work Dinner' venmo transaction, no request) and coworker-2/coworker-3 (pending, need requests). World facts that lookups reveal (coworker-email from phone.search_contacts, share from simple_note.show_note, already-paid from venmo.show_transactions) are static in :init but gated by nullary knowledge predicates (coworkers-found, shares-known, transactions-checked) that only the corresponding lookup actions make true, forcing the plan to perform every information-gathering call. Because supervisor-complete-task must have the ground goal conjunction as its precondition, the goal entities (coworker-2, coworker-3, their share amounts and the 'Work Dinner' description) are declared as domain constants rather than problem objects. token-of is a naming device that pins each placeholder token to its app so bindings stay unambiguous. venmo.show_transactions is modeled with direction='received' and min_created_at=yesterday; sort_by is omitted as non-essential. phone.get_current_date_and_time supplies 'yesterday' used both to pick the note and to filter transactions. No answer is passed to complete_task; the evaluation only checks the added PaymentRequest records (receiver, amount) match the pending coworkers' shares.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.create_payment_request",
+        "venmo.login",
+        "venmo.show_transactions"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-number-7826309761 phone-password phone-token)",
+      "(simple-note-login cod-smith-at-gmail-com simple-note-password simple-note-token)",
+      "(simple-note-search-notes simple-note-token query-work-dinner work-dinner-note)",
+      "(venmo-login cod-smith-at-gmail-com venmo-password venmo-token)",
+      "(venmo-show-transactions venmo-token direction-received date-2023-05-19)",
+      "(phone-search-contacts phone-token query-coworker relationship-coworker)",
+      "(simple-note-show-note work-dinner-note simple-note-token)",
+      "(venmo-create-payment-request coworker-2-email share-coworker-2 venmo-token work-dinner coworker-2)",
+      "(venmo-create-payment-request coworker-3-email share-coworker-3 venmo-token work-dinner coworker-3)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.11
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 290.7,
+  "effort": "xhigh"
+}

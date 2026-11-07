@@ -1,0 +1,62 @@
+[
+  {
+    "object": "phone-number-8683971586",
+    "value": "8683971586",
+    "from_api": "supervisor.show_profile",
+    "field": "phone_number"
+  },
+  {
+    "object": "ja-solomon-at-gmail-com",
+    "value": "ja-solomon@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": "domain constant; relationship string passed to phone.search_contacts"
+  },
+  {
+    "object": "txn-recent-coworker-1",
+    "value": null,
+    "from_api": "venmo.show_social_feed",
+    "field": "transaction_id of each feed entry (all pages) whose created_at falls on yesterday or today (relative to phone.get_current_date_and_time) and whose sender.email or receiver.email is in the set of email values returned by phone.search_contacts(relationship=\"coworker\")"
+  },
+  {
+    "object": "txn-recent-coworker-2",
+    "value": null,
+    "from_api": "venmo.show_social_feed",
+    "field": "same selection rule as txn-recent-coworker-1 (one object per qualifying feed transaction)"
+  }
+]

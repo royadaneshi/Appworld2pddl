@@ -1,0 +1,122 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile jessica jes-mill-at-gmail-com)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login jes-mill-at-gmail-com spotify-password spotify-token jessica)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jes.mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'spotify'",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-album-library spotify-token)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-liked-songs spotify-token)",
+      "api": "spotify.show_liked_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-song-reviews song-lib-liked-reviewed jes-mill-at-gmail-com jessica)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_ids of every library album (all pages) intersected with song_id values from spotify.show_liked_songs (all pages); the members for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns a non-empty list",
+          "object": "song-lib-liked-reviewed"
+        },
+        "user_email": "jes.mill@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song-reviews song-lib-liked-unreviewed jes-mill-at-gmail-com jessica)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_ids of every library album (all pages) intersected with song_id values from spotify.show_liked_songs (all pages); the members for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns an empty list",
+          "object": "song-lib-liked-unreviewed"
+        },
+        "user_email": "jes.mill@gmail.com"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-update-song-review review-existing-lower spotify-token rating-4 song-lib-liked-reviewed)",
+      "api": "spotify.update_song_review",
+      "args": {
+        "review_id": {
+          "$from": "spotify.show_song_reviews",
+          "field": "song_review_id of the supervisor's existing review of the song",
+          "object": "review-existing-lower"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "rating": 4
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-review-song song-lib-liked-unreviewed rating-4 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_ids of every library album (all pages) intersected with song_id values from spotify.show_liked_songs (all pages); the members for which spotify.show_song_reviews(song_id, user_email=supervisor email) returns an empty list",
+          "object": "song-lib-liked-unreviewed"
+        },
+        "rating": 4,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task song-lib-liked-reviewed song-lib-liked-unreviewed rating-4)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

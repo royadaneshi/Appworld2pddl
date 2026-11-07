@@ -1,0 +1,96 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-9503658964 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "9503658964",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-text-messages phone-token number-9294880327)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": "9294880327"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-delete-text-message text-msg-from-9294880327 phone-token number-9294880327)",
+      "api": "phone.delete_text_message",
+      "args": {
+        "text_message_id": {
+          "$from": "phone.search_text_messages",
+          "field": "text_message_id (every result across all pages, phone_number=9294880327)",
+          "object": "text-msg-from-9294880327"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-voice-messages phone-token number-9294880327)",
+      "api": "phone.search_voice_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": "9294880327"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-delete-voice-message voice-msg-from-9294880327 phone-token number-9294880327)",
+      "api": "phone.delete_voice_message",
+      "args": {
+        "voice_message_id": {
+          "$from": "phone.search_voice_messages",
+          "field": "voice_message_id (every result across all pages, phone_number=9294880327)",
+          "object": "voice-msg-from-9294880327"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task text-msg-from-9294880327 voice-msg-from-9294880327)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

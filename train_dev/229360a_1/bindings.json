@@ -1,0 +1,68 @@
+[
+  {
+    "object": "brandon-webe-at-gmail-com",
+    "value": "brandon-webe@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "song-unkept-1",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id (paginate all pages) where song_id not in spotify.show_liked_songs[*].song_id and not in spotify.show_downloaded_songs[*].song_id; first such song"
+  },
+  {
+    "object": "song-unkept-2",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id (paginate all pages) where song_id not in spotify.show_liked_songs[*].song_id and not in spotify.show_downloaded_songs[*].song_id; next such song (one remove call per such song)"
+  },
+  {
+    "object": "song-liked-1",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id where song_id in spotify.show_liked_songs[*].song_id (kept; never passed to an API)"
+  },
+  {
+    "object": "song-downloaded-1",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id where song_id in spotify.show_downloaded_songs[*].song_id (kept; never passed to an API)"
+  },
+  {
+    "object": "album-unkept-1",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id (paginate all pages) where album_id not in spotify.show_liked_albums[*].album_id and not all(song_ids) in spotify.show_downloaded_songs[*].song_id; first such album"
+  },
+  {
+    "object": "album-unkept-2",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id (paginate all pages) where album_id not in spotify.show_liked_albums[*].album_id and not all(song_ids) in spotify.show_downloaded_songs[*].song_id; next such album (one remove call per such album)"
+  },
+  {
+    "object": "album-liked-1",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id where album_id in spotify.show_liked_albums[*].album_id (kept; never passed to an API)"
+  },
+  {
+    "object": "album-downloaded-1",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id where every id in song_ids is in spotify.show_downloaded_songs[*].song_id (kept; never passed to an API)"
+  }
+]

@@ -1,0 +1,79 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2547,
+    "output_tokens": 13743,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "7d7fbf6_1",
+  "instruction": "The \"~/photographs/\" directory in my file system has photo files organized in sub-directories for each vacation spot. Compress them and save them in \"~/photographs/vacations/<vacation_spot>.zip\" for each vacation spot, and then delete all vacation spot sub-directories. Here, <vacation_spot> is the name of the vacation spot as it appears in the sub-directory name.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "file_system"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "file_system.login",
+    "file_system.show_directory",
+    "file_system.compress_directory",
+    "file_system.compress_directory",
+    "file_system.compress_directory",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (file_system). The vacation-spot sub-directories are unknown until file_system.show_directory lists ~/photographs/vacations/, so they are modeled as placeholder objects spot-dir-1..3 (one per listed sub-directory; adjust the count/chain of objects and the arity of supervisor-complete-task if the listing returns a different number) linked statically to their parent via (sub-directory-of) and to their required zip path via (zip-target). Listing the parent makes (listed vacations-dir) true, which unlocks one file_system.compress_directory call per sub-directory with compressed_file_path = ~/photographs/vacations/<spot>.zip, delete_directory=true and overwrite=true (both passed as the flag-true object, enforced by (is-true)). (archived ?d) means the zip was written at its target path and the source directory (with its files) was deleted, matching the evaluation (added zip files, removed photo files and directories, no new directories). supervisor-complete-task takes the three distinct archived directories as task-record parameters (not API arguments) so its precondition is exactly the goal conjunction; it is the only action setting (task-completed) and every other action requires (not (task-completed)). The optional recursive=false of show_directory is its default and not modeled.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.compress_directory",
+        "file_system.login",
+        "file_system.show_directory",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login nicholas-weber-at-gmail-com file-system-password file-system-token)",
+      "(file-system-show-directory file-system-token vacations-dir)",
+      "(file-system-compress-directory spot-dir-1 file-system-token spot-zip-1 flag-true flag-true vacations-dir)",
+      "(file-system-compress-directory spot-dir-2 file-system-token spot-zip-2 flag-true flag-true vacations-dir)",
+      "(file-system-compress-directory spot-dir-3 file-system-token spot-zip-3 flag-true flag-true vacations-dir)",
+      "(supervisor-complete-task spot-dir-1 spot-dir-2 spot-dir-3)"
+    ],
+    "message": "",
+    "seconds": 0.82
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 151.4,
+  "effort": "xhigh"
+}

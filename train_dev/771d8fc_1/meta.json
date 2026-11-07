@@ -1,0 +1,85 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2419,
+    "output_tokens": 7857,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "771d8fc_1",
+  "instruction": "All phone text messages and voice messages from 3654328626 are spam, delete them.",
+  "difficulty": 1,
+  "apps_used": [
+    "phone",
+    "supervisor"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_text_messages",
+    "phone.delete_text_message",
+    "phone.delete_text_message",
+    "phone.search_voice_messages",
+    "phone.delete_voice_message",
+    "phone.delete_voice_message",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app (phone) deletion task. The phone username is the supervisor's phone number, obtained via supervisor.show_profile (modeled by profile-known). Searching text/voice messages filtered by the spam number makes the message ids known (text-messages-searched / voice-messages-searched), which gates the delete actions. The exact number of spam messages is only known at runtime, so the problem instantiates two representative text messages and two representative voice messages from 3654328626; at execution time the delete action is applied to every id returned by the search (iterating over all pages). supervisor.complete_task takes the task records (the spam messages) as non-API parameters so its precondition equals the goal, and it is called with no answer (status success). Goal: every spam text and voice message deleted, nothing else changed.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.delete_text_message",
+        "phone.delete_voice_message",
+        "phone.login",
+        "phone.search_text_messages",
+        "phone.search_voice_messages",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login username-8506051563 phone-password phone-token)",
+      "(phone-search-text-messages phone-token number-3654328626)",
+      "(phone-delete-text-message text-msg-1 phone-token number-3654328626)",
+      "(phone-delete-text-message text-msg-2 phone-token number-3654328626)",
+      "(phone-search-voice-messages phone-token number-3654328626)",
+      "(phone-delete-voice-message voice-msg-1 phone-token number-3654328626)",
+      "(phone-delete-voice-message voice-msg-2 phone-token number-3654328626)",
+      "(supervisor-complete-task text-msg-1 text-msg-2 voice-msg-1 voice-msg-2)"
+    ],
+    "message": "",
+    "seconds": 0.76
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 79.6,
+  "effort": "xhigh"
+}

@@ -1,0 +1,97 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 17720,
+    "output_tokens": 15750,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 58446
+  },
+  "task_id": "29caf6f_2",
+  "instruction": "Laura has asked for my movie recommendations via phone text message. Reply to them with a list of comma-separated movie titles from my Simple Note account as per their request.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "simple_note"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.search_text_messages",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "phone.send_text_message",
+    "supervisor.complete_task"
+  ],
+  "notes": "Fixed the name clash: the predicate is now (known-director ?p ?d) and the director object is laura-requested-director, so no predicate/object share a name. Two-app task (phone + simple_note) with no answer; supervisor.complete_task takes only task-record parameters (person, message) so its precondition mirrors the goal (message-sent laura reply-movie-titles) and it is the only action that can add (task-completed), while all other actions require (not (task-completed)). Usernames come from supervisor.show_profile (profile-known required before login), passwords from show_account_passwords. phone.search_contacts discovers Laura's phone number; phone.search_text_messages (query + phone_number) discovers the director she asked about; simple_note.search_notes discovers the note id and simple_note.show_note reveals its content. The reply message is statically linked (reply-for) to the director and the note so phone.send_text_message can only fire after both pieces of knowledge are gathered. The optional dont_reorder_pinned=true used in the reference search_notes call is not modelled as a parameter.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.login",
+        "phone.search_contacts",
+        "phone.search_text_messages",
+        "phone.send_text_message",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login username-8346699249 phone-password phone-token)",
+      "(simple-note-login username-gl-moore-at-gmail-com simple-note-password phone-token)",
+      "(phone-search-contacts phone-token query-laura laura laura-phone-number)",
+      "(phone-search-text-messages phone-token query-recommendation-suggestion-movie laura-phone-number laura laura-request-message laura-requested-director)",
+      "(simple-note-search-notes phone-token query-movie-recommendation-suggestion movie-recommendations-note)",
+      "(simple-note-show-note movie-recommendations-note phone-token)",
+      "(phone-send-text-message laura-phone-number reply-movie-titles phone-token laura laura-requested-director movie-recommendations-note)",
+      "(supervisor-complete-task laura reply-movie-titles)"
+    ],
+    "message": "",
+    "seconds": 0.86
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "parse_error",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "parse_error",
+      "planning_message": "UPProblemDefinitionError: Name requested-director already defined! Different elements of a problem can have the same name if the environment flag error_used_name is disabled."
+    },
+    {
+      "attempt": 2,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 151.1,
+  "effort": "xhigh"
+}

@@ -1,0 +1,96 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-username-2192158297 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2192158297",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-text-messages phone-token number-5708520672)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": "5708520672"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-delete-text-message spam-text-message phone-token number-5708520672)",
+      "api": "phone.delete_text_message",
+      "args": {
+        "text_message_id": {
+          "$from": "phone.search_text_messages",
+          "field": "text_message_id of every result (iterate page_index until empty) when called with phone_number=5708520672",
+          "object": "spam-text-message"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-voice-messages phone-token number-5708520672)",
+      "api": "phone.search_voice_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": "5708520672"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-delete-voice-message spam-voice-message phone-token number-5708520672)",
+      "api": "phone.delete_voice_message",
+      "args": {
+        "voice_message_id": {
+          "$from": "phone.search_voice_messages",
+          "field": "voice_message_id of every result (iterate page_index until empty) when called with phone_number=5708520672",
+          "object": "spam-voice-message"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task spam-text-message spam-voice-message)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

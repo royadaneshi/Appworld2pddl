@@ -1,0 +1,129 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-login chelsea-burch-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "chelsea-burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory bills-internet-dir file-system-token)",
+      "api": "file_system.show_directory",
+      "args": {
+        "directory_path": "~/bills/internet",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file internet-bill-2023-01 file-system-token bills-internet-dir amount-0 total-through-2023-01)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "entry (file path) whose name contains 2023-01",
+          "object": "internet-bill-2023-01"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-file internet-bill-2023-02 file-system-token bills-internet-dir total-through-2023-01 total-through-2023-02)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "entry (file path) whose name contains 2023-02",
+          "object": "internet-bill-2023-02"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-file internet-bill-2023-03 file-system-token bills-internet-dir total-through-2023-02 total-through-2023-03)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "entry (file path) whose name contains 2023-03",
+          "object": "internet-bill-2023-03"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-show-file internet-bill-2023-04 file-system-token bills-internet-dir total-through-2023-03 total-through-2023-04)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "entry (file path) whose name contains 2023-04",
+          "object": "internet-bill-2023-04"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task total-through-2023-04)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "file_system.show_file",
+          "field": "sum over all this-year (2023) bill files of the number parsed from 'Total Amount => $X' in content",
+          "object": "total-through-2023-04"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,87 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2675,
+    "output_tokens": 16664,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "2a163ab_3",
+  "instruction": "Like all the venmo transactions from yesterday or today involving any of my coworkers on my venmo social feed.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.get_current_date_and_time",
+    "venmo.login",
+    "venmo.show_social_feed",
+    "venmo.like_transaction",
+    "venmo.like_transaction",
+    "supervisor.complete_task"
+  ],
+  "notes": "Supervisor usernames (phone number for phone, email for venmo) come from supervisor.show_profile; passwords from show_account_passwords. phone.search_contacts with query/relationship = coworker yields all coworker emails in one (paginated) call, modeled as the nullary-per-relationship knowledge fact (contacts-known coworker). venmo.show_social_feed reveals the feed (feed-shown) and phone.get_current_date_and_time gives the reference date needed to judge 'yesterday or today'. Because the goal must name concrete transactions and supervisor-complete-task's precondition must restate the goal, the feed transactions are declared as domain constants: two representative qualifying transactions (recent, involving a coworker) plus two distractors (an old coworker transaction and a recent non-coworker one) whose preconditions make them un-likeable, matching the evaluator's requirement that exactly the recent coworker transactions get new likes and nothing else changes. The ?p parameter of venmo-like-transaction is a non-API record identifying the coworker participant. Relationship 'coworker' is a domain constant so like-transaction needs no extra relationship parameter. At runtime one like_transaction call is made per qualifying feed entry (the count is unknown a priori; two are modeled).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.like_transaction",
+        "venmo.login",
+        "venmo.show_social_feed"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-number-8683971586 phone-password venmo-token)",
+      "(venmo-login ja-solomon-at-gmail-com venmo-password phone-token)",
+      "(phone-search-contacts venmo-token query-coworker coworker)",
+      "(venmo-show-social-feed phone-token)",
+      "(venmo-like-transaction txn-recent-coworker-1 phone-token coworker-1)",
+      "(venmo-like-transaction txn-recent-coworker-2 phone-token coworker-2)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.22
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 183.8,
+  "effort": "xhigh"
+}

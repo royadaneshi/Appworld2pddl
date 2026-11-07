@@ -1,0 +1,88 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login ron-harrison-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "ron.harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-bucket-list bucket-list-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "bucket list"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note bucket-list-note simple-note-token bucket-list-content)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the first result for query \"bucket list\"",
+          "object": "bucket-list-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-update-note bucket-list-note simple-note-token bucket-list-content-cooking-done bucket-list-content cooking-signature-dish)",
+      "api": "simple_note.update_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the first result for query \"bucket list\"",
+          "object": "bucket-list-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content with the line \"[ ] Learning to cook a signature dish from scratch\" replaced by \"[x] Learning to cook a signature dish from scratch\" (everything else unchanged)",
+          "object": "bucket-list-content-cooking-done"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task bucket-list-note cooking-signature-dish)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

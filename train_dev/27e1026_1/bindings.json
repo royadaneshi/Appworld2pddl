@@ -1,0 +1,32 @@
+[
+  {
+    "object": "erikabail-at-gmail-com",
+    "value": "erikabail@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "oldest-released-song",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id with the minimum release_date over the union of: song_library songs (release_date via spotify.show_song), album song_ids from spotify.show_album_library (album release_date), and playlist song_ids from spotify.show_playlist_library (release_date via spotify.show_song); paginate all listings"
+  },
+  {
+    "object": "title-of-oldest-song",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "title"
+  }
+]

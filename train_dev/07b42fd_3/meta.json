@@ -1,0 +1,77 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1915,
+    "output_tokens": 10537,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "07b42fd_3",
+  "instruction": "Follow all the reggae artists on Spotify that have at least 21 followers.",
+  "difficulty": 1,
+  "apps_used": [
+    "spotify",
+    "supervisor"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.search_artists",
+    "spotify.follow_artist",
+    "spotify.follow_artist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (spotify) plus supervisor. The number of reggae artists with >= 21 followers is only known at runtime, so the problem uses two placeholder artist objects (reggae-artist-1, reggae-artist-2) marked as matching-artist; at execution one spotify.follow_artist call is issued per artist returned by search_artists (paginated, genre == reggae, follower_count >= 21). search_artists needs no token; its effect (matching-artists-found) models that artist ids become known, and follow-artist is restricted to matching artists so nothing outside the criteria is followed (evaluation forbids extra or removed followings). supervisor-show-profile supplies the login username (supervisor email). supervisor-complete-task takes the matched artists as non-API parameters so its precondition mirrors the per-artist goal conjunction; it is called with status=success and no answer. Criteria values (query, genre, min follower count) are static init facts so the planner must search with the correct arguments.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.follow_artist",
+        "spotify.login",
+        "spotify.search_artists",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(spotify-search-artists query-reggae reggae followers-21)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login morgan-harrison-at-gmail-com spotify-password spotify-token)",
+      "(spotify-follow-artist reggae-artist-1 spotify-token)",
+      "(spotify-follow-artist reggae-artist-2 spotify-token)",
+      "(supervisor-complete-task reggae-artist-1 reggae-artist-2)"
+    ],
+    "message": "",
+    "seconds": 1.09
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 124.3,
+  "effort": "xhigh"
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "object": "glenn-burton-at-gmail-com",
+    "value": "glenn.burton@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "least-played-song",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id (iterate all pages via page_index; the song whose spotify.show_song play_count is the minimum over the library)"
+  },
+  {
+    "object": "least-played-song-title",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "title of the song with the minimum play_count"
+  }
+]

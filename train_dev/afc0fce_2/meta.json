@@ -1,0 +1,98 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 3176,
+    "output_tokens": 14488,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "afc0fce_2",
+  "instruction": "Add a comment, \"Thanks!\", to all the venmo payments I received from my friends in the last 7 days (including today), and like those payments.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.get_current_date_and_time",
+    "venmo.login",
+    "venmo.show_transactions",
+    "venmo.show_transactions",
+    "venmo.like_transaction",
+    "venmo.create_transaction_comment",
+    "venmo.like_transaction",
+    "venmo.create_transaction_comment",
+    "venmo.like_transaction",
+    "venmo.create_transaction_comment",
+    "supervisor.complete_task"
+  ],
+  "notes": "The set of friends and qualifying transactions is only known at runtime, so the problem uses a representative instance: two friend contacts (friend-1, friend-2) and three received transactions (txn-1, txn-2 from friend-1; txn-3 from friend-2). Transactions and the comment are declared as domain constants so supervisor-complete-task can list every goal condition in its precondition without parameters; apps are also constants and are therefore not redeclared in the problem objects. supervisor.show_profile supplies the login usernames (phone number for phone, email for venmo). phone.search_contacts with query/relationship 'friend' makes (friends-found) true, which unlocks the static friend-email facts; phone.get_current_date_and_time establishes the window start date (today - 6 days = 2023-05-26, so the window includes today and the previous 6 days). venmo.show_transactions is called once per friend with user_email, min_created_at and direction='received' and makes (transactions-found ?p) true, unlocking the transactions received from that friend. Each qualifying transaction must then be liked and commented 'Thanks!' (both actions carry a non-API person parameter to tie them to the lookup). The unused query/relationship/direction parameters are single-valued objects that just carry the literal API arguments. Only like_count changes on transactions and no other records change, matching the evaluation.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.create_transaction_comment",
+        "venmo.like_transaction",
+        "venmo.login",
+        "venmo.show_transactions"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login username-7195945426 password-phone token-venmo)",
+      "(venmo-login username-robertmartinez-at-gmail-com password-venmo token-phone)",
+      "(phone-search-contacts token-venmo query-friend relationship-friend)",
+      "(venmo-show-transactions token-phone friend-1-email date-2023-05-26 direction-received friend-1)",
+      "(venmo-show-transactions token-phone friend-2-email date-2023-05-26 direction-received friend-2)",
+      "(venmo-create-transaction-comment txn-1 comment-thanks token-phone friend-1)",
+      "(venmo-create-transaction-comment txn-2 comment-thanks token-phone friend-1)",
+      "(venmo-like-transaction txn-1 token-phone friend-1)",
+      "(venmo-like-transaction txn-2 token-phone friend-1)",
+      "(venmo-create-transaction-comment txn-3 comment-thanks token-phone friend-2)",
+      "(venmo-like-transaction txn-3 token-phone friend-2)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.2
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 151.9,
+  "effort": "xhigh"
+}

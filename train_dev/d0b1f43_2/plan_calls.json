@@ -1,0 +1,94 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-3379617841 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3379617841",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login paul-mill-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "paul_mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-coworkers relationship-coworkers coworkers coworker-emails)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "coworkers",
+        "relationship": "coworkers"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-transactions phone-token coworker-emails date-2023-02-01 direction-received coworkers total-received-amount)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of every returned contact (iterate all pages); venmo.show_transactions is called once per contact email",
+          "object": "coworker-emails"
+        },
+        "min_created_at": "2023-02-01",
+        "direction": "received"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task total-received-amount)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.show_transactions",
+          "field": "sum of amount over all returned transactions (all pages, all coworker emails)",
+          "object": "total-received-amount"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

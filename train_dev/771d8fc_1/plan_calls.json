@@ -1,0 +1,130 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-8506051563 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8506051563",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-text-messages phone-token number-3654328626)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": "3654328626"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-delete-text-message text-msg-1 phone-token number-3654328626)",
+      "api": "phone.delete_text_message",
+      "args": {
+        "text_message_id": {
+          "$from": "phone.search_text_messages",
+          "field": "text_message_id (each result with phone_number == \"3654328626\", all pages)",
+          "object": "text-msg-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-delete-text-message text-msg-2 phone-token number-3654328626)",
+      "api": "phone.delete_text_message",
+      "args": {
+        "text_message_id": {
+          "$from": "phone.search_text_messages",
+          "field": "text_message_id (each result with phone_number == \"3654328626\", all pages)",
+          "object": "text-msg-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-voice-messages phone-token number-3654328626)",
+      "api": "phone.search_voice_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": "3654328626"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-delete-voice-message voice-msg-1 phone-token number-3654328626)",
+      "api": "phone.delete_voice_message",
+      "args": {
+        "voice_message_id": {
+          "$from": "phone.search_voice_messages",
+          "field": "voice_message_id (each result with phone_number == \"3654328626\", all pages)",
+          "object": "voice-msg-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-delete-voice-message voice-msg-2 phone-token number-3654328626)",
+      "api": "phone.delete_voice_message",
+      "args": {
+        "voice_message_id": {
+          "$from": "phone.search_voice_messages",
+          "field": "voice_message_id (each result with phone_number == \"3654328626\", all pages)",
+          "object": "voice-msg-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task text-msg-1 text-msg-2 voice-msg-1 voice-msg-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

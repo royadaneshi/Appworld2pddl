@@ -1,0 +1,66 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login joyce-weav-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "joyce-weav@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-playlist-library spotify-token)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-song most-liked-playlist-song)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "union of song_ids over all playlists (iterate page_index until empty); the id whose spotify.show_song like_count is maximal",
+          "object": "most-liked-playlist-song"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task title-of-most-liked-song most-liked-playlist-song)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "spotify.show_song",
+          "field": "title of the song with the maximum like_count among all playlist songs",
+          "object": "title-of-most-liked-song"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

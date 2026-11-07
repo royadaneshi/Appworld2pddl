@@ -1,0 +1,212 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login jepowell-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-4288705164 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4288705164",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-coworker relationship-coworker)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "coworker",
+        "relationship": "coworker"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-transactions phone-token email-coworker-1 date-2023-05-31 dir-received coworker-1 relationship-coworker)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned (relationship coworker), all pages; placeholder for 1st coworker",
+          "object": "email-coworker-1"
+        },
+        "min_created_at": "2023-05-31",
+        "direction": "received"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-show-transactions phone-token email-coworker-2 date-2023-05-31 dir-received coworker-2 relationship-coworker)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned (relationship coworker), all pages; placeholder for 2nd coworker",
+          "object": "email-coworker-2"
+        },
+        "min_created_at": "2023-05-31",
+        "direction": "received"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-like-transaction tx-3 phone-token email-coworker-2)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages",
+          "object": "tx-3"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-create-transaction-comment tx-3 comment-thank-you phone-token email-coworker-2)",
+      "api": "venmo.create_transaction_comment",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages",
+          "object": "tx-3"
+        },
+        "comment": "Thank you!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-like-transaction tx-2 phone-token email-coworker-1)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages",
+          "object": "tx-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-like-transaction tx-1 phone-token email-coworker-1)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages",
+          "object": "tx-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-create-transaction-comment tx-2 comment-thank-you phone-token email-coworker-1)",
+      "api": "venmo.create_transaction_comment",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages",
+          "object": "tx-2"
+        },
+        "comment": "Thank you!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-create-transaction-comment tx-1 comment-thank-you phone-token email-coworker-1)",
+      "api": "venmo.create_transaction_comment",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages",
+          "object": "tx-1"
+        },
+        "comment": "Thank you!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

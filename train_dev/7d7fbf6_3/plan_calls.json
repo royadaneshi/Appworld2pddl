@@ -1,0 +1,122 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login adrian-burt-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "adrian_burt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token pictures-vacations-dir flag-false)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/pictures/vacations/",
+        "recursive": false
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-compress-directory vacation-dir-1 file-system-token vacation-zip-1 flag-true flag-true pictures-vacations-dir)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "1st listed sub-directory path (~/pictures/vacations/<vacation_spot>)",
+          "object": "vacation-dir-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived: ~/pictures/vacations/<vacation_spot>.zip for 1st sub-directory",
+          "object": "vacation-zip-1"
+        },
+        "delete_directory": true,
+        "overwrite": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-compress-directory vacation-dir-2 file-system-token vacation-zip-2 flag-true flag-true pictures-vacations-dir)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "2nd listed sub-directory path (~/pictures/vacations/<vacation_spot>)",
+          "object": "vacation-dir-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived: ~/pictures/vacations/<vacation_spot>.zip for 2nd sub-directory",
+          "object": "vacation-zip-2"
+        },
+        "delete_directory": true,
+        "overwrite": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-compress-directory vacation-dir-3 file-system-token vacation-zip-3 flag-true flag-true pictures-vacations-dir)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "3rd listed sub-directory path (~/pictures/vacations/<vacation_spot>)",
+          "object": "vacation-dir-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived: ~/pictures/vacations/<vacation_spot>.zip for 3rd sub-directory",
+          "object": "vacation-zip-3"
+        },
+        "delete_directory": true,
+        "overwrite": true
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

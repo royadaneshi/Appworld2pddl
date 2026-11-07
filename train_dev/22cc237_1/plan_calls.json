@@ -1,0 +1,172 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-number-7826309761 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7826309761",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-login cod-smith-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-search-notes simple-note-token query-work-dinner work-dinner-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "Work Dinner"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-login cod-smith-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-show-transactions venmo-token direction-received date-2023-05-19)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "direction": "received",
+        "min_created_at": "2023-05-19"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts phone-token query-coworker relationship-coworker)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "coworker",
+        "relationship": "coworker"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(simple-note-show-note work-dinner-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the result (query \"Work Dinner\") whose created_at >= start of yesterday",
+          "object": "work-dinner-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-create-payment-request coworker-2-email share-coworker-2 venmo-token work-dinner coworker-2)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the coworker contact whose first_name appears in a '- <name> => $<share>' line of the note and who has NOT sent a received venmo transaction with description \"Work Dinner\" since yesterday (venmo.show_transactions, sender.email)",
+          "object": "coworker-2-email"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: integer after '=>' (strip '$') on the line naming coworker-2",
+          "object": "share-coworker-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Work Dinner"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-create-payment-request coworker-3-email share-coworker-3 venmo-token work-dinner coworker-3)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of another such pending coworker contact (same selection rule as coworker-2-email)",
+          "object": "coworker-3-email"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: integer after '=>' (strip '$') on the line naming coworker-3",
+          "object": "share-coworker-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Work Dinner"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

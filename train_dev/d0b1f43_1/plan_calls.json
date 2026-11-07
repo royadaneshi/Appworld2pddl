@@ -1,0 +1,94 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-8506051563 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8506051563",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login ed-wilson-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "ed_wilson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-roommates roommates roommate roommate-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "roommates",
+        "relationship": "roommates"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-transactions phone-token roommate-email date-2023-01-01 direction-sent roommate amount-total-sent)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email (one call of venmo.show_transactions per contact returned, all pages)",
+          "object": "roommate-email"
+        },
+        "min_created_at": "2023-01-01",
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task amount-total-sent)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.show_transactions",
+          "field": "sum of amount over all returned transactions (all pages, all roommate emails)",
+          "object": "amount-total-sent"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

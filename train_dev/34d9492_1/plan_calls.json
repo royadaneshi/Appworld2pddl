@@ -1,0 +1,172 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile paul paul-mill-at-gmail-com)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-login paul-mill-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "paul_mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token vacations-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/photographs/vacations/"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file photo-feb file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "each listed file path whose file_system.show_file created_at is in February of the current year (2023-02)",
+          "object": "photo-feb"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-file photo-mar file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "each listed file path whose file_system.show_file created_at is in March of the current year (2023-03)",
+          "object": "photo-mar"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-file photo-other file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "each listed file path whose file_system.show_file created_at is neither Feb nor Mar of the current year",
+          "object": "photo-other"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-move-file photo-feb photo-feb-in-petra file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "each listed file path whose file_system.show_file created_at is in February of the current year (2023-02)",
+          "object": "photo-feb"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "\"~/photographs/vacations/Petra/\" + basename of photo-feb (original file name kept)",
+          "object": "photo-feb-in-petra"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-move-file photo-mar photo-mar-in-budapest file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "each listed file path whose file_system.show_file created_at is in March of the current year (2023-03)",
+          "object": "photo-mar"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "\"~/photographs/vacations/Budapest/\" + basename of photo-mar (original file name kept)",
+          "object": "photo-mar-in-budapest"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-move-file photo-other photo-other-in-amsterdam file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "each listed file path whose file_system.show_file created_at is neither Feb nor Mar of the current year",
+          "object": "photo-other"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "\"~/photographs/vacations/Amsterdam/\" + basename of photo-other (original file name kept)",
+          "object": "photo-other-in-amsterdam"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

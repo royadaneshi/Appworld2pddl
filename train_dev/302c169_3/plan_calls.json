@@ -1,0 +1,110 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-9654124977 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "9654124977",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-show-alarms phone-token)",
+      "api": "phone.show_alarms",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-update-alarm-time alarm-go-to-sleep phone-token time-go-to-sleep-plus-20 time-go-to-sleep-current)",
+      "api": null,
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of the alarm whose label contains \"go to sleep\" (case-insensitive; page through all pages)",
+          "object": "alarm-go-to-sleep"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "time": {
+          "$from": "phone.show_alarms",
+          "field": "time of the go-to-sleep alarm plus 20 minutes, formatted HH:MM",
+          "object": "time-go-to-sleep-plus-20"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-update-alarm-enabled alarm-other-1 phone-token bool-false)",
+      "api": null,
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of a remaining alarm (not the go-to-sleep one) with enabled == true",
+          "object": "alarm-other-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "enabled": "false"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-update-alarm-enabled alarm-other-2 phone-token bool-false)",
+      "api": null,
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of another remaining alarm (not the go-to-sleep one) with enabled == true",
+          "object": "alarm-other-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "enabled": "false"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": [
+    "step 5: action 'phone-update-alarm-time' is not an AppWorld API",
+    "step 6: action 'phone-update-alarm-enabled' is not an AppWorld API",
+    "step 7: action 'phone-update-alarm-enabled' is not an AppWorld API"
+  ]
+}

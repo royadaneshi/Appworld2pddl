@@ -1,0 +1,78 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2338,
+    "output_tokens": 7219,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "cf6abd2_1",
+  "instruction": "Mark \"Learning to cook a signature dish from scratch\" in my Bucket List Simple Note as done.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "simple_note"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "simple_note.update_note",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task on simple_note. The note id is discovered via search_notes (query 'bucket list'), its current content via show_note, and update_note is called with only the content field (title/tags/pinned untouched) where the target checklist line is flipped from '[ ]' to '[x]'. The derived content object is linked to the original content and the activity by the static predicate content-marks-done; update-note requires the original content to have been retrieved (found-content) so the plan necessarily reads before writing. complete_task takes the note and activity as task-record parameters (not API args) so its precondition mirrors the goal; it is called with status='success' and no answer. Plan length 7 matches the reference solution.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "simple_note.update_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(simple-note-login ron-harrison-at-gmail-com simple-note-password simple-note-token)",
+      "(simple-note-search-notes simple-note-token query-bucket-list bucket-list-note)",
+      "(simple-note-show-note bucket-list-note simple-note-token bucket-list-content)",
+      "(simple-note-update-note bucket-list-note simple-note-token bucket-list-content-cooking-done bucket-list-content cooking-signature-dish)",
+      "(supervisor-complete-task bucket-list-note cooking-signature-dish)"
+    ],
+    "message": "",
+    "seconds": 1.2
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 75.1,
+  "effort": "xhigh"
+}

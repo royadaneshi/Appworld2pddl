@@ -1,0 +1,139 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login chrharrison-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "chrharrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-login chrharrison-at-gmail-com spotify-password file-system-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "chrharrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-album-library file-system-token)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-playlist-library file-system-token)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song-library file-system-token)",
+      "api": "spotify.show_song_library",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-song library-song library-song-artist)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "deduplicated union of song_id over all pages of show_song_library, song_ids of every album from show_album_library, and song_ids of every playlist from show_playlist_library; show_song is called once per unique id",
+          "object": "library-song"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-artist library-song-artist)",
+      "api": "spotify.show_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[*].id for each song; show_artist is called once per artist id",
+          "object": "library-song-artist"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-create-file backups-spotify-songs-csv file-system-token csv-title-artists library-song library-song-artist)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/spotify_songs.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "spotify.show_song",
+          "field": "CSV text: header line \"Title,Artists\" followed by one line per unique song \"<show_song.title>,<show_artist.name joined by |>\"",
+          "object": "csv-title-artists"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-delete-account file-system-token)",
+      "api": "spotify.delete_account",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}
