@@ -1,0 +1,126 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-8903665635 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8903665635",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login morgan-harrison-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "morgan-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token query-joseph joseph joseph-email joseph-phone)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Joseph"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-text-messages phone-token joseph-phone joseph grocery-amount)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Joseph\"",
+          "object": "joseph-phone"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-create-transaction joseph-email grocery-amount phone-token desc-grocery-bill joseph)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Joseph\"",
+          "object": "joseph-email"
+        },
+        "amount": {
+          "$from": "phone.search_text_messages",
+          "field": "dollar amount (regex \\$(\\d+)) parsed from the message sent yesterday (relative to phone.get_current_date_and_time) in the conversation with Joseph's phone_number",
+          "object": "grocery-amount"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "Grocery Bill"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-send-text-message joseph-phone msg-done phone-token joseph)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Joseph\"",
+          "object": "joseph-phone"
+        },
+        "message": "Done.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task joseph grocery-amount desc-grocery-bill msg-done)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

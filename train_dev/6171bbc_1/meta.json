@@ -1,0 +1,90 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2525,
+    "output_tokens": 14661,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "6171bbc_1",
+  "instruction": "Make me a Spotify playlist called \"My Most Played Album Songs\" containing only the most-played song from each album in my album library.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_album_library",
+    "spotify.create_playlist",
+    "spotify.show_album",
+    "spotify.show_song",
+    "spotify.add_song_to_playlist",
+    "spotify.show_album",
+    "spotify.show_song",
+    "spotify.add_song_to_playlist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (spotify) plus supervisor lookups. The library is abstracted by two representative albums (album-1, album-2); at runtime there is one album object per item returned by the paginated show_album_library call, and the show_album / show_song / add_song_to_playlist block repeats for each. Each album is represented by its most-played song object (top-song-album-N); the static fact (most-played ?al ?s) describes the world, while the agent only learns it after show_album (song list) and show_song (play counts of every song of the album, argmax selected). show_song and add_song_to_playlist carry the album as an extra non-API parameter to tie the song to its album. Username comes from supervisor.show_profile (email), password from show_account_passwords; login yields the token gating show_album_library, create_playlist and add_song_to_playlist (show_album/show_song need no token). The goal mirrors the evaluation: exactly one new playlist with the required title and PlaylistSong rows for the most-played song of every library album; supervisor-complete-task (no answer) takes the playlist, title and the two added songs as record parameters so its precondition equals the goal, and it is the only action producing (task-completed) while every other action requires (not (task-completed)).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.add_song_to_playlist",
+        "spotify.create_playlist",
+        "spotify.login",
+        "spotify.show_album",
+        "spotify.show_album_library",
+        "spotify.show_song",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login de-ritt-at-gmail-com spotify-password spotify-token)",
+      "(spotify-create-playlist title-my-most-played-album-songs spotify-token my-most-played-album-songs)",
+      "(spotify-show-album-library spotify-token)",
+      "(spotify-show-album album-1)",
+      "(spotify-show-album album-2)",
+      "(spotify-show-song top-song-album-1 album-1)",
+      "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-1 spotify-token album-1)",
+      "(spotify-show-song top-song-album-2 album-2)",
+      "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-2 spotify-token album-2)",
+      "(supervisor-complete-task my-most-played-album-songs title-my-most-played-album-songs top-song-album-1 top-song-album-2)"
+    ],
+    "message": "",
+    "seconds": 1.19
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 165.7,
+  "effort": "xhigh"
+}

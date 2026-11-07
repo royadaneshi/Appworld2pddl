@@ -1,0 +1,38 @@
+[
+  {
+    "object": "chrharrison-at-gmail-com",
+    "value": "chrharrison@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "artist-no-liked-1",
+    "value": null,
+    "from_api": "spotify.show_following_artists",
+    "field": "artist_id of a followed artist (all pages) whose id does NOT appear in the union of artists[].id over all pages of spotify.show_liked_songs"
+  },
+  {
+    "object": "artist-no-liked-2",
+    "value": null,
+    "from_api": "spotify.show_following_artists",
+    "field": "artist_id of another followed artist whose id does NOT appear in any liked song's artists[].id (one unfollow call per such artist)"
+  },
+  {
+    "object": "artist-with-liked-1",
+    "value": null,
+    "from_api": "spotify.show_following_artists",
+    "field": "artist_id of a followed artist that DOES appear in some liked song's artists[].id; never passed to any API (must stay followed)"
+  }
+]

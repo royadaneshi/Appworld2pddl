@@ -1,0 +1,90 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2556,
+    "output_tokens": 19638,
+    "cache_creation_input_tokens": 29223,
+    "cache_read_input_tokens": 0
+  },
+  "task_id": "6c2c621_3",
+  "instruction": "Export all my Simple Note notes to \"~/backups/simple_notes/\" directory in my file system. The files should be named according to the note title, replacing white space with \"_\", and the extension should be \".md\".",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "simple_note",
+    "file_system"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "file_system.login",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "supervisor.complete_task"
+  ],
+  "notes": "The number of notes is only known at runtime, so the problem uses three representative note objects (note-1..note-3); instantiate one note/content/file-path triple per note returned by simple_note.search_notes (all pages). Each note needs simple_note.show_note (content) and file_system.create_file (write ~/backups/simple_notes/<title with spaces as _>.md). Because STRIPS has no quantified goals, 'all notes exported' is tracked with a static enumeration chain (next-note) ending in the domain constant no-more-notes: create_file for note n requires (all-exported-before n) and asserts (all-exported-before next), so (all-exported-before no-more-notes) is true exactly when every note has been exported; supervisor-complete-task requires it and is the only action setting (task-completed), and all other actions require (not (task-completed)). search_notes is modeled with only access_token (page_index iteration is a runtime detail); create_file's optional overwrite is not needed. Apps are constants simple-note / file-system (hyphenated PDDL names for simple_note / file_system). No answer is required, so complete_task is called with status success and no answer.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.create_file",
+        "file_system.login",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login pa-ritter-at-gmail-com file-system-password file-system-token)",
+      "(simple-note-login pa-ritter-at-gmail-com simple-note-password file-system-token)",
+      "(simple-note-search-notes file-system-token)",
+      "(simple-note-show-note note-1 file-system-token)",
+      "(file-system-create-file backup-path-note-1 file-system-token content-of-note-1 note-1 note-2)",
+      "(simple-note-show-note note-2 file-system-token)",
+      "(file-system-create-file backup-path-note-2 file-system-token content-of-note-2 note-2 note-3)",
+      "(simple-note-show-note note-3 file-system-token)",
+      "(file-system-create-file backup-path-note-3 file-system-token content-of-note-3 note-3 no-more-notes)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.2
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 224.3,
+  "effort": "xhigh"
+}

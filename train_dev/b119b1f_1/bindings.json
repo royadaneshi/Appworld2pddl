@@ -1,0 +1,38 @@
+[
+  {
+    "object": "mir-powe-at-gmail-com",
+    "value": "mir-powe@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-luna-starlight",
+    "value": "Luna Starlight",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "luna-starlight",
+    "value": null,
+    "from_api": "spotify.search_artists",
+    "field": "artist_id of first result (used to compare against show_current_song artists[*].id)"
+  },
+  {
+    "object": "song-luna",
+    "value": null,
+    "from_api": "spotify.show_current_song",
+    "field": "song_id of the current song whose artists[*].id contains the Luna Starlight artist_id"
+  }
+]

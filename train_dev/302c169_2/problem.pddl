@@ -6,21 +6,23 @@
     phone-password - password
     phone-token - token
     alarm-wake-up alarm-other-1 alarm-other-2 - alarm
-    time-wake-up-original time-wake-up-minus-40 - alarm-time
-    enabled-false - bool-value)
+    time-wake-up-original time-wake-up-minus-40 time-other-1 time-other-2 - time-value
+    enabled-wake-up-current enabled-true enabled-false - bool-value)
   (:init
     (password-for phone phone-password)
     (phone-username phone-6727300099)
-    (wake-up-alarm alarm-wake-up)
-    (alarm-time alarm-wake-up time-wake-up-original)
-    (minus-40-minutes time-wake-up-original time-wake-up-minus-40)
-    (alarm-enabled alarm-other-1)
-    (alarm-enabled alarm-other-2)
-    (bool-false enabled-false))
+    (alarm-setting alarm-wake-up time-wake-up-original enabled-wake-up-current)
+    (alarm-setting alarm-other-1 time-other-1 enabled-true)
+    (alarm-setting alarm-other-2 time-other-2 enabled-true)
+    (time-arg alarm-wake-up time-wake-up-original time-wake-up-minus-40)
+    (time-arg alarm-other-1 time-other-1 time-other-1)
+    (time-arg alarm-other-2 time-other-2 time-other-2)
+    (enabled-arg alarm-wake-up enabled-wake-up-current enabled-wake-up-current)
+    (enabled-arg alarm-other-1 enabled-true enabled-false)
+    (enabled-arg alarm-other-2 enabled-true enabled-false))
   (:goal (and
-    (alarm-time alarm-wake-up time-wake-up-minus-40)
-    (wake-up-alarm-rescheduled)
-    (not (alarm-enabled alarm-other-1))
-    (not (alarm-enabled alarm-other-2))
+    (alarm-setting alarm-wake-up time-wake-up-minus-40 enabled-wake-up-current)
+    (alarm-setting alarm-other-1 time-other-1 enabled-false)
+    (alarm-setting alarm-other-2 time-other-2 enabled-false)
     (task-completed)))
 )

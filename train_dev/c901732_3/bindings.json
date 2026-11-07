@@ -1,0 +1,50 @@
+[
+  {
+    "object": "jer-calhoun-at-gmail-com",
+    "value": "jer.calhoun@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-velvet-underground",
+    "value": "Velvet Underground",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "velvet-underground",
+    "value": null,
+    "from_api": "spotify.search_albums",
+    "field": "result with title == \"Velvet Underground\" (iterate page_index until exhausted); its song_ids list"
+  },
+  {
+    "object": "other-song-1",
+    "value": null,
+    "from_api": "spotify.search_albums",
+    "field": "song_ids[i] of the matched album (one show_song call per song id)"
+  },
+  {
+    "object": "most-played-song",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "song_id of the album song with the maximum play_count over all show_song responses"
+  },
+  {
+    "object": "other-song-2",
+    "value": null,
+    "from_api": "spotify.search_albums",
+    "field": "song_ids[i] of the matched album (one show_song call per song id)"
+  }
+]

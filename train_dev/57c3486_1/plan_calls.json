@@ -1,0 +1,174 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login jasonsimp-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jasonsimp@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-following-artists spotify-token)",
+      "api": "spotify.show_following_artists",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-artist artist-1)",
+      "api": "spotify.show_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id (first followed artist; iterate page_index over all pages)",
+          "object": "artist-1"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-artist artist-2)",
+      "api": "spotify.show_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id (second followed artist; one placeholder per followed artist)",
+          "object": "artist-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-search-songs query-artist-1-name artist-1)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name (for artist-1)",
+          "object": "query-artist-1-name"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id (first followed artist; iterate page_index over all pages)",
+          "object": "artist-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-like-song song-1-1 spotify-token artist-1)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id (results for artist_id == artist-1; iterate page_index over all pages)",
+          "object": "song-1-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-like-song song-1-2 spotify-token artist-1)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id (results for artist_id == artist-1)",
+          "object": "song-1-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-search-songs query-artist-2-name artist-2)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name (for artist-2)",
+          "object": "query-artist-2-name"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id (second followed artist; one placeholder per followed artist)",
+          "object": "artist-2"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-like-song song-2-1 spotify-token artist-2)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id (results for artist_id == artist-2; iterate page_index over all pages)",
+          "object": "song-2-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-like-song song-2-2 spotify-token artist-2)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id (results for artist_id == artist-2)",
+          "object": "song-2-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

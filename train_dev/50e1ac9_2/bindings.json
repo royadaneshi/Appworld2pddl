@@ -1,0 +1,56 @@
+[
+  {
+    "object": "erikabail-at-gmail-com",
+    "value": "erikabail@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "edm-song-in-song-library",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of each entry (iterate all page_index values until empty)"
+  },
+  {
+    "object": "edm-album",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of each entry (iterate all page_index values until empty)"
+  },
+  {
+    "object": "edm-song-in-album",
+    "value": null,
+    "from_api": "spotify.show_album",
+    "field": "songs[].id"
+  },
+  {
+    "object": "edm-playlist",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id of each entry (iterate all page_index values until empty)"
+  },
+  {
+    "object": "edm-song-in-playlist",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id"
+  },
+  {
+    "object": "top-6-edm-titles",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "comma-separated title values of the 6 songs with genre == \"EDM\" and highest play_count among all songs gathered from the song, album and playlist libraries (deduplicated by title)"
+  }
+]

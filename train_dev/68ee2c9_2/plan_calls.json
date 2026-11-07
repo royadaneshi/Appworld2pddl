@@ -1,0 +1,172 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-login jer-calhoun-at-gmail-com file-system-password fs-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "jer.calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'file_system'",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory fs-token dir-downloaded-files)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        },
+        "directory_path": "~/downloaded_files/"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file path-downloaded-files-report-pdf fs-token file-report dir-downloaded-files)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "one file path entry listed for ~/downloaded_files/ (placeholder ~/downloaded_files/report.pdf)",
+          "object": "path-downloaded-files-report-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-move-file path-downloaded-files-report-pdf path-downloaded-files-2023-03-14-report-pdf fs-token file-report year-2023 dir-downloaded-files count-3 count-2)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "one file path entry listed for ~/downloaded_files/ (placeholder ~/downloaded_files/report.pdf)",
+          "object": "path-downloaded-files-report-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "'~/downloaded_files/' + created_at formatted as YYYY_MM_DD- + original file name; used when created_at year == current year (placeholder ~/downloaded_files/2023_03_14-report.pdf)",
+          "object": "path-downloaded-files-2023-03-14-report-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-file path-downloaded-files-notes-txt fs-token file-notes dir-downloaded-files)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "one file path entry listed for ~/downloaded_files/ (placeholder ~/downloaded_files/notes.txt)",
+          "object": "path-downloaded-files-notes-txt"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-move-file path-downloaded-files-notes-txt path-recycle-bin-2021-07-22-notes-txt fs-token file-notes year-2021 dir-recycle-bin count-2 count-1)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "one file path entry listed for ~/downloaded_files/ (placeholder ~/downloaded_files/notes.txt)",
+          "object": "path-downloaded-files-notes-txt"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "'~/recycle_bin/' + created_at formatted as YYYY_MM_DD- + original file name; used when created_at year < current year (placeholder ~/recycle_bin/2021_07_22-notes.txt)",
+          "object": "path-recycle-bin-2021-07-22-notes-txt"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-show-file path-downloaded-files-photo-jpg fs-token file-photo dir-downloaded-files)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "one file path entry listed for ~/downloaded_files/ (placeholder ~/downloaded_files/photo.jpg)",
+          "object": "path-downloaded-files-photo-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-move-file path-downloaded-files-photo-jpg path-recycle-bin-2022-11-05-photo-jpg fs-token file-photo year-2022 dir-recycle-bin count-1 count-0)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "one file path entry listed for ~/downloaded_files/ (placeholder ~/downloaded_files/photo.jpg)",
+          "object": "path-downloaded-files-photo-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "'~/recycle_bin/' + created_at formatted as YYYY_MM_DD- + original file name; used when created_at year < current year (placeholder ~/recycle_bin/2022_11_05-photo.jpg)",
+          "object": "path-recycle-bin-2022-11-05-photo-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

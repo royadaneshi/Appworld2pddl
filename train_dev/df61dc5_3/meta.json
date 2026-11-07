@@ -1,0 +1,91 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2621,
+    "output_tokens": 15872,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "df61dc5_3",
+  "instruction": "Like all the venmo transactions of the ongoing year to and from my coworkers.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.get_current_date_and_time",
+    "venmo.login",
+    "venmo.show_transactions",
+    "venmo.like_transaction",
+    "venmo.like_transaction",
+    "venmo.show_transactions",
+    "venmo.like_transaction",
+    "supervisor.complete_task"
+  ],
+  "notes": "Representative instance: two coworker contacts (coworker-a, coworker-b) with three year-to-date transactions (txn-a1, txn-a2, txn-b1); at runtime the number of coworkers and transactions is whatever phone.search_contacts / venmo.show_transactions return, and the object lists scale accordingly. The target relationship 'coworker' is a domain constant since the task fixes it. phone.search_contacts is modeled as one call (query=relationship='coworker') whose effect (contacts-searched coworker) unlocks the static contact-email facts of coworkers; phone.get_current_date_and_time unlocks the start-of-year datetime used as min_created_at. venmo.show_transactions is called once per coworker email (user_email + min_created_at) and asserts (transactions-found ?p), enabling venmo.like_transaction for every transaction with that coworker (extra ?p parameter links the record to its lookup). supervisor.complete_task takes the transactions as non-API parameters with pairwise inequality so its precondition exactly mirrors the goal (all transactions liked) without quantifiers; it is called with status='success' and no answer. Usernames come from supervisor.show_profile (phone number for phone, email for venmo).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.like_transaction",
+        "venmo.login",
+        "venmo.show_transactions"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-3383946795 phone-password venmo-token)",
+      "(venmo-login mel-bailey-at-gmail-com venmo-password phone-token)",
+      "(phone-search-contacts venmo-token query-coworker coworker)",
+      "(venmo-show-transactions phone-token coworker-a-email date-2023-01-01 coworker-a)",
+      "(venmo-show-transactions phone-token coworker-b-email date-2023-01-01 coworker-b)",
+      "(venmo-like-transaction txn-a1 phone-token coworker-a)",
+      "(venmo-like-transaction txn-a2 phone-token coworker-a)",
+      "(venmo-like-transaction txn-b1 phone-token coworker-b)",
+      "(supervisor-complete-task txn-a1 txn-a2 txn-b1)"
+    ],
+    "message": "",
+    "seconds": 1.19
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 169.3,
+  "effort": "xhigh"
+}

@@ -1,0 +1,80 @@
+[
+  {
+    "object": "phone-username-3379617841",
+    "value": "3379617841",
+    "from_api": "supervisor.show_profile",
+    "field": "phone_number"
+  },
+  {
+    "object": "venmo-username-paul-mill-at-gmail-com",
+    "value": "paul_mill@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "query-friend",
+    "value": "friend",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "friend",
+    "value": "friend",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "status-pending",
+    "value": "pending",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "pr-from-coworker",
+    "value": null,
+    "from_api": "venmo.show_received_payment_requests",
+    "field": "payment_request_id of every pending request whose sender.email is in the emails returned by phone.search_contacts(relationship=\"coworker\") (field email); iterate all pages"
+  },
+  {
+    "object": "pr-from-friend",
+    "value": null,
+    "from_api": "venmo.show_received_payment_requests",
+    "field": "payment_request_id of every pending request whose sender.email is in the emails returned by phone.search_contacts(relationship=\"friend\") (field email); iterate all pages"
+  }
+]

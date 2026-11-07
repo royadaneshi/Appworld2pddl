@@ -1,0 +1,38 @@
+[
+  {
+    "object": "she-bailey-at-gmail-com",
+    "value": "she_bailey@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-silent-thunder",
+    "value": "Silent Thunder",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "silent-thunder",
+    "value": null,
+    "from_api": "spotify.search_artists",
+    "field": "artist_id of first result (compared against artists[].id returned by spotify.show_current_song)"
+  },
+  {
+    "object": "song-silent-thunder",
+    "value": null,
+    "from_api": "spotify.show_current_song",
+    "field": "current song whose artists[].id contains the Silent Thunder artist_id (loop stop condition)"
+  }
+]

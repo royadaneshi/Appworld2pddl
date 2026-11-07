@@ -1,0 +1,101 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-username-2254213734 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2254213734",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login venmo-username-jo-harr-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "jo-harr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-coworker coworker)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "coworker",
+        "relationship": "coworker"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts venmo-token query-manager manager)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "manager",
+        "relationship": "manager"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-show-social-feed phone-token amount-34 total-dinner-amount)",
+      "api": "venmo.show_social_feed",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task total-dinner-amount)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.show_social_feed",
+          "field": "34 + sum of `amount` over all pages of feed entries where sender.email is in the coworker emails (phone.search_contacts relationship=coworker, field email, excluding the manager), receiver.email == manager email (phone.search_contacts relationship=manager, field email), description contains 'Whimsical Bites' (case-insensitive), and created_at is on/after the start of yesterday (2023-05-17) per phone.get_current_date_and_time",
+          "object": "total-dinner-amount"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,94 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login chrharrison-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "chrharrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-following-artists spotify-token)",
+      "api": "spotify.show_following_artists",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-liked-songs spotify-token)",
+      "api": "spotify.show_liked_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-unfollow-artist artist-no-liked-1 spotify-token)",
+      "api": "spotify.unfollow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of a followed artist (all pages) whose id does NOT appear in the union of artists[].id over all pages of spotify.show_liked_songs",
+          "object": "artist-no-liked-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-unfollow-artist artist-no-liked-2 spotify-token)",
+      "api": "spotify.unfollow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of another followed artist whose id does NOT appear in any liked song's artists[].id (one unfollow call per such artist)",
+          "object": "artist-no-liked-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

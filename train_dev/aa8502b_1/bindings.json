@@ -1,0 +1,56 @@
+[
+  {
+    "object": "tr-solo-at-gmail-com",
+    "value": "tr_solo@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "liked-song-1",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "song_id (iterate page_index 0.. until empty)"
+  },
+  {
+    "object": "liked-song-2",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "song_id (iterate page_index 0.. until empty)"
+  },
+  {
+    "object": "liked-song-3",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "song_id (iterate page_index 0.. until empty)"
+  },
+  {
+    "object": "artist-a",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "artists[].id of any liked song, not present as artist_id in spotify.show_following_artists (all pages)"
+  },
+  {
+    "object": "artist-b",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "artists[].id of any liked song, not present as artist_id in spotify.show_following_artists (all pages)"
+  },
+  {
+    "object": "artist-c",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "artists[].id of a liked song that already appears as artist_id in spotify.show_following_artists (no call needed)"
+  }
+]

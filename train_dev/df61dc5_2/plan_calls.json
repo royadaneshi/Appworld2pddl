@@ -1,0 +1,164 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-username-2474975253 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2474975253",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login venmo-username-joseharr-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "joseharr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-friend relationship-friend)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "friend",
+        "relationship": "friend"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-transactions phone-token friend-1-email month-start-2023-05-01 friend-1)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email (first distinct contact returned with relationship friend; iterate pages)",
+          "object": "friend-1-email"
+        },
+        "min_created_at": {
+          "$from": "phone.get_current_date_and_time",
+          "field": "current date truncated to the first day of its month, formatted YYYY-MM-01 (here 2023-05-01)",
+          "object": "month-start-2023-05-01"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-show-transactions phone-token friend-2-email month-start-2023-05-01 friend-2)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email (second distinct contact returned with relationship friend; iterate pages)",
+          "object": "friend-2-email"
+        },
+        "min_created_at": {
+          "$from": "phone.get_current_date_and_time",
+          "field": "current date truncated to the first day of its month, formatted YYYY-MM-01 (here 2023-05-01)",
+          "object": "month-start-2023-05-01"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-like-transaction tx-1 phone-token friend-1-email)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id (item of results for user_email=friend-1-email, min_created_at=month start)",
+          "object": "tx-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-like-transaction tx-2 phone-token friend-1-email)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id (item of results for user_email=friend-1-email, min_created_at=month start)",
+          "object": "tx-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-like-transaction tx-3 phone-token friend-2-email)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id (item of results for user_email=friend-2-email, min_created_at=month start)",
+          "object": "tx-3"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

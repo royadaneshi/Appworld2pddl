@@ -1,0 +1,93 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 22810,
+    "output_tokens": 40674,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 58446
+  },
+  "task_id": "302c169_1",
+  "instruction": "I am going on a vacation. Move my go-to-sleep phone alarm to 1 hour later and disable the rest.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "phone"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.show_alarms",
+    "phone.update_alarm",
+    "phone.update_alarm",
+    "phone.update_alarm",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single app (phone). The phone username is the supervisor's phone number, so phone-login is gated on (profile-known) from supervisor.show_profile as well as (passwords-known). phone.update_alarm is modeled as ONE action (name matches the API) carrying alarm_id, access_token and the two optional arguments the task uses (time, enabled); the values it must pass are given per alarm by the static facts desired-time / desired-enabled, which are derived from phone.show_alarms at runtime: the alarm labelled 'Go to sleep' keeps enabled=true and gets its listed time + 1 hour, every other enabled alarm gets enabled=false and its own current time (passing the unchanged time leaves that field untouched in the database, so only `enabled` changes for those alarms). Each alarm is updated at most once ((not (alarm-updated ?al)) precondition), so the resulting alarm-time / alarm-enabled facts are exactly the final state; no fact is ever both added and deleted by one action. The number of non-target alarms is only known at runtime; the problem instantiates two placeholder enabled alarms (alarm-other-1/2) and should be re-instantiated with one object per enabled non-target alarm returned by show_alarms (already-disabled alarms must not be touched). supervisor-complete-task takes the alarm records as non-API parameters; its precondition (all three alarms updated as required, target being the go-to-sleep alarm) is equivalent to the goal conjunction given the static desired-* facts, and it is forced to be the last action because every other action requires (not (task-completed)).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.login",
+        "phone.show_alarms",
+        "phone.update_alarm",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-4436271690 phone-password phone-token)",
+      "(phone-show-alarms phone-token)",
+      "(phone-update-alarm alarm-go-to-sleep phone-token time-sleep-plus-1h true-value)",
+      "(phone-update-alarm alarm-other-1 phone-token time-other-1 false-value)",
+      "(phone-update-alarm alarm-other-2 phone-token time-other-2 false-value)",
+      "(supervisor-complete-task alarm-go-to-sleep alarm-other-1 alarm-other-2)"
+    ],
+    "message": "",
+    "seconds": 1.22
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "parse_error",
+      "errors": [],
+      "warnings": [
+        "action 'phone-update-alarm-time' does not match any AppWorld API name",
+        "action 'phone-update-alarm-enabled' does not match any AppWorld API name"
+      ],
+      "api_issues": [
+        "required reference APIs have no action: ['phone.update_alarm']"
+      ],
+      "planning_status": "parse_error",
+      "planning_message": "UPProblemDefinitionError: Name alarm-time already defined! Different elements of a problem can have the same name if the environment flag error_used_name is disabled."
+    },
+    {
+      "attempt": 2,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 479.0,
+  "effort": "xhigh"
+}

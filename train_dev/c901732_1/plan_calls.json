@@ -1,0 +1,73 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-albums query-echo-chamber-chronicles echo-chamber-chronicles)",
+      "api": "spotify.search_albums",
+      "args": {
+        "query": "Echo Chamber Chronicles"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-show-song least-played-song echo-chamber-chronicles)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song",
+          "field": "song_id of the song with minimum play_count, after calling show_song for every id in the album's song_ids",
+          "object": "least-played-song"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-login joyce-weav-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "joyce-weav@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-play-music spotify-token least-played-song)",
+      "api": "spotify.play_music",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.show_song",
+          "field": "song_id of the song with minimum play_count, after calling show_song for every id in the album's song_ids",
+          "object": "least-played-song"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task least-played-song)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

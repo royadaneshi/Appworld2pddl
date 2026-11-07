@@ -1,0 +1,86 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2875,
+    "output_tokens": 21569,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "68ee2c9_3",
+  "instruction": "In my file system, add the prefix \"YYYY_MM_DD_\" to all file names in the ~/my_downloads/ directory, based on their creation dates, and then move all files not from this year to ~/archive/.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "file_system",
+    "phone"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "file_system.login",
+    "phone.get_current_date_and_time",
+    "file_system.show_directory",
+    "file_system.show_file",
+    "file_system.move_file",
+    "file_system.show_file",
+    "file_system.move_file",
+    "supervisor.complete_task"
+  ],
+  "notes": "The real number of files in ~/my_downloads/ is only known after show_directory, so the problem instantiates one representative file per category (created this year -> stays in ~/my_downloads/ with the YYYY_MM_DD_ prefix; created earlier -> prefixed and moved to ~/archive/); at runtime the show_file/move_file pair is repeated for every listed file. Static init facts encode the task rule: created-in-year gives each file's creation year (discovered via show_file), year-destination maps the current year to the downloads directory and earlier years to the archive directory, and prefixed-path gives the single correct destination path for a file in its destination directory. move_file is only applicable after the directory was listed, the file's creation date was read, and the current date was fetched (phone.get_current_date_and_time, which needs no login). renamed prevents re-moving a file; since move_file only admits the correct destination, (renamed f) is equivalent to f being at its correct prefixed path, which is why supervisor-complete-task checks renamed for the two distinct file records (the two extra file parameters are task records, not API arguments) and the goal additionally pins the final paths. in-directory records the initial listing membership used to gate show_file and is intentionally static. The supervisor person object is declared for completeness; the login username comes from supervisor.show_profile.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.login",
+        "file_system.move_file",
+        "file_system.show_directory",
+        "file_system.show_file",
+        "phone.get_current_date_and_time",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login dav-mart-at-gmail-com file-system-password file-system-token)",
+      "(file-system-show-directory file-system-token dir-my-downloads)",
+      "(file-system-show-file path-my-downloads-file-prior-year file-system-token file-prior-year dir-my-downloads)",
+      "(file-system-move-file path-my-downloads-file-prior-year path-archive-prefixed-file-prior-year file-system-token file-prior-year year-before-2023 dir-archive)",
+      "(file-system-show-file path-my-downloads-file-this-year file-system-token file-this-year dir-my-downloads)",
+      "(file-system-move-file path-my-downloads-file-this-year path-my-downloads-prefixed-file-this-year file-system-token file-this-year year-2023 dir-my-downloads)",
+      "(supervisor-complete-task file-prior-year file-this-year)"
+    ],
+    "message": "",
+    "seconds": 1.19
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 251.1,
+  "effort": "xhigh"
+}

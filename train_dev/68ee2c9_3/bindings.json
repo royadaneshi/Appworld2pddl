@@ -1,0 +1,68 @@
+[
+  {
+    "object": "dav-mart-at-gmail-com",
+    "value": "dav.mart@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "dir-my-downloads",
+    "value": "~/my_downloads/",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "dir-archive",
+    "value": "~/archive/",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "path-my-downloads-file-this-year",
+    "value": null,
+    "from_api": "file_system.show_directory",
+    "field": "entry of the returned path list whose show_file created_at year equals the current year (2023)"
+  },
+  {
+    "object": "path-my-downloads-file-prior-year",
+    "value": null,
+    "from_api": "file_system.show_directory",
+    "field": "entry of the returned path list whose show_file created_at year is earlier than the current year"
+  },
+  {
+    "object": "path-my-downloads-prefixed-file-this-year",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "'~/my_downloads/' + created_at formatted as YYYY_MM_DD_ + original file name (last segment of path)"
+  },
+  {
+    "object": "path-archive-prefixed-file-prior-year",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "'~/archive/' + created_at formatted as YYYY_MM_DD_ + original file name (last segment of path)"
+  },
+  {
+    "object": "year-2023",
+    "value": "2023",
+    "from_api": "phone.get_current_date_and_time",
+    "field": "year of current date/time"
+  },
+  {
+    "object": "year-before-2023",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "year of created_at (any year earlier than the current year)"
+  }
+]

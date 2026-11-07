@@ -1,0 +1,211 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-login nan-ritt-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'file_system'",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token downloads)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/downloads/"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file file-1 file-system-token downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "1st file path in the listing of ~/downloads/",
+          "object": "file-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-move-file file-1 downloads-dated-file-1 file-system-token downloads year-2023 year-2023)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "1st file path in the listing of ~/downloads/",
+          "object": "file-1"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "'~/downloads/' + created_at formatted as YYYY-MM-DD + '_' + basename(path) of file-1",
+          "object": "downloads-dated-file-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-file file-2 file-system-token downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "2nd file path in the listing of ~/downloads/",
+          "object": "file-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-move-file file-2 downloads-dated-file-2 file-system-token downloads year-2023 year-2023)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "2nd file path in the listing of ~/downloads/",
+          "object": "file-2"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "'~/downloads/' + created_at formatted as YYYY-MM-DD + '_' + basename(path) of file-2",
+          "object": "downloads-dated-file-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-show-file file-3 file-system-token downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "3rd file path in the listing of ~/downloads/",
+          "object": "file-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-move-file file-3 trash-dated-file-3 file-system-token trash year-2022 year-2023)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "3rd file path in the listing of ~/downloads/",
+          "object": "file-3"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "'~/trash/' + created_at formatted as YYYY-MM-DD + '_' + basename(path) of file-3",
+          "object": "trash-dated-file-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(file-system-show-file file-4 file-system-token downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "4th file path in the listing of ~/downloads/",
+          "object": "file-4"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-move-file file-4 trash-dated-file-4 file-system-token trash year-2021 year-2023)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "4th file path in the listing of ~/downloads/",
+          "object": "file-4"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "'~/trash/' + created_at formatted as YYYY-MM-DD + '_' + basename(path) of file-4",
+          "object": "trash-dated-file-4"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

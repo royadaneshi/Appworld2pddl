@@ -1,0 +1,87 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2895,
+    "output_tokens": 13972,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "4fab96f_3",
+  "instruction": "Send a reminder on Venmo for all my payment requests to my roommates which have not been approved or denied for 50 or more days.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.get_current_date_and_time",
+    "phone.search_contacts",
+    "venmo.login",
+    "venmo.show_sent_payment_requests",
+    "venmo.remind_payment_request",
+    "venmo.remind_payment_request",
+    "supervisor.complete_task"
+  ],
+  "notes": "Roommates and payment requests are placeholders because the real counts are unknown: two roommates each with one qualifying (pending, >= 50 days old) request, plus two distractors (a recent pending request to a roommate, and a stale pending request to a non-roommate) whose negated goals encode that only qualifying requests may be reminded. Payment requests are domain constants so supervisor-complete-task can name the exact goal set in its precondition. Static init facts (roommate, pending, sent-to, at-least-50-days-old) describe the world; knowledge predicates (roommates-found, pending-requests-found, current-date-known) gate the remind action on the phone.search_contacts, venmo.show_sent_payment_requests and phone.get_current_date_and_time lookups. At runtime venmo.remind_payment_request is applied once per qualifying request found; usernames come from supervisor.show_profile (phone_number for phone, email for venmo). supervisor.complete_task is called with no answer.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.login",
+        "venmo.remind_payment_request",
+        "venmo.show_sent_payment_requests"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-number-4288705164 phone-password venmo-token)",
+      "(venmo-login jepowell-at-gmail-com venmo-password phone-token)",
+      "(phone-search-contacts venmo-token query-roommates relationship-roommates)",
+      "(venmo-show-sent-payment-requests phone-token status-pending)",
+      "(venmo-remind-payment-request stale-request-roommate-1 phone-token roommate-1)",
+      "(venmo-remind-payment-request stale-request-roommate-2 phone-token roommate-2)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.19
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 150.8,
+  "effort": "xhigh"
+}

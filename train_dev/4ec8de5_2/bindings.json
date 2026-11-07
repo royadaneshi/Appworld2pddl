@@ -1,0 +1,32 @@
+[
+  {
+    "object": "bradley-ball-at-gmail-com",
+    "value": "bradley_ball@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-song",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of each item (iterate over all pages; show_song is called once per song)"
+  },
+  {
+    "object": "count-songs-released-this-year",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "size of the set union of (a) song_ids from the song library whose show_song release_date >= 2023-01-01 (start of current year from phone.get_current_date_and_time) and (b) song_ids of albums from spotify.show_album_library whose release_date >= 2023-01-01"
+  }
+]

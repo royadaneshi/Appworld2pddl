@@ -1,0 +1,44 @@
+[
+  {
+    "object": "erikabail-at-gmail-com",
+    "value": "erikabail@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "song-lib-liked-1",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "song_ids (union over all albums/pages) intersected with song_id values from spotify.show_liked_songs (all pages); first element of the intersection"
+  },
+  {
+    "object": "song-lib-liked-2",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "song_ids (union over all albums/pages) intersected with song_id values from spotify.show_liked_songs (all pages); second element of the intersection (one download per element)"
+  },
+  {
+    "object": "song-lib-only",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "song_ids not present in spotify.show_liked_songs results (distractor, must not be downloaded)"
+  },
+  {
+    "object": "song-liked-only",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "song_id not present in any album library song_ids (distractor, must not be downloaded)"
+  }
+]

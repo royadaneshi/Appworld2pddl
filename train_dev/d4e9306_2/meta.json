@@ -1,0 +1,93 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2451,
+    "output_tokens": 20145,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "d4e9306_2",
+  "instruction": "Follow artists of all the songs and albums I have ever liked on Spotify.",
+  "difficulty": 1,
+  "apps_used": [
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_liked_songs",
+    "spotify.show_song",
+    "spotify.show_song",
+    "spotify.show_liked_albums",
+    "spotify.show_album",
+    "spotify.show_album",
+    "spotify.follow_artist",
+    "spotify.follow_artist",
+    "spotify.follow_artist",
+    "spotify.follow_artist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Representative instance: two liked songs and two liked albums, each by a distinct artist; at runtime the number of liked items/artists is discovered via show_liked_songs/show_liked_albums (paginate with page_index until empty) and show_song/show_album (artists list; a song/album with several artists yields one show call per artist in the model but one real call at runtime). Artists are declared as domain constants so supervisor-complete-task can carry the exact goal conjunction (following artist-i); songs/albums are problem objects. show_song and show_album take no access token (public APIs); the token gates listing and following. follow_artist requires the artist id to have been discovered from a liked song/album (known-id) and the artist not already followed, so only artists of liked content are newly followed, duplicates across songs/albums are followed once, and no followings are removed (matches the evaluation: added UserArtistFollowing records == union of liked-song and liked-album artists). The task asks no question, so complete_task takes no answer. Optimal plan has 14 steps: show_profile, show_account_passwords, login, show_liked_songs, 2x show_song, show_liked_albums, 2x show_album, 4x follow_artist, complete_task.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.follow_artist",
+        "spotify.login",
+        "spotify.show_album",
+        "spotify.show_liked_albums",
+        "spotify.show_liked_songs",
+        "spotify.show_song",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login alexwhite-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-liked-albums spotify-token)",
+      "(spotify-show-liked-songs spotify-token)",
+      "(spotify-show-album liked-album-1 artist-3)",
+      "(spotify-follow-artist artist-3 spotify-token)",
+      "(spotify-show-album liked-album-2 artist-4)",
+      "(spotify-follow-artist artist-4 spotify-token)",
+      "(spotify-show-song liked-song-1 artist-1)",
+      "(spotify-follow-artist artist-1 spotify-token)",
+      "(spotify-show-song liked-song-2 artist-2)",
+      "(spotify-follow-artist artist-2 spotify-token)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.16
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 242.4,
+  "effort": "xhigh"
+}

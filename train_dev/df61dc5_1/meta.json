@@ -1,0 +1,91 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2617,
+    "output_tokens": 15779,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "df61dc5_1",
+  "instruction": "Like all the venmo transactions of the ongoing year to and from my roommates.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.get_current_date_and_time",
+    "venmo.login",
+    "venmo.show_transactions",
+    "venmo.like_transaction",
+    "venmo.like_transaction",
+    "venmo.show_transactions",
+    "venmo.like_transaction",
+    "supervisor.complete_task"
+  ],
+  "notes": "Roommates and their transactions are unknown up front, so the problem uses placeholder entities (roommate-1, roommate-2; tx-roommate-1-a, tx-roommate-1-b, tx-roommate-2-a) whose ids are bound at runtime; the counts are representative and the model is extended per discovered contact/transaction. Static facts (has-relationship, email-of, transaction-with, created-on-or-after) describe the hidden database; they only become usable after the corresponding lookup: phone.search_contacts asserts (contacts-searched rel-roommate), venmo.show_transactions with user_email and min_created_at asserts (transactions-listed e d), and like_transaction requires both plus created-on-or-after so that out-of-year transactions (tx-roommate-1-old) can never be liked, mirroring the evaluation's year filter. Transaction records are declared as domain constants so supervisor-complete-task's precondition is literally the goal conjunction (no parameters, since complete_task takes no answer). show_transactions with user_email covers both directions (to and from). phone.get_current_date_and_time gates knowledge of the year-start date (2023-01-01). Login usernames come from supervisor.show_profile (phone_number for phone, email for venmo).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.like_transaction",
+        "venmo.login",
+        "venmo.show_transactions"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-3643463570 phone-password venmo-token)",
+      "(venmo-login anita-burch-at-gmail-com venmo-password phone-token)",
+      "(phone-search-contacts venmo-token query-roommate rel-roommate)",
+      "(venmo-show-transactions phone-token roommate-1-email date-2023-01-01 roommate-1 rel-roommate)",
+      "(venmo-show-transactions phone-token roommate-2-email date-2023-01-01 roommate-2 rel-roommate)",
+      "(venmo-like-transaction tx-roommate-1-a phone-token roommate-1-email date-2023-01-01)",
+      "(venmo-like-transaction tx-roommate-1-b phone-token roommate-1-email date-2023-01-01)",
+      "(venmo-like-transaction tx-roommate-2-a phone-token roommate-2-email date-2023-01-01)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 0.81
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 165.9,
+  "effort": "xhigh"
+}

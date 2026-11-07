@@ -1,0 +1,38 @@
+[
+  {
+    "object": "anita-burch-at-gmail-com",
+    "value": "anita.burch@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-playlist",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id of every playlist returned (iterate page_index 0.. until empty); the action is applied to each one"
+  },
+  {
+    "object": "playlist-song",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[*].id of every song in the playlist; the action is applied to each one"
+  },
+  {
+    "object": "longest-minutes",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "round(max over playlists of sum(duration in seconds of its songs) / 60)"
+  }
+]

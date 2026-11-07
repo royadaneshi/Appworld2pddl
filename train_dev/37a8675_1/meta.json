@@ -1,0 +1,85 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2507,
+    "output_tokens": 9413,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "37a8675_1",
+  "instruction": "Send $91 privately on Venmo to the person with this phone number 2192158297.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.get_current_date_and_time",
+    "phone.login",
+    "phone.search_contacts",
+    "venmo.login",
+    "venmo.show_payment_cards",
+    "venmo.create_transaction",
+    "supervisor.complete_task"
+  ],
+  "notes": "The contact's Venmo email is unknown initially and is discovered via phone.search_contacts (query = the phone number), modeled with static email-of plus the knowledge predicate known-email. Login usernames (phone number for phone, email for venmo) come from supervisor.show_profile, hence profile-known is required by both logins. phone.get_current_date_and_time provides the date used to pick a non-expired card, so venmo.show_payment_cards requires current-datetime-known and yields known-valid-card. The transaction is a task record object (receiver, amount, privacy are static facts); venmo.create_transaction sets transaction-sent and supervisor.complete_task (no API args, status success) is last and takes the record only to check the goal condition. Evaluation requires exactly one new private venmo transaction of 91 to the contact's venmo user, which the goal encodes.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.create_transaction",
+        "venmo.login",
+        "venmo.show_payment_cards"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-number-3808719492 phone-password phone-token)",
+      "(venmo-login jes-mill-at-gmail-com venmo-password venmo-token)",
+      "(venmo-show-payment-cards venmo-token venmo-card-1)",
+      "(phone-search-contacts phone-token query-2192158297 contact-2192158297 email-of-contact-2192158297)",
+      "(venmo-create-transaction email-of-contact-2192158297 amount-91 venmo-token description-payment venmo-card-1 privacy-private txn-91-private-to-contact contact-2192158297)",
+      "(supervisor-complete-task txn-91-private-to-contact)"
+    ],
+    "message": "",
+    "seconds": 1.26
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 94.4,
+  "effort": "xhigh"
+}

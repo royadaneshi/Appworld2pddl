@@ -1,0 +1,82 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2000,
+    "output_tokens": 7777,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "4ec8de5_1",
+  "instruction": "How many songs from across my spotify song and album libraries were released in this or last year?",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.get_current_date_and_time",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_album_library",
+    "spotify.show_song",
+    "supervisor.complete_task"
+  ],
+  "notes": "Read-only question task: no database changes, only knowledge gathering. The single song object `library-song` abstracts the iteration over every song returned by show_song_library (paginated); show_song is modeled once and its nullary effect `library-song-release-dates-known` stands for having fetched release dates of all library songs. Album library entries already carry release_date and song_ids, so no per-album lookup is needed. phone.get_current_date_and_time grounds the 'this or last year' threshold (start of 2022). Username comes from supervisor.show_profile (static `supervisor-username` fact) and the spotify password from show_account_passwords. The answer count is passed to supervisor.complete_task, whose precondition equals all goal facts except task-completed.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "spotify.login",
+        "spotify.show_album_library",
+        "spotify.show_song",
+        "spotify.show_song_library",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login cheweber-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-album-library spotify-token)",
+      "(spotify-show-song-library spotify-token library-song)",
+      "(spotify-show-song library-song)",
+      "(supervisor-complete-task answer-count)"
+    ],
+    "message": "",
+    "seconds": 1.23
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 86.4,
+  "effort": "xhigh"
+}

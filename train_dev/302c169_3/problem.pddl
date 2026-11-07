@@ -5,21 +5,19 @@
     username-9654124977 - username
     phone-password - password
     phone-token - token
-    time-go-to-sleep-current time-go-to-sleep-plus-20 - clock-time
-    bool-false - flag)
+    time-go-to-sleep-plus-20 time-omitted - clock-time
+    bool-false flag-omitted - flag)
   (:init
     (username-for phone username-9654124977)
     (password-for phone phone-password)
-    (flag-false bool-false)
-    (go-to-sleep-alarm alarm-go-to-sleep)
-    (alarm-time alarm-go-to-sleep time-go-to-sleep-current)
-    (plus-20-minutes time-go-to-sleep-current time-go-to-sleep-plus-20)
-    (enabled alarm-go-to-sleep)
-    (enabled alarm-other-1)
-    (enabled alarm-other-2))
+    (required-time-arg alarm-go-to-sleep time-go-to-sleep-plus-20)
+    (required-enabled-arg alarm-go-to-sleep flag-omitted)
+    (required-time-arg alarm-other-1 time-omitted)
+    (required-enabled-arg alarm-other-1 bool-false)
+    (required-time-arg alarm-other-2 time-omitted)
+    (required-enabled-arg alarm-other-2 bool-false))
   (:goal (and
-    (moved-later alarm-go-to-sleep)
-    (enabled alarm-go-to-sleep)
-    (not (enabled alarm-other-1))
-    (not (enabled alarm-other-2))
+    (alarm-updated alarm-go-to-sleep)
+    (alarm-updated alarm-other-1)
+    (alarm-updated alarm-other-2)
     (task-completed))))

@@ -1,0 +1,26 @@
+[
+  {
+    "object": "de-ritt-at-gmail-com",
+    "value": "de_ritt@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "unique-song-count",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "len( {item.song_id for item in show_song_library pages} | union(album.song_ids for album in show_album_library pages) | union(playlist.song_ids for playlist in show_playlist_library pages) )"
+  }
+]

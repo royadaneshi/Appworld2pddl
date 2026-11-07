@@ -1,0 +1,178 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login pa-ritter-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "pa_ritter@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-login pa-ritter-at-gmail-com simple-note-password file-system-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "pa_ritter@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-search-notes file-system-token)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-show-note note-1 file-system-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 1st note (collect all pages via page_index until empty)",
+          "object": "note-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-create-file backup-path-note-1 file-system-token content-of-note-1 note-1 note-2)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_notes/\" + title.replace(\" \", \"_\") + \".md\" for note-1",
+          "object": "backup-path-note-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (call with note_id of note-1)",
+          "object": "content-of-note-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(simple-note-show-note note-2 file-system-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (collect all pages via page_index until empty)",
+          "object": "note-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-create-file backup-path-note-2 file-system-token content-of-note-2 note-2 note-3)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_notes/\" + title.replace(\" \", \"_\") + \".md\" for note-2",
+          "object": "backup-path-note-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (call with note_id of note-2)",
+          "object": "content-of-note-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(simple-note-show-note note-3 file-system-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 3rd note (collect all pages via page_index until empty)",
+          "object": "note-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-create-file backup-path-note-3 file-system-token content-of-note-3 note-3 no-more-notes)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_notes/\" + title.replace(\" \", \"_\") + \".md\" for note-3",
+          "object": "backup-path-note-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (call with note_id of note-3)",
+          "object": "content-of-note-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

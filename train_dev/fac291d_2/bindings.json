@@ -1,0 +1,26 @@
+[
+  {
+    "object": "deniseburch-at-gmail-com",
+    "value": "deniseburch@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "unique-song-count-value",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "len(set(song_id of every song-library entry) | set(song_ids of every album-library entry from spotify.show_album_library) | set(song_ids of every playlist-library entry from spotify.show_playlist_library)), iterating over all page_index values until an empty page"
+  }
+]

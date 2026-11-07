@@ -1,0 +1,56 @@
+[
+  {
+    "object": "glenn-burton-at-gmail-com",
+    "value": "glenn.burton@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-song",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of each entry (iterate all pages via page_index)"
+  },
+  {
+    "object": "library-album",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of each entry (iterate all pages via page_index)"
+  },
+  {
+    "object": "album-song",
+    "value": null,
+    "from_api": "spotify.show_album",
+    "field": "songs[].id of each album"
+  },
+  {
+    "object": "library-playlist",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id of each entry (iterate all pages via page_index)"
+  },
+  {
+    "object": "playlist-song",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id of each playlist"
+  },
+  {
+    "object": "top-4-rb-titles",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "over all inspected songs keep those with genre == \"R&B\" (dedupe by title), sort by play_count descending, take the first 4 titles, join with \", \""
+  }
+]

@@ -1,0 +1,81 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2077,
+    "output_tokens": 14881,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "396c5a2_2",
+  "instruction": "Add all the songs from Aria Sterling that have been played over 990 times to my Spotify player queue.",
+  "difficulty": 1,
+  "apps_used": [
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.search_artists",
+    "spotify.search_songs",
+    "spotify.add_to_queue",
+    "spotify.add_to_queue",
+    "spotify.add_to_queue",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (spotify). The username for spotify.login is the supervisor email obtained from supervisor.show_profile (modeled as (profile-known) plus the static (username-for spotify ...) fact); the password comes from supervisor.show_account_passwords. search_artists discovers the artist id (known-id), search_songs with query/artist_id/min_play_count=990 discovers the qualifying song set (matching-songs-found); only songs with the static (played-over ?s playcount-990) fact (i.e. play_count strictly > 990, the agent filters the >=990 search results) may be added to the queue, one add_to_queue call per song. The number of qualifying songs is only known at runtime, so the problem uses three placeholder song objects aria-song-1..3; instantiate as many as search_songs actually returns with play_count > 990 (and adjust the arity/distinctness constraints of supervisor-complete-task accordingly). supervisor-complete-task carries the song records only as non-API parameters so its lifted precondition equals the problem goal (all qualifying songs in-queue); it is called with no answer. The queue is only appended to (existing songs stay), matching the evaluation requiring old queue ids plus exactly the qualifying songs.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.add_to_queue",
+        "spotify.login",
+        "spotify.search_artists",
+        "spotify.search_songs",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(spotify-search-artists query-aria-sterling aria-sterling)",
+      "(spotify-search-songs query-aria-sterling aria-sterling playcount-990)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login tr-solo-at-gmail-com spotify-password spotify-token)",
+      "(spotify-add-to-queue spotify-token aria-song-1 aria-sterling playcount-990)",
+      "(spotify-add-to-queue spotify-token aria-song-2 aria-sterling playcount-990)",
+      "(spotify-add-to-queue spotify-token aria-song-3 aria-sterling playcount-990)",
+      "(supervisor-complete-task aria-song-1 aria-song-2 aria-song-3)"
+    ],
+    "message": "",
+    "seconds": 1.15
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 170.8,
+  "effort": "xhigh"
+}

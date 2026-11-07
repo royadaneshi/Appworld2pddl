@@ -1,0 +1,32 @@
+[
+  {
+    "object": "cheweber-at-gmail-com",
+    "value": "cheweber@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-song",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of each item (iterate over all pages; show_song is called once per song)"
+  },
+  {
+    "object": "answer-count",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "computed: size of the set union of (song_ids from song library whose show_song release_date >= 2022-01-01) and (song_ids of album-library albums whose release_date >= 2022-01-01); threshold = start of last year relative to phone.get_current_date_and_time / 2023-05-18"
+  }
+]

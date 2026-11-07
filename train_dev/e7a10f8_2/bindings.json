@@ -1,0 +1,62 @@
+[
+  {
+    "object": "ch-burch-at-gmail-com",
+    "value": "ch-burch@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "playlist-1",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id of each item (iterate all pages via page_index)"
+  },
+  {
+    "object": "playlist-2",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id of each item (iterate all pages via page_index)"
+  },
+  {
+    "object": "song-1-1",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id for playlist-1"
+  },
+  {
+    "object": "song-1-2",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id for playlist-1"
+  },
+  {
+    "object": "song-2-1",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id for playlist-2"
+  },
+  {
+    "object": "song-2-2",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id for playlist-2"
+  },
+  {
+    "object": "shortest-playlist-minutes",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "round(min over playlists of sum(duration of its songs) / 60)"
+  }
+]

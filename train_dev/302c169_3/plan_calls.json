@@ -39,8 +39,8 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-update-alarm-time alarm-go-to-sleep phone-token time-go-to-sleep-plus-20 time-go-to-sleep-current)",
-      "api": null,
+      "pddl": "(phone-update-alarm alarm-go-to-sleep phone-token time-go-to-sleep-plus-20 flag-omitted)",
+      "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
@@ -54,15 +54,20 @@
         },
         "time": {
           "$from": "phone.show_alarms",
-          "field": "time of the go-to-sleep alarm plus 20 minutes, formatted HH:MM",
+          "field": "time (HH:MM) of the go-to-sleep alarm plus 20 minutes, formatted HH:MM",
           "object": "time-go-to-sleep-plus-20"
+        },
+        "enabled": {
+          "$from": null,
+          "field": "optional parameter `enabled` is omitted from the API call",
+          "object": "flag-omitted"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(phone-update-alarm-enabled alarm-other-1 phone-token bool-false)",
-      "api": null,
+      "pddl": "(phone-update-alarm alarm-other-1 phone-token time-omitted bool-false)",
+      "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
@@ -74,13 +79,18 @@
           "field": "access_token",
           "object": "phone-token"
         },
-        "enabled": "false"
+        "time": {
+          "$from": null,
+          "field": "optional parameter `time` is omitted from the API call",
+          "object": "time-omitted"
+        },
+        "enabled": false
       }
     },
     {
       "step": 7,
-      "pddl": "(phone-update-alarm-enabled alarm-other-2 phone-token bool-false)",
-      "api": null,
+      "pddl": "(phone-update-alarm alarm-other-2 phone-token time-omitted bool-false)",
+      "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
@@ -92,7 +102,12 @@
           "field": "access_token",
           "object": "phone-token"
         },
-        "enabled": "false"
+        "time": {
+          "$from": null,
+          "field": "optional parameter `time` is omitted from the API call",
+          "object": "time-omitted"
+        },
+        "enabled": false
       }
     },
     {
@@ -102,9 +117,5 @@
       "args": {}
     }
   ],
-  "problems": [
-    "step 5: action 'phone-update-alarm-time' is not an AppWorld API",
-    "step 6: action 'phone-update-alarm-enabled' is not an AppWorld API",
-    "step 7: action 'phone-update-alarm-enabled' is not an AppWorld API"
-  ]
+  "problems": []
 }

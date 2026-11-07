@@ -1,0 +1,68 @@
+[
+  {
+    "object": "phone-number-3567801924",
+    "value": "3567801924",
+    "from_api": "supervisor.show_profile",
+    "field": "phone_number"
+  },
+  {
+    "object": "lindseysimpson-at-gmail-com",
+    "value": "lindseysimpson@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-roommates",
+    "value": "roommates",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "relationship-roommates",
+    "value": "roommates",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "status-pending",
+    "value": "pending",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "request-roommate-1-old",
+    "value": null,
+    "from_api": "venmo.show_sent_payment_requests",
+    "field": "payment_request_id of a pending request (approved_at and denied_at null) whose receiver.email is one of the roommate emails returned by phone.search_contacts (field email) and whose created_at <= current datetime (phone.get_current_date_and_time) minus 30 days; one such request per qualifying item"
+  },
+  {
+    "object": "request-roommate-2-old",
+    "value": null,
+    "from_api": "venmo.show_sent_payment_requests",
+    "field": "payment_request_id of another pending request to a roommate email created 30 or more days ago (same selection rule as request-roommate-1-old)"
+  }
+]

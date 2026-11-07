@@ -1,0 +1,38 @@
+[
+  {
+    "object": "joyce-weav-at-gmail-com",
+    "value": "joyce-weav@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-echo-chamber-chronicles",
+    "value": "Echo Chamber Chronicles",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "echo-chamber-chronicles",
+    "value": null,
+    "from_api": "spotify.search_albums",
+    "field": "result with title == \"Echo Chamber Chronicles\" (paginate page_index); use its album_id and song_ids"
+  },
+  {
+    "object": "least-played-song",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "song_id of the song with minimum play_count, after calling show_song for every id in the album's song_ids"
+  }
+]

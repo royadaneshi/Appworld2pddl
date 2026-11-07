@@ -1,0 +1,38 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-artists query-velvet-echo velvet-echo)",
+      "api": "spotify.search_artists",
+      "args": {
+        "query": "Velvet Echo"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-search-songs velvet-echo sort-minus-play-count velvet-echo-top-song)",
+      "api": "spotify.search_songs",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of the first result (query == \"Velvet Echo\")",
+          "object": "velvet-echo"
+        },
+        "sort_by": "-play_count"
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-complete-task velvet-echo-top-song velvet-echo)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "spotify.search_songs",
+          "field": "title of the first item when called with artist_id=<velvet-echo artist_id>, sort_by=\"-play_count\" (page_index 0)",
+          "object": "velvet-echo-top-song"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

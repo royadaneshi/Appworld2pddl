@@ -1,0 +1,90 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2532,
+    "output_tokens": 15402,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "50e1ac9_2",
+  "instruction": "Give me a comma-separated list of top 6 most played edm song titles from across my Spotify song, album and playlist libraries.",
+  "difficulty": 2,
+  "apps_used": [
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_song",
+    "spotify.show_album_library",
+    "spotify.show_album",
+    "spotify.show_song",
+    "spotify.show_playlist_library",
+    "spotify.show_playlist",
+    "spotify.show_song",
+    "supervisor.complete_task"
+  ],
+  "notes": "Read-only information-gathering task: no database changes, so the goal only demands that all three Spotify libraries have been scanned and the task is completed with the answer. Each library is abstracted by one representative song object (and one album / one playlist container); in practice the listing calls are paginated and show_song is invoked for every song found, filtering genre == EDM and ranking by play_count. Discovery is modeled with known-id: show_song_library / show_album_library / show_playlist_library discover a library record, show_album / show_playlist discover the songs they contain, and show_song reveals genre and play_count while marking the originating library (a domain constant of type library) as scanned. The username (supervisor email) is obtained via supervisor.show_profile, hence the profile-known precondition on spotify-login. supervisor-complete-task takes the answer object and is forced last by the (not (task-completed)) convention.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.login",
+        "spotify.show_album",
+        "spotify.show_album_library",
+        "spotify.show_playlist",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "spotify.show_song_library",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login erikabail-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-album-library spotify-token edm-album)",
+      "(spotify-show-playlist-library spotify-token edm-playlist)",
+      "(spotify-show-playlist edm-playlist spotify-token edm-song-in-playlist)",
+      "(spotify-show-song-library spotify-token edm-song-in-song-library)",
+      "(spotify-show-album edm-album edm-song-in-album)",
+      "(spotify-show-song edm-song-in-song-library song-library)",
+      "(spotify-show-song edm-song-in-album album-library)",
+      "(spotify-show-song edm-song-in-playlist playlist-library)",
+      "(supervisor-complete-task top-6-edm-titles)"
+    ],
+    "message": "",
+    "seconds": 1.22
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 167.0,
+  "effort": "xhigh"
+}

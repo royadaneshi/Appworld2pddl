@@ -1,0 +1,80 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2348,
+    "output_tokens": 8664,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "aa8502b_2",
+  "instruction": "Unfollow all the artists who have not sung even a single song I have liked on Spotify.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_following_artists",
+    "spotify.show_liked_songs",
+    "spotify.unfollow_artist",
+    "spotify.unfollow_artist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app (spotify) task. The real set of followed artists is unknown a priori, so representative artist objects are declared as domain constants (so supervisor-complete-task can state the exact goal conjunction without quantifiers): two followed artists with no liked song (must be unfollowed) and one followed artist with a liked song (must remain followed). Static facts (followed ?ar) / (has-liked-song ?ar) describe the world; the knowledge flags (known-following-artists) and (known-liked-songs), produced by show_following_artists and show_liked_songs, gate the unfollow action, mirroring the data flow of the reference solution. Both listing APIs should be paginated at runtime (page_index 0..n) but are modeled as a single action each. Login username comes from supervisor.show_profile (email) and the password from supervisor.show_account_passwords. No answer is required, so supervisor-complete-task takes no parameters; it is forced last via (not (task-completed)) on every other action.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.login",
+        "spotify.show_following_artists",
+        "spotify.show_liked_songs",
+        "spotify.unfollow_artist",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login chrharrison-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-following-artists spotify-token)",
+      "(spotify-show-liked-songs spotify-token)",
+      "(spotify-unfollow-artist artist-no-liked-1 spotify-token)",
+      "(spotify-unfollow-artist artist-no-liked-2 spotify-token)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.14
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 92.0,
+  "effort": "xhigh"
+}

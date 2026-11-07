@@ -1,0 +1,75 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-artists query-astrid-nightshade astrid-nightshade)",
+      "api": "spotify.search_artists",
+      "args": {
+        "query": "Astrid Nightshade"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-search-songs query-astrid-nightshade astrid-nightshade play-count-980)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": "Astrid Nightshade",
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of the first result (query \"Astrid Nightshade\")",
+          "object": "astrid-nightshade"
+        },
+        "min_play_count": 980
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-login les-ball-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "les_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-add-to-queue spotify-token astrid-high-play-song astrid-nightshade play-count-980)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of each result with play_count > 980 (artist_id = Astrid Nightshade's id, min_play_count = 980)",
+          "object": "astrid-high-play-song"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task astrid-high-play-song)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

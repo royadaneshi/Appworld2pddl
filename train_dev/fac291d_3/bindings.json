@@ -1,0 +1,26 @@
+[
+  {
+    "object": "jac-blackburn-at-gmail-com",
+    "value": "jac-blackburn@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "unique-song-count",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "len(set(song_id of every show_song_library item) | set(song_ids of every show_album_library item) | set(song_ids of every show_playlist_library item)), iterating page_index over all pages of each API"
+  }
+]

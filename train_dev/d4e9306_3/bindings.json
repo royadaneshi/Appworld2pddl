@@ -1,0 +1,56 @@
+[
+  {
+    "object": "angelica-wils-at-gmail-com",
+    "value": "angelica.wils@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "liked-song-1",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "song_id (first liked song; iterate page_index until empty page)"
+  },
+  {
+    "object": "liked-song-2",
+    "value": null,
+    "from_api": "spotify.show_liked_songs",
+    "field": "song_id (second liked song; iterate page_index until empty page)"
+  },
+  {
+    "object": "liked-album-1",
+    "value": null,
+    "from_api": "spotify.show_liked_albums",
+    "field": "album_id (each liked album; iterate page_index until empty page)"
+  },
+  {
+    "object": "artist-1",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "artists[].id for liked-song-1"
+  },
+  {
+    "object": "artist-2",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "artists[].id for liked-song-2"
+  },
+  {
+    "object": "artist-3",
+    "value": null,
+    "from_api": "spotify.show_album",
+    "field": "artists[].id for liked-album-1"
+  }
+]

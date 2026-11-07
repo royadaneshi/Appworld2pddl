@@ -1,0 +1,94 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2869,
+    "output_tokens": 22989,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "68ee2c9_1",
+  "instruction": "In my file system, add the prefix \"YYYY-MM-DD_\" to all file names in the ~/downloads/ directory, based on their creation dates, and then move all files not from this year to ~/trash/.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "file_system",
+    "phone"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "file_system.login",
+    "phone.get_current_date_and_time",
+    "file_system.show_directory",
+    "file_system.show_file",
+    "file_system.move_file",
+    "file_system.show_file",
+    "file_system.move_file",
+    "file_system.show_file",
+    "file_system.move_file",
+    "file_system.show_file",
+    "file_system.move_file",
+    "supervisor.complete_task"
+  ],
+  "notes": "The contents of ~/downloads/ are unknown before any API call, so four placeholder files are modeled (file-1, file-2 created this year; file-3, file-4 created in earlier years); the real listing from show_directory determines the actual number and each file's show_file/move_file pair is repeated accordingly. Files are domain constants so that supervisor-complete-task can structurally require every goal condition (moved file-i). World facts (file creation year, current year) are static in :init while knowledge gates (directory-listed, known-creation-date, current-date-known, profile-known, passwords-known) force the lookup calls. The 'this year vs. earlier' rule is encoded as the static lookup (destination-dir file-year current-year dir): same-year files are renamed in place in ~/downloads/, older files are renamed into ~/trash/; each file has both candidate prefixed paths so the planner must apply the rule. A single move_file call performs rename+relocation, matching the reference solution. phone.get_current_date_and_time needs no login and is used to determine the current year; the file_system username is the supervisor email from show_profile.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.login",
+        "file_system.move_file",
+        "file_system.show_directory",
+        "file_system.show_file",
+        "phone.get_current_date_and_time",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login nan-ritt-at-gmail-com file-system-password file-system-token)",
+      "(file-system-show-directory file-system-token downloads)",
+      "(file-system-show-file file-1 file-system-token downloads)",
+      "(file-system-move-file file-1 downloads-dated-file-1 file-system-token downloads year-2023 year-2023)",
+      "(file-system-show-file file-2 file-system-token downloads)",
+      "(file-system-move-file file-2 downloads-dated-file-2 file-system-token downloads year-2023 year-2023)",
+      "(file-system-show-file file-3 file-system-token downloads)",
+      "(file-system-move-file file-3 trash-dated-file-3 file-system-token trash year-2022 year-2023)",
+      "(file-system-show-file file-4 file-system-token downloads)",
+      "(file-system-move-file file-4 trash-dated-file-4 file-system-token trash year-2021 year-2023)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.18
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 261.4,
+  "effort": "xhigh"
+}

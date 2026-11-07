@@ -1,0 +1,68 @@
+[
+  {
+    "object": "phone-username-3643463570",
+    "value": "3643463570",
+    "from_api": "supervisor.show_profile",
+    "field": "phone_number"
+  },
+  {
+    "object": "venmo-username-anita-burch-at-gmail-com",
+    "value": "anita.burch@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "query-manager",
+    "value": "manager",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "rel-coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "rel-manager",
+    "value": "manager",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "total-manager-paid",
+    "value": null,
+    "from_api": "venmo.show_social_feed",
+    "field": "20 + sum of `amount` over feed entries (all pages) where sender.email is a coworker email (from phone.search_contacts relationship=coworker), receiver.email == manager email (from phone.search_contacts relationship=manager), description contains \"Enchanted Eats\" (case-insensitive) and created_at is on/after yesterday's start of day (from phone.get_current_date_and_time)"
+  }
+]

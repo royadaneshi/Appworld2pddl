@@ -1,0 +1,117 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-4436271690 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4436271690",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-show-alarms phone-token)",
+      "api": "phone.show_alarms",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-update-alarm alarm-go-to-sleep phone-token time-sleep-plus-1h true-value)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of the alarm whose label contains \"go to sleep\" (case-insensitive)",
+          "object": "alarm-go-to-sleep"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "time": {
+          "$from": "phone.show_alarms",
+          "field": "time (\"%H:%M\") of the go-to-sleep alarm plus 60 minutes, formatted \"%H:%M\"",
+          "object": "time-sleep-plus-1h"
+        },
+        "enabled": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-update-alarm alarm-other-1 phone-token time-other-1 false-value)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of an alarm that is not the go-to-sleep alarm and has enabled == true (one object per such alarm)",
+          "object": "alarm-other-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "time": {
+          "$from": "phone.show_alarms",
+          "field": "time (\"%H:%M\") of alarm-other-1 itself (passed back unchanged so that only `enabled` changes)",
+          "object": "time-other-1"
+        },
+        "enabled": false
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-update-alarm alarm-other-2 phone-token time-other-2 false-value)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of another alarm that is not the go-to-sleep alarm and has enabled == true (one object per such alarm)",
+          "object": "alarm-other-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "time": {
+          "$from": "phone.show_alarms",
+          "field": "time (\"%H:%M\") of alarm-other-2 itself (passed back unchanged so that only `enabled` changes)",
+          "object": "time-other-2"
+        },
+        "enabled": false
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task alarm-go-to-sleep alarm-other-1 alarm-other-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

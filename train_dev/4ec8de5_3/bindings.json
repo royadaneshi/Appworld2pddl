@@ -1,0 +1,38 @@
+[
+  {
+    "object": "ch-brow-at-gmail-com",
+    "value": "ch.brow@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-song",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of every item (iterate page_index until an empty page); spotify.show_song is called once per such song_id"
+  },
+  {
+    "object": "library-album",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "every item (iterate page_index until an empty page); use its release_date and song_ids"
+  },
+  {
+    "object": "count-songs-before-this-year",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "len(set(song_ids)) where song_ids = [song_id of each song-library song whose show_song release_date < start of current year (2023-01-01, from phone.get_current_date_and_time)] + [all song_ids of each album-library album whose release_date < start of current year]"
+  }
+]

@@ -6,22 +6,25 @@
     phone-password - password
     phone-token - token
     alarm-go-to-sleep alarm-other-1 alarm-other-2 - alarm
-    time-sleep-current time-sleep-plus-1h - alarm-time
-    false-value - bool-value)
+    time-sleep-plus-1h time-other-1 time-other-2 - clock-time
+    true-value false-value - bool-value)
   (:init
     (username-for phone phone-4436271690)
     (password-for phone phone-password)
     (go-to-sleep-alarm alarm-go-to-sleep)
-    (alarm-time alarm-go-to-sleep time-sleep-current)
-    (one-hour-later time-sleep-current time-sleep-plus-1h)
-    (enabled alarm-go-to-sleep)
-    (enabled alarm-other-1)
-    (enabled alarm-other-2)
-    (is-false false-value))
+    (desired-time alarm-go-to-sleep time-sleep-plus-1h)
+    (desired-time alarm-other-1 time-other-1)
+    (desired-time alarm-other-2 time-other-2)
+    (desired-enabled alarm-go-to-sleep true-value)
+    (desired-enabled alarm-other-1 false-value)
+    (desired-enabled alarm-other-2 false-value))
   (:goal (and
-    (shifted-one-hour-later alarm-go-to-sleep)
-    (enabled alarm-go-to-sleep)
-    (not (enabled alarm-other-1))
-    (not (enabled alarm-other-2))
+    (alarm-updated alarm-go-to-sleep)
+    (alarm-updated alarm-other-1)
+    (alarm-updated alarm-other-2)
+    (alarm-time alarm-go-to-sleep time-sleep-plus-1h)
+    (alarm-enabled alarm-go-to-sleep true-value)
+    (alarm-enabled alarm-other-1 false-value)
+    (alarm-enabled alarm-other-2 false-value)
     (task-completed)))
 )

@@ -1,0 +1,50 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-search-artists query-jasper-skye jasper-skye)",
+      "api": "spotify.search_artists",
+      "args": {
+        "query": "Jasper Skye"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-search-songs jasper-skye sort-by-minus-play-count most-played-song-of-jasper-skye)",
+      "api": "spotify.search_songs",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of the first result",
+          "object": "jasper-skye"
+        },
+        "sort_by": "-play_count"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task most-played-song-of-jasper-skye)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "spotify.search_songs",
+          "field": "title of the first result when filtered by artist_id and sorted by -play_count",
+          "object": "most-played-song-of-jasper-skye"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

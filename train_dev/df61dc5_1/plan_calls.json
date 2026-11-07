@@ -1,0 +1,156 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-3643463570 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3643463570",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == phone",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login anita-burch-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "anita.burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == venmo",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-roommate rel-roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "roommate",
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-transactions phone-token roommate-1-email date-2023-01-01 roommate-1 rel-roommate)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the 1st contact returned (relationship roommate, all pages)",
+          "object": "roommate-1-email"
+        },
+        "min_created_at": "2023-01-01"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-show-transactions phone-token roommate-2-email date-2023-01-01 roommate-2 rel-roommate)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the 2nd contact returned (relationship roommate, all pages)",
+          "object": "roommate-2-email"
+        },
+        "min_created_at": "2023-01-01"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-like-transaction tx-roommate-1-a phone-token roommate-1-email date-2023-01-01)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 1st result",
+          "object": "tx-roommate-1-a"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-like-transaction tx-roommate-1-b phone-token roommate-1-email date-2023-01-01)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 2nd result",
+          "object": "tx-roommate-1-b"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-like-transaction tx-roommate-2-a phone-token roommate-2-email date-2023-01-01)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id (user_email = roommate-2-email, min_created_at = year start, all pages) - 1st result",
+          "object": "tx-roommate-2-a"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

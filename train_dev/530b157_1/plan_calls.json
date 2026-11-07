@@ -1,0 +1,126 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-4886643554 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4886643554",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login username-matthew-blac-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "matthew.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token query-kristin kristin kristin-email kristin-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Kristin"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-text-messages phone-token kristin-phone-number kristin amount-owed-for-groceries)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Kristin\"",
+          "object": "kristin-phone-number"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-create-transaction kristin-email amount-owed-for-groceries phone-token note-groceries kristin groceries-payment)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Kristin\"",
+          "object": "kristin-email"
+        },
+        "amount": {
+          "$from": "phone.search_text_messages",
+          "field": "dollar amount ($N) parsed from the recent (yesterday's) message in the conversation with Kristin's phone_number about the grocery payment",
+          "object": "amount-owed-for-groceries"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "Groceries"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-send-text-message kristin-phone-number message-it-is-done phone-token kristin done-text)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Kristin\"",
+          "object": "kristin-phone-number"
+        },
+        "message": "It is done.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task groceries-payment done-text)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

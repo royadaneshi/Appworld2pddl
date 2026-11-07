@@ -1,0 +1,121 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-6727300099 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "6727300099",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-show-alarms phone-token)",
+      "api": "phone.show_alarms",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-update-alarm alarm-wake-up phone-token time-wake-up-minus-40 enabled-wake-up-current time-wake-up-original enabled-wake-up-current)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of the alarm whose label contains \"wake up\" (case-insensitive), scanning all pages",
+          "object": "alarm-wake-up"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "time": {
+          "$from": "phone.show_alarms",
+          "field": "time of the wake-up alarm minus 40 minutes, formatted \"%H:%M\"",
+          "object": "time-wake-up-minus-40"
+        },
+        "enabled": {
+          "$from": "phone.show_alarms",
+          "field": "enabled flag of the wake-up alarm (re-passed unchanged)",
+          "object": "enabled-wake-up-current"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-update-alarm alarm-other-2 phone-token time-other-2 enabled-false time-other-2 enabled-true)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of another non-wake-up alarm with enabled == true (one object per such alarm)",
+          "object": "alarm-other-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "time": {
+          "$from": "phone.show_alarms",
+          "field": "time (\"%H:%M\") of alarm-other-2 (re-passed unchanged)",
+          "object": "time-other-2"
+        },
+        "enabled": false
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-update-alarm alarm-other-1 phone-token time-other-1 enabled-false time-other-1 enabled-true)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of a non-wake-up alarm with enabled == true (one object per such alarm)",
+          "object": "alarm-other-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "time": {
+          "$from": "phone.show_alarms",
+          "field": "time (\"%H:%M\") of alarm-other-1 (re-passed unchanged)",
+          "object": "time-other-1"
+        },
+        "enabled": false
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

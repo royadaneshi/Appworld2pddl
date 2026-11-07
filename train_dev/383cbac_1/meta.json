@@ -1,0 +1,84 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2268,
+    "output_tokens": 8551,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "383cbac_1",
+  "instruction": "I went on dinner with my coworkers yesterday at Azure Harbor Bistro. My manager paid for food and everyone venmoed them. Everyones' transactions except mine should be on my social feed. My share was $38. How much did my manager pay for the others, including me, yesterday?",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "phone.get_current_date_and_time",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.search_contacts",
+    "venmo.login",
+    "venmo.show_social_feed",
+    "supervisor.complete_task"
+  ],
+  "notes": "Read-only question task: no database changes are required (goal only demands the answer be found and the task completed). supervisor.show_profile supplies the phone username (phone_number) and venmo username (email); passwords come from supervisor.show_account_passwords. phone.search_contacts is called twice (query/relationship = coworker and manager; constants `coworker`/`manager` of type relationship are declared in the domain) to learn coworker and manager emails; phone.get_current_date_and_time fixes 'yesterday'. venmo.show_social_feed (paginate over page_index at runtime, as should search_contacts) yields the transactions coworkers sent to the manager for Azure Harbor Bistro; the answer object total-amount is 38 + their summed amounts. The `(not (my-share ?total))` precondition stops the planner from binding the fixed share object as the computed total. supervisor-complete-task passes total-amount as `answer` and is forced last via (task-completed).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "phone.get_current_date_and_time",
+        "phone.login",
+        "phone.search_contacts",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile",
+        "venmo.login",
+        "venmo.show_social_feed"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(phone-get-current-date-and-time)",
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(phone-login phone-3506492550 phone-password phone-token)",
+      "(venmo-login ashlee-martinez-at-gmail-com venmo-password venmo-token)",
+      "(phone-search-contacts phone-token query-coworker coworker)",
+      "(phone-search-contacts phone-token query-manager manager)",
+      "(venmo-show-social-feed venmo-token total-amount)",
+      "(supervisor-complete-task total-amount)"
+    ],
+    "message": "",
+    "seconds": 1.23
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 89.8,
+  "effort": "xhigh"
+}

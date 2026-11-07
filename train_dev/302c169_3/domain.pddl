@@ -12,12 +12,9 @@
     (username-for ?a - app ?u - username)
     (has-token ?a - app ?t - token)
     (alarms-listed)
-    (go-to-sleep-alarm ?al - alarm)
-    (alarm-time ?al - alarm ?tm - clock-time)
-    (plus-20-minutes ?old - clock-time ?new - clock-time)
-    (moved-later ?al - alarm)
-    (enabled ?al - alarm)
-    (flag-false ?f - flag)
+    (required-time-arg ?al - alarm ?tm - clock-time)
+    (required-enabled-arg ?al - alarm ?f - flag)
+    (alarm-updated ?al - alarm)
     (task-completed))
 
   ; API: supervisor.show_profile
@@ -44,21 +41,15 @@
     :precondition (and (not (task-completed)) (has-token phone ?t))
     :effect (and (alarms-listed)))
 
-  ; API: phone.update_alarm (called with only the optional time field)
-  (:action phone-update-alarm-time
-    :parameters (?al - alarm ?t - token ?new - clock-time ?old - clock-time)
-    :precondition (and (not (task-completed)) (has-token phone ?t) (alarms-listed) (go-to-sleep-alarm ?al) (alarm-time ?al ?old) (plus-20-minutes ?old ?new) (not (moved-later ?al)))
-    :effect (and (not (alarm-time ?al ?old)) (alarm-time ?al ?new) (moved-later ?al)))
-
-  ; API: phone.update_alarm (called with only the optional enabled field)
-  (:action phone-update-alarm-enabled
-    :parameters (?al - alarm ?t - token ?f - flag)
-    :precondition (and (not (task-completed)) (has-token phone ?t) (alarms-listed) (flag-false ?f) (enabled ?al) (not (go-to-sleep-alarm ?al)))
-    :effect (and (not (enabled ?al))))
+  ; API: phone.update_alarm
+  (:action phone-update-alarm
+    :parameters (?al - alarm ?t - token ?tm - clock-time ?f - flag)
+    :precondition (and (not (task-completed)) (has-token phone ?t) (alarms-listed) (not (alarm-updated ?al)) (required-time-arg ?al ?tm) (required-enabled-arg ?al ?f))
+    :effect (and (alarm-updated ?al)))
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed)) (moved-later alarm-go-to-sleep) (enabled alarm-go-to-sleep) (not (enabled alarm-other-1)) (not (enabled alarm-other-2)))
+    :precondition (and (not (task-completed)) (alarm-updated alarm-go-to-sleep) (alarm-updated alarm-other-1) (alarm-updated alarm-other-2))
     :effect (and (task-completed)))
 )

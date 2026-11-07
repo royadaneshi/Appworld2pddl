@@ -1,0 +1,91 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2527,
+    "output_tokens": 11889,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "50e1ac9_3",
+  "instruction": "Give me a comma-separated list of top 3 most played indie song titles from across my Spotify song, album and playlist libraries.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_song",
+    "spotify.show_album_library",
+    "spotify.show_album",
+    "spotify.show_song",
+    "spotify.show_playlist_library",
+    "spotify.show_playlist",
+    "spotify.show_song",
+    "supervisor.complete_task"
+  ],
+  "notes": "Read-only information-gathering task; no database changes are required, so the goal only demands that song details (genre, play_count) have been retrieved from each of the three sources. The libraries are abstracted with one representative entity per source (one library song, one album containing one song, one playlist containing one song); at runtime each library/album/playlist listing is paginated and show_song is called for every song found. The listing actions carry an extra non-API parameter (the record revealed) so that song ids become known without conditional effects. The answer object is tied to the representative songs via the static answer-from fact so that supervisor-complete-task's precondition structurally equals the goal; the actual answer string is computed from the show_song responses (top 3 indie songs by play_count).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.login",
+        "spotify.show_album",
+        "spotify.show_album_library",
+        "spotify.show_playlist",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "spotify.show_song_library",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login ed-wilson-at-gmail-com spotify-password spotify-token)",
+      "(spotify-show-album-library spotify-token album-1)",
+      "(spotify-show-playlist-library spotify-token playlist-1)",
+      "(spotify-show-playlist playlist-1 spotify-token song-pl-1)",
+      "(spotify-show-song-library spotify-token song-lib-1)",
+      "(spotify-show-album album-1 song-alb-1)",
+      "(spotify-show-song song-lib-1)",
+      "(spotify-show-song song-alb-1)",
+      "(spotify-show-song song-pl-1)",
+      "(supervisor-complete-task top3-indie-titles song-lib-1 song-alb-1 song-pl-1)"
+    ],
+    "message": "",
+    "seconds": 1.24
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 131.2,
+  "effort": "xhigh"
+}

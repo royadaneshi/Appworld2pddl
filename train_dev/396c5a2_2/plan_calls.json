@@ -1,0 +1,109 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-artists query-aria-sterling aria-sterling)",
+      "api": "spotify.search_artists",
+      "args": {
+        "query": "Aria Sterling"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-search-songs query-aria-sterling aria-sterling playcount-990)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": "Aria Sterling",
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of the result whose name == \"Aria Sterling\" (first result)",
+          "object": "aria-sterling"
+        },
+        "min_play_count": 990
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-login tr-solo-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-add-to-queue spotify-token aria-song-1 aria-sterling playcount-990)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of 1st result with play_count > 990",
+          "object": "aria-song-1"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-add-to-queue spotify-token aria-song-2 aria-sterling playcount-990)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of 2nd result with play_count > 990",
+          "object": "aria-song-2"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-add-to-queue spotify-token aria-song-3 aria-sterling playcount-990)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of 3rd result with play_count > 990",
+          "object": "aria-song-3"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task aria-song-1 aria-song-2 aria-song-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

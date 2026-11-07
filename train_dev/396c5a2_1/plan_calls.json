@@ -1,0 +1,109 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-artists query-lily-moon lily-moon)",
+      "api": "spotify.search_artists",
+      "args": {
+        "query": "Lily Moon"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-search-songs query-lily-moon lily-moon playcount-980)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": "Lily Moon",
+        "artist_id": {
+          "$from": "spotify.search_artists",
+          "field": "artist_id of the first result (name == \"Lily Moon\")",
+          "object": "lily-moon"
+        },
+        "min_play_count": 980
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-login susanmiller-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "susanmiller@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-add-to-queue spotify-token lily-moon-song-1 lily-moon playcount-980)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of a result with play_count > 980 (1st)",
+          "object": "lily-moon-song-1"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-add-to-queue spotify-token lily-moon-song-2 lily-moon playcount-980)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of a result with play_count > 980 (2nd)",
+          "object": "lily-moon-song-2"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-add-to-queue spotify-token lily-moon-song-3 lily-moon playcount-980)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of a result with play_count > 980 (3rd)",
+          "object": "lily-moon-song-3"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

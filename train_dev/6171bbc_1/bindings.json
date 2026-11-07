@@ -1,0 +1,56 @@
+[
+  {
+    "object": "de-ritt-at-gmail-com",
+    "value": "de_ritt@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "album-1",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of the 1st library item (iterate page_index until the response is empty)"
+  },
+  {
+    "object": "album-2",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of the 2nd library item (one album object per returned item; repeat for every album in the library)"
+  },
+  {
+    "object": "top-song-album-1",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album)"
+  },
+  {
+    "object": "top-song-album-2",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "id of the song in show_album(album-2).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album)"
+  },
+  {
+    "object": "my-most-played-album-songs",
+    "value": null,
+    "from_api": "spotify.create_playlist",
+    "field": "playlist_id"
+  },
+  {
+    "object": "title-my-most-played-album-songs",
+    "value": "My Most Played Album Songs",
+    "from_api": null,
+    "field": null
+  }
+]

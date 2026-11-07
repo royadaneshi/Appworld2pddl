@@ -1,0 +1,74 @@
+[
+  {
+    "object": "phone-username-2254213734",
+    "value": "2254213734",
+    "from_api": "supervisor.show_profile",
+    "field": "phone_number"
+  },
+  {
+    "object": "venmo-username-jo-harr-at-gmail-com",
+    "value": "jo-harr@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "query-manager",
+    "value": "manager",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "manager",
+    "value": "manager",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amount-34",
+    "value": "34",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "total-dinner-amount",
+    "value": null,
+    "from_api": "venmo.show_social_feed",
+    "field": "34 + sum of `amount` over all pages of feed entries where sender.email is in the coworker emails (phone.search_contacts relationship=coworker, field email, excluding the manager), receiver.email == manager email (phone.search_contacts relationship=manager, field email), description contains 'Whimsical Bites' (case-insensitive), and created_at is on/after the start of yesterday (2023-05-17) per phone.get_current_date_and_time"
+  }
+]

@@ -1,7 +1,7 @@
 (define (domain appworld-302c169-2)
   (:requirements :strips :typing :negative-preconditions :equality)
   (:types
-    app person username password token alarm alarm-time bool-value - object)
+    app person username password token alarm time-value bool-value - object)
   (:constants phone - app)
   (:predicates
     (passwords-known)
@@ -10,12 +10,9 @@
     (phone-username ?u - username)
     (has-token ?a - app ?t - token)
     (alarms-listed)
-    (wake-up-alarm ?al - alarm)
-    (alarm-time ?al - alarm ?tm - alarm-time)
-    (minus-40-minutes ?from - alarm-time ?to - alarm-time)
-    (alarm-enabled ?al - alarm)
-    (bool-false ?b - bool-value)
-    (wake-up-alarm-rescheduled)
+    (alarm-setting ?al - alarm ?tm - time-value ?en - bool-value)
+    (time-arg ?al - alarm ?old - time-value ?new - time-value)
+    (enabled-arg ?al - alarm ?old - bool-value ?new - bool-value)
     (task-completed))
 
   ; API: supervisor.show_profile
@@ -42,21 +39,20 @@
     :precondition (and (has-token phone ?t) (not (task-completed)))
     :effect (alarms-listed))
 
-  ; API: phone.update_alarm  (only the time field is passed)
-  (:action phone-update-alarm-time
-    :parameters (?al - alarm ?t - token ?new - alarm-time ?old - alarm-time)
-    :precondition (and (has-token phone ?t) (alarms-listed) (wake-up-alarm ?al) (alarm-time ?al ?old) (minus-40-minutes ?old ?new) (not (task-completed)))
-    :effect (and (not (alarm-time ?al ?old)) (alarm-time ?al ?new) (wake-up-alarm-rescheduled)))
-
-  ; API: phone.update_alarm  (only the enabled field is passed)
-  (:action phone-update-alarm-enabled
-    :parameters (?al - alarm ?t - token ?en - bool-value)
-    :precondition (and (has-token phone ?t) (alarms-listed) (not (wake-up-alarm ?al)) (alarm-enabled ?al) (bool-false ?en) (not (task-completed)))
-    :effect (not (alarm-enabled ?al)))
+  ; API: phone.update_alarm
+  (:action phone-update-alarm
+    :parameters (?al - alarm ?t - token ?tm - time-value ?en - bool-value ?old-tm - time-value ?old-en - bool-value)
+    :precondition (and (has-token phone ?t) (alarms-listed)
+                       (alarm-setting ?al ?old-tm ?old-en)
+                       (time-arg ?al ?old-tm ?tm)
+                       (enabled-arg ?al ?old-en ?en)
+                       (not (task-completed)))
+    :effect (and (not (alarm-setting ?al ?old-tm ?old-en))
+                 (alarm-setting ?al ?tm ?en)))
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (wake-up-alarm-rescheduled) (not (task-completed)))
+    :precondition (not (task-completed))
     :effect (task-completed))
 )

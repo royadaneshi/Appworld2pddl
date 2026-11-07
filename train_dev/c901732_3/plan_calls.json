@@ -1,0 +1,97 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-search-albums query-velvet-underground velvet-underground)",
+      "api": "spotify.search_albums",
+      "args": {
+        "query": "Velvet Underground"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-show-song other-song-1 velvet-underground song-start)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_albums",
+          "field": "song_ids[i] of the matched album (one show_song call per song id)",
+          "object": "other-song-1"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-show-song most-played-song velvet-underground other-song-1)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song",
+          "field": "song_id of the album song with the maximum play_count over all show_song responses",
+          "object": "most-played-song"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-song other-song-2 velvet-underground most-played-song)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_albums",
+          "field": "song_ids[i] of the matched album (one show_song call per song id)",
+          "object": "other-song-2"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-show-profile jeremy-calhoun jer-calhoun-at-gmail-com)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-login jer-calhoun-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jer.calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-play-music spotify-token most-played-song velvet-underground other-song-2)",
+      "api": "spotify.play_music",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.show_song",
+          "field": "song_id of the album song with the maximum play_count over all show_song responses",
+          "object": "most-played-song"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

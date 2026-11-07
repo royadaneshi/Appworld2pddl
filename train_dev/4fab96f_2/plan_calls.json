@@ -1,0 +1,116 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-8909828624 pw-phone tok-venmo)",
+      "api": "phone.login",
+      "args": {
+        "username": "8909828624",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "pw-phone"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login kia-bailey-at-gmail-com pw-venmo tok-phone)",
+      "api": "venmo.login",
+      "args": {
+        "username": "kia_bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "pw-venmo"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts tok-venmo query-coworkers rel-coworkers)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        },
+        "query": "coworkers",
+        "relationship": "coworkers"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-sent-payment-requests tok-phone status-pending)",
+      "api": "venmo.show_sent_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "tok-phone"
+        },
+        "status": "pending"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-remind-payment-request pr-coworker-1-old tok-phone coworker-1)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of a request (paginate all pages, status=pending) whose receiver.email is in the emails returned by phone.search_contacts(relationship=coworkers), approved_at and denied_at are null, and created_at <= 2023-04-08T11:58:00 (now minus 40 days)",
+          "object": "pr-coworker-1-old"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "tok-phone"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-remind-payment-request pr-coworker-2-old tok-phone coworker-2)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of another request satisfying the same coworker / pending / created_at <= 2023-04-08T11:58:00 filter",
+          "object": "pr-coworker-2-old"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "tok-phone"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}
