@@ -1,0 +1,94 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2577,
+    "output_tokens": 23187,
+    "cache_creation_input_tokens": 29223,
+    "cache_read_input_tokens": 0
+  },
+  "task_id": "6171bbc_2",
+  "instruction": "Make me a Spotify playlist called \"My Highest Rated Playlist Songs\" containing only the highest-rated song from each of my playlists.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_playlist_library",
+    "spotify.create_playlist",
+    "spotify.show_playlist",
+    "spotify.show_song",
+    "spotify.show_song",
+    "spotify.add_song_to_playlist",
+    "spotify.show_playlist",
+    "spotify.show_song",
+    "spotify.show_song",
+    "spotify.add_song_to_playlist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app (spotify) task. The user's playlist library is modeled by a representative set of two existing playlists with two songs each; at runtime the library listing (all pages) and each show_playlist response determine the real number of playlists/songs, and the show_song/add pattern is repeated per playlist. Because PDDL has no numeric comparison here, the ground-truth 'highest-rated' relation is a static hidden world fact in :init that the agent only learns by calling show_song on every song of the playlist: add_song_to_playlist requires (rating-known) for the chosen song and for the other song of the same source playlist, so the plan must inspect all songs before adding. show_playlist ids become usable only after show_playlist_library (library-shown); song ids only after show_playlist of their playlist (songs-known). Extra non-API parameters are task records: the created playlist object in create_playlist (bound to the returned playlist_id), the source playlist in show_song/add_song_to_playlist, and the compared song in add_song_to_playlist. supervisor-complete-task takes no API arguments (no answer); its record parameters exist only so its precondition can restate the goal (titled new playlist and the highest-rated song of each user playlist added to it). Only the new playlist and its PlaylistSong rows are changed, matching the evaluation.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "spotify.add_song_to_playlist",
+        "spotify.create_playlist",
+        "spotify.login",
+        "spotify.show_playlist",
+        "spotify.show_playlist_library",
+        "spotify.show_song",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(spotify-login ashlee-martinez-at-gmail-com spotify-password spotify-token)",
+      "(spotify-create-playlist title-my-highest-rated-playlist-songs spotify-token my-highest-rated-playlist-songs)",
+      "(spotify-show-playlist-library spotify-token)",
+      "(spotify-show-playlist playlist-1 spotify-token)",
+      "(spotify-show-playlist playlist-2 spotify-token)",
+      "(spotify-show-song song-1a playlist-1)",
+      "(spotify-show-song song-1b playlist-1)",
+      "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-1a spotify-token playlist-1 song-1b)",
+      "(spotify-show-song song-2a playlist-2)",
+      "(spotify-show-song song-2b playlist-2)",
+      "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-2b spotify-token playlist-2 song-2a)",
+      "(supervisor-complete-task my-highest-rated-playlist-songs title-my-highest-rated-playlist-songs playlist-1 playlist-2)"
+    ],
+    "message": "",
+    "seconds": 1.14
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 264.7,
+  "effort": "xhigh"
+}

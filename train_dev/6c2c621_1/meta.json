@@ -1,0 +1,90 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2549,
+    "output_tokens": 18050,
+    "cache_creation_input_tokens": 29223,
+    "cache_read_input_tokens": 0
+  },
+  "task_id": "6c2c621_1",
+  "instruction": "Export all my Simple Note notes to \"~/backups/simple_note/\" directory in my file system. The files should be named according to the note title, replacing white space with \"_\", and the extension should be \".md\".",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "simple_note",
+    "file_system"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "file_system.login",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "supervisor.complete_task"
+  ],
+  "notes": "The number of notes is unknown before simple_note.search_notes runs, so the problem uses three placeholder notes (note-1..note-3); at runtime the chain (next-note ...) is instantiated with one note object per note returned by search_notes (all pages). Because quantified goals are not allowed, 'all notes exported' is encoded with an ordered chain and an export cursor: file-system-create-file for a note requires the cursor to be on that note and moves it to the next marker; the domain constant end-of-notes marks the end of the chain, so (export-cursor end-of-notes) holds exactly when every note has been written. Each note's target path is a static mapping (backup-file-of) computed from the title (whitespace -> '_', '.md' extension, under ~/backups/simple_note/); its content is revealed by simple_note.show_note (content-known) and written via file_system.create_file, which also creates the parent directory implicitly (no create_directory call, matching the reference). search_notes is modeled with only access_token; pagination (page_index) is handled at runtime. supervisor.show_profile provides the email used as username for both logins. supervisor.complete_task is called without an answer and is forced last via (task-completed).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.create_file",
+        "file_system.login",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login anita-burch-at-gmail-com file-system-password file-system-token)",
+      "(simple-note-login anita-burch-at-gmail-com simple-note-password simple-note-token)",
+      "(simple-note-search-notes simple-note-token)",
+      "(simple-note-show-note note-1 simple-note-token)",
+      "(file-system-create-file backup-file-note-1 file-system-token content-note-1 note-1 note-2)",
+      "(simple-note-show-note note-2 simple-note-token)",
+      "(file-system-create-file backup-file-note-2 file-system-token content-note-2 note-2 note-3)",
+      "(simple-note-show-note note-3 simple-note-token)",
+      "(file-system-create-file backup-file-note-3 file-system-token content-note-3 note-3 end-of-notes)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.14
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 203.7,
+  "effort": "xhigh"
+}

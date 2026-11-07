@@ -1,0 +1,90 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2543,
+    "output_tokens": 12063,
+    "cache_creation_input_tokens": 29223,
+    "cache_read_input_tokens": 0
+  },
+  "task_id": "6c2c621_2",
+  "instruction": "Export all my Simple Note notes to \"~/backups/notes/\" directory in my file system. The files should be named according to the note title, replacing white space with \"_\", and the extension should be \".md\".",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "simple_note",
+    "file_system"
+  ],
+  "api_sequence": [
+    "supervisor.show_profile",
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "file_system.login",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "simple_note.show_note",
+    "file_system.create_file",
+    "supervisor.complete_task"
+  ],
+  "notes": "The number of Simple Note notes is unknown before runtime, so the problem uses a representative set of three notes (note-1..note-3); at runtime the agent must page through simple_note.search_notes until exhausted and repeat show_note + create_file for every note returned. Static facts note-content/note-file only link each note to its content object and its target path object (path = \"~/backups/notes/\" + title with whitespace replaced by \"_\" + \".md\"); the actual content becomes known only after simple_note.show_note (known-content). search_notes sets the nullary notes-listed flag (all ids discovered in one call), which gates show_note. file_system.create_file creates the parent directory implicitly (no create_directory call in the reference). supervisor-complete-task carries the three note records as non-API parameters (with pairwise inequality) so its precondition equals the goal conjunction; it is called with status=\"success\" and no answer. Logins require both the profile (username = supervisor email) and the passwords to be fetched first.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": {
+      "missing": [],
+      "extra": [],
+      "matched": [
+        "file_system.create_file",
+        "file_system.login",
+        "simple_note.login",
+        "simple_note.search_notes",
+        "simple_note.show_note",
+        "supervisor.complete_task",
+        "supervisor.show_account_passwords",
+        "supervisor.show_profile"
+      ]
+    }
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(supervisor-show-profile)",
+      "(file-system-login spencer-powell-at-gmail-com file-system-password file-system-token)",
+      "(simple-note-login spencer-powell-at-gmail-com simple-note-password file-system-token)",
+      "(simple-note-search-notes file-system-token)",
+      "(simple-note-show-note note-1 file-system-token content-note-1)",
+      "(file-system-create-file backups-notes-note-1-md file-system-token content-note-1 note-1)",
+      "(simple-note-show-note note-2 file-system-token content-note-2)",
+      "(file-system-create-file backups-notes-note-2-md file-system-token content-note-2 note-2)",
+      "(simple-note-show-note note-3 file-system-token content-note-3)",
+      "(file-system-create-file backups-notes-note-3-md file-system-token content-note-3 note-3)",
+      "(supervisor-complete-task note-1 note-2 note-3)"
+    ],
+    "message": "",
+    "seconds": 1.21
+  },
+  "solution_used": true,
+  "has_reference_solution": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 134.5,
+  "effort": "xhigh"
+}

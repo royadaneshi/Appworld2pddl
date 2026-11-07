@@ -1,0 +1,68 @@
+[
+  {
+    "object": "jepowell-at-gmail-com",
+    "value": "jepowell@gmail.com",
+    "from_api": "supervisor.show_profile",
+    "field": "email"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "title-most-listened-playlist-songs",
+    "value": "Most Listened Playlist Songs",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "playlist-1",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id (one entry per playlist in the library, iterate all pages)"
+  },
+  {
+    "object": "playlist-2",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id (one entry per playlist in the library, iterate all pages)"
+  },
+  {
+    "object": "new-playlist",
+    "value": null,
+    "from_api": "spotify.create_playlist",
+    "field": "playlist_id"
+  },
+  {
+    "object": "top-song-1",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id of playlist-1 whose spotify.show_song play_count is maximal"
+  },
+  {
+    "object": "top-song-2",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id of playlist-2 whose spotify.show_song play_count is maximal"
+  },
+  {
+    "object": "other-song-1",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id of playlist-1 (every remaining song, each inspected via spotify.show_song)"
+  },
+  {
+    "object": "other-song-2",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].id of playlist-2 (every remaining song, each inspected via spotify.show_song)"
+  }
+]
