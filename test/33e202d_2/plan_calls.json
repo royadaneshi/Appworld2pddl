@@ -1,0 +1,119 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login dav-mart-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "dav.mart@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login dav-mart-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "dav.mart@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-inbox-threads file-system-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-thread application-thread file-system-token marketing-manager-applicant)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread)",
+          "object": "application-thread"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-download-attachment application-attachment file-system-token file-system-token path-attachment-download marketing-manager-applicant)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant)",
+          "object": "application-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name",
+          "object": "path-attachment-download"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-create-file path-applications-csv file-system-token content-applications-csv marketing-manager-applicant)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/documents/work/hiring_process/applications.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "gmail.show_thread",
+          "field": "\"First Name,Last Name,LinkedIn URL\\n\" followed by one \"<first>,<last>,<linkedin_url>\" line per applicant whose email body contains a LinkedIn URL (applicants without a URL are skipped); names and URL parsed from the email sender/body",
+          "object": "content-applications-csv"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

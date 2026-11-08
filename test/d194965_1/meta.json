@@ -1,0 +1,79 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1303,
+    "output_tokens": 13895,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "d194965_1",
+  "instruction": "I jotted down some songs in Simple Note recently. Make a playlist titled \"Random Songs\" out of it.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "simple_note",
+    "spotify"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "spotify.login",
+    "spotify.search_songs",
+    "spotify.search_songs",
+    "spotify.search_songs",
+    "spotify.create_playlist",
+    "spotify.add_song_to_playlist",
+    "spotify.add_song_to_playlist",
+    "spotify.add_song_to_playlist",
+    "supervisor.complete_task"
+  ],
+  "notes": "Pipeline: get passwords, log into Simple Note, find the recent songs note via search_notes (query \"songs\"), read it with show_note, log into Spotify, resolve each listed song to a song_id via search_songs, create the playlist titled \"Random Songs\", add every resolved song, then complete the task (no answer). The note's song count is unknown a priori; the model uses 3 placeholder songs (song-1..song-3, each with its own search query read from the note content) and the supervisor-complete-task action checks that three distinct songs were added; adjust the number of song/query objects, init facts, goal conjuncts and complete-task parameters to the actual number of songs in the note. Static predicates song-in-note / query-for-song / query-for-note link queries to entities; known-id models discovered ids; note-read gates song lookups behind show_note. Only one playlist object exists and create-playlist requires it not yet known, so exactly one playlist is created and no other records change, matching the evaluation (only spotify.Playlist and spotify.PlaylistSong changed).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(simple-note-login ka-ball-at-gmail-com simple-note-password simple-note-token)",
+      "(spotify-login ka-ball-at-gmail-com spotify-password spotify-token)",
+      "(simple-note-search-notes simple-note-token query-songs songs-note)",
+      "(simple-note-show-note songs-note simple-note-token)",
+      "(spotify-create-playlist title-random-songs spotify-token random-songs-playlist)",
+      "(spotify-search-songs query-song-1 song-1 songs-note)",
+      "(spotify-add-song-to-playlist random-songs-playlist song-1 spotify-token)",
+      "(spotify-search-songs query-song-2 song-2 songs-note)",
+      "(spotify-add-song-to-playlist random-songs-playlist song-2 spotify-token)",
+      "(spotify-search-songs query-song-3 song-3 songs-note)",
+      "(spotify-add-song-to-playlist random-songs-playlist song-3 spotify-token)",
+      "(supervisor-complete-task random-songs-playlist title-random-songs song-1 song-2 song-3)"
+    ],
+    "message": "",
+    "seconds": 1.18
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 145.3,
+  "effort": "xhigh"
+}

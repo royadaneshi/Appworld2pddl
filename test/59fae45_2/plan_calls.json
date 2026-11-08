@@ -1,0 +1,180 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login chelsea-burch-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "chelsea-burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-show-playlist-library spotify-token)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlists[0].id (iterate over all pages; one object per playlist in the library)",
+          "object": "playlist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlists[1].id (iterate over all pages; one object per playlist in the library)",
+          "object": "playlist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-song song-1-1 playlist-1 c0 c1)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[0].id of playlist-1",
+          "object": "song-1-1"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song song-1-2 playlist-1 c1 c2)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[1].id of playlist-1",
+          "object": "song-1-2"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-song song-1-3 playlist-1 c2 c3)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[2].id of playlist-1",
+          "object": "song-1-3"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-update-playlist playlist-1 spotify-token new-title-playlist-1 c3 c0 c1)",
+      "api": "spotify.update_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlists[0].id (iterate over all pages; one object per playlist in the library)",
+          "object": "playlist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "title": {
+          "$from": "spotify.show_song",
+          "field": "composed string \"<playlist-1 title from show_playlist_library> | <most frequent value of genre over show_song responses for playlist-1's songs>\"",
+          "object": "new-title-playlist-1"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-song song-2-1 playlist-2 c0 c1)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[0].id of playlist-2",
+          "object": "song-2-1"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-show-song song-2-2 playlist-2 c1 c2)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[1].id of playlist-2",
+          "object": "song-2-2"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-update-playlist playlist-2 spotify-token new-title-playlist-2 c2 c1 c2)",
+      "api": "spotify.update_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlists[1].id (iterate over all pages; one object per playlist in the library)",
+          "object": "playlist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "title": {
+          "$from": "spotify.show_song",
+          "field": "composed string \"<playlist-2 title from show_playlist_library> | <most frequent value of genre over show_song responses for playlist-2's songs>\"",
+          "object": "new-title-playlist-2"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task c2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

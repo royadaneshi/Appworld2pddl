@@ -1,0 +1,133 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-show-product-feature-choices watch)",
+      "api": "amazon.show_product_feature_choices",
+      "args": {
+        "product_type": "watch"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-search-sellers watch top-watch-seller)",
+      "api": "amazon.search_sellers",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-search-products watch top-watch-seller watch-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "watch",
+        "seller_id": {
+          "$from": "amazon.search_sellers",
+          "field": "seller_id of the seller with the maximum rating among the sellers listed in amazon.show_product_feature_choices(product_type=\"watch\").sellers (paginate search_sellers as needed)",
+          "object": "top-watch-seller"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-login jasonsimp-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jasonsimp@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-add-product-to-cart watch-product amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the first result for product_type=\"watch\" and seller_id=top-watch-seller",
+          "object": "watch-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-addresses amazon-token work-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-payment-cards amazon-token wells-fargo-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-place-order wells-fargo-card work-address amazon-token watch-product quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id where card_name contains \"Wells Fargo\"",
+          "object": "wells-fargo-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id where name == \"Work\"",
+          "object": "work-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task watch-product top-watch-seller watch quantity-1 wells-fargo-card work-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,141 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login cod-smith-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login cod-smith-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token home-dir flag-true)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~",
+        "recursive": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-weekly-work-meeting thread-weekly-work-meeting-2023-05-17)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "weekly work meeting"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-thread thread-weekly-work-meeting-2023-05-17 gmail-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the weekly work meeting thread dated 2023-05-17 (last Wednesday before 2023-05-19)",
+          "object": "thread-weekly-work-meeting-2023-05-17"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-download-attachment recording-attachment file-system-token gmail-token recording-file-path thread-weekly-work-meeting-2023-05-17)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id whose file name is the meeting recording",
+          "object": "recording-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path built by following the existing directory layout and file naming pattern of earlier weekly meeting recordings, substituting the 2023-05-17 meeting date and keeping the attachment extension",
+          "object": "recording-file-path"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-download-attachment slides-attachment file-system-token gmail-token slides-file-path thread-weekly-work-meeting-2023-05-17)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id whose file name is the meeting slides",
+          "object": "slides-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path built by following the existing directory layout and file naming pattern of earlier weekly meeting slides, substituting the 2023-05-17 meeting date and keeping the attachment extension",
+          "object": "slides-file-path"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task slides-attachment slides-file-path recording-attachment recording-file-path)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

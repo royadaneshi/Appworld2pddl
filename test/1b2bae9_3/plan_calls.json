@@ -1,0 +1,174 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-nintendo-switch-lite nintendo-switch-lite)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Nintendo Switch Lite"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login kevin-blac-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "kevin.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-add-product-to-cart nintendo-switch-lite amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Nintendo Switch Lite\"",
+          "object": "nintendo-switch-lite"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-login kevin-blac-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "kevin.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-place-order amazon-card home-address amazon-token new-order nintendo-switch-lite quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any/first card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the address whose name is Home (the supervisor's home address)",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-order new-order amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.place_order",
+          "field": "order_id",
+          "object": "new-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-show-directory file-system-token bills-dir flag-true)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/bills/",
+        "recursive": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-download-order-receipt new-order amazon-token receipt-file-path file-system-token bills-dir)",
+      "api": "amazon.download_order_receipt",
+      "args": {
+        "order_id": {
+          "$from": "amazon.place_order",
+          "field": "order_id",
+          "object": "new-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "download_to_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "~/bills/amazon/<name> where <name> follows the naming pattern of the existing receipt files listed under ~/bills/amazon/, filled with the new order's created_at year/month/day (from amazon.show_order) and the order_id",
+          "object": "receipt-file-path"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task new-order nintendo-switch-lite quantity-1 home-address receipt-file-path)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

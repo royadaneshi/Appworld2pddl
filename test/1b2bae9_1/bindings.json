@@ -1,0 +1,86 @@
+[
+  {
+    "object": "robertmartinez-at-gmail-com",
+    "value": "robertmartinez@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-ikea-lerhamn-dining-table",
+    "value": "IKEA LERHAMN Dining Table",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "ikea-lerhamn-dining-table",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the result whose name == \"IKEA LERHAMN Dining Table\""
+  },
+  {
+    "object": "quantity-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "flag-true",
+    "value": "true",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "home-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id of the address whose name is the home address (name contains \"Home\" / matches supervisor's home address)"
+  },
+  {
+    "object": "payment-card-default",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id of any valid (non-expired) card"
+  },
+  {
+    "object": "order-new",
+    "value": null,
+    "from_api": "amazon.place_order",
+    "field": "order_id"
+  },
+  {
+    "object": "dir-bills",
+    "value": "~/bills/",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "receipt-file-path",
+    "value": null,
+    "from_api": "file_system.show_directory",
+    "field": "\"~/bills/amazon/\" + existing receipt file-name pattern observed in that sub-folder, instantiated with the new order's created_at year/month/day and order_id (order_id from amazon.place_order)"
+  }
+]

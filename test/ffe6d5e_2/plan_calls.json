@@ -1,0 +1,125 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-username-3808719492 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3808719492",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login username-jes-mill-at-gmail-com simple-note-password phone-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "jes.mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token relationship-husband husband husband-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "husband"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-text-messages phone-token husband-phone-number husband)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose relationships include \"husband\"",
+          "object": "husband-phone-number"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-search-notes phone-token query-favorite-recipes favorite-recipes-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "favorite recipes"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-show-note favorite-recipes-note phone-token favorite-recipe)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title matches favorite recipes",
+          "object": "favorite-recipes-note"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-send-text-message husband-phone-number favorite-recipe phone-token husband)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose relationships include \"husband\"",
+          "object": "husband-phone-number"
+        },
+        "message": {
+          "$from": "simple_note.show_note",
+          "field": "content: exactly one recipe name taken from the favorite recipes note, sent verbatim as the message text",
+          "object": "favorite-recipe"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task husband favorite-recipe)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

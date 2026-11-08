@@ -1,0 +1,82 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login ad-blackburn-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "ad.blackburn@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-show-directory file-system-token meetings-files-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/work/meetings_files/"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-create-directory file-name-dir file-system-token meetings-files-dir)",
+      "api": "file_system.create_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived: ~/documents/work/meetings_files/<file_name>/ where <file_name> is the part of the listed file name after '__' and before the extension",
+          "object": "file-name-dir"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-move-file date-file-name-ext-path file-name-date-ext-path file-system-token meeting-file file-name-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "each listed file path of the form ~/documents/work/meetings_files/<date>__<file_name>.<extension>",
+          "object": "date-file-name-ext-path"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived: ~/documents/work/meetings_files/<file_name>/<date>.<extension> from the listed file name <date>__<file_name>.<extension>",
+          "object": "file-name-date-ext-path"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task meeting-file)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

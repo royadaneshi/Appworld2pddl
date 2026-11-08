@@ -1,0 +1,26 @@
+[
+  {
+    "object": "jasonsimp-at-gmail-com",
+    "value": "jasonsimp@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "total-cart-and-wishlist-cost",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "sum(price * quantity) over cart products plus sum(price * quantity) over products returned by amazon.show_wish_list (tax and delivery fees excluded)"
+  }
+]

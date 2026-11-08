@@ -1,0 +1,267 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login erikabail-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "erikabail@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login erikabail-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "erikabail@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'file_system'",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login erikabail-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "erikabail@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'gmail'",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-4226809725 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4226809725",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-login erikabail-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "erikabail@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'venmo'",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts phone-token query-marcus marcus marcus-phone-number marcus-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Marcus"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-search-text-messages phone-token marcus-phone-number marcus marcus-last-message requested-product requested-quantity)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == 'Marcus'",
+          "object": "marcus-phone-number"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart requested-product amazon-token requested-quantity)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "phone.search_text_messages",
+          "field": "product id stated in the most recent message from Marcus (latest by created_at; if only a product name is given, resolve it via amazon.search_products)",
+          "object": "requested-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "quantity stated in the most recent message from Marcus for that product (default 1)",
+          "object": "requested-quantity"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token order-1 requested-product requested-quantity)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry matching the supervisor's home address (name == 'Home')",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-download-order-receipt order-1 amazon-token file-path-receipt file-system-token)",
+      "api": "amazon.download_order_receipt",
+      "args": {
+        "order_id": {
+          "$from": "amazon.place_order",
+          "field": "order_id",
+          "object": "order-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "download_to_file_path": "~/downloads/amazon_order_receipt.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-show-order order-1 amazon-token amount-order-total)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.place_order",
+          "field": "order_id",
+          "object": "order-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-send-email marcus-email subject-amazon-order-receipt body-amazon-order-receipt gmail-token file-path-receipt file-system-token marcus order-1)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == 'Marcus' (passed as [email] list to gmail.send_email, as user_email to venmo.create_payment_request)",
+          "object": "marcus-email"
+        },
+        "subject": "Amazon order receipt",
+        "body": "Hi Marcus, I placed the Amazon order you asked for and had it shipped to my home address. The receipt is attached. I have sent you a Venmo request for the total.",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": "~/downloads/amazon_order_receipt.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-create-payment-request marcus-email amount-order-total venmo-token marcus order-1)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == 'Marcus' (passed as [email] list to gmail.send_email, as user_email to venmo.create_payment_request)",
+          "object": "marcus-email"
+        },
+        "amount": {
+          "$from": "amazon.show_order",
+          "field": "total (final order total incl. delivery/taxes)",
+          "object": "amount-order-total"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(supervisor-complete-task marcus order-1 home-address requested-product requested-quantity amount-order-total)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

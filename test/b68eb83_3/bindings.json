@@ -1,0 +1,104 @@
+[
+  {
+    "object": "phone-username",
+    "value": "3272301258",
+    "from_api": null,
+    "field": "supervisor phone_number (phone login username)"
+  },
+  {
+    "object": "gmail-username",
+    "value": "jefsmith@gmail.com",
+    "from_api": null,
+    "field": "supervisor email"
+  },
+  {
+    "object": "file-system-username",
+    "value": "jefsmith@gmail.com",
+    "from_api": null,
+    "field": "supervisor email"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-marcus",
+    "value": "Marcus",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "marcus-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "contacts[].email of the contact whose first_name == \"Marcus\""
+  },
+  {
+    "object": "trip-pictures-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread from Marcus containing the trip pictures attachment"
+  },
+  {
+    "object": "trip-pictures-attachment",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].id of the (compressed) trip pictures attachment"
+  },
+  {
+    "object": "trip-pictures-archive",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path of the downloaded attachment in the response (default download location)"
+  },
+  {
+    "object": "trip-pictures-dir",
+    "value": null,
+    "from_api": "file_system.decompress_file",
+    "field": "decompressed directory path returned in the response (default: archive path without extension)"
+  },
+  {
+    "object": "recursive-true",
+    "value": "true",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "most-pictured-location",
+    "value": null,
+    "from_api": "file_system.show_directory",
+    "field": "name of the trip-location sub-directory containing the largest number of picture files (count entries per sub-directory in the recursive listing)"
+  }
+]

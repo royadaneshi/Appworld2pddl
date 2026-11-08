@@ -1,0 +1,146 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login carbrown-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "carbrown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-purchases amazon-token last-sweater sweater)",
+      "api": "amazon.show_product_purchases",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product last-sweater ordered-size)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product_purchases",
+          "field": "product_id of the most recently purchased product whose product_type/name is a sweater",
+          "object": "last-sweater"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-product-to-cart sweater-black amazon-token last-sweater black ordered-size)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product",
+          "field": "variations[].product_id where color == \"black\" and relative_size == ordered-size (same product name)",
+          "object": "sweater-black"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart sweater-red amazon-token last-sweater red ordered-size)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product",
+          "field": "variations[].product_id where color == \"red\" and relative_size == ordered-size (same product name)",
+          "object": "sweater-red"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token sweater-black sweater-red)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a valid (non-expired) card, e.g. the first one",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the address named home (matches supervisor home address text)",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task sweater-black sweater-red home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

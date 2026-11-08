@@ -1,0 +1,72 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2027,
+    "output_tokens": 11979,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "a8f302f_2",
+  "instruction": "I have a few things in my amazon cart. For each product type in it, buy the cheapest product and move the rest to the wish list.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "amazon.login",
+    "amazon.show_cart",
+    "amazon.move_product_from_cart_to_wish_list",
+    "amazon.move_product_from_cart_to_wish_list",
+    "amazon.move_product_from_cart_to_wish_list",
+    "amazon.show_addresses",
+    "amazon.show_payment_cards",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "The cart contents are unknown before amazon.show_cart, so the problem uses placeholder products: two product types, each with one cheapest product and one or two more expensive ones (3 moves, matching the 10-call reference; the real number of types/products is read from show_cart at runtime and the problem objects/init facts should be instantiated accordingly). Static facts product-type-of / cheapest-in-type encode the price comparison; the move action is only applicable to non-cheapest products of a type, and it is blocked once the order is placed, so the planner must move all non-cheapest products to the wish list before amazon.place_order, and the cheapest of each type stays in the cart and is bought (order-placed + in-cart cheapest-x in the goal means 'purchased'). amazon.show_addresses / amazon.show_payment_cards supply the address_id and payment_card_id required by place_order; the extra non-API parameter on those actions names the record discovered. Quantities are assumed to be 1 in the cart (the evaluation requires ordered and wish-listed quantities of 1); the wish list is assumed empty initially. supervisor-complete-task takes no answer; its precondition is (order-placed) because the per-product wish-list goal facts cannot be enumerated generically in the domain without quantifiers, but every other action requires (not (task-completed)), so it is still necessarily the last action.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(amazon-login ashlee-martinez-at-gmail-com amazon-password amazon-token)",
+      "(amazon-show-addresses amazon-token default-address)",
+      "(amazon-show-cart amazon-token)",
+      "(amazon-move-product-from-cart-to-wish-list other-of-type-b-1 amazon-token product-type-b)",
+      "(amazon-move-product-from-cart-to-wish-list other-of-type-a-2 amazon-token product-type-a)",
+      "(amazon-move-product-from-cart-to-wish-list other-of-type-a-1 amazon-token product-type-a)",
+      "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "(amazon-place-order payment-card-1 default-address amazon-token)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.23
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 134.9,
+  "effort": "xhigh"
+}

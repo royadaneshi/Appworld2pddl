@@ -1,0 +1,74 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-7295077363 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7295077363",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login siwhit-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "siwhit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts venmo-token query-jack jack jack-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "Jack"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-create-transaction jack-email amount-234 phone-token jack)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Jack\"",
+          "object": "jack-email"
+        },
+        "amount": 234,
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task jack amount-234)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

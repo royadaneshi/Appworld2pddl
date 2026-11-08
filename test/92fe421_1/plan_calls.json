@@ -1,0 +1,140 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login nan-ritt-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-2307354647 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2307354647",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login nan-ritt-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'venmo'",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-prime-subscriptions amazon-token)",
+      "api": "amazon.show_prime_subscriptions",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token relationship-roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-transactions venmo-token datetime-2023-05-17t00-00-00)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "min_created_at": "2023-05-17T00:00:00"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-create-payment-request roommate-a-email amount-share venmo-token note-amazon-subscription roommate-a)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a contact with relationship 'roommate' that has NOT sent a venmo transaction for the subscription (per venmo.show_transactions)",
+          "object": "roommate-a-email"
+        },
+        "amount": {
+          "$from": "amazon.show_prime_subscriptions",
+          "field": "price of the prime subscription paid yesterday (2023-05-17) divided by (number of roommate contacts + 1)",
+          "object": "amount-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Amazon Subscription"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-create-payment-request roommate-b-email amount-share venmo-token note-amazon-subscription roommate-b)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a contact with relationship 'roommate' that has NOT sent a venmo transaction for the subscription (per venmo.show_transactions)",
+          "object": "roommate-b-email"
+        },
+        "amount": {
+          "$from": "amazon.show_prime_subscriptions",
+          "field": "price of the prime subscription paid yesterday (2023-05-17) divided by (number of roommate contacts + 1)",
+          "object": "amount-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Amazon Subscription"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task roommate-a roommate-b)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

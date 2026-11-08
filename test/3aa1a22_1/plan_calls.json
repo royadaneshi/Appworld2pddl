@@ -1,0 +1,124 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-username-7934818191 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7934818191",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(splitwise-login carbrown-at-gmail-com splitwise-password phone-token)",
+      "api": "splitwise.login",
+      "args": {
+        "username": "carbrown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"splitwise\"",
+          "object": "splitwise-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-text-messages phone-token query-splitwise)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "splitwise"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token sender-number-1)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "phone_number (sender) of invitation-message-1",
+          "object": "sender-number-1"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token sender-number-2)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "phone_number (sender) of invitation-message-2",
+          "object": "sender-number-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-delete-text-message invitation-message-2 phone-token sender-number-2)",
+      "api": "phone.delete_text_message",
+      "args": {
+        "text_message_id": {
+          "$from": "phone.search_text_messages",
+          "field": "text_message_id of a Splitwise group-invitation message with created_at on 2023-05-17 whose sender phone_number is NOT found by phone.search_contacts",
+          "object": "invitation-message-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(splitwise-accept-group-invitation invitation-code-1 phone-token invitation-message-1 sender-number-1 splitwise-group-1)",
+      "api": "splitwise.accept_group_invitation",
+      "args": {
+        "invitation_code": {
+          "$from": "phone.search_text_messages",
+          "field": "invitation code parsed from the message text of invitation-message-1",
+          "object": "invitation-code-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task splitwise-group-1 invitation-message-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

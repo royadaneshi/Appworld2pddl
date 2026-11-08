@@ -1,0 +1,170 @@
+[
+  {
+    "object": "phone-number-6727300099",
+    "value": "6727300099",
+    "from_api": null,
+    "field": "supervisor phone_number (phone username)"
+  },
+  {
+    "object": "kat-simp-at-gmail-com",
+    "value": "kat_simp@gmail.com",
+    "from_api": null,
+    "field": "supervisor email (gmail and amazon username)"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "relationship-husband",
+    "value": "husband",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "husband-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the contact with relationship husband"
+  },
+  {
+    "object": "husband-work-address",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "work_address of the husband contact (full address string; parsed into components below)"
+  },
+  {
+    "object": "husband-name",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "first_name + ' ' + last_name of the husband contact"
+  },
+  {
+    "object": "husband-street",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "street part parsed from work_address"
+  },
+  {
+    "object": "husband-city",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "city part parsed from work_address"
+  },
+  {
+    "object": "husband-state",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "state part parsed from work_address"
+  },
+  {
+    "object": "husband-country",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "country part parsed from work_address"
+  },
+  {
+    "object": "husband-zip",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "zip code part parsed from work_address (as integer)"
+  },
+  {
+    "object": "datetime-2023-05-18",
+    "value": "2023-05-18T00:00:00",
+    "from_api": null,
+    "field": "start of the current day"
+  },
+  {
+    "object": "husband-email-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread received today from the husband's email about the amazon order"
+  },
+  {
+    "object": "requested-product-type",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "product type requested in emails[].body"
+  },
+  {
+    "object": "requested-max-price",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "maximum price (budget) stated in emails[].body"
+  },
+  {
+    "object": "sort-key-rating-desc",
+    "value": "-rating",
+    "from_api": null,
+    "field": "sort products by rating descending"
+  },
+  {
+    "object": "top-rated-product",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the highest-rated result (first result with the sort; price <= max price)"
+  },
+  {
+    "object": "quantity-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "flag-true",
+    "value": "true",
+    "from_api": null,
+    "field": "clear_cart_first so the order contains only the requested product"
+  },
+  {
+    "object": "husband-work-amazon-address",
+    "value": null,
+    "from_api": "amazon.add_address",
+    "field": "address_id"
+  },
+  {
+    "object": "payment-card-1",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id of the first (any valid) card"
+  },
+  {
+    "object": "new-order",
+    "value": null,
+    "from_api": "amazon.place_order",
+    "field": "order_id"
+  }
+]

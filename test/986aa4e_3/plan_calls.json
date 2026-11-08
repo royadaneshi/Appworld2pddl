@@ -1,0 +1,268 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login jamie-solomon-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jamie-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(todoist-login jamie-solomon-at-gmail-com todoist-password spotify-token)",
+      "api": "todoist.login",
+      "args": {
+        "username": "jamie-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"todoist\"",
+          "object": "todoist-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-playlist-library spotify-token query-bangkok bangkok-playlist)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "query": "Bangkok"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-playlist bangkok-playlist spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the trip playlist (title matches the one shared on the task)",
+          "object": "bangkok-playlist"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(todoist-show-projects spotify-token query-bangkok bangkok-trip-project)",
+      "api": "todoist.show_projects",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "query": "Bangkok"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(todoist-show-tasks bangkok-trip-project spotify-token spotify-playlist-task)",
+      "api": "todoist.show_tasks",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id of the project whose name mentions the Bangkok trip",
+          "object": "bangkok-trip-project"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(todoist-update-task spotify-playlist-task spotify-token flag-true)",
+      "api": "todoist.update_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of the task about preparing the Spotify playlist",
+          "object": "spotify-playlist-task"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "is_completed": true
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(todoist-show-task-comments spotify-playlist-task spotify-token)",
+      "api": "todoist.show_task_comments",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of the task about preparing the Spotify playlist",
+          "object": "spotify-playlist-task"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-remove-song-from-playlist bangkok-playlist song-remove-1 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the trip playlist (title matches the one shared on the task)",
+          "object": "bangkok-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id whose title matches the first song suggested for removal in the comments",
+          "object": "song-remove-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-remove-song-from-playlist bangkok-playlist song-remove-2 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the trip playlist (title matches the one shared on the task)",
+          "object": "bangkok-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id whose title matches the second song suggested for removal in the comments",
+          "object": "song-remove-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(todoist-post-task-comment spotify-playlist-task comment-thanks-updated spotify-token)",
+      "api": "todoist.post_task_comment",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of the task about preparing the Spotify playlist",
+          "object": "spotify-playlist-task"
+        },
+        "content": "Thanks! Updated.",
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-search-songs query-song-add-1 song-add-1)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "todoist.show_task_comments",
+          "field": "content: title (and artist) of the first song friends suggested to add",
+          "object": "query-song-add-1"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-add-song-to-playlist bangkok-playlist song-add-1 spotify-token)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the trip playlist (title matches the one shared on the task)",
+          "object": "bangkok-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the first suggested title/artist",
+          "object": "song-add-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-search-songs query-song-add-2 song-add-2)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "todoist.show_task_comments",
+          "field": "content: title (and artist) of the second song friends suggested to add",
+          "object": "query-song-add-2"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-add-song-to-playlist bangkok-playlist song-add-2 spotify-token)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the trip playlist (title matches the one shared on the task)",
+          "object": "bangkok-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the second suggested title/artist",
+          "object": "song-add-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(supervisor-complete-task spotify-playlist-task comment-thanks-updated bangkok-playlist song-add-1 song-add-2 song-remove-1 song-remove-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

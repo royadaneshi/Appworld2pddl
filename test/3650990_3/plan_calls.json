@@ -1,0 +1,60 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login connorbrow-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "connorbrow@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-returns amazon-token product-of-recent-return)",
+      "api": "amazon.show_returns",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product product-of-recent-return)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_returns",
+          "field": "product_id of each return whose created_at falls in this or last month (2023-04-01 .. 2023-05-18); page through results",
+          "object": "product-of-recent-return"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task answer-yes-or-no)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_product",
+          "field": "\"yes\" if any such returned product's name/product_type is a crescent wrench, otherwise \"no\"",
+          "object": "answer-yes-or-no"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

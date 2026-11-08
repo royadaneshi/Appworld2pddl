@@ -1,0 +1,144 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(spotify-send-password-reset-code eri-powe-at-gmail-com)",
+      "api": "spotify.send_password_reset_code",
+      "args": {
+        "email": "eri_powe@gmail.com"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login username-eri-powe-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "eri_powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-4675246489 phone-password gmail-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4675246489",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-password-reset spotify-reset-email-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "password reset"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-thread spotify-reset-email-thread gmail-token spotify-reset-code)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the (latest) thread whose subject mentions the Spotify password reset code",
+          "object": "spotify-reset-email-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts gmail-token sibling)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "relationship": "sibling"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-reset-password eri-powe-at-gmail-com spotify-reset-code new-password-68qunl)",
+      "api": "spotify.reset_password",
+      "args": {
+        "email": "eri_powe@gmail.com",
+        "password_reset_code": {
+          "$from": "gmail.show_thread",
+          "field": "password reset code parsed from emails[].body of the Spotify reset email",
+          "object": "spotify-reset-code"
+        },
+        "new_password": "+68qUnL"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-send-text-message phone-of-sibling-1 message-new-spotify-password gmail-token sibling-1 sibling new-password-68qunl)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of 1st contact returned with relationship == \"sibling\"",
+          "object": "phone-of-sibling-1"
+        },
+        "message": "Hi! The password of our shared Spotify premium account has been changed to +68qUnL.",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-send-text-message phone-of-sibling-2 message-new-spotify-password gmail-token sibling-2 sibling new-password-68qunl)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of 2nd contact returned with relationship == \"sibling\"",
+          "object": "phone-of-sibling-2"
+        },
+        "message": "Hi! The password of our shared Spotify premium account has been changed to +68qUnL.",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task new-password-68qunl sibling-1 sibling-2 message-new-spotify-password)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

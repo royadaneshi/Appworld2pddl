@@ -1,0 +1,80 @@
+[
+  {
+    "object": "joseharr-at-gmail-com",
+    "value": "joseharr@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "type-insect-repellent",
+    "value": "insect repellent",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "sort-price-asc",
+    "value": "price",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "flag-true",
+    "value": "true",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "cheapest-insect-repellent",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the lowest-price result (iterate all pages) whose delivery_days <= 5"
+  },
+  {
+    "object": "amount-order-total",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "total amount payable for the cart (product price plus any delivery fee)"
+  },
+  {
+    "object": "jose-home-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id of the entry whose name is \"Home\" (matches supervisor home address)"
+  },
+  {
+    "object": "amazon-card-1",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id of a card that also exists on venmo (same card_number)"
+  },
+  {
+    "object": "venmo-card-1",
+    "value": null,
+    "from_api": "venmo.show_payment_cards",
+    "field": "payment_card_id of the card whose card_number equals amazon-card-1's card_number"
+  }
+]

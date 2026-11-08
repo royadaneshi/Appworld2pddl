@@ -1,0 +1,165 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(gmail-login username-chris-mcco-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "chris.mcco@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-payment-cards)",
+      "api": "supervisor.show_payment_cards",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-signup chris mccoy chris-mcco-at-gmail-com spotify-new-password chris-mccoy)",
+      "api": "spotify.signup",
+      "args": {
+        "first_name": "Chris",
+        "last_name": "Mccoy",
+        "email": "chris.mcco@gmail.com",
+        "password": "ChrisMccoy2023!"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-spotify verification-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "spotify"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-thread verification-thread gmail-token spotify-verification-code)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the most recent thread containing the Spotify account verification email",
+          "object": "verification-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-verify-account chris-mcco-at-gmail-com spotify-verification-code)",
+      "api": "spotify.verify_account",
+      "args": {
+        "email": "chris.mcco@gmail.com",
+        "verification_code": {
+          "$from": "gmail.show_thread",
+          "field": "verification code parsed from the body of the latest email in the thread",
+          "object": "spotify-verification-code"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-login username-chris-mcco-at-gmail-com spotify-new-password gmail-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "chris.mcco@gmail.com",
+        "password": "ChrisMccoy2023!"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-add-payment-card card-name-1 owner-name-chris-mccoy card-number-1 expiry-year-1 expiry-month-1 cvv-number-1 gmail-token supervisor-card)",
+      "api": "spotify.add_payment_card",
+      "args": {
+        "card_name": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "card_name (pick a card whose expiry is after 2023-05)",
+          "object": "card-name-1"
+        },
+        "owner_name": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "owner_name (same card)",
+          "object": "owner-name-chris-mccoy"
+        },
+        "card_number": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "card_number (same card)",
+          "object": "card-number-1"
+        },
+        "expiry_year": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "expiry_year (same card)",
+          "object": "expiry-year-1"
+        },
+        "expiry_month": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "expiry_month (same card)",
+          "object": "expiry-month-1"
+        },
+        "cvv_number": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "cvv_number (same card)",
+          "object": "cvv-number-1"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-subscribe-premium supervisor-card yearly gmail-token)",
+      "api": "spotify.subscribe_premium",
+      "args": {
+        "payment_card_id": {
+          "$from": "spotify.add_payment_card",
+          "field": "payment_card_id",
+          "object": "supervisor-card"
+        },
+        "duration": "yearly",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,119 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login brandon-webe-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "brandon-webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login brandon-webe-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "brandon-webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-inbox-threads file-system-token query-sales-manager datetime-2023-05-04t00-00-00)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "Sales Manager",
+        "min_created_at": "2023-05-04T00:00:00"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-thread application-thread file-system-token query-sales-manager sales-manager-applicant)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Sales Manager job application (placeholder: repeat show_thread per thread)",
+          "object": "application-thread"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-download-attachment application-attachment file-system-token file-system-token path-attachment-file sales-manager-applicant)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id for every attachment of each application email (placeholder: repeat download per attachment)",
+          "object": "application-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting/attachments/<first_name>__<last_name>/<attachment name>\" with lower-cased applicant names and the attachment's name from the email",
+          "object": "path-attachment-file"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-create-file path-job-applications-csv file-system-token csv-content-job-applications sales-manager-applicant)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/documents/work/recruiting/job_applications.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "gmail.show_thread",
+          "field": "header line \"First Name,Last Name,LinkedIn URL\" followed by one \"<first>,<last>,<linkedin_url>\" line per applicant whose email contains a LinkedIn URL (applicants without a URL are skipped)",
+          "object": "csv-content-job-applications"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task application-attachment path-attachment-file path-job-applications-csv csv-content-job-applications)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

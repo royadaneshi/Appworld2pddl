@@ -1,0 +1,168 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login kathrynmaldonado-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "kathrynmaldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product-purchases amazon-token past-tshirt-product)",
+      "api": "amazon.show_product_purchases",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product past-tshirt-product my-size)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product_purchases",
+          "field": "product_id of any past purchase whose product is a t-shirt",
+          "object": "past-tshirt-product"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-search-products tshirt my-size candidate-tshirt)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "t-shirt",
+        "relative_size": {
+          "$from": "amazon.show_product",
+          "field": "relative_size of the past t-shirt product",
+          "object": "my-size"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-product-questions candidate-tshirt candidate-question)",
+      "api": "amazon.show_product_questions",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (product_type t-shirt, relative_size == my-size) whose reviews and question answers contain no report of color fading after washing",
+          "object": "candidate-tshirt"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-product-question-answers candidate-question candidate-tshirt)",
+      "api": "amazon.show_product_question_answers",
+      "args": {
+        "question_id": {
+          "$from": "amazon.show_product_questions",
+          "field": "question_id (each question of the candidate product)",
+          "object": "candidate-question"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-show-product-reviews candidate-tshirt)",
+      "api": "amazon.show_product_reviews",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (product_type t-shirt, relative_size == my-size) whose reviews and question answers contain no report of color fading after washing",
+          "object": "candidate-tshirt"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart candidate-tshirt amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (product_type t-shirt, relative_size == my-size) whose reviews and question answers contain no report of color fading after washing",
+          "object": "candidate-tshirt"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token candidate-tshirt quantity-1 new-order)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any card)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry matching the supervisor's home address",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task new-order candidate-tshirt quantity-1 home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

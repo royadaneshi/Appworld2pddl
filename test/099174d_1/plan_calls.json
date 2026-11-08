@@ -1,0 +1,197 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login joseph-webe-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "joseph.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login joseph-webe-at-gmail-com simple-note-password amazon-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "joseph.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-search-notes amazon-token query-amazon-shopping-list amazon-shopping-list-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Amazon shopping list"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-show-note amazon-shopping-list-note amazon-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title is the Amazon shopping list",
+          "object": "amazon-shopping-list-note"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-product-to-cart list-product-3 amazon-token qty-of-item-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of the 3rd list item",
+          "object": "list-product-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "simple_note.show_note",
+          "field": "content: quantity of the 3rd list item",
+          "object": "qty-of-item-3"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart list-product-2 amazon-token qty-of-item-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of the 2nd list item",
+          "object": "list-product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "simple_note.show_note",
+          "field": "content: quantity of the 2nd list item",
+          "object": "qty-of-item-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart list-product-1 amazon-token qty-of-item-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of the 1st list item",
+          "object": "list-product-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "simple_note.show_note",
+          "field": "content: quantity of the 1st list item",
+          "object": "qty-of-item-1"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-addresses amazon-token delivery-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order payment-card-1 delivery-address amazon-token)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (card named in the note if any, else the first card)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id where name == the delivery address name (Home/Work) stated in the note content",
+          "object": "delivery-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

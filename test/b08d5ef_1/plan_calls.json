@@ -1,0 +1,347 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-hurom-hp-slow-juicer hurom-hp-slow-juicer)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Hurom HP Slow Juicer"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login amazon-username-jo-harr-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jo-harr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-username-2254213734 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2254213734",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token rel-parent)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "parent"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-address name-parents-home street-parents-home city-parents-home state-parents-home country-parents-home zip-parents-home amazon-token addr-parents-home parent-1 rel-parent)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of a contact with relationship parent living at that home_address",
+          "object": "name-parents-home"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of the parents' contact",
+          "object": "street-parents-home"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of the parents' contact",
+          "object": "city-parents-home"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of the parents' contact",
+          "object": "state-parents-home"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of the parents' contact",
+          "object": "country-parents-home"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part, as integer) of the parents' contact",
+          "object": "zip-parents-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart hurom-hp-slow-juicer amazon-token quantity-2 addr-parents-home)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Hurom HP Slow Juicer\"",
+          "object": "hurom-hp-slow-juicer"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 2
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-place-order card-1 addr-parents-home amazon-token hurom-hp-slow-juicer quantity-2)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding the parents' home address",
+          "object": "addr-parents-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(phone-search-contacts phone-token rel-sibling)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sibling"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-address name-sibling-1-home street-sibling-1-home city-sibling-1-home state-sibling-1-home country-sibling-1-home zip-sibling-1-home amazon-token addr-sibling-1-home sibling-1 rel-sibling)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of first sibling contact (relationship=sibling)",
+          "object": "name-sibling-1-home"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of first sibling",
+          "object": "street-sibling-1-home"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of first sibling",
+          "object": "city-sibling-1-home"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of first sibling",
+          "object": "state-sibling-1-home"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of first sibling",
+          "object": "country-sibling-1-home"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part, as integer) of first sibling",
+          "object": "zip-sibling-1-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-product-to-cart hurom-hp-slow-juicer amazon-token quantity-1 addr-sibling-1-home)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Hurom HP Slow Juicer\"",
+          "object": "hurom-hp-slow-juicer"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order card-1 addr-sibling-1-home amazon-token hurom-hp-slow-juicer quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding first sibling's home address",
+          "object": "addr-sibling-1-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-add-address name-sibling-2-home street-sibling-2-home city-sibling-2-home state-sibling-2-home country-sibling-2-home zip-sibling-2-home amazon-token addr-sibling-2-home sibling-2 rel-sibling)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of second sibling contact (relationship=sibling)",
+          "object": "name-sibling-2-home"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of second sibling",
+          "object": "street-sibling-2-home"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of second sibling",
+          "object": "city-sibling-2-home"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of second sibling",
+          "object": "state-sibling-2-home"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of second sibling",
+          "object": "country-sibling-2-home"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part, as integer) of second sibling",
+          "object": "zip-sibling-2-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-add-product-to-cart hurom-hp-slow-juicer amazon-token quantity-1 addr-sibling-2-home)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Hurom HP Slow Juicer\"",
+          "object": "hurom-hp-slow-juicer"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-place-order card-1 addr-sibling-2-home amazon-token hurom-hp-slow-juicer quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding second sibling's home address",
+          "object": "addr-sibling-2-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

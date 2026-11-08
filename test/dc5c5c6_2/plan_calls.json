@@ -1,0 +1,291 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products watch sort-rating-desc top-rated-watch)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "watch",
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product top-rated-watch)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "object": "top-rated-watch"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login matthew-blac-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "matthew.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-add-product-to-cart top-rated-watch amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "object": "top-rated-watch"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-login phone-4886643554 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4886643554",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token supervisor-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-rated-watch amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "object": "top-rated-watch"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts phone-token brother)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "brother"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-address name-brother-1 street-brother-1 city-brother-1 state-brother-1 country-brother-1 zip-brother-1 amazon-token brother-1 addr-brother-1)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of the 1st contact with relationship brother",
+          "object": "name-brother-1"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part of home_address of the 1st brother",
+          "object": "street-brother-1"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part of home_address of the 1st brother",
+          "object": "city-brother-1"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part of home_address of the 1st brother",
+          "object": "state-brother-1"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part of home_address of the 1st brother",
+          "object": "country-brother-1"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part of home_address of the 1st brother",
+          "object": "zip-brother-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-address name-brother-2 street-brother-2 city-brother-2 state-brother-2 country-brother-2 zip-brother-2 amazon-token brother-2 addr-brother-2)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of the 2nd contact with relationship brother",
+          "object": "name-brother-2"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part of home_address of the 2nd brother",
+          "object": "street-brother-2"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part of home_address of the 2nd brother",
+          "object": "city-brother-2"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part of home_address of the 2nd brother",
+          "object": "state-brother-2"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part of home_address of the 2nd brother",
+          "object": "country-brother-2"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part of home_address of the 2nd brother",
+          "object": "zip-brother-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order supervisor-card addr-brother-1 amazon-token brother-1 top-rated-watch)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card on file)",
+          "object": "supervisor-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned for the 1st brother's home address",
+          "object": "addr-brother-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-product-to-cart top-rated-watch amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "object": "top-rated-watch"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-rated-watch amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "object": "top-rated-watch"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-place-order supervisor-card addr-brother-2 amazon-token brother-2 top-rated-watch)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card on file)",
+          "object": "supervisor-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned for the 2nd brother's home address",
+          "object": "addr-brother-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(supervisor-complete-task brother-1 brother-2 top-rated-watch addr-brother-1 addr-brother-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

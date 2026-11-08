@@ -1,0 +1,174 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login cod-smith-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login cod-smith-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-login cod-smith-at-gmail-com simple-note-password file-system-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-drafts file-system-token query-workout draft-reply-to-lindsey)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "workout"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-draft draft-reply-to-lindsey file-system-token lindsey)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft that is a reply (response_to_email_id set) to Lindsey's workout-plan email",
+          "object": "draft-reply-to-lindsey"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-search-notes file-system-token query-workout workout-plan-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "workout"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(simple-note-show-note workout-plan-note file-system-token workout-plan-content)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title is the weekly workout plan",
+          "object": "workout-plan-note"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-create-file workout-plan-txt file-system-token workout-plan-content)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/workout_plan.txt",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content",
+          "object": "workout-plan-content"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-upload-attachments-to-draft draft-reply-to-lindsey workout-plan-txt file-system-token file-system-token)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft that is a reply (response_to_email_id set) to Lindsey's workout-plan email",
+          "object": "draft-reply-to-lindsey"
+        },
+        "attachment_file_paths": "~/workout_plan.txt",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-send-email-from-draft draft-reply-to-lindsey file-system-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft that is a reply (response_to_email_id set) to Lindsey's workout-plan email",
+          "object": "draft-reply-to-lindsey"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task draft-reply-to-lindsey workout-plan-txt workout-plan-content)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

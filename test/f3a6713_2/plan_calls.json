@@ -1,0 +1,233 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login chris-mcco-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "chris.mcco@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login chris-mcco-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "chris.mcco@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'gmail'",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-addresses amazon-token chris-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token chris-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-outbox-threads amazon-token query-camping camping-checklist-thread)",
+      "api": "gmail.show_outbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "camping"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-thread camping-checklist-thread amazon-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_outbox_threads",
+          "field": "email_thread_id of the thread in which the camping checklist was sent to the roommates",
+          "object": "camping-checklist-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-search-products query-remaining-item-1 remaining-item-1 best-remaining-item-1)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_thread",
+          "field": "name of the 1st checklist item that no roommate committed to bring (from the checklist email and the roommates' replies)",
+          "object": "query-remaining-item-1"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart best-remaining-item-1 amazon-token quantity-remaining-item-1 remaining-item-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result of the matching product type with the highest rating (search with query-remaining-item-1)",
+          "object": "best-remaining-item-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "gmail.show_thread",
+          "field": "quantity listed in the checklist for remaining item 1",
+          "object": "quantity-remaining-item-1"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-search-products query-remaining-item-2 remaining-item-2 best-remaining-item-2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_thread",
+          "field": "name of the 2nd checklist item that no roommate committed to bring",
+          "object": "query-remaining-item-2"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-product-to-cart best-remaining-item-2 amazon-token quantity-remaining-item-2 remaining-item-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result of the matching product type with the highest rating (search with query-remaining-item-2)",
+          "object": "best-remaining-item-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "gmail.show_thread",
+          "field": "quantity listed in the checklist for remaining item 2",
+          "object": "quantity-remaining-item-2"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-search-products query-remaining-item-3 remaining-item-3 best-remaining-item-3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_thread",
+          "field": "name of the 3rd checklist item that no roommate committed to bring",
+          "object": "query-remaining-item-3"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-add-product-to-cart best-remaining-item-3 amazon-token quantity-remaining-item-3 remaining-item-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result of the matching product type with the highest rating (search with query-remaining-item-3)",
+          "object": "best-remaining-item-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "gmail.show_thread",
+          "field": "quantity listed in the checklist for remaining item 3",
+          "object": "quantity-remaining-item-3"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-place-order chris-payment-card chris-address amazon-token)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first/any card of the supervisor)",
+          "object": "chris-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id (first/any existing address of the supervisor; do not add/update addresses)",
+          "object": "chris-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

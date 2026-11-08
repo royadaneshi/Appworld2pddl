@@ -1,0 +1,62 @@
+[
+  {
+    "object": "william-mart-at-gmail-com",
+    "value": "william_mart@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "past-product",
+    "value": null,
+    "from_api": "amazon.show_product_purchases",
+    "field": "product_id (each distinct past purchased product; repeat show_product per product to collect all trusted seller ids)"
+  },
+  {
+    "object": "past-seller",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "seller_id of a past purchased product"
+  },
+  {
+    "object": "area-rug",
+    "value": "area rug",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "max-price-150",
+    "value": "150",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "area-rug-1",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of a result with product_type == \"area rug\", price <= 150 and seller_id in the trusted seller ids"
+  },
+  {
+    "object": "home-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id (first entry)"
+  },
+  {
+    "object": "primary-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (first entry)"
+  }
+]

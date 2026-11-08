@@ -1,0 +1,74 @@
+[
+  {
+    "object": "dav-mart-at-gmail-com",
+    "value": "dav.mart@gmail.com",
+    "from_api": null,
+    "field": "supervisor email, used as username for both gmail and file_system"
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-marketing-manager",
+    "value": "Marketing Manager",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "datetime-2023-04-27t00-00-00",
+    "value": "2023-04-27T00:00:00",
+    "from_api": null,
+    "field": "current datetime 2023-05-18T12:00:00 minus 3 weeks (21 days)"
+  },
+  {
+    "object": "application-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread)"
+  },
+  {
+    "object": "application-attachment",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant)"
+  },
+  {
+    "object": "path-attachment-download",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name"
+  },
+  {
+    "object": "path-applications-csv",
+    "value": "~/documents/work/hiring_process/applications.csv",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "content-applications-csv",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "\"First Name,Last Name,LinkedIn URL\\n\" followed by one \"<first>,<last>,<linkedin_url>\" line per applicant whose email body contains a LinkedIn URL (applicants without a URL are skipped); names and URL parsed from the email sender/body"
+  }
+]

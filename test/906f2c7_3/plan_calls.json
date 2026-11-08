@@ -1,0 +1,132 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login username-ma-smith-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "ma_smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login username-ma-smith-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "ma_smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-7196131136 phone-password file-system-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7196131136",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts file-system-token query-cody cody cody-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "Cody"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-text-messages file-system-token cody-phone-number cody cody-email vacation-pictures-directory)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Cody\"",
+          "object": "cody-phone-number"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-directory file-system-token vacation-pictures-directory vacation-pictures-file)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": {
+          "$from": "phone.search_text_messages",
+          "field": "directory path / location of the vacation pictures mentioned in Cody's message",
+          "object": "vacation-pictures-directory"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-send-email cody-email subject-vacation-pictures body-vacation-pictures file-system-token vacation-pictures-file file-system-token cody)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "phone.search_text_messages",
+          "field": "email address stated in Cody's latest message about the vacation pictures (fallback: contact email from phone.search_contacts, field email)",
+          "object": "cody-email"
+        },
+        "subject": "Vacation Pictures",
+        "body": "Hi Cody, here are our vacation pictures as requested.",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry in that directory matching the file Cody asked for (the vacation pictures archive)",
+          "object": "vacation-pictures-file"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task cody vacation-pictures-file)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

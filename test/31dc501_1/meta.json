@@ -1,0 +1,62 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1300,
+    "output_tokens": 5268,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "31dc501_1",
+  "instruction": "Set my weekday wake up alarm snooze to 5 minutes.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "phone"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.show_alarms",
+    "phone.update_alarm",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app task (phone). The agent learns the phone password, logs in, lists alarms to discover the id of the weekday wake-up alarm (label mentions wake up, repeat_days = Mon-Fri), then calls update_alarm passing only snooze_minutes=5 so that snooze_minutes is the sole changed field (the evaluation requires exactly one updated alarm with only that field changed). The alarm and snooze objects on supervisor-complete-task are task records (not API arguments); complete_task is called without an answer. The reference solution may additionally call phone.show_alarm to inspect the alarm details, which is optional and not modeled. Static init facts target-alarm/target-snooze pin the goal to the correct alarm and value.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(phone-login username-3654328626 phone-password phone-token)",
+      "(phone-show-alarms phone-token weekday-wake-up-alarm)",
+      "(phone-update-alarm weekday-wake-up-alarm phone-token snooze-5)",
+      "(supervisor-complete-task weekday-wake-up-alarm snooze-5)"
+    ],
+    "message": "",
+    "seconds": 0.78
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 55.9,
+  "effort": "xhigh"
+}

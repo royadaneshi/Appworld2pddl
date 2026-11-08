@@ -1,0 +1,108 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-3379617841 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3379617841",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login paul-mill-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "paul_mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token relationship-roommate roommate roommate-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-show-received-payment-requests venmo-token housing-request roommate roommate-email amount-original)",
+      "api": "venmo.show_received_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-transaction roommate-email amount-corrected venmo-token note-you-forgot-about-the-5-percent-increase roommate housing-request amount-original)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships include \"roommate\"",
+          "object": "roommate-email"
+        },
+        "amount": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "computed: round(amount * 1.05, 2)",
+          "object": "amount-corrected"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "You forgot about the 5% increase!"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-deny-payment-request housing-request venmo-token)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request from roommate-email created today (2023-05-18) about the housing bill",
+          "object": "housing-request"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task housing-request roommate amount-corrected note-you-forgot-about-the-5-percent-increase)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

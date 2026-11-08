@@ -1,0 +1,76 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login joseph-webe-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "joseph.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-show-payment-cards spotify-token spotify-payment-card)",
+      "api": "spotify.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-premium-subscriptions spotify-token last-premium-subscription same-duration)",
+      "api": "spotify.show_premium_subscriptions",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-subscribe-premium spotify-payment-card same-duration spotify-token)",
+      "api": "spotify.subscribe_premium",
+      "args": {
+        "payment_card_id": {
+          "$from": "spotify.show_payment_cards",
+          "field": "payment_card_id of a listed payment card (first card)",
+          "object": "spotify-payment-card"
+        },
+        "duration": {
+          "$from": "spotify.show_premium_subscriptions",
+          "field": "duration of the most recent (just-expired) subscription",
+          "object": "same-duration"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task same-duration)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

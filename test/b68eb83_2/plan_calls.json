@@ -1,0 +1,135 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login an-harrison-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "an-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login an-harrison-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "an-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-pictures melissa-trip-pictures-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "pictures"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-thread melissa-trip-pictures-thread gmail-token trip-pictures-zip)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread sent by Melissa about trip pictures",
+          "object": "melissa-trip-pictures-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-download-attachment trip-pictures-zip file-system-token gmail-token trip-pictures-zip-path)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].id of the compressed pictures archive",
+          "object": "trip-pictures-zip"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-decompress-file trip-pictures-zip-path file-system-token trip-pictures-dir)",
+      "api": "file_system.decompress_file",
+      "args": {
+        "compressed_file_path": {
+          "$from": "gmail.download_attachment",
+          "field": "downloaded file path returned in the response",
+          "object": "trip-pictures-zip-path"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-directory file-system-token trip-pictures-dir least-pictures-location)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": {
+          "$from": "file_system.decompress_file",
+          "field": "decompressed directory path returned in the response",
+          "object": "trip-pictures-dir"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task least-pictures-location)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "file_system.show_directory",
+          "field": "name of the trip sub-directory containing the fewest picture files (listing with recursive=true)",
+          "object": "least-pictures-location"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

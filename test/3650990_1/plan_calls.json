@@ -1,0 +1,77 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login joseph-webe-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "joseph.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-returns amazon-token return-1)",
+      "api": "amazon.show_returns",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-return return-1 amazon-token product-1)",
+      "api": "amazon.show_return",
+      "args": {
+        "return_id": {
+          "$from": "amazon.show_returns",
+          "field": "return_id of each return whose created_at falls in 2023-05 (this month); iterate pages/returns as needed",
+          "object": "return-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product product-1 return-1 yes-or-no-answer)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_return",
+          "field": "product_id",
+          "object": "product-1"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task yes-or-no-answer)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_product",
+          "field": "\"yes\" if any return created in 2023-05 has product_type == \"office desk\", else \"no\"",
+          "object": "yes-or-no-answer"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

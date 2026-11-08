@@ -1,0 +1,80 @@
+[
+  {
+    "object": "adrian-burt-at-gmail-com",
+    "value": "adrian_burt@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-t-shirt",
+    "value": "t-shirt",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "product-type-t-shirt",
+    "value": "t-shirt",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "my-size",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "relative_size (of the product from the past t-shirt order)"
+  },
+  {
+    "object": "quantity-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "past-tshirt-order",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "order_id of any returned order that contains a t-shirt"
+  },
+  {
+    "object": "past-tshirt-product",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order_items[].product_id of the t-shirt item"
+  },
+  {
+    "object": "candidate-tshirt",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of a result (product_type == t-shirt, relative_size == my size) whose show_product_reviews and show_product_questions contain no report of color fading after washing"
+  },
+  {
+    "object": "payment-card-1",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (any card)"
+  },
+  {
+    "object": "home-address-1",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id of the entry whose name is Home (the supervisor's home address)"
+  },
+  {
+    "object": "new-order",
+    "value": null,
+    "from_api": "amazon.place_order",
+    "field": "order_id"
+  }
+]

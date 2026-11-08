@@ -1,0 +1,63 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login joyce-weav-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "joyce-weav@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-search-friends venmo-token query-stacy stacy stacy-email)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "Stacy"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-create-payment-request stacy-email amount-13 venmo-token note-for-yesterdays-meal privacy-public stacy request-stacy-13)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose first_name == \"Stacy\"",
+          "object": "stacy-email"
+        },
+        "amount": 13,
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For yesterday's meal",
+        "private": false
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task request-stacy-13)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

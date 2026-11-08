@@ -1,0 +1,241 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login jo-ball-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "jo.ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'file_system'",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login jo-ball-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "jo.ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'gmail'",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-2306532706 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2306532706",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token dir-documents-work template-file)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/work"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file template-file file-system-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the reminder-email template file listed in ~/documents/work",
+          "object": "template-file"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-inbox-threads file-system-token query-talk schedule-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "talk"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-thread schedule-thread file-system-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from the manager that contains the Friday talk schedule",
+          "object": "schedule-thread"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts phone-token relationship-coworker coworker-emails)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "coworker"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-create-draft coworker-emails body-talk-1 file-system-token subject-todays-talk send-at-friday-1-0800 talk-1)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of every returned contact (list of all company members)",
+          "object": "coworker-emails"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template) with placeholders filled from the 1st talk entry (speaker/title/etc.) of the schedule email",
+          "object": "body-talk-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "subject": "Today's Talk",
+        "scheduled_send_at": {
+          "$from": "gmail.show_thread",
+          "field": "date of the 1st Friday talk in the schedule email body, formatted as <YYYY-MM-DD>T08:00:00",
+          "object": "send-at-friday-1-0800"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-create-draft coworker-emails body-talk-2 file-system-token subject-todays-talk send-at-friday-2-0800 talk-2)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of every returned contact (list of all company members)",
+          "object": "coworker-emails"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template) with placeholders filled from the 2nd talk entry of the schedule email",
+          "object": "body-talk-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "subject": "Today's Talk",
+        "scheduled_send_at": {
+          "$from": "gmail.show_thread",
+          "field": "date of the 2nd Friday talk in the schedule email body, formatted as <YYYY-MM-DD>T08:00:00",
+          "object": "send-at-friday-2-0800"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-create-draft coworker-emails body-talk-3 file-system-token subject-todays-talk send-at-friday-3-0800 talk-3)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of every returned contact (list of all company members)",
+          "object": "coworker-emails"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template) with placeholders filled from the 3rd talk entry of the schedule email",
+          "object": "body-talk-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "subject": "Today's Talk",
+        "scheduled_send_at": {
+          "$from": "gmail.show_thread",
+          "field": "date of the 3rd Friday talk in the schedule email body, formatted as <YYYY-MM-DD>T08:00:00",
+          "object": "send-at-friday-3-0800"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-create-draft coworker-emails body-talk-4 file-system-token subject-todays-talk send-at-friday-4-0800 talk-4)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of every returned contact (list of all company members)",
+          "object": "coworker-emails"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template) with placeholders filled from the 4th talk entry of the schedule email",
+          "object": "body-talk-4"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "subject": "Today's Talk",
+        "scheduled_send_at": {
+          "$from": "gmail.show_thread",
+          "field": "date of the 4th Friday talk in the schedule email body, formatted as <YYYY-MM-DD>T08:00:00",
+          "object": "send-at-friday-4-0800"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task talk-1 talk-2 talk-3 talk-4)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

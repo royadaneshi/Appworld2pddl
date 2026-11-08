@@ -1,0 +1,206 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(todoist-login jes-mill-username todoist-password todoist-token)",
+      "api": "todoist.login",
+      "args": {
+        "username": "jes.mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'todoist'",
+          "object": "todoist-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(todoist-show-projects todoist-token work-project)",
+      "api": "todoist.show_projects",
+      "args": {
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-profile jessica-miller jes-mill-at-gmail-com)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(todoist-show-tasks work-project todoist-token jes-mill-at-gmail-com flag-false jessica-miller)",
+      "api": "todoist.show_tasks",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id of the project used for the supervisor's job/work tasks",
+          "object": "work-project"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "assignee_email": "jes.mill@gmail.com",
+        "is_completed": false
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(todoist-show-task-comments task-1 todoist-token work-project)",
+      "api": "todoist.show_task_comments",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false)",
+          "object": "task-1"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(todoist-show-task-comments task-2 todoist-token work-project)",
+      "api": "todoist.show_task_comments",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (2nd task returned with assignee_email=supervisor email, is_completed=false)",
+          "object": "task-2"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(todoist-show-task-comments task-3 todoist-token work-project)",
+      "api": "todoist.show_task_comments",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (3rd task returned; its comments contain no one agreeing to take it)",
+          "object": "task-3"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(todoist-assign-or-unassign-task task-1 todoist-token volunteer-a-email volunteer-a)",
+      "api": "todoist.assign_or_unassign_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false)",
+          "object": "task-1"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "assignee_email": {
+          "$from": "todoist.show_task_comments",
+          "field": "commenter.email of the comment on task-1 in which the person agrees to take the task",
+          "object": "volunteer-a-email"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(todoist-assign-or-unassign-task task-2 todoist-token volunteer-b-email volunteer-b)",
+      "api": "todoist.assign_or_unassign_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (2nd task returned with assignee_email=supervisor email, is_completed=false)",
+          "object": "task-2"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "assignee_email": {
+          "$from": "todoist.show_task_comments",
+          "field": "commenter.email of the comment on task-2 in which the person agrees to take the task",
+          "object": "volunteer-b-email"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(todoist-post-task-comment task-1 thanks-volunteer-a todoist-token volunteer-a)",
+      "api": "todoist.post_task_comment",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false)",
+          "object": "task-1"
+        },
+        "content": {
+          "$from": "todoist.show_task_comments",
+          "field": "'Greatly appreciate it <first_name>!' with <first_name> = first name of the agreeing commenter on task-1 (commenter.name)",
+          "object": "thanks-volunteer-a"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(todoist-post-task-comment task-2 thanks-volunteer-b todoist-token volunteer-b)",
+      "api": "todoist.post_task_comment",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (2nd task returned with assignee_email=supervisor email, is_completed=false)",
+          "object": "task-2"
+        },
+        "content": {
+          "$from": "todoist.show_task_comments",
+          "field": "'Greatly appreciate it <first_name>!' with <first_name> = first name of the agreeing commenter on task-2 (commenter.name)",
+          "object": "thanks-volunteer-b"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task task-1 task-2 task-3 volunteer-a volunteer-b thanks-volunteer-a thanks-volunteer-b)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

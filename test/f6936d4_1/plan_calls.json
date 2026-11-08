@@ -1,0 +1,164 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products kite kite-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "kite"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product kite-product)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"kite\" whose amazon.show_product delivery_days <= 2 (arrives by Friday 2023-05-26)",
+          "object": "kite-product"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-search-products sleeping-pad sleeping-pad-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "sleeping pad"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product sleeping-pad-product)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"sleeping pad\" whose amazon.show_product delivery_days <= 2 (arrives by Friday 2023-05-26)",
+          "object": "sleeping-pad-product"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-login carbrown-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "carbrown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-product-to-cart kite-product amazon-token quantity-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"kite\" whose amazon.show_product delivery_days <= 2 (arrives by Friday 2023-05-26)",
+          "object": "kite-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 3
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart sleeping-pad-product amazon-token quantity-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"sleeping pad\" whose amazon.show_product delivery_days <= 2 (arrives by Friday 2023-05-26)",
+          "object": "sleeping-pad-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 3
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token kite-product sleeping-pad-product quantity-3 quantity-3)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first valid, non-expired card)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the supervisor's home address (name == \"Home\"; the only/first address otherwise)",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task kite-product sleeping-pad-product quantity-3 quantity-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

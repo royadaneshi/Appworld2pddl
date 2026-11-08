@@ -1,0 +1,212 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login amazon-username-jepowell-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-username-4288705164 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4288705164",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token supervisor-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts amazon-token query-jeremy jeremy jeremy-phone-number jeremy-home-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Jeremy"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-add-address jeremy-full-name jeremy-street jeremy-city jeremy-state jeremy-country jeremy-zipcode amazon-token jeremy-home-address jeremy)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of Jeremy's contact",
+          "object": "jeremy-full-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address",
+          "object": "jeremy-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address",
+          "object": "jeremy-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address",
+          "object": "jeremy-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address",
+          "object": "jeremy-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part parsed from home_address (as integer)",
+          "object": "jeremy-zipcode"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-text-messages amazon-token jeremy-phone-number jeremy jeremy-favorite-color)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Jeremy\"",
+          "object": "jeremy-phone-number"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-search-products query-t-shirt type-t-shirt jeremy-favorite-color sort-rating-desc jeremy highest-rated-t-shirt)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "t-shirt",
+        "product_type": "t-shirt",
+        "color": {
+          "$from": "phone.search_text_messages",
+          "field": "color named in the text message from Jeremy that states their favorite color",
+          "object": "jeremy-favorite-color"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart highest-rated-t-shirt amazon-token qty-1 type-t-shirt jeremy-favorite-color)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating (first result when sorted by -rating)",
+          "object": "highest-rated-t-shirt"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-gift-wrapping-to-product highest-rated-t-shirt amazon-token qty-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating (first result when sorted by -rating)",
+          "object": "highest-rated-t-shirt"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order supervisor-payment-card jeremy-home-address amazon-token highest-rated-t-shirt qty-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first card",
+          "object": "supervisor-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (the address itself is read from phone.search_contacts field home_address)",
+          "object": "jeremy-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task highest-rated-t-shirt jeremy-home-address qty-1)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

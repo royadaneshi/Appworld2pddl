@@ -1,0 +1,84 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login clmiller-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "clmiller@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-search-products query-kobo-clara-hd-ereader kobo-clara-hd-ereader)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Kobo Clara HD eReader"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product-questions kobo-clara-hd-ereader query-battery battery-question)",
+      "api": "amazon.show_product_questions",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Kobo Clara HD eReader\"",
+          "object": "kobo-clara-hd-ereader"
+        },
+        "query": "battery"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product-reviews kobo-clara-hd-ereader query-battery is-verified-true)",
+      "api": "amazon.show_product_reviews",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Kobo Clara HD eReader\"",
+          "object": "kobo-clara-hd-ereader"
+        },
+        "query": "battery",
+        "is_verified": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-question-answers battery-question is-verified-true kobo-clara-hd-ereader battery-hours)",
+      "api": "amazon.show_product_question_answers",
+      "args": {
+        "question_id": {
+          "$from": "amazon.show_product_questions",
+          "field": "question_id of the question about battery life",
+          "object": "battery-question"
+        },
+        "is_verified": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task battery-hours kobo-clara-hd-ereader battery-question)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_product_question_answers",
+          "field": "number of hours stated in a verified purchaser's answer (or in a verified review text from amazon.show_product_reviews); passed as answer",
+          "object": "battery-hours"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

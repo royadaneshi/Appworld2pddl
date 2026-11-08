@@ -1,0 +1,133 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login mel-bailey-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "mel.bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login mel-bailey-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "mel.bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-3383946795 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3383946795",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token query-amsterdam amsterdam-photos-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "substring": "amsterdam"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-compress-directory amsterdam-photos-dir file-system-token amsterdam-photos-zip)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the directory entry whose path contains \"amsterdam\" (the vacation photos folder; use recursive=true from the home directory)",
+          "object": "amsterdam-photos-dir"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "amsterdam photos directory path with \".zip\" appended (passed as compressed_file_path and later as the attachment path)",
+          "object": "amsterdam-photos-zip"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token roommates roommate-emails)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-send-email roommate-emails subject-amsterdam-trip-photos body-amsterdam-trip-photos file-system-token amsterdam-photos-zip file-system-token)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "list of `email` over all returned contacts with relationship roommate (all pages)",
+          "object": "roommate-emails"
+        },
+        "subject": "Amsterdam trip photos",
+        "body": "Hi all, attached is a zip file with all the photos from our Amsterdam vacation trip.",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "amsterdam photos directory path with \".zip\" appended (passed as compressed_file_path and later as the attachment path)",
+          "object": "amsterdam-photos-zip"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task roommate-emails amsterdam-photos-zip)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,134 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login st-maldonado-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "st-maldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login st-maldonado-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "st-maldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token dir-personal-notes)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/personal/personal_notes/"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-file md-file-1 file-system-token dir-personal-notes)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "1st listed entry whose path ends with \".md\" (full file path)",
+          "object": "md-file-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file md-file-2 file-system-token dir-personal-notes)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "2nd listed entry whose path ends with \".md\" (full file path)",
+          "object": "md-file-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-create-note title-1 content-1 simple-note-token note-1 md-file-1)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1 without directory path and \".md\" extension, underscores replaced by spaces",
+          "object": "title-1"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (for file_path = md-file-1)",
+          "object": "content-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(simple-note-create-note title-2 content-2 simple-note-token note-2 md-file-2)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-2 without directory path and \".md\" extension, underscores replaced by spaces",
+          "object": "title-2"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (for file_path = md-file-2)",
+          "object": "content-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task note-1 note-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

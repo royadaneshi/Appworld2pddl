@@ -1,0 +1,207 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login ja-solomon-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login ja-solomon-at-gmail-com simple-note-password amazon-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-cart amazon-token total-cost)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-search-notes amazon-token query-shopping-list shopping-list-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "shopping list"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-show-note shopping-list-note amazon-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title refers to the amazon shopping list",
+          "object": "shopping-list-note"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-product listed-product-1 shopping-list-note)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of 1st listed item (resolve via amazon.search_products if only a name is given)",
+          "object": "listed-product-1"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart listed-product-1 amazon-token quantity-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of 1st listed item (resolve via amazon.search_products if only a name is given)",
+          "object": "listed-product-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_product",
+          "field": "min(quantity requested in note content, available stock reported by show_product)",
+          "object": "quantity-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-show-cart amazon-token total-cost)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-product listed-product-2 shopping-list-note)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of 2nd listed item",
+          "object": "listed-product-2"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-product-to-cart listed-product-2 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of 2nd listed item",
+          "object": "listed-product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_product",
+          "field": "min(quantity requested in note content, available stock reported by show_product)",
+          "object": "quantity-1"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-show-cart amazon-token total-cost)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-show-product listed-product-3 shopping-list-note)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of 3rd listed item (turns out unavailable)",
+          "object": "listed-product-3"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task total-cost)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_cart",
+          "field": "sum of cart entry prices x quantities plus tax, excluding delivery fee",
+          "object": "total-cost"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

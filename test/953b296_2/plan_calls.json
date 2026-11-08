@@ -1,0 +1,163 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login eric-bailey-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "eric.bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-payment-cards amazon-token my-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product-purchases amazon-token past-sweater)",
+      "api": "amazon.show_product_purchases",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product past-sweater my-size)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product_purchases",
+          "field": "product_id of any past purchase whose product is a sweater (product_type == \"sweater\")",
+          "object": "past-sweater"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-search-products query-sweater type-sweater my-size candidate-sweater)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "sweater",
+        "product_type": "sweater",
+        "relative_size": {
+          "$from": "amazon.show_product",
+          "field": "relative_size of the past sweater",
+          "object": "my-size"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product-questions candidate-sweater)",
+      "api": "amazon.show_product_questions",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (product_type sweater, relative_size == my-size) whose questions/answers and reviews contain no report of color fading after washing",
+          "object": "candidate-sweater"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-product-reviews candidate-sweater)",
+      "api": "amazon.show_product_reviews",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (product_type sweater, relative_size == my-size) whose questions/answers and reviews contain no report of color fading after washing",
+          "object": "candidate-sweater"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart candidate-sweater amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (product_type sweater, relative_size == my-size) whose questions/answers and reviews contain no report of color fading after washing",
+          "object": "candidate-sweater"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-show-addresses)",
+      "api": "supervisor.show_addresses",
+      "args": {}
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-addresses amazon-token eric-home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order my-payment-card eric-home-address amazon-token candidate-sweater quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any card)",
+          "object": "my-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry whose text matches the supervisor's home address from supervisor.show_addresses (name == \"home\")",
+          "object": "eric-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task candidate-sweater quantity-1 eric-home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

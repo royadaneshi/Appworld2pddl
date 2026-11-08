@@ -1,0 +1,135 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(gmail-login jasonsimp-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "jasonsimp@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-show-drafts gmail-token query-camping draft-camping-trip)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "camping"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-draft draft-camping-trip gmail-token)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager that lists the camping-trip items with TODO price placeholders",
+          "object": "draft-camping-trip"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-search-products query-camping-item-1 camping-item-1 total-price-item-1 draft-camping-trip camping-item-2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name on the 1st item line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-camping-item-1"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-search-products query-camping-item-2 camping-item-2 total-price-item-2 draft-camping-trip camping-item-3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name on the 2nd item line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-camping-item-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-search-products query-camping-item-3 camping-item-3 total-price-item-3 draft-camping-trip no-more-items)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name on the 3rd item line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-camping-item-3"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-update-draft draft-camping-trip gmail-token body-with-prices no-more-items)",
+      "api": "gmail.update_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager that lists the camping-trip items with TODO price placeholders",
+          "object": "draft-camping-trip"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every 'TODO' placeholder replaced by '$<total price>' for that line; all other text unchanged",
+          "object": "body-with-prices"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-send-email-from-draft draft-camping-trip gmail-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager that lists the camping-trip items with TODO price placeholders",
+          "object": "draft-camping-trip"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task draft-camping-trip)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

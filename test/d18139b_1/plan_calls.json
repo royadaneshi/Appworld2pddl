@@ -1,0 +1,120 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-username phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2474975253",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login venmo-username venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "joseharr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'venmo'",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts venmo-token relationship-roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-show-received-payment-requests phone-token status-pending)",
+      "api": "venmo.show_received_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "status": "pending"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-approve-payment-request pr-1 phone-token roommate-1)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of each pending request whose sender.email is a roommate email and created_at falls in 2023-06",
+          "object": "pr-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-approve-payment-request pr-2 phone-token roommate-1)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of each pending request whose sender.email is a roommate email and created_at falls in 2023-06",
+          "object": "pr-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-approve-payment-request pr-3 phone-token roommate-2)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of each pending request whose sender.email is a roommate email and created_at falls in 2023-06",
+          "object": "pr-3"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task pr-1 pr-2 pr-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

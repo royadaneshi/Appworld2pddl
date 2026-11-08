@@ -1,0 +1,75 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2365,
+    "output_tokens": 20369,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "32616b5_2",
+  "instruction": "I went on a few trips each with some of my coworkers. My Simple Note has information on who owes whom what from each trip. I have already created Splitwise groups for the trips. Record the expenses accordingly in the respective groups.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "simple_note",
+    "splitwise"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "splitwise.login",
+    "splitwise.show_groups",
+    "splitwise.record_expense",
+    "splitwise.record_expense",
+    "splitwise.record_expense",
+    "splitwise.record_expense",
+    "supervisor.complete_task"
+  ],
+  "notes": "Assumes one Simple Note (found with query 'trip') lists, per trip, pairwise debts 'X owes Y $N'; each such line becomes one splitwise.record_expense with payer_email = Y, debtor_emails = [X], paid_amount = N, group_id = the existing group for that trip. The problem instantiates 2 trips/groups and 4 debt entries (matching the 11-call reference); the real counts come from the note content. Coworker emails and group ids are read from splitwise.show_groups (gated by (groups-listed)); entry details are gated by (note-read). Debt entries are domain constants so that supervisor-complete-task can enumerate every goal condition without quantification. No answer is required, so complete_task takes no arguments.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(simple-note-login connor-username simple-note-pw sn-token)",
+      "(splitwise-login connor-username splitwise-pw sw-token)",
+      "(simple-note-search-notes sn-token query-trip trip-note)",
+      "(simple-note-show-note trip-note sn-token)",
+      "(splitwise-show-groups sw-token)",
+      "(splitwise-record-expense desc-1 amount-1 connorbrow-at-gmail-com coworker-1-email sw-token group-trip-1 entry-1 trip-note connor coworker-1)",
+      "(splitwise-record-expense desc-2 amount-2 coworker-2-email connorbrow-at-gmail-com sw-token group-trip-1 entry-2 trip-note coworker-2 connor)",
+      "(splitwise-record-expense desc-3 amount-3 connorbrow-at-gmail-com coworker-3-email sw-token group-trip-2 entry-3 trip-note connor coworker-3)",
+      "(splitwise-record-expense desc-4 amount-4 coworker-3-email coworker-2-email sw-token group-trip-2 entry-4 trip-note coworker-3 coworker-2)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.41
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 223.1,
+  "effort": "xhigh"
+}

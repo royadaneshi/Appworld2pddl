@@ -1,0 +1,134 @@
+[
+  {
+    "object": "timothy-whit-at-gmail-com",
+    "value": "timothy.whit@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-checklist",
+    "value": "checklist",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "checklist-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread sent by the wife about the get-together checklist"
+  },
+  {
+    "object": "checklist-attachment",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].id of the checklist attachment"
+  },
+  {
+    "object": "checklist-file-path",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path of the downloaded attachment"
+  },
+  {
+    "object": "query-product-1",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content -> product name of checklist line 1"
+  },
+  {
+    "object": "query-product-2",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content -> product name of checklist line 2"
+  },
+  {
+    "object": "query-product-3",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content -> product name of checklist line 3"
+  },
+  {
+    "object": "product-1",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "products[].product_id whose name exactly matches checklist line 1 (or the product id if the checklist lists ids directly)"
+  },
+  {
+    "object": "product-2",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "products[].product_id whose name exactly matches checklist line 2 (or the product id if the checklist lists ids directly)"
+  },
+  {
+    "object": "product-3",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "products[].product_id whose name exactly matches checklist line 3 (or the product id if the checklist lists ids directly)"
+  },
+  {
+    "object": "qty-product-1",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content -> quantity of checklist line 1"
+  },
+  {
+    "object": "qty-product-2",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content -> quantity of checklist line 2"
+  },
+  {
+    "object": "qty-product-3",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content -> quantity of checklist line 3"
+  },
+  {
+    "object": "timothy-home-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id of the entry whose text equals the home address from supervisor.show_addresses"
+  },
+  {
+    "object": "amazon-payment-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (any saved card)"
+  }
+]

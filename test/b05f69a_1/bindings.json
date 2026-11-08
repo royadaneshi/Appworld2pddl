@@ -1,0 +1,74 @@
+[
+  {
+    "object": "sab-brown-at-gmail-com",
+    "value": "sab-brown@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-amazon",
+    "value": "amazon",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "confirmation-email-1",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_ids of the 1st Amazon order-confirmation thread (paginate through all pages; keep only order confirmation emails)"
+  },
+  {
+    "object": "confirmation-email-2",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_ids of the 2nd Amazon order-confirmation thread (one per Amazon order)"
+  },
+  {
+    "object": "receipt-attachment-1",
+    "value": null,
+    "from_api": "gmail.show_email",
+    "field": "attachments[].id of the receipt attachment in confirmation-email-1"
+  },
+  {
+    "object": "receipt-attachment-2",
+    "value": null,
+    "from_api": "gmail.show_email",
+    "field": "attachments[].id of the receipt attachment in confirmation-email-2"
+  },
+  {
+    "object": "receipt-path-1",
+    "value": null,
+    "from_api": "gmail.show_email",
+    "field": "\"~/bills/amazon/ordered_at_<yyyy-mm-dd>_order_id_<order_id>.txt\" built from the order id and order-placed date found in confirmation-email-1 (body / receipt / sent date)"
+  },
+  {
+    "object": "receipt-path-2",
+    "value": null,
+    "from_api": "gmail.show_email",
+    "field": "\"~/bills/amazon/ordered_at_<yyyy-mm-dd>_order_id_<order_id>.txt\" built from the order id and order-placed date found in confirmation-email-2 (body / receipt / sent date)"
+  }
+]

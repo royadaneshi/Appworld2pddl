@@ -1,0 +1,172 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login brandon-webe-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "brandon-webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login user-3798762980 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3798762980",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-addresses amazon-token brandon-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token brandon-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts amazon-token query-mason mason mason-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Mason"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-text-messages amazon-token mason-phone-number mason-backpack-message)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Mason\"",
+          "object": "mason-phone-number"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-product recommended-backpack-cheaper mason-backpack-message)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product",
+          "field": "product_id parsed from Mason's message; of the two recommended products, the one whose show_product price is lower",
+          "object": "recommended-backpack-cheaper"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-show-product recommended-backpack-expensive mason-backpack-message)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product",
+          "field": "product_id parsed from Mason's message; of the two recommended products, the one whose show_product price is higher",
+          "object": "recommended-backpack-expensive"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart recommended-backpack-cheaper amazon-token recommended-backpack-expensive)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product",
+          "field": "product_id parsed from Mason's message; of the two recommended products, the one whose show_product price is lower",
+          "object": "recommended-backpack-cheaper"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order brandon-payment-card brandon-address amazon-token recommended-backpack-cheaper backpack-order)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any saved card, e.g. the first)",
+          "object": "brandon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id (any saved address, e.g. the first)",
+          "object": "brandon-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task recommended-backpack-cheaper backpack-order)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

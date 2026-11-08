@@ -1,0 +1,231 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login user-kathrynmaldonado-at-gmail-com pw-file-system token-file-system)",
+      "api": "file_system.login",
+      "args": {
+        "username": "kathrynmaldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "pw-file-system"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(splitwise-login user-kathrynmaldonado-at-gmail-com pw-splitwise token-file-system)",
+      "api": "splitwise.login",
+      "args": {
+        "username": "kathrynmaldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"splitwise\"",
+          "object": "pw-splitwise"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login user-kathrynmaldonado-at-gmail-com pw-venmo token-file-system)",
+      "api": "venmo.login",
+      "args": {
+        "username": "kathrynmaldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "pw-venmo"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory token-file-system flag-recursive-true)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "recursive": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file debt-list-csv token-file-system)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry whose name is debt_list.csv",
+          "object": "debt-list-csv"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-search-users token-file-system query-debtor-1 debtor-1)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email (used as venmo search query)",
+          "object": "query-debtor-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-search-users token-file-system query-debtor-2 debtor-2)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 2, email (used as venmo search query)",
+          "object": "query-debtor-2"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-search-users token-file-system query-debtor-3 debtor-3)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 3, email (used as venmo search query)",
+          "object": "query-debtor-3"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(splitwise-record-expense description-debtor-3 amount-debtor-3 email-debtor-3 kathrynmaldonado-at-gmail-com token-file-system receipt-debtor-3-pdf token-file-system debtor-3)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 3, description column",
+          "object": "description-debtor-3"
+        },
+        "paid_amount": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 3, amount column",
+          "object": "amount-debtor-3"
+        },
+        "payer_email": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 3, email column",
+          "object": "email-debtor-3"
+        },
+        "debtor_emails": "kathrynmaldonado@gmail.com",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "receipt_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the .pdf receipt for debtor 3 located in the same folder as debt_list.csv",
+          "object": "receipt-debtor-3-pdf"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-create-transaction email-debtor-1 amount-debtor-1 token-file-system description-debtor-1 private-false debtor-1)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email column",
+          "object": "email-debtor-1"
+        },
+        "amount": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, amount column",
+          "object": "amount-debtor-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, description column",
+          "object": "description-debtor-1"
+        },
+        "private": false
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-create-transaction email-debtor-2 amount-debtor-2 token-file-system description-debtor-2 private-false debtor-2)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 2, email column",
+          "object": "email-debtor-2"
+        },
+        "amount": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 2, amount column",
+          "object": "amount-debtor-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 2, description column",
+          "object": "description-debtor-2"
+        },
+        "private": false
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task debtor-1 debtor-2 debtor-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

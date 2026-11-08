@@ -1,0 +1,153 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login tra-wils-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "tra_wils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login tra-wils-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "tra_wils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token substring-headshot flag-true headshot-file)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "substring": "headshot",
+        "recursive": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-drafts file-system-token query-headshot headshot-draft)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "headshot"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-upload-attachments-to-draft headshot-draft headshot-file file-system-token file-system-token headshot-attachment)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft replying to the manager's headshot request",
+          "object": "headshot-draft"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "entry path whose file name contains \"headshot\"",
+          "object": "headshot-file"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-draft headshot-draft file-system-token cv-attachment)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft replying to the manager's headshot request",
+          "object": "headshot-draft"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-remove-attachment-from-draft headshot-draft cv-attachment file-system-token)",
+      "api": "gmail.remove_attachment_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft replying to the manager's headshot request",
+          "object": "headshot-draft"
+        },
+        "attachment_id": {
+          "$from": "gmail.show_draft",
+          "field": "attachments[].attachment_id (the cv/resume attachment currently on the draft)",
+          "object": "cv-attachment"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-send-email-from-draft headshot-draft file-system-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft replying to the manager's headshot request",
+          "object": "headshot-draft"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

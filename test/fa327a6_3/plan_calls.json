@@ -1,0 +1,189 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login sab-brown-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "sab-brown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-6639773608 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "6639773608",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login sab-brown-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "sab-brown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-orders amazon-token)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-order order-1 amazon-token c0 c1)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (1st of the 4 latest orders)",
+          "object": "order-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-order order-2 amazon-token c1 c2)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 2nd most recent order",
+          "object": "order-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-order order-3 amazon-token c2 c3)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 3rd most recent order",
+          "object": "order-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-order order-4 amazon-token c3 c4)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 4th most recent order",
+          "object": "order-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-search-contacts phone-token query-valerie valerie valerie-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Valerie"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-show-transactions venmo-token valerie-email valerie)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with first_name Valerie whose relationships include friend",
+          "object": "valerie-email"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-create-payment-request valerie-email amount-difference venmo-token note-adjusting-amazon-payment valerie c4)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with first_name Valerie whose relationships include friend",
+          "object": "valerie-email"
+        },
+        "amount": {
+          "$from": "amazon.show_order",
+          "field": "abs( sum of the order total (total_amount) over the 4 orders - sum of amount over venmo.show_transactions received from valerie-email today ); the sign decides request (orders total > received) vs send (received > orders total)",
+          "object": "amount-difference"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Adjusting amazon payment."
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task valerie amount-difference note-adjusting-amazon-payment)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

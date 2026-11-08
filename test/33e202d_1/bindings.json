@@ -1,0 +1,80 @@
+[
+  {
+    "object": "brandon-webe-at-gmail-com",
+    "value": "brandon-webe@gmail.com",
+    "from_api": null,
+    "field": "supervisor email (login username for gmail and file_system)"
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-sales-manager",
+    "value": "Sales Manager",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "datetime-2023-05-04t00-00-00",
+    "value": "2023-05-04T00:00:00",
+    "from_api": null,
+    "field": "current datetime 2023-05-18 minus 2 weeks (min_created_at)"
+  },
+  {
+    "object": "application-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of each thread that is a Sales Manager job application (placeholder: repeat show_thread per thread)"
+  },
+  {
+    "object": "sales-manager-applicant",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "applicant first name, last name and LinkedIn URL parsed from the application email (sender name / body)"
+  },
+  {
+    "object": "application-attachment",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id for every attachment of each application email (placeholder: repeat download per attachment)"
+  },
+  {
+    "object": "path-attachment-file",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "\"~/documents/work/recruiting/attachments/<first_name>__<last_name>/<attachment name>\" with lower-cased applicant names and the attachment's name from the email"
+  },
+  {
+    "object": "path-job-applications-csv",
+    "value": "~/documents/work/recruiting/job_applications.csv",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "csv-content-job-applications",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "header line \"First Name,Last Name,LinkedIn URL\" followed by one \"<first>,<last>,<linkedin_url>\" line per applicant whose email contains a LinkedIn URL (applicants without a URL are skipped)"
+  }
+]

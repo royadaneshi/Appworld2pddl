@@ -1,0 +1,67 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1755,
+    "output_tokens": 8899,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "f323bae_1",
+  "instruction": "I maintain my habit tracking logs in Simple Note. Export it in \"~/downloads/habit_tracker.csv\" in my file system. Its first header column should be \"date\" and the rest should be correspond to the habits I track as per my logs. The rows for date column should be in yyyy-mm-dd format and the rest should be yes or no as per my logs. The rows should be sorted in ascending order of the date from top to bottom, and habit columns as per their order in logs.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "simple_note",
+    "file_system"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "simple_note.login",
+    "simple_note.search_notes",
+    "simple_note.show_note",
+    "file_system.login",
+    "file_system.create_file",
+    "supervisor.complete_task"
+  ],
+  "notes": "Two apps are logged in (simple_note to read the habit log, file_system to write the export). The habit log note id is discovered via search_notes and its content via show_note; the CSV content object is modeled as derived from that note (content-for), so create_file is only applicable after the note has been read. The export target path and content are domain constants so supervisor-complete-task's precondition can name them directly, matching the goal. The model assumes a single habit-tracking note; if search_notes returns several log notes, show_note is repeated per note and the CSV is assembled from all of them. No overwrite flag is used since exactly one new file must be added and nothing else modified.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(file-system-login tr-solo-at-gmail-com file-system-password file-system-token)",
+      "(simple-note-login tr-solo-at-gmail-com simple-note-password file-system-token)",
+      "(simple-note-search-notes file-system-token query-habit habit-tracker-note)",
+      "(simple-note-show-note habit-tracker-note file-system-token)",
+      "(file-system-create-file downloads-habit-tracker-csv file-system-token habit-csv-content habit-tracker-note)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.16
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 92.3,
+  "effort": "xhigh"
+}

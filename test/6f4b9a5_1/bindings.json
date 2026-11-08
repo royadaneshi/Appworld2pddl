@@ -1,0 +1,50 @@
+[
+  {
+    "object": "la-mcco-at-gmail-com",
+    "value": "la-mcco@gmail.com",
+    "from_api": null,
+    "field": "supervisor email, used as username for simple_note and spotify login"
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-liked-songs",
+    "value": "liked songs",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "liked-songs-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the note whose title is the liked-songs/artists log"
+  },
+  {
+    "object": "content-with-release-months",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content of the note, with ' RELEASED_AT <Month YYYY>' appended to every '- <song> BY <artists>' line that lacks it; the month string is derived from release_date in spotify.show_liked_songs (match the song by title/artists) and formatted exactly like the already-filled lines"
+  }
+]

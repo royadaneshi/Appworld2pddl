@@ -1,0 +1,225 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-3375602296 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3375602296",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login de-ritt-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "de_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-show-contact-relationships phone-token)",
+      "api": "phone.show_contact_relationships",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token coworkers)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": {
+          "$from": "phone.show_contact_relationships",
+          "field": "the relationship string denoting coworkers (e.g. \"coworker\")",
+          "object": "coworkers"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token roommates)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": {
+          "$from": "phone.show_contact_relationships",
+          "field": "the relationship string denoting roommates (e.g. \"roommate\")",
+          "object": "roommates"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-profile phone-token coworker-1-email coworker-1 coworkers)",
+      "api": "venmo.show_profile",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned for relationship=coworkers (1st)",
+          "object": "coworker-1-email"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-add-friend coworker-1-email phone-token coworker-1)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned for relationship=coworkers (1st)",
+          "object": "coworker-1-email"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-show-profile phone-token coworker-2-email coworker-2 coworkers)",
+      "api": "venmo.show_profile",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned for relationship=coworkers (2nd)",
+          "object": "coworker-2-email"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-add-friend coworker-2-email phone-token coworker-2)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned for relationship=coworkers (2nd)",
+          "object": "coworker-2-email"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-show-profile phone-token roommate-1-email roommate-1 roommates)",
+      "api": "venmo.show_profile",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned for relationship=roommates (1st)",
+          "object": "roommate-1-email"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-add-friend roommate-1-email phone-token roommate-1)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned for relationship=roommates (1st)",
+          "object": "roommate-1-email"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-show-profile phone-token roommate-2-email roommate-2 roommates)",
+      "api": "venmo.show_profile",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned for relationship=roommates (2nd)",
+          "object": "roommate-2-email"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-add-friend roommate-2-email phone-token roommate-2)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact returned for relationship=roommates (2nd)",
+          "object": "roommate-2-email"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

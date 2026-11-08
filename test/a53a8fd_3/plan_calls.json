@@ -1,0 +1,205 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login diwils-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "diwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login diwils-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "diwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token query-resume-pdf flag-true resume-pdf-path)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "substring": "resume.pdf",
+        "recursive": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-drafts gmail-token datetime-2023-05-14t00-00-00)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "min_created_at": "2023-05-14T00:00:00"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-upload-attachments-to-draft employer-draft-1 resume-pdf-path file-system-token gmail-token flag-true)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of 1st draft created on/after 2023-05-14 (job-application draft to a potential employer)",
+          "object": "employer-draft-1"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "entry path whose file name is resume.pdf (passed as the single element of attachment_file_paths)",
+          "object": "resume-pdf-path"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "overwrite": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-upload-attachments-to-draft employer-draft-2 resume-pdf-path file-system-token gmail-token flag-true)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of 2nd draft created on/after 2023-05-14 (job-application draft to a potential employer)",
+          "object": "employer-draft-2"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "entry path whose file name is resume.pdf (passed as the single element of attachment_file_paths)",
+          "object": "resume-pdf-path"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "overwrite": true
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-upload-attachments-to-draft employer-draft-3 resume-pdf-path file-system-token gmail-token flag-true)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of 3rd draft created on/after 2023-05-14 (job-application draft to a potential employer)",
+          "object": "employer-draft-3"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "entry path whose file name is resume.pdf (passed as the single element of attachment_file_paths)",
+          "object": "resume-pdf-path"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "overwrite": true
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-send-email-from-draft employer-draft-1 gmail-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of 1st draft created on/after 2023-05-14 (job-application draft to a potential employer)",
+          "object": "employer-draft-1"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-send-email-from-draft employer-draft-2 gmail-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of 2nd draft created on/after 2023-05-14 (job-application draft to a potential employer)",
+          "object": "employer-draft-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-send-email-from-draft employer-draft-3 gmail-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of 3rd draft created on/after 2023-05-14 (job-application draft to a potential employer)",
+          "object": "employer-draft-3"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task employer-draft-1 employer-draft-2 employer-draft-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

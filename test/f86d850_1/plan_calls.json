@@ -1,0 +1,251 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-sullivans-ceramic-vase-set sullivans-ceramic-vase-set)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Sullivans Ceramic Vase Set"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login tr-solo-at-gmail-com password-amazon token-amazon)",
+      "api": "amazon.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "password-amazon"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-add-product-to-cart sullivans-ceramic-vase-set token-amazon flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Sullivans Ceramic Vase Set\"",
+          "object": "sullivans-ceramic-vase-set"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-login tr-solo-at-gmail-com password-gmail token-amazon)",
+      "api": "gmail.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "password-gmail"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-login phone-7273731063 password-phone token-venmo)",
+      "api": "phone.login",
+      "args": {
+        "username": "7273731063",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "password-phone"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-login tr-solo-at-gmail-com password-venmo token-amazon)",
+      "api": "venmo.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "password-venmo"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-addresses token-amazon address-troy)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-payment-cards token-amazon card-troy)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-place-order card-troy address-troy token-amazon sullivans-ceramic-vase-set order-new)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card in the list)",
+          "object": "card-troy"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id (first address in the list)",
+          "object": "address-troy"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-order order-new token-amazon amount-order-total)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.place_order",
+          "field": "order_id",
+          "object": "order-new"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-show-inbox-threads token-amazon query-amazon-order-confirmation thread-order-confirmation order-new)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "query": "Amazon Order Confirmation"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-show-thread thread-order-confirmation token-amazon email-order-confirmation)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread with subject \"Amazon Order Confirmation\" that references #<order_id> of the new order (most recent)",
+          "object": "thread-order-confirmation"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(phone-search-contacts token-venmo query-debra debra email-of-debra)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "query": "Debra"
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-forward-email-from-thread thread-order-confirmation email-order-confirmation email-of-debra token-amazon debra order-new)",
+      "api": "gmail.forward_email_from_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread with subject \"Amazon Order Confirmation\" that references #<order_id> of the new order (most recent)",
+          "object": "thread-order-confirmation"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[0].email_id (the confirmation email of the new order, carrying the receipt attachment)",
+          "object": "email-order-confirmation"
+        },
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Debra\"",
+          "object": "email-of-debra"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-create-payment-request email-of-debra amount-order-total token-amazon note-for-amazon-order debra order-new)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Debra\"",
+          "object": "email-of-debra"
+        },
+        "amount": {
+          "$from": "amazon.show_order",
+          "field": "paid_amount (total cost of the new order)",
+          "object": "amount-order-total"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "description": "For Amazon Order"
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(supervisor-complete-task order-new sullivans-ceramic-vase-set debra amount-order-total note-for-amazon-order)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

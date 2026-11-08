@@ -1,0 +1,117 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-nordstrom-signature-cashmere-sweater yellow extra-small sweater-xs-yellow orange)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Nordstrom Signature Cashmere Sweater",
+        "color": "yellow",
+        "relative_size": "extra-small"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product sweater-xs-yellow)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with name == \"Nordstrom Signature Cashmere Sweater\", color == \"yellow\", relative_size == \"extra-small\" (must be in stock, confirmed via amazon.show_product)",
+          "object": "sweater-xs-yellow"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login bradley-ball-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "bradley_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-add-product-to-cart sweater-xs-yellow amazon-token quantity-2 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with name == \"Nordstrom Signature Cashmere Sweater\", color == \"yellow\", relative_size == \"extra-small\" (must be in stock, confirmed via amazon.show_product)",
+          "object": "sweater-xs-yellow"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 2,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token amazon-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-place-order amazon-payment-card amazon-address amazon-token sweater-xs-yellow yellow extra-small quantity-2 order-two-sweaters)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first/any card of the supervisor)",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id (supervisor's existing address, e.g. home)",
+          "object": "amazon-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task order-two-sweaters extra-small quantity-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

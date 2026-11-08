@@ -1,0 +1,118 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-6639773608 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "6639773608",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login sab-brown-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "sab-brown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token relationship-son son son-email son-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "son"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-show-transactions phone-token son-email direction-sent datetime-2022-05-18t00-00-00 datetime-2022-05-18t23-59-59 son amount-last-birthday)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships include \"son\"",
+          "object": "son-email"
+        },
+        "direction": "sent",
+        "min_created_at": "2022-05-18T00:00:00",
+        "max_created_at": "2022-05-18T23:59:59"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-transaction son-email amount-four-times-last-birthday phone-token note-have-a-great-day privacy-private son amount-last-birthday)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships include \"son\"",
+          "object": "son-email"
+        },
+        "amount": {
+          "$from": "venmo.show_transactions",
+          "field": "4 * amount of the last-birthday transaction",
+          "object": "amount-four-times-last-birthday"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "Have a great day!",
+        "private": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-send-text-message son-phone-number message-happy-birthday-son phone-token son)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose relationships include \"son\"",
+          "object": "son-phone-number"
+        },
+        "message": "Happy Birthday son! Hope you have a great day!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task son amount-four-times-last-birthday note-have-a-great-day privacy-private message-happy-birthday-son)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

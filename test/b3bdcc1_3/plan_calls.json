@@ -1,0 +1,126 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products portable-air-conditioner pac-from-top-rated-seller top-rated-seller)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "portable air conditioner"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-seller top-rated-seller)",
+      "api": "amazon.show_seller",
+      "args": {
+        "seller_id": {
+          "$from": "amazon.search_products",
+          "field": "seller_id of result products (paginate over all results); call amazon.show_seller on every distinct seller_id and keep the one with the highest rating",
+          "object": "top-rated-seller"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login ad-blackburn-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ad.blackburn@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-add-product-to-cart pac-from-top-rated-seller amazon-token quantity-1 top-rated-seller portable-air-conditioner)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result whose seller_id == top-rated-seller",
+          "object": "pac-from-top-rated-seller"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-payment-cards amazon-token chase-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-place-order chase-card home-address amazon-token pac-from-top-rated-seller quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id where card_name == \"Chase\"",
+          "object": "chase-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id where name == \"Home\"",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task pac-from-top-rated-seller quantity-1 chase-card home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

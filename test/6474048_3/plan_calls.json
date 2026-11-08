@@ -1,0 +1,128 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-cutting-board cutting-board rating-4-1 cutting-board-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "cutting board",
+        "product_type": "cutting board",
+        "min_seller_rating": 4.1
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product cutting-board-product kitchen-drawer-12-0-by-9-5)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (product_type == \"cutting board\", seller rating >= 4.1 via min_seller_rating filter) whose amazon.show_product details satisfy length <= 12.0 and width <= 9.5; iterate show_product over results until one fits",
+          "object": "cutting-board-product"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login an-harrison-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "an-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-add-product-to-cart cutting-board-product amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (product_type == \"cutting board\", seller rating >= 4.1 via min_seller_rating filter) whose amazon.show_product details satisfy length <= 12.0 and width <= 9.5; iterate show_product over results until one fits",
+          "object": "cutting-board-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token cutting-board-product quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first listed card",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the first listed address",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

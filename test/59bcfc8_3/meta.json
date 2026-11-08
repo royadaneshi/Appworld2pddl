@@ -1,0 +1,79 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1869,
+    "output_tokens": 21896,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "59bcfc8_3",
+  "instruction": "Buy a sweater for Valerie from Amazon in their favorite color (see phone voice message). Get it delivered to their home with gift wrapping. Given the choices, pick the highest rated one.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.search_voice_messages",
+    "amazon.login",
+    "amazon.search_products",
+    "amazon.clear_cart",
+    "amazon.add_product_to_cart",
+    "amazon.add_gift_wrapping_to_product",
+    "amazon.add_address",
+    "amazon.show_payment_cards",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "Two apps (phone, amazon) plus supervisor. Valerie's phone number and home address are discovered via phone.search_contacts; the favorite color is read from her voice message via phone.search_voice_messages filtered by her phone number. amazon.search_products is filtered by product_type=sweater and the favorite color and sorted by rating descending; the single product object `sweater-best` stands for the highest-rated match. The cart is cleared first (amazon.clear_cart) so the placed order contains exactly one item with quantity 1; gift wrapping is added with the same quantity so gift_wrap_quantity == ordered_quantity. Valerie's home address is added as a new amazon address (existing addresses are never updated/deleted, which the evaluation requires); the order ships to that new address_id. Payment card id comes from amazon.show_payment_cards. amazon.search_products needs no token. Static `token-for` facts bind each app to its own token object so the plan maps tokens to the right login. complete_task has no answer; it takes the order/product/address task records only as non-API parameters to carry the goal conditions. Side-effect gmail/file_system changes caused by place_order (receipt email) are not modeled.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(amazon-login siwhit-at-gmail-com amazon-password amazon-token)",
+      "(phone-login phone-7295077363 phone-password phone-token)",
+      "(amazon-clear-cart amazon-token)",
+      "(amazon-show-payment-cards amazon-token sierra-card)",
+      "(phone-search-contacts phone-token query-valerie valerie valerie-phone-number valerie-home)",
+      "(amazon-add-address valerie-addr-name valerie-street valerie-city valerie-state valerie-country valerie-zip amazon-token valerie-home)",
+      "(phone-search-voice-messages phone-token valerie-phone-number valerie valerie-favorite-color)",
+      "(amazon-search-products product-type-sweater valerie-favorite-color sort-by-rating-desc sweater-best valerie)",
+      "(amazon-add-product-to-cart sweater-best amazon-token quantity-1)",
+      "(amazon-add-gift-wrapping-to-product sweater-best amazon-token quantity-1)",
+      "(amazon-place-order sierra-card valerie-home amazon-token sweater-best quantity-1 order-1)",
+      "(supervisor-complete-task order-1 sweater-best valerie-home)"
+    ],
+    "message": "",
+    "seconds": 1.27
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 222.0,
+  "effort": "xhigh"
+}

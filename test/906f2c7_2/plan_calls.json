@@ -1,0 +1,128 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login joseharr-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "joseharr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login joseharr-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "joseharr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login jose-phone-username phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2474975253",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token query-lindsey lindsey lindsey-phone-number lindsey-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Lindsey"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-text-messages phone-token lindsey-phone-number lindsey lindsey-message vacation-pictures-file)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact with first_name == \"Lindsey\"",
+          "object": "lindsey-phone-number"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-directory file-system-token substring-vacation vacation-pictures-file)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "substring": "vacation"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-send-email lindsey-email subject-vacation-pictures body-vacation-pictures gmail-token vacation-pictures-file file-system-token lindsey)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with first_name == \"Lindsey\" (use the address stated in Lindsey's text message instead if the message names a specific address)",
+          "object": "lindsey-email"
+        },
+        "subject": "Vacation Pictures",
+        "body": "Hi Lindsey, here are our vacation pictures as requested.",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry matching the vacation pictures file described in Lindsey's text message (call with recursive=true); passed as the single element of attachment_file_paths",
+          "object": "vacation-pictures-file"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,174 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-show-return-deliverers return-deliverer)",
+      "api": "amazon.show_return_deliverers",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login jepowell-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-addresses amazon-token amazon-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-purchases amazon-token flip-flops last-flip-flops-order last-flip-flops-product)",
+      "api": "amazon.show_product_purchases",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-order last-flip-flops-order amazon-token last-flip-flops-product ordered-quantity flip-flops)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_product_purchases",
+          "field": "order_id of the most recently purchased product whose product_type == \"flip-flops\" (check product_type via amazon.show_product if not listed)",
+          "object": "last-flip-flops-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-initiate-return last-flip-flops-order last-flip-flops-product return-deliverer ordered-quantity amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_product_purchases",
+          "field": "order_id of the most recently purchased product whose product_type == \"flip-flops\" (check product_type via amazon.show_product if not listed)",
+          "object": "last-flip-flops-order"
+        },
+        "product_id": {
+          "$from": "amazon.show_product_purchases",
+          "field": "product_id of that same most recent flip-flops purchase",
+          "object": "last-flip-flops-product"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id (any, e.g. first entry)",
+          "object": "return-deliverer"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[product_id == last-flip-flops-product].quantity",
+          "object": "ordered-quantity"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-product last-flip-flops-product replacement-flip-flops flip-flops last-flip-flops-order)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product_purchases",
+          "field": "product_id of that same most recent flip-flops purchase",
+          "object": "last-flip-flops-product"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart replacement-flip-flops amazon-token quantity-1 true-flag last-flip-flops-product)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product",
+          "field": "variations[].product_id of the variation with the same name and relative_size one step larger than the original; color \"red\" if such a red variation exists, otherwise the original color",
+          "object": "replacement-flip-flops"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order amazon-payment-card amazon-address amazon-token replacement-flip-flops quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any, e.g. first entry)",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id (any, e.g. first entry)",
+          "object": "amazon-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task last-flip-flops-order last-flip-flops-product replacement-flip-flops quantity-1)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

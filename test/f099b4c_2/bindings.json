@@ -1,0 +1,86 @@
+[
+  {
+    "object": "deniseburch-at-gmail-com",
+    "value": "deniseburch@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-amazon-shopping-list",
+    "value": "amazon shopping list",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "shopping-list-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the note whose title is the amazon shopping list"
+  },
+  {
+    "object": "product-1",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: product id of the 1st list entry (resolve via amazon.search_products if only a name is given)"
+  },
+  {
+    "object": "product-2",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: product id of the 2nd list entry (resolve via amazon.search_products if only a name is given)"
+  },
+  {
+    "object": "product-3",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: product id of the 3rd list entry (resolve via amazon.search_products if only a name is given)"
+  },
+  {
+    "object": "qty-1",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: quantity of the 1st entry, capped by the stock reported by amazon.show_product (skip product if unavailable)"
+  },
+  {
+    "object": "qty-2",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: quantity of the 2nd entry, capped by the stock reported by amazon.show_product (skip product if unavailable)"
+  },
+  {
+    "object": "qty-3",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: quantity of the 3rd entry, capped by the stock reported by amazon.show_product (skip product if unavailable)"
+  },
+  {
+    "object": "total-cost",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "sum over cart entries of quantity * price plus tax, excluding delivery fee"
+  }
+]

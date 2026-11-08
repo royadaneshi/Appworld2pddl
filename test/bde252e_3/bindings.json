@@ -1,0 +1,110 @@
+[
+  {
+    "object": "as-moore-at-gmail-com",
+    "value": "as_moore@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as username for simple_note and todoist"
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "todoist-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"todoist\""
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "todoist-token",
+    "value": null,
+    "from_api": "todoist.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-schedule",
+    "value": "schedule",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "work-schedule-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the note holding the work schedule"
+  },
+  {
+    "object": "today-project",
+    "value": null,
+    "from_api": "todoist.show_projects",
+    "field": "project_id where name == \"Today\""
+  },
+  {
+    "object": "inbox-project",
+    "value": null,
+    "from_api": "todoist.show_projects",
+    "field": "project_id where name == \"Inbox\""
+  },
+  {
+    "object": "today-done-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "task_id of each task in the Today project with is_completed == true (one delete step per such task)"
+  },
+  {
+    "object": "today-leftover-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "tasks in the Today project with is_completed == false; not an API argument, their durations are subtracted from the day's scheduled minutes first"
+  },
+  {
+    "object": "inbox-fitting-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "task_id of each incomplete Inbox task selected by the maximum-count rule: sort incomplete Inbox tasks by duration (in minutes) ascending and take them while their cumulative duration fits in (scheduled work minutes for the current day from the note) minus (total minutes of incomplete Today leftovers); one create+delete step per selected task"
+  },
+  {
+    "object": "inbox-overflow-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "incomplete Inbox tasks not selected by the rule above; not an API argument, they stay untouched"
+  },
+  {
+    "object": "title-of-inbox-fitting-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "title of the selected Inbox task"
+  },
+  {
+    "object": "description-of-inbox-fitting-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "description of the selected Inbox task"
+  },
+  {
+    "object": "duration-of-inbox-fitting-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "duration of the selected Inbox task"
+  },
+  {
+    "object": "unit-of-inbox-fitting-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "duration_unit of the selected Inbox task"
+  },
+  {
+    "object": "priority-of-inbox-fitting-task",
+    "value": null,
+    "from_api": "todoist.show_tasks",
+    "field": "priority of the selected Inbox task"
+  }
+]

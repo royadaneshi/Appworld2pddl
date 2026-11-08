@@ -1,0 +1,68 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1648,
+    "output_tokens": 13897,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "90adc3f_1",
+  "instruction": "I made venmo payment requests to some of my friends yesterday evening. Unfortunately, I have made a mistake in calculation. Each of them owes me $5 less than the requested amount. So delete those requests and make new ones with everything else the same, but with the corrected amount.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "venmo.login",
+    "venmo.show_sent_payment_requests",
+    "venmo.delete_payment_request",
+    "venmo.create_payment_request",
+    "venmo.delete_payment_request",
+    "venmo.create_payment_request",
+    "supervisor.complete_task"
+  ],
+  "notes": "The set of payment requests sent yesterday evening (2023-05-19) is unknown a priori; it is discovered by venmo.show_sent_payment_requests (filter by created_at), modeled with the knowledge predicate (requests-listed) that gates all per-request actions. The problem assumes two such requests (the reference solution's 9 calls fit two requests plus a paginated listing); the ground truth implies all requests share the same amount and description, so one original amount, one corrected amount and one description object are shared. The $5 correction is encoded as the static relation (minus-five original corrected) instead of numeric fluents. Each request must be deleted and re-created with the same receiver email, description and privacy flag but the corrected amount; no ordering between delete and create is enforced since the evaluation only checks the final added/removed records. supervisor-complete-task takes the two request records as non-API parameters so its precondition can state the full goal; it is the last action and the only one producing (task-completed). Pagination of the listing is not modeled.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(venmo-login anita-burch-at-gmail-com venmo-password venmo-token)",
+      "(venmo-show-sent-payment-requests venmo-token)",
+      "(venmo-delete-payment-request request-friend-1 venmo-token)",
+      "(venmo-delete-payment-request request-friend-2 venmo-token)",
+      "(venmo-create-payment-request email-friend-1 amount-corrected venmo-token dinner-description privacy-as-before request-friend-1 friend-1 amount-requested)",
+      "(venmo-create-payment-request email-friend-2 amount-corrected venmo-token dinner-description privacy-as-before request-friend-2 friend-2 amount-requested)",
+      "(supervisor-complete-task request-friend-1 request-friend-2)"
+    ],
+    "message": "",
+    "seconds": 1.34
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 149.8,
+  "effort": "xhigh"
+}

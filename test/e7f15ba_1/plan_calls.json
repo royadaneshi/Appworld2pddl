@@ -1,0 +1,234 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-codenames-board-game codenames-board-game)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Codenames Board Game"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-search-products query-garmin-forerunner-245 garmin-forerunner-245)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Garmin Forerunner 245"
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-search-products query-rusch-wall-clock rusch-wall-clock)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "RUSCH Wall Clock"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-login ed-wilson-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ed_wilson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-login phone-8506051563 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8506051563",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token supervisor-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id where name == 'Codenames Board Game'",
+          "object": "codenames-board-game"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 4
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart garmin-forerunner-245 amazon-token quantity-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id where name == 'Garmin Forerunner 245'",
+          "object": "garmin-forerunner-245"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 3
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart rusch-wall-clock amazon-token quantity-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id where name == 'RUSCH Wall Clock'",
+          "object": "rusch-wall-clock"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 2
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-show-addresses amazon-token)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(phone-search-contacts phone-token relationship-parent parents parents-home-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "parent"
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-add-address parents-home-addr-name parents-home-street parents-home-city parents-home-state parents-home-country parents-home-zipcode amazon-token parents-home-address)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].first_name + ' ' + contacts[0].last_name (contact with relationship 'parent')",
+          "object": "parents-home-addr-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, street_address part",
+          "object": "parents-home-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, city part",
+          "object": "parents-home-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, state part",
+          "object": "parents-home-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, country part",
+          "object": "parents-home-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, zip_code part",
+          "object": "parents-home-zipcode"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-place-order supervisor-payment-card parents-home-address amazon-token)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "[0].payment_card_id",
+          "object": "supervisor-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (or the existing address_id from amazon.show_addresses whose text matches the parents' home address)",
+          "object": "parents-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(supervisor-complete-task codenames-board-game quantity-4 garmin-forerunner-245 quantity-3 rusch-wall-clock quantity-2 parents-home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,79 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1847,
+    "output_tokens": 24125,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "432dc7a_3",
+  "instruction": "I want to buy everything in my amazon cart. I have a promo code applied to the cart, but today I received a new promotional email from Amazon. See if it is a better deal. Place an order for my home delivery with whichever option is cheaper.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "gmail",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "gmail.login",
+    "gmail.show_inbox_threads",
+    "gmail.show_thread",
+    "amazon.login",
+    "amazon.show_cart",
+    "amazon.apply_promo_code_to_cart",
+    "amazon.show_cart",
+    "amazon.apply_promo_code_to_cart",
+    "amazon.show_addresses",
+    "amazon.show_payment_cards",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "Task is a purchase with a runtime comparison of two promo deals. The comparison is modeled without branching via an abstract promo-code object promo-code-best (static fact best-deal) that becomes known only after both discounts are known: show_cart with the existing code applied reveals the existing code and its discount; apply_promo_code_to_cart may only overwrite a code whose discount has already been recorded (discount-known ?old); show_cart with the new code applied then reveals the best code (cart-check-reveals promo-code-new promo-code-best). The final apply re-applies the best code (a no-op at runtime if the new code is already the better one, otherwise it restores the original code read from the first show_cart). place_order requires the home address (home-address static), the best code applied, a known card id and a known address id; no gift wrapping or address edits are modeled so the goal matches the evaluation (1 new order, best discount, home address). Gmail/file_system record changes in the evaluation are side effects of place_order (order confirmation email + receipt), not agent actions. The query value 'promo' is a reasonable guess; from_email/min_created_at could also be used to locate today's Amazon email.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(amazon-login jar-calhoun-at-gmail-com amazon-password amazon-token)",
+      "(gmail-login jar-calhoun-at-gmail-com gmail-password amazon-token)",
+      "(amazon-show-cart amazon-token promo-code-existing promo-code-existing)",
+      "(amazon-show-addresses amazon-token address-home)",
+      "(amazon-show-payment-cards amazon-token amazon-card)",
+      "(gmail-show-inbox-threads amazon-token query-amazon-promo amazon-promo-thread)",
+      "(gmail-show-thread amazon-promo-thread amazon-token promo-code-new)",
+      "(amazon-apply-promo-code-to-cart promo-code-new amazon-token promo-code-existing)",
+      "(amazon-show-cart amazon-token promo-code-new promo-code-best)",
+      "(amazon-apply-promo-code-to-cart promo-code-best amazon-token promo-code-new)",
+      "(amazon-place-order amazon-card address-home amazon-token cart-order promo-code-best)",
+      "(supervisor-complete-task cart-order)"
+    ],
+    "message": "",
+    "seconds": 1.21
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 266.8,
+  "effort": "xhigh"
+}

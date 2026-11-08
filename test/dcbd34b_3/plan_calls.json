@@ -1,0 +1,104 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login brandon-webe-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "brandon-webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login brandon-webe-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "brandon-webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-file company-trip-expenses-csv file-system-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": "~/documents/work/company_trip_expenses.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-inbox-threads file-system-token query-expense company-trip-expense-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "expense"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-thread company-trip-expense-thread file-system-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread about the company trip expense details (coworkers' replies to the supervisor's request)",
+          "object": "company-trip-expense-thread"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-update-file company-trip-expenses-csv expenses-csv-content file-system-token)",
+      "api": "file_system.update_file",
+      "args": {
+        "file_path": "~/documents/work/company_trip_expenses.csv",
+        "content": {
+          "$from": "gmail.show_thread",
+          "field": "composed at runtime: the existing header line (file_system.show_file -> content) followed by one CSV line per coworker reply, in header order (first name, flight, accommodation, meals), with values extracted from each reply email's sender first_name and body in emails[]",
+          "object": "expenses-csv-content"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task company-trip-expenses-csv expenses-csv-content)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

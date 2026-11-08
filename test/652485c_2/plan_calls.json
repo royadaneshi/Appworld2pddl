@@ -1,0 +1,252 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-username-4436271690 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4436271690",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login ric-riddle-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "ric.riddle@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'spotify'",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token wife wife-contact wife-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "wife"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-create-playlist title-my-liked-songs spotify-token is-public-true new-playlist)",
+      "api": "spotify.create_playlist",
+      "args": {
+        "title": "My Liked Songs",
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "is_public": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-playlist new-playlist spotify-token new-playlist-url)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-send-text-message wife-phone-number playlist-url-message phone-token wife-contact new-playlist-url new-playlist)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose relationships include 'wife'",
+          "object": "wife-phone-number"
+        },
+        "message": {
+          "$from": "spotify.show_playlist",
+          "field": "message text composed at runtime that embeds the new playlist's shareable_link",
+          "object": "playlist-url-message"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-album-library spotify-token library-album-1)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-liked-songs spotify-token)",
+      "api": "spotify.show_liked_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-playlist-library spotify-token library-playlist-1)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-show-playlist library-playlist-1 spotify-token library-playlist-1-url)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (repeat show_playlist for every playlist in the library)",
+          "object": "library-playlist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-c spotify-token library-playlist-1)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of each library playlist, kept only if it also appears in spotify.show_liked_songs",
+          "object": "song-c"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-show-song-library spotify-token my-song-library)",
+      "api": "spotify.show_song_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-a spotify-token my-song-library)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs",
+          "object": "song-a"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-show-album library-album-1)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id (repeat show_album for every album in the library)",
+          "object": "library-album-1"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-b spotify-token library-album-1)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_album",
+          "field": "songs[].id of each library album, kept only if it also appears in spotify.show_liked_songs",
+          "object": "song-b"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

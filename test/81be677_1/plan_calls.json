@@ -1,0 +1,65 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login pa-ritter-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "pa_ritter@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-orders amazon-token yesterdays-order)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-order yesterdays-order amazon-token delivery-date-dd-mm)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the order whose order date is 2023-05-17 (yesterday relative to 2023-05-18)",
+          "object": "yesterdays-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task delivery-date-dd-mm yesterdays-order)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_order",
+          "field": "maximum delivery_date over all products/items in the order, formatted as DD-MM",
+          "object": "delivery-date-dd-mm"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

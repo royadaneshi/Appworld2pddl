@@ -1,0 +1,74 @@
+[
+  {
+    "object": "caiburc-at-gmail-com",
+    "value": "caiburc@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-customer-support",
+    "value": "Customer Support",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "date-2023-04-20",
+    "value": "2023-04-20T00:00:00",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "thread-1",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread)"
+  },
+  {
+    "object": "attachment-1",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment)"
+  },
+  {
+    "object": "path-applications-list-csv",
+    "value": "~/documents/work/recruiting_process/applications_list.csv",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "csv-content",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "CSV text: header line \"First Name,Last Name,LinkedIn URL\" followed by one line per applicant (first name, last name, LinkedIn URL extracted from the email body), omitting applicants whose email has no LinkedIn URL"
+  },
+  {
+    "object": "path-attachment-1",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name"
+  }
+]

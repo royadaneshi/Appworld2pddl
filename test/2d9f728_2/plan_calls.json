@@ -1,0 +1,125 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login username-2473084266 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2473084266",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login kathrynmaldonado-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "kathrynmaldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts venmo-token relationship-roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-create-transaction nancy-email amount-food-share phone-token note-dinner-bill nancy)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with relationship roommate and first_name == \"Nancy\"",
+          "object": "nancy-email"
+        },
+        "amount": {
+          "$from": "phone.search_contacts",
+          "field": "computed: round(122 / (1 + number of roommate contacts returned), 2) -> 40.67 for two roommates",
+          "object": "amount-food-share"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "Dinner Bill"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-payment-request nancy-email amount-taxi-share phone-token note-taxi-fare nancy)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with relationship roommate and first_name == \"Nancy\"",
+          "object": "nancy-email"
+        },
+        "amount": {
+          "$from": "phone.search_contacts",
+          "field": "computed: round(73 / (1 + number of roommate contacts returned), 2) -> 24.33 for two roommates",
+          "object": "amount-taxi-share"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "Taxi Fare"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-payment-request roommate-2-email amount-taxi-share phone-token note-taxi-fare roommate-2)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the other contact with relationship roommate (not Nancy)",
+          "object": "roommate-2-email"
+        },
+        "amount": {
+          "$from": "phone.search_contacts",
+          "field": "computed: round(73 / (1 + number of roommate contacts returned), 2) -> 24.33 for two roommates",
+          "object": "amount-taxi-share"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "Taxi Fare"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task nancy roommate-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

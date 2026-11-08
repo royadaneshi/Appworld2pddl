@@ -1,0 +1,129 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login nan-ritt-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login nan-ritt-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-username-2307354647 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2307354647",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token substring-bali flag-true bali-photos-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "substring": "bali",
+        "recursive": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-compress-directory bali-photos-dir file-system-token bali-zip)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the directory entry whose name contains 'bali' (the Bali trip photographs folder)",
+          "object": "bali-photos-dir"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token roommate roommate-emails)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-send-email roommate-emails subject-bali-trip-photographs body-bali-trip-photographs file-system-token bali-zip file-system-token)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of every returned contact (collect all pages into a list)",
+          "object": "roommate-emails"
+        },
+        "subject": "Bali Trip Photographs",
+        "body": "Hi all, here are all the photographs from our Bali vacation trip, attached as a zip file.",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.compress_directory",
+          "field": "compressed_file_path (defaults to <directory_path>.zip); passed as a one-element list for attachment_file_paths",
+          "object": "bali-zip"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task roommate-emails bali-zip)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

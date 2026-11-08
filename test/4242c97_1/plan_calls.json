@@ -1,0 +1,116 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-hanes-mens-comfortsoft-short-sleeve-t-shirt extra-large hanes-comfortsoft-tshirt-xl-preferred-color)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Hanes Men's ComfortSoft Short Sleeve T-Shirt",
+        "relative_size": "extra-large"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product hanes-comfortsoft-tshirt-xl-preferred-color)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result (or variant listed by amazon.show_product) with name == \"Hanes Men's ComfortSoft Short Sleeve T-Shirt\", relative_size == \"extra-large\", in stock, and the highest-ranked color among red > black > navy blue",
+          "object": "hanes-comfortsoft-tshirt-xl-preferred-color"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login kevin-blac-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "kevin.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-add-product-to-cart hanes-comfortsoft-tshirt-xl-preferred-color amazon-token quantity-2 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result (or variant listed by amazon.show_product) with name == \"Hanes Men's ComfortSoft Short Sleeve T-Shirt\", relative_size == \"extra-large\", in stock, and the highest-ranked color among red > black > navy blue",
+          "object": "hanes-comfortsoft-tshirt-xl-preferred-color"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 2,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token default-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token default-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-place-order default-payment-card default-address amazon-token hanes-comfortsoft-tshirt-xl-preferred-color quantity-2)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the supervisor's (first) payment card",
+          "object": "default-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the supervisor's (first/default) address",
+          "object": "default-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task hanes-comfortsoft-tshirt-xl-preferred-color quantity-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

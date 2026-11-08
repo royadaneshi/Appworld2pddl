@@ -1,0 +1,74 @@
+[
+  {
+    "object": "joseharr-at-gmail-com",
+    "value": "joseharr@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-promo",
+    "value": "promo",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-promo-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread from Amazon received today (2023-05-18) announcing a promotional offer"
+  },
+  {
+    "object": "promo-current",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "promo_code currently applied to the cart (first show_cart response); never passed as an API argument"
+  },
+  {
+    "object": "promo-new",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "promo code string contained in the body of the Amazon promotional email"
+  },
+  {
+    "object": "promo-best",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "whichever of promo-current / promo-new yields the larger discount (lower total) when comparing the first show_cart response (current code applied) with the second (email code applied)"
+  },
+  {
+    "object": "addr-home",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id where name == \"home\""
+  },
+  {
+    "object": "card-1",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id of the first (any) payment card"
+  }
+]

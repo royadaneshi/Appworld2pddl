@@ -1,0 +1,110 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login corwils-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "corwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-cart amazon-token)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product cart-product-1)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "cart_entries[].product_id (first entry whose amazon.show_product product_type == \"food processor\")",
+          "object": "cart-product-1"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list cart-product-1 amazon-token qty-of-cart-product-1)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "cart_entries[].product_id (first entry whose amazon.show_product product_type == \"food processor\")",
+          "object": "cart-product-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_cart",
+          "field": "cart_entries[].quantity of the entry for cart-product-1",
+          "object": "qty-of-cart-product-1"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product cart-product-2)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "cart_entries[].product_id (second entry whose amazon.show_product product_type == \"food processor\")",
+          "object": "cart-product-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list cart-product-2 amazon-token qty-of-cart-product-2)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "cart_entries[].product_id (second entry whose amazon.show_product product_type == \"food processor\")",
+          "object": "cart-product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_cart",
+          "field": "cart_entries[].quantity of the entry for cart-product-2",
+          "object": "qty-of-cart-product-2"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task cart-product-1 cart-product-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

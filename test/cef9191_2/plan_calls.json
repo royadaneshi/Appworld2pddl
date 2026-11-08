@@ -1,0 +1,48 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login br-ritt-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "br_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-show-following-artists spotify-token least-followed-artist)",
+      "api": "spotify.show_following_artists",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task least-followed-artist)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "spotify.show_following_artists",
+          "field": "name of the artist with the minimum follower_count over all followed artists (iterate page_index from 0 until an empty page is returned)",
+          "object": "least-followed-artist"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "object": "stmcco-at-gmail-com",
+    "value": "stmcco@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-camping",
+    "value": "camping",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "camping-items-draft",
+    "value": null,
+    "from_api": "gmail.show_drafts",
+    "field": "draft_id of the draft addressed to the manager listing the camping-trip items with TODO prices"
+  },
+  {
+    "object": "query-product-1",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "body: product name after ' X ' in the 1st line of the form '- <qty> X <name> => TODO'"
+  },
+  {
+    "object": "query-product-2",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "body: product name after ' X ' in the 2nd line of the form '- <qty> X <name> => TODO'"
+  },
+  {
+    "object": "query-product-3",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "body: product name after ' X ' in the 3rd line of the form '- <qty> X <name> => TODO'"
+  },
+  {
+    "object": "product-1",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the result whose name matches the 1st draft item"
+  },
+  {
+    "object": "product-2",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the result whose name matches the 2nd draft item"
+  },
+  {
+    "object": "product-3",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the result whose name matches the 3rd draft item"
+  },
+  {
+    "object": "body-with-prices",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "price; new body = original draft body with each 'TODO' after '=>' replaced by '$<quantity * unit price>' (text before '=>' and all non-item lines unchanged)"
+  }
+]

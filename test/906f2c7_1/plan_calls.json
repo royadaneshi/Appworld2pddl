@@ -1,0 +1,132 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login jacob-email-username file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "jac-blackburn@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login jacob-email-username gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "jac-blackburn@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login jacob-phone-username phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7375474944",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token query-leslie leslie leslie-phone-number leslie-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Leslie"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-text-messages phone-token leslie-phone-number leslie leslie-message vacation-pictures-directory)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Leslie\"",
+          "object": "leslie-phone-number"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-directory file-system-token vacation-pictures-directory vacation-pictures-file)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": {
+          "$from": "phone.search_text_messages",
+          "field": "directory/location of the vacation pictures described in the latest message from Leslie's phone_number (message field)",
+          "object": "vacation-pictures-directory"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-send-email leslie-email subject-vacation-pictures body-vacation-pictures gmail-token vacation-pictures-file file-system-token leslie)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Leslie\"",
+          "object": "leslie-email"
+        },
+        "subject": "Vacation Pictures",
+        "body": "Hi Leslie, here are our vacation pictures as you requested.",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "path of the vacation-pictures file entry (as described in Leslie's message) inside the listed directory",
+          "object": "vacation-pictures-file"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task leslie vacation-pictures-file)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

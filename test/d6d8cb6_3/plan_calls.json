@@ -1,0 +1,190 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-show-return-deliverers deliverer-fedex)",
+      "api": "amazon.show_return_deliverers",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login diwils-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "diwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login diwils-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "diwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'gmail'",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login username-3966728840 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3966728840",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-orders amazon-token query-vitamix order-vitamix-this-week)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Vitamix"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-order order-vitamix-this-week amazon-token product-vitamix-e310)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id of the order placed this week (week of 2023-05-18) containing the Vitamix E310 Explorian Blender",
+          "object": "order-vitamix-this-week"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-initiate-return order-vitamix-this-week product-vitamix-e310 deliverer-fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id of the order placed this week (week of 2023-05-18) containing the Vitamix E310 Explorian Blender",
+          "object": "order-vitamix-this-week"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].product_id where product name == 'Vitamix E310 Explorian Blender'",
+          "object": "product-vitamix-e310"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == 'FedEx'",
+          "object": "deliverer-fedex"
+        },
+        "quantity": 1,
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-show-inbox-threads amazon-token query-return-confirmation thread-return-confirmation order-vitamix-this-week)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Amazon Return Confirmation and Label"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-show-thread thread-return-confirmation amazon-token email-return-confirmation)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the newest thread with subject 'Amazon Return Confirmation and Label' whose body mentions #<order_id> of the returned order",
+          "object": "thread-return-confirmation"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(phone-search-contacts phone-token query-jeffery jeffery jeffery-email-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Jeffery"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-forward-email-from-thread thread-return-confirmation email-return-confirmation jeffery-email-address amazon-token jeffery)",
+      "api": "gmail.forward_email_from_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the newest thread with subject 'Amazon Return Confirmation and Label' whose body mentions #<order_id> of the returned order",
+          "object": "thread-return-confirmation"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the (single) return-confirmation email in the thread",
+          "object": "email-return-confirmation"
+        },
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[].email where first_name == 'Jeffery' (passed as a one-element list to email_addresses)",
+          "object": "jeffery-email-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task order-vitamix-this-week product-vitamix-e310 deliverer-fedex quantity-1 email-return-confirmation jeffery-email-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

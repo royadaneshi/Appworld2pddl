@@ -1,0 +1,115 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-username-8924356613 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8924356613",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login venmo-username-vicpowe-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "vicpowe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token relationship-daughter daughter daughter-email daughter-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "daughter"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-show-transactions phone-token daughter-email daughter amount-last-birthday)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships include \"daughter\"",
+          "object": "daughter-email"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-transaction daughter-email amount-thrice-last-birthday phone-token note-many-happy-returns-of-the-day private-true daughter amount-last-birthday birthday-transaction)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships include \"daughter\"",
+          "object": "daughter-email"
+        },
+        "amount": {
+          "$from": "venmo.show_transactions",
+          "field": "3 * amount-last-birthday (computed from the same response)",
+          "object": "amount-thrice-last-birthday"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "Many happy returns of the day!",
+        "private": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-send-text-message daughter-phone-number message-happy-birthday-daughter phone-token daughter)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose relationships include \"daughter\"",
+          "object": "daughter-phone-number"
+        },
+        "message": "Happy Birthday daughter! Looking forward to meet you soon!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task birthday-transaction daughter amount-thrice-last-birthday note-many-happy-returns-of-the-day private-true message-happy-birthday-daughter)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

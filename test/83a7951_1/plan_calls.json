@@ -1,0 +1,232 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login jepowell-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(splitwise-login jepowell-at-gmail-com splitwise-password splitwise-token)",
+      "api": "splitwise.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"splitwise\"",
+          "object": "splitwise-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login jepowell-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(splitwise-show-groups splitwise-token)",
+      "api": "splitwise.show_groups",
+      "args": {
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(splitwise-show-group-expenses group-1 splitwise-token)",
+      "api": "splitwise.show_group_expenses",
+      "args": {
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor",
+          "object": "group-1"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(splitwise-show-group-expenses group-2 splitwise-token)",
+      "api": "splitwise.show_group_expenses",
+      "args": {
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-2 and the supervisor as debtor",
+          "object": "group-2"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-show-transactions venmo-token datetime-2023-05-20t00-00-00 direction-sent)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "min_created_at": "2023-05-20T00:00:00",
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-download-transaction-receipt txn-1 venmo-token receipt-path-1 file-system-token)",
+      "api": "venmo.download_transaction_receipt",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the 1st transaction sent today (created_at on 2023-05-20)",
+          "object": "txn-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "download_to_file_path": "~/downloads/venmo_receipt_<txn-1 transaction_id>.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(splitwise-record-payment email-jepowell-at-gmail-com email-payee-1 amount-txn-1 splitwise-token group-1 note-sent-on-venmo-see-receipt receipt-path-1 file-system-token payee-1 txn-1)",
+      "api": "splitwise.record_payment",
+      "args": {
+        "payer_email": "jepowell@gmail.com",
+        "receiver_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of txn-1",
+          "object": "email-payee-1"
+        },
+        "amount": {
+          "$from": "venmo.show_transactions",
+          "field": "amount of txn-1",
+          "object": "amount-txn-1"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor",
+          "object": "group-1"
+        },
+        "description": "Sent on Venmo, see receipt.",
+        "receipt_file_path": "~/downloads/venmo_receipt_<txn-1 transaction_id>.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-download-transaction-receipt txn-2 venmo-token receipt-path-2 file-system-token)",
+      "api": "venmo.download_transaction_receipt",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the 2nd transaction sent today (created_at on 2023-05-20)",
+          "object": "txn-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "download_to_file_path": "~/downloads/venmo_receipt_<txn-2 transaction_id>.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(splitwise-record-payment email-jepowell-at-gmail-com email-payee-2 amount-txn-2 splitwise-token group-2 note-sent-on-venmo-see-receipt receipt-path-2 file-system-token payee-2 txn-2)",
+      "api": "splitwise.record_payment",
+      "args": {
+        "payer_email": "jepowell@gmail.com",
+        "receiver_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of txn-2",
+          "object": "email-payee-2"
+        },
+        "amount": {
+          "$from": "venmo.show_transactions",
+          "field": "amount of txn-2",
+          "object": "amount-txn-2"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-2 and the supervisor as debtor",
+          "object": "group-2"
+        },
+        "description": "Sent on Venmo, see receipt.",
+        "receipt_file_path": "~/downloads/venmo_receipt_<txn-2 transaction_id>.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task txn-1 txn-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

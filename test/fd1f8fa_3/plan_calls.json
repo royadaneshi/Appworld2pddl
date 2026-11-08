@@ -1,0 +1,100 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login matthew-blac-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "matthew.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-show-liked-songs spotify-token)",
+      "api": "spotify.show_liked_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-song-queue spotify-token)",
+      "api": "spotify.show_song_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-remove-song-from-queue pos-4 spotify-token liked-song-1 pos-2)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position (index in the queue song list) of the highest-positioned queued song whose id is in spotify.show_liked_songs results",
+          "object": "pos-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-remove-song-from-queue pos-2 spotify-token liked-song-2 pos-none)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position (index in the queue song list) of the next lower queued song whose id is in spotify.show_liked_songs results",
+          "object": "pos-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-play-music spotify-token)",
+      "api": "spotify.play_music",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,183 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-wahl-elite-pro-hair-clipper wahl-elite-pro-hair-clipper)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Wahl Elite Pro Hair Clipper"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login she-bailey-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "she_bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login she-bailey-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "she_bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token sherry-home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token sherry-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-inbox-threads amazon-token query-get-together rsvp-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "get-together"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-show-thread rsvp-thread amazon-token qty-rsvp-yes)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread about this Saturday's get-together invitation",
+          "object": "rsvp-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart wahl-elite-pro-hair-clipper amazon-token qty-rsvp-yes)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id where name == \"Wahl Elite Pro Hair Clipper\"",
+          "object": "wahl-elite-pro-hair-clipper"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "gmail.show_thread",
+          "field": "count of reply emails from friends whose body says they RSVP yes (used as quantity)",
+          "object": "qty-rsvp-yes"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-gift-wrapping-to-product wahl-elite-pro-hair-clipper amazon-token qty-rsvp-yes)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id where name == \"Wahl Elite Pro Hair Clipper\"",
+          "object": "wahl-elite-pro-hair-clipper"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "gmail.show_thread",
+          "field": "count of reply emails from friends whose body says they RSVP yes (used as quantity)",
+          "object": "qty-rsvp-yes"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order sherry-payment-card sherry-home-address amazon-token order-1 wahl-elite-pro-hair-clipper qty-rsvp-yes)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a (non-expired) card",
+          "object": "sherry-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id where name == \"home\"",
+          "object": "sherry-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task order-1 wahl-elite-pro-hair-clipper qty-rsvp-yes sherry-home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

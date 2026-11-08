@@ -1,0 +1,180 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-show-return-deliverers return-deliverer)",
+      "api": "amazon.show_return_deliverers",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login jepowell-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-4288705164 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4288705164",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login jepowell-at-gmail-com venmo-password amazon-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "jepowell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts amazon-token relationship-roommate roommate roommate-phone-number roommate-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-text-messages amazon-token roommate-phone-number return-message roommate returned-product)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].phone_number (contact with relationship roommate)",
+          "object": "roommate-phone-number"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-orders amazon-token query-returned-product the-order returned-product)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "name of the product to return, as stated in the roommate's message text",
+          "object": "query-returned-product"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-order the-order amazon-token returned-product order-quantity order-cost)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id of the order whose items contain the product named in the message",
+          "object": "the-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-initiate-return the-order returned-product return-deliverer order-quantity amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id of the order whose items contain the product named in the message",
+          "object": "the-order"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].product_id of the item matching the product named in the message",
+          "object": "returned-product"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverers[].id (the deliverer named in the message if any, else the first)",
+          "object": "return-deliverer"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].quantity of that item",
+          "object": "order-quantity"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-create-transaction roommate-email order-cost amazon-token roommate the-order returned-product)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].email (contact with relationship roommate)",
+          "object": "roommate-email"
+        },
+        "amount": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].price * quantity of that item (total paid for the product)",
+          "object": "order-cost"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task the-order returned-product roommate order-cost)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

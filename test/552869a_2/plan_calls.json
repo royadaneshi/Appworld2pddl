@@ -1,0 +1,51 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login joseharr-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "joseharr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-show-transactions venmo-token query-electricity-bill datetime-2023-01-01t00-00-00 direction-sent total-electricity-paid-this-year)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "electricity bill",
+        "min_created_at": "2023-01-01T00:00:00",
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task total-electricity-paid-this-year)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.show_transactions",
+          "field": "sum of `amount` over all returned transactions (iterate page_index until empty) whose description refers to the electricity bill and created_at is in 2023",
+          "object": "total-electricity-paid-this-year"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

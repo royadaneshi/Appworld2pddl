@@ -1,0 +1,72 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1681,
+    "output_tokens": 13171,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "906f2c7_2",
+  "instruction": "Lindsey has asked me to email them our vacation pictures. They are in my file system. Check their phone message for details and do as said.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "file_system",
+    "gmail"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.search_text_messages",
+    "file_system.login",
+    "file_system.show_directory",
+    "gmail.login",
+    "gmail.send_email",
+    "supervisor.complete_task"
+  ],
+  "notes": "Lindsey's phone number and email come from phone.search_contacts; phone.search_text_messages (filtered by that number) reveals the details of what to send (which file). The evaluation only permits gmail models (thread, email, attachment) to change, so the vacation pictures must be sent as the single existing (already compressed) file found via file_system.show_directory -- no compress/move/create in the file system and no phone/message state changes. gmail.send_email attaches that one file using attachment_file_paths plus the file_system access token; subject/body are free text. lindsey and vacation-pictures-file are domain constants so supervisor-complete-task can state the goal condition directly. Plan length 9 (reference lists 10; an extra read-only lookup such as file_system.show_file is optional).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(file-system-login joseharr-at-gmail-com file-system-password file-system-token)",
+      "(gmail-login joseharr-at-gmail-com gmail-password gmail-token)",
+      "(phone-login jose-phone-username phone-password phone-token)",
+      "(phone-search-contacts phone-token query-lindsey lindsey lindsey-phone-number lindsey-email)",
+      "(phone-search-text-messages phone-token lindsey-phone-number lindsey lindsey-message vacation-pictures-file)",
+      "(file-system-show-directory file-system-token substring-vacation vacation-pictures-file)",
+      "(gmail-send-email lindsey-email subject-vacation-pictures body-vacation-pictures gmail-token vacation-pictures-file file-system-token lindsey)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.21
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 137.9,
+  "effort": "xhigh"
+}

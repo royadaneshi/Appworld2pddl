@@ -1,0 +1,66 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login william-mart-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "william_mart@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-search-notes simple-note-token query-workout workout-plan-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "workout"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-show-note workout-plan-note simple-note-token workout-duration-yesterday)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the result whose title refers to the workout plan",
+          "object": "workout-plan-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task workout-duration-yesterday)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "simple_note.show_note",
+          "field": "content: the duration in minutes listed for yesterday (2023-05-17, Wednesday); pass as integer answer",
+          "object": "workout-duration-yesterday"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

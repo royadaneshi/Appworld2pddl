@@ -1,0 +1,116 @@
+[
+  {
+    "object": "ka-ball-at-gmail-com",
+    "value": "ka_ball@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-amazon-kindle-9th-generation",
+    "value": "Amazon Kindle (9th Generation)",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "query-amazon-order-confirmation",
+    "value": "Amazon Order Confirmation",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "query-nicholas",
+    "value": "Nicholas",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "kindle-9th-generation",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the result whose name == \"Amazon Kindle (9th Generation)\""
+  },
+  {
+    "object": "katherine-payment-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (any of the supervisor's own cards, e.g. the first)"
+  },
+  {
+    "object": "katherine-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id (any existing address, e.g. the first)"
+  },
+  {
+    "object": "kindle-order",
+    "value": null,
+    "from_api": "amazon.place_order",
+    "field": "order_id"
+  },
+  {
+    "object": "order-total-amount",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "paid_amount (total cost of the new order)"
+  },
+  {
+    "object": "confirmation-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread with subject \"Amazon Order Confirmation\" whose snippet/body mentions #<order_id> (most recent)"
+  },
+  {
+    "object": "confirmation-email",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].email_id of the email whose body contains #<order_id>"
+  },
+  {
+    "object": "nicholas-email",
+    "value": null,
+    "from_api": "venmo.search_friends",
+    "field": "email of the friend with first_name == \"Nicholas\" (passed as a one-element list to email_addresses)"
+  },
+  {
+    "object": "note-order-on-amazon",
+    "value": "Order on Amazon",
+    "from_api": null,
+    "field": null
+  }
+]

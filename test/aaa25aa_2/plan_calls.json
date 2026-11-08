@@ -1,0 +1,176 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(gmail-login username-caiburc-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "caiburc@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-5896230193 phone-password gmail-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "5896230193",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts gmail-token rel-daughter daughter daughter-phone)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "relationship": "daughter"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-text-messages gmail-token daughter-phone daughter daughter-message caiburc-at-gmail-com)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose relationships include \"daughter\"",
+          "object": "daughter-phone"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-send-password-reset-code caiburc-at-gmail-com reset-thread)",
+      "api": "spotify.send_password_reset_code",
+      "args": {
+        "email": "caiburc@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-password-reset-code reset-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Password Reset Code"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-thread reset-thread gmail-token reset-code)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the newest thread matching the password-reset query",
+          "object": "reset-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-send-verification-code caiburc-at-gmail-com verification-thread)",
+      "api": "spotify.send_verification_code",
+      "args": {
+        "email": "caiburc@gmail.com"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-verification-code verification-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Verficiation Code"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-show-thread verification-thread gmail-token verification-code)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the newest thread matching the verification-code query",
+          "object": "verification-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-reset-password caiburc-at-gmail-com reset-code new-password-j7yl6)",
+      "api": "spotify.reset_password",
+      "args": {
+        "email": "caiburc@gmail.com",
+        "password_reset_code": {
+          "$from": "gmail.show_thread",
+          "field": "code extracted from the body of the latest email in the thread",
+          "object": "reset-code"
+        },
+        "new_password": "j7}yl^6"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-verify-account caiburc-at-gmail-com verification-code)",
+      "api": "spotify.verify_account",
+      "args": {
+        "email": "caiburc@gmail.com",
+        "verification_code": {
+          "$from": "gmail.show_thread",
+          "field": "code extracted from the body of the latest email in the thread",
+          "object": "verification-code"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task caiburc-at-gmail-com new-password-j7yl6)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

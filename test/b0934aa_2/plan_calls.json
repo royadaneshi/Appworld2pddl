@@ -1,0 +1,124 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-external-hard-drive ptype-external-hard-drive price-50 rating-3-8 external-hard-drive)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "external hard drive",
+        "product_type": "external hard drive",
+        "max_price": 50,
+        "min_product_rating": 3.8
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product external-hard-drive)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"external hard drive\", price < 50 and rating > 3.8, whose amazon.show_product details show more than 6 reviews (num_product_reviews > 6)",
+          "object": "external-hard-drive"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login gra-martinez-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "gra-martinez@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-add-product-to-cart external-hard-drive amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"external hard drive\", price < 50 and rating > 3.8, whose amazon.show_product details show more than 6 reviews (num_product_reviews > 6)",
+          "object": "external-hard-drive"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-show-addresses work-address)",
+      "api": "supervisor.show_addresses",
+      "args": {}
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-addresses amazon-token work-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-place-order amazon-card work-address amazon-token external-hard-drive)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any existing card, e.g. the first one)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id where name == \"Work\" (street/city/state/country/zip match the Work entry from supervisor.show_addresses)",
+          "object": "work-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task external-hard-drive work-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

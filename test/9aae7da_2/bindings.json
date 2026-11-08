@@ -1,0 +1,38 @@
+[
+  {
+    "object": "deniseburch-at-gmail-com",
+    "value": "deniseburch@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "cart-total",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "sum over cart products of price * quantity (ignore tax/delivery)"
+  },
+  {
+    "object": "wishlist-total",
+    "value": null,
+    "from_api": "amazon.show_wish_list",
+    "field": "sum over wish list products of price * quantity"
+  },
+  {
+    "object": "combined-total",
+    "value": null,
+    "from_api": "amazon.show_wish_list",
+    "field": "cart-total + wishlist-total (computed by the agent; passed as answer)"
+  }
+]

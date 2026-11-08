@@ -1,0 +1,44 @@
+[
+  {
+    "object": "normansmit-at-gmail-com",
+    "value": "normansmit@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "cutting-board-fitting",
+    "value": null,
+    "from_api": "amazon.show_wish_list",
+    "field": "product_id of a wish-list entry with product_type == \"cutting board\" whose amazon.show_product details satisfy length <= 12.0 and width <= 9.6"
+  },
+  {
+    "object": "cutting-board-too-large",
+    "value": null,
+    "from_api": "amazon.show_wish_list",
+    "field": "product_id of any other wish-list cutting board whose amazon.show_product length > 12.0 or width > 9.6 (checked and rejected at runtime)"
+  },
+  {
+    "object": "payment-card-1",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (any card of the supervisor, e.g. the first one)"
+  },
+  {
+    "object": "address-home",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id (any existing address of the supervisor, e.g. the first one)"
+  }
+]

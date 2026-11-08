@@ -1,0 +1,74 @@
+[
+  {
+    "object": "nan-ritt-at-gmail-com",
+    "value": "nan_ritt@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "phone-2307354647",
+    "value": "2307354647",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "relationship-roommate",
+    "value": "roommate",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "roommate-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the contact returned for relationship == \"roommate\""
+  },
+  {
+    "object": "housing-request",
+    "value": null,
+    "from_api": "venmo.show_received_payment_requests",
+    "field": "payment_request_id of the pending request whose sender email == roommate-email, created today (2023-05-18), about the housing/rent bill"
+  },
+  {
+    "object": "amount-requested",
+    "value": null,
+    "from_api": "venmo.show_received_payment_requests",
+    "field": "amount of that payment request"
+  },
+  {
+    "object": "amount-corrected",
+    "value": null,
+    "from_api": "venmo.show_received_payment_requests",
+    "field": "round(amount * 0.9, 2) of that payment request (10% less than requested)"
+  },
+  {
+    "object": "note-rent-decreased-10-percent",
+    "value": "The rent decreased by 10% this month.",
+    "from_api": null,
+    "field": null
+  }
+]

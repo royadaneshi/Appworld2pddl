@@ -1,0 +1,80 @@
+[
+  {
+    "object": "jepowell-at-gmail-com",
+    "value": "jepowell@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as amazon username"
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "flip-flops",
+    "value": "flip-flops",
+    "from_api": null,
+    "field": "product_type used to filter purchases (not an API argument)"
+  },
+  {
+    "object": "last-flip-flops-order",
+    "value": null,
+    "from_api": "amazon.show_product_purchases",
+    "field": "order_id of the most recently purchased product whose product_type == \"flip-flops\" (check product_type via amazon.show_product if not listed)"
+  },
+  {
+    "object": "last-flip-flops-product",
+    "value": null,
+    "from_api": "amazon.show_product_purchases",
+    "field": "product_id of that same most recent flip-flops purchase"
+  },
+  {
+    "object": "ordered-quantity",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order_items[product_id == last-flip-flops-product].quantity"
+  },
+  {
+    "object": "replacement-flip-flops",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "variations[].product_id of the variation with the same name and relative_size one step larger than the original; color \"red\" if such a red variation exists, otherwise the original color"
+  },
+  {
+    "object": "return-deliverer",
+    "value": null,
+    "from_api": "amazon.show_return_deliverers",
+    "field": "deliverer_id (any, e.g. first entry)"
+  },
+  {
+    "object": "quantity-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "true-flag",
+    "value": "true",
+    "from_api": null,
+    "field": "clear_cart_first so the new order contains only the replacement"
+  },
+  {
+    "object": "amazon-payment-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (any, e.g. first entry)"
+  },
+  {
+    "object": "amazon-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id (any, e.g. first entry)"
+  }
+]

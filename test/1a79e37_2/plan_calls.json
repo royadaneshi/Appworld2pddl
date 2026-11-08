@@ -1,0 +1,217 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login mi-burch-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "mi.burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login mi-burch-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "mi.burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-8095050664 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8095050664",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token supervisor-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token relationship-wife wife wife-email wife-work-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "wife"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-add-address wife-address-name wife-work-street wife-work-city wife-work-state wife-work-country wife-work-zip amazon-token wife-work-address)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].first_name + \" \" + contacts[0].last_name",
+          "object": "wife-address-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].work_address -> street part",
+          "object": "wife-work-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].work_address -> city part",
+          "object": "wife-work-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].work_address -> state part",
+          "object": "wife-work-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].work_address -> country part",
+          "object": "wife-work-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].work_address -> zip code part",
+          "object": "wife-work-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-inbox-threads gmail-token wife-email date-2023-05-18 wife wife-thread-today)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "from_email": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].email (contact whose relationships include \"wife\")",
+          "object": "wife-email"
+        },
+        "min_created_at": "2023-05-18T00:00:00"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-show-thread wife-thread-today gmail-token requested-product-type requested-max-price)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_threads[0].email_thread_id (thread from the wife created today)",
+          "object": "wife-thread-today"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products requested-product-type requested-max-price sort-by-rating-desc requested-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": {
+          "$from": "gmail.show_thread",
+          "field": "emails[0].body -> product type the wife asks for",
+          "object": "requested-product-type"
+        },
+        "max_price": {
+          "$from": "gmail.show_thread",
+          "field": "emails[0].body -> maximum price stated in the email",
+          "object": "requested-max-price"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart requested-product amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[0].product_id (highest-rated product of the requested type with price <= max price)",
+          "object": "requested-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order supervisor-payment-card wife-work-address amazon-token requested-product)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_cards[0].payment_card_id",
+          "object": "supervisor-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "wife-work-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task requested-product wife-work-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,143 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login eri-powe-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "eri_powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login eri-powe-at-gmail-com spotify-password amazon-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "eri_powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login eri-powe-at-gmail-com venmo-password amazon-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "eri_powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-delete-payment-card amazon-expired-card amazon-token)",
+      "api": "amazon.delete_payment_card",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "id of each card whose (expiry_year, expiry_month) is earlier than the current month 2023-05 (expiry_year < 2023 or expiry_year == 2023 and expiry_month < 5)",
+          "object": "amazon-expired-card"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-payment-cards amazon-token)",
+      "api": "spotify.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-delete-payment-card spotify-expired-card amazon-token)",
+      "api": "spotify.delete_payment_card",
+      "args": {
+        "payment_card_id": {
+          "$from": "spotify.show_payment_cards",
+          "field": "id of each card whose (expiry_year, expiry_month) is earlier than the current month 2023-05",
+          "object": "spotify-expired-card"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-show-payment-cards amazon-token)",
+      "api": "venmo.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-delete-payment-card venmo-expired-card amazon-token)",
+      "api": "venmo.delete_payment_card",
+      "args": {
+        "payment_card_id": {
+          "$from": "venmo.show_payment_cards",
+          "field": "id of each card whose (expiry_year, expiry_month) is earlier than the current month 2023-05",
+          "object": "venmo-expired-card"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task amazon-expired-card spotify-expired-card venmo-expired-card)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

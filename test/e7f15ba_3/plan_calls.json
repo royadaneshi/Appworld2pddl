@@ -1,0 +1,222 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-gregory-baltoro-65-pack gregory-baltoro-65-pack)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Gregory Baltoro 65 Pack"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-search-products query-parrot-anafi-drone parrot-anafi-drone)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Parrot Anafi Drone"
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-search-products query-taotronics-led-desk-lamp taotronics-led-desk-lamp)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "TaoTronics LED Desk Lamp"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-login ja-solomon-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-login username-8683971586 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8683971586",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-product-to-cart gregory-baltoro-65-pack amazon-token quantity-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Gregory Baltoro 65 Pack\"",
+          "object": "gregory-baltoro-65-pack"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 4
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart parrot-anafi-drone amazon-token quantity-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Parrot Anafi Drone\"",
+          "object": "parrot-anafi-drone"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 2
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart taotronics-led-desk-lamp amazon-token quantity-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"TaoTronics LED Desk Lamp\"",
+          "object": "taotronics-led-desk-lamp"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 3
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(phone-search-contacts phone-token mother supervisors-mother mother-home-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "mother"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-address mother-name mother-street mother-city mother-state mother-country mother-zip amazon-token mother-home-address)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of the contact returned for relationship == \"mother\"",
+          "object": "mother-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the mother contact, street-address part",
+          "object": "mother-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the mother contact, city part",
+          "object": "mother-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the mother contact, state part",
+          "object": "mother-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the mother contact, country part",
+          "object": "mother-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the mother contact, zip code part (as integer)",
+          "object": "mother-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order amazon-card mother-home-address amazon-token gregory-baltoro-65-pack quantity-4 parrot-anafi-drone quantity-2 taotronics-led-desk-lamp quantity-3)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first (any) card",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "mother-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task mother-home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

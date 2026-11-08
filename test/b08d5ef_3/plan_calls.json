@@ -1,0 +1,265 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-kallax-shelf-unit kallax-shelf-unit)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "KALLAX Shelf Unit"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login deniseburch-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "deniseburch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-6279200672 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "6279200672",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token parent)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "parent"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token sibling)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sibling"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart kallax-shelf-unit amazon-token quantity-2 home-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == 'KALLAX Shelf Unit'",
+          "object": "kallax-shelf-unit"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 2
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-address home-1-name home-1-street home-1-city home-1-state home-1-country home-1-zip amazon-token home-1)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of a contact living at home-1",
+          "object": "home-1-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part of home_address of contacts at home-1",
+          "object": "home-1-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part of home_address of contacts at home-1",
+          "object": "home-1-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part of home_address of contacts at home-1",
+          "object": "home-1-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part of home_address of contacts at home-1",
+          "object": "home-1-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part of home_address of contacts at home-1",
+          "object": "home-1-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order payment-card-1 home-1 amazon-token kallax-shelf-unit quantity-2)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (address record created for the first distinct home_address among siblings+parents)",
+          "object": "home-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-product-to-cart kallax-shelf-unit amazon-token quantity-1 home-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == 'KALLAX Shelf Unit'",
+          "object": "kallax-shelf-unit"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-address home-2-name home-2-street home-2-city home-2-state home-2-country home-2-zip amazon-token home-2)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of a contact living at home-2",
+          "object": "home-2-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part of home_address of contacts at home-2",
+          "object": "home-2-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part of home_address of contacts at home-2",
+          "object": "home-2-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part of home_address of contacts at home-2",
+          "object": "home-2-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part of home_address of contacts at home-2",
+          "object": "home-2-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part of home_address of contacts at home-2",
+          "object": "home-2-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order payment-card-1 home-2 amazon-token kallax-shelf-unit quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (address record created for the second distinct home_address among siblings+parents)",
+          "object": "home-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task kallax-shelf-unit home-1 home-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,184 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login mi-burch-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "mi.burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login mi-burch-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "mi.burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token dir-documents-personal invitee-list-file)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/personal"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-file invitee-list-file file-system-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry in ~/documents/personal that is the baby shower invitee list",
+          "object": "invitee-list-file"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-drafts gmail-token query-baby-shower baby-shower-template-draft)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "baby shower"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-draft baby-shower-template-draft gmail-token)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft that is the baby shower invitation template",
+          "object": "baby-shower-template-draft"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-send-email invitee-1-email invitation-subject body-invitee-1 gmail-token invitee-1 baby-shower-template-draft invitee-list-file)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of the 1st invitee",
+          "object": "invitee-1-email"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "invitation-subject"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file",
+          "object": "body-invitee-1"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-send-email invitee-2-email invitation-subject body-invitee-2 gmail-token invitee-2 baby-shower-template-draft invitee-list-file)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of the 2nd invitee",
+          "object": "invitee-2-email"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "invitation-subject"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every {placeholder} replaced by the 2nd invitee's details from the invitee list file",
+          "object": "body-invitee-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-send-email invitee-3-email invitation-subject body-invitee-3 gmail-token invitee-3 baby-shower-template-draft invitee-list-file)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of the 3rd invitee",
+          "object": "invitee-3-email"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "invitation-subject"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every {placeholder} replaced by the 3rd invitee's details from the invitee list file",
+          "object": "body-invitee-3"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

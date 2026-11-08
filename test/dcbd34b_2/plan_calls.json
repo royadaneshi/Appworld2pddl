@@ -1,0 +1,104 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login kat-simp-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "kat_simp@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login kat-simp-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "kat_simp@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-file expense-file file-system-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": "~/documents/work/expense_reimbursements.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-inbox-threads file-system-token query-expense expense-request-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "expense"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-thread expense-request-thread file-system-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread about the company trip expense details request",
+          "object": "expense-request-thread"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-update-file expense-file content-expense-rows file-system-token)",
+      "api": "file_system.update_file",
+      "args": {
+        "file_path": "~/documents/work/expense_reimbursements.csv",
+        "content": {
+          "$from": "gmail.show_thread",
+          "field": "header line from file_system.show_file content, followed by one line per coworker reply (emails[].sender first name, flight, accommodation, meals amounts parsed from emails[].body), joined by newlines",
+          "object": "content-expense-rows"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task expense-file content-expense-rows)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

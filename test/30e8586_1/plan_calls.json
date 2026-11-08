@@ -1,0 +1,563 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-popcorn-maker popcorn-maker-top)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "popcorn maker"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-prime-plans)",
+      "api": "amazon.show_prime_plans",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login username-ka-ball-at-gmail-com password-amazon token-amazon)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ka_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "password-amazon"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login username-7863159797 password-phone token-amazon)",
+      "api": "phone.login",
+      "args": {
+        "username": "7863159797",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "password-phone"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-clear-cart token-amazon)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-add-product-to-cart popcorn-maker-top token-amazon quantity-1 brenda)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock popcorn maker with the maximum rating",
+          "object": "popcorn-maker-top"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-gift-wrapping-to-product popcorn-maker-top token-amazon quantity-1 brenda)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock popcorn maker with the maximum rating",
+          "object": "popcorn-maker-top"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-cart token-amazon)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-show-payment-cards token-amazon card-main)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-subscribe-prime card-main duration-monthly token-amazon)",
+      "api": "amazon.subscribe_prime",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "card-main"
+        },
+        "duration": "monthly",
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(phone-search-contacts token-amazon query-brenda brenda)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "query": "Brenda"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-address name-brenda street-brenda city-brenda state-brenda country-brenda zip-brenda token-amazon brenda address-brenda)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of contact matching query 'Brenda'",
+          "object": "name-brenda"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of contact 'Brenda'",
+          "object": "street-brenda"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of contact 'Brenda'",
+          "object": "city-brenda"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of contact 'Brenda'",
+          "object": "state-brenda"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of contact 'Brenda'",
+          "object": "country-brenda"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part) of contact 'Brenda'",
+          "object": "zip-brenda"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order card-main address-brenda token-amazon brenda popcorn-maker-top)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "card-main"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "address-brenda"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-add-product-to-cart popcorn-maker-top token-amazon quantity-1 grant)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock popcorn maker with the maximum rating",
+          "object": "popcorn-maker-top"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-add-gift-wrapping-to-product popcorn-maker-top token-amazon quantity-1 grant)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock popcorn maker with the maximum rating",
+          "object": "popcorn-maker-top"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(phone-search-contacts token-amazon query-grant grant)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "query": "Grant"
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-add-address name-grant street-grant city-grant state-grant country-grant zip-grant token-amazon grant address-grant)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of contact matching query 'Grant'",
+          "object": "name-grant"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of contact 'Grant'",
+          "object": "street-grant"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of contact 'Grant'",
+          "object": "city-grant"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of contact 'Grant'",
+          "object": "state-grant"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of contact 'Grant'",
+          "object": "country-grant"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part) of contact 'Grant'",
+          "object": "zip-grant"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-place-order card-main address-grant token-amazon grant popcorn-maker-top)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "card-main"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "address-grant"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(amazon-add-product-to-cart popcorn-maker-top token-amazon quantity-1 jose)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock popcorn maker with the maximum rating",
+          "object": "popcorn-maker-top"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(amazon-add-gift-wrapping-to-product popcorn-maker-top token-amazon quantity-1 jose)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock popcorn maker with the maximum rating",
+          "object": "popcorn-maker-top"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(phone-search-contacts token-amazon query-jose jose)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "query": "Jose"
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(amazon-add-address name-jose street-jose city-jose state-jose country-jose zip-jose token-amazon jose address-jose)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of contact matching query 'Jose'",
+          "object": "name-jose"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of contact 'Jose'",
+          "object": "street-jose"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of contact 'Jose'",
+          "object": "city-jose"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of contact 'Jose'",
+          "object": "state-jose"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of contact 'Jose'",
+          "object": "country-jose"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part) of contact 'Jose'",
+          "object": "zip-jose"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(amazon-place-order card-main address-jose token-amazon jose popcorn-maker-top)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "card-main"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "address-jose"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(amazon-add-product-to-cart popcorn-maker-top token-amazon quantity-1 nicholas)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock popcorn maker with the maximum rating",
+          "object": "popcorn-maker-top"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(amazon-add-gift-wrapping-to-product popcorn-maker-top token-amazon quantity-1 nicholas)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock popcorn maker with the maximum rating",
+          "object": "popcorn-maker-top"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(phone-search-contacts token-amazon query-nicholas nicholas)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "query": "Nicholas"
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(amazon-add-address name-nicholas street-nicholas city-nicholas state-nicholas country-nicholas zip-nicholas token-amazon nicholas address-nicholas)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of contact matching query 'Nicholas'",
+          "object": "name-nicholas"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of contact 'Nicholas'",
+          "object": "street-nicholas"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of contact 'Nicholas'",
+          "object": "city-nicholas"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of contact 'Nicholas'",
+          "object": "state-nicholas"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of contact 'Nicholas'",
+          "object": "country-nicholas"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part) of contact 'Nicholas'",
+          "object": "zip-nicholas"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(amazon-place-order card-main address-nicholas token-amazon nicholas popcorn-maker-top)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "card-main"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "address-nicholas"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(supervisor-complete-task brenda grant jose nicholas)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

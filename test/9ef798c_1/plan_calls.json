@@ -1,0 +1,102 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login nicholas-weber-at-gmail-com phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "nicholas.weber@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login nicholas-weber-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "nicholas.weber@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts venmo-token query-chelsea chelsea chelsea-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "Chelsea"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-show-received-payment-requests phone-token carpool-request chelsea chelsea-email)",
+      "api": "venmo.show_received_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-payment-cards phone-token venmo-card)",
+      "api": "venmo.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-approve-payment-request carpool-request phone-token venmo-card)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request whose sender email == chelsea-email and whose description is about carpooling (paginate if needed)",
+          "object": "carpool-request"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "payment_card_id": {
+          "$from": "venmo.show_payment_cards",
+          "field": "payment_card_id of the first (non-expired) card",
+          "object": "venmo-card"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task carpool-request)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

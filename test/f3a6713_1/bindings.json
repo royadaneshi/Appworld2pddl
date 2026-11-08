@@ -1,0 +1,122 @@
+[
+  {
+    "object": "de-ritt-at-gmail-com",
+    "value": "de_ritt@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-camping",
+    "value": "camping",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "camping-checklist-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread about the camping trip checklist sent to the siblings"
+  },
+  {
+    "object": "checklist-attachment",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "attachment id of the checklist file attached to the supervisor's original email in the thread (emails[].attachments[])"
+  },
+  {
+    "object": "checklist-file-path",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file path where the attachment was saved (download path reported in the response)"
+  },
+  {
+    "object": "sort-by-rating-desc",
+    "value": "-rating",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "remaining-type-1",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: a checklist item (product type) that no sibling committed to bring in the gmail.show_thread replies (first such item)"
+  },
+  {
+    "object": "remaining-type-2",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: a checklist item (product type) that no sibling committed to bring in the gmail.show_thread replies (second such item)"
+  },
+  {
+    "object": "best-product-1",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the first result (highest rated) when searching remaining-type-1 sorted by -rating"
+  },
+  {
+    "object": "best-product-2",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the first result (highest rated) when searching remaining-type-2 sorted by -rating"
+  },
+  {
+    "object": "qty-type-1",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: quantity listed in the checklist for remaining-type-1 (1 if unspecified)"
+  },
+  {
+    "object": "qty-type-2",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: quantity listed in the checklist for remaining-type-2 (1 if unspecified)"
+  },
+  {
+    "object": "home-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id of the supervisor's existing (first/home) address"
+  },
+  {
+    "object": "default-payment-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id of the supervisor's existing (first) payment card"
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "object": "alexwhite-at-gmail-com",
+    "value": "alexwhite@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-amazon-shopping-list",
+    "value": "amazon shopping list",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "shopping-list-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "notes[].note_id of the note whose title is the Amazon shopping list"
+  },
+  {
+    "object": "query-list-product-1",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: product name of list entry 1"
+  },
+  {
+    "object": "query-list-product-2",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: product name of list entry 2"
+  },
+  {
+    "object": "query-list-product-3",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: product name of list entry 3"
+  },
+  {
+    "object": "list-product-1",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "products[].product_id of the result matching list entry 1 (if the note already gives product ids, use them directly)"
+  },
+  {
+    "object": "list-product-2",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "products[].product_id of the result matching list entry 2"
+  },
+  {
+    "object": "list-product-3",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "products[].product_id of the result matching list entry 3"
+  },
+  {
+    "object": "qty-2",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "min(quantity requested in the note for the entry, inventory_quantity); entry is skipped when inventory_quantity == 0"
+  },
+  {
+    "object": "qty-1",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "min(quantity requested in the note for the entry, inventory_quantity); entry is skipped when inventory_quantity == 0"
+  },
+  {
+    "object": "total-cost",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "total of cart entries (price x quantity) plus tax, excluding delivery fee"
+  }
+]

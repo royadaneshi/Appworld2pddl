@@ -1,0 +1,134 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(phone-get-current-date-and-time)",
+      "api": "phone.get_current_date_and_time",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login alexwhite-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "alexwhite@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login alexwhite-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "alexwhite@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-3707865891 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3707865891",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-drafts file-system-token query-resignation resignation-draft)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "resignation"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-upload-attachments-to-draft resignation-draft letter-of-resignation-pdf file-system-token file-system-token)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft whose subject/body is the resignation email",
+          "object": "resignation-draft"
+        },
+        "attachment_file_paths": "~/documents/work/letter_of_resignation.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token manager-relationship manager manager-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "manager"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-update-draft resignation-draft file-system-token manager-email next-wednesday-11am manager)",
+      "api": "gmail.update_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft whose subject/body is the resignation email",
+          "object": "resignation-draft"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with relationship \"manager\" (passed as a one-element list to email_addresses)",
+          "object": "manager-email"
+        },
+        "scheduled_send_at": "2023-05-24T11:00:00"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task resignation-draft letter-of-resignation-pdf manager manager-email next-wednesday-11am)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

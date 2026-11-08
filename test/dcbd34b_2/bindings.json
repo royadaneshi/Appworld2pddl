@@ -1,0 +1,56 @@
+[
+  {
+    "object": "kat-simp-at-gmail-com",
+    "value": "kat_simp@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-expense",
+    "value": "expense",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "expense-request-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread about the company trip expense details request"
+  },
+  {
+    "object": "expense-file",
+    "value": "~/documents/work/expense_reimbursements.csv",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "content-expense-rows",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "header line from file_system.show_file content, followed by one line per coworker reply (emails[].sender first name, flight, accommodation, meals amounts parsed from emails[].body), joined by newlines"
+  }
+]

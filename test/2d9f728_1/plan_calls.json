@@ -1,0 +1,113 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login username-7273731063 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7273731063",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login tr-solo-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts venmo-token roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-create-payment-request nancy-email amount-20 phone-token note-for-taxi nancy)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with relationship roommate and first_name == \"Nancy\"",
+          "object": "nancy-email"
+        },
+        "amount": 20,
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "For Taxi"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-payment-request roommate-2-email amount-20 phone-token note-for-taxi roommate-2)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the other contact with relationship roommate (not Nancy)",
+          "object": "roommate-2-email"
+        },
+        "amount": 20,
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "For Taxi"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-transaction nancy-email amount-42-67 phone-token note-for-food nancy)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with relationship roommate and first_name == \"Nancy\"",
+          "object": "nancy-email"
+        },
+        "amount": 42.67,
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "For Food"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task nancy roommate-2 nancy note-for-taxi note-for-food amount-20 amount-42-67)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

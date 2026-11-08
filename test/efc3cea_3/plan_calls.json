@@ -1,0 +1,176 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products product-type-board-game the-board-game)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "board game"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product the-board-game)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a product with product_type == 'board game' that offers gift wrapping (verified via amazon.show_product) and whose weight * 3 <= allowance - 22 kg",
+          "object": "the-board-game"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login lindseysimpson-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "lindseysimpson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-login lindseysimpson-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "lindseysimpson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'gmail'",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-inbox-threads amazon-token query-flight flight-confirmation-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "flight"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-show-thread flight-confirmation-thread amazon-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the flight confirmation thread for the France trip (its body states the allowed check-in bag weight; budget left = allowance - 22 kg)",
+          "object": "flight-confirmation-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart the-board-game amazon-token quantity-3 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a product with product_type == 'board game' that offers gift wrapping (verified via amazon.show_product) and whose weight * 3 <= allowance - 22 kg",
+          "object": "the-board-game"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 3,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-gift-wrapping-to-product the-board-game amazon-token quantity-3)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a product with product_type == 'board game' that offers gift wrapping (verified via amazon.show_product) and whose weight * 3 <= allowance - 22 kg",
+          "object": "the-board-game"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 3
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token the-board-game quantity-3)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first/any card)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id where name == 'Home'",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task the-board-game quantity-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

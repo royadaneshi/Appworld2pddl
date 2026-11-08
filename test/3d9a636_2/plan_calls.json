@@ -1,0 +1,119 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-username-2125442118 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2125442118",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login venmo-username-clmiller-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "clmiller@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts venmo-token relationship-friend)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "relationship": "friend"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-search-friends phone-token)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-add-friend contact-friend-1-email phone-token contact-friend-1)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a contact with relationship \"friend\" whose email does not appear in venmo.search_friends results (first such contact)",
+          "object": "contact-friend-1-email"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-add-friend contact-friend-2-email phone-token contact-friend-2)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a contact with relationship \"friend\" whose email does not appear in venmo.search_friends results (second such contact)",
+          "object": "contact-friend-2-email"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-remove-friend venmo-only-friend-1-email phone-token venmo-only-friend-1)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current venmo friend whose email does not appear among phone contacts with relationship \"friend\"",
+          "object": "venmo-only-friend-1-email"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,113 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login morgan-harrison-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "morgan-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login morgan-harrison-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "morgan-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-santorini santorini-flight-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Santorini"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-thread santorini-flight-thread gmail-token santorini-ticket-email)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread about the flight (ticket) to Santorini",
+          "object": "santorini-flight-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-email santorini-ticket-email gmail-token santorini-ticket-attachment)",
+      "api": "gmail.show_email",
+      "args": {
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the email whose flight destination is Santorini and whose flight date falls on this weekend (2023-05-20/21)",
+          "object": "santorini-ticket-email"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-download-attachment santorini-ticket-attachment file-system-token gmail-token documents-personal-dir)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_email",
+          "field": "attachments[].attachment_id (the ticket file attached to the selected email)",
+          "object": "santorini-ticket-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": "~/documents/personal/<attachment file name>"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task santorini-ticket-attachment documents-personal-dir)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

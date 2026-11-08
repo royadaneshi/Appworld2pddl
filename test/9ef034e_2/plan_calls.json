@@ -1,0 +1,217 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login jamie-solomon-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jamie-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-8456546003 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8456546003",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login jamie-solomon-at-gmail-com venmo-password amazon-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "jamie-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'venmo'",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token jamie-home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts amazon-token query-ronald ronald ronald-phone-number ronald-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Ronald"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-text-messages amazon-token ronald-phone-number ronald)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact with first_name == 'Ronald'",
+          "object": "ronald-phone-number"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products query-product requested-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "message of the latest text from Ronald's phone number: the product name requested",
+          "object": "query-product"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart requested-product amazon-token requested-quantity)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result matching the product named in the message",
+          "object": "requested-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "message of the latest text from Ronald: the quantity requested",
+          "object": "requested-quantity"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order amazon-card jamie-home-address amazon-token order-1 requested-product requested-quantity)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any available card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry whose name/text is the supervisor's home address",
+          "object": "jamie-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-show-order order-1 amazon-token amount-order-total)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.place_order",
+          "field": "order_id",
+          "object": "order-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-create-payment-request ronald-email amount-order-total amazon-token payment-request-1 ronald)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with first_name == 'Ronald'",
+          "object": "ronald-email"
+        },
+        "amount": {
+          "$from": "amazon.show_order",
+          "field": "total_paid (grand total of the placed order)",
+          "object": "amount-order-total"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task order-1 payment-request-1)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,316 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login va-blac-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "va-blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login va-blac-at-gmail-com file-system-password amazon-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "va-blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login va-blac-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "va-blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-5822399497 phone-password gmail-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "5822399497",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts gmail-token rel-partner partner partner-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "relationship": "partner"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-show-inbox-threads amazon-token query-checklist partner-email partner checklist-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "checklist",
+        "from_email": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].email (contact with relationship partner)",
+          "object": "partner-email"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-show-thread checklist-thread amazon-token checklist-attachment)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from the partner about the checklist",
+          "object": "checklist-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-download-attachment checklist-attachment amazon-token amazon-token checklist-file)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of the checklist attachment",
+          "object": "checklist-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-show-file checklist-file amazon-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "gmail.download_attachment",
+          "field": "downloaded file path returned in the response (default download location)",
+          "object": "checklist-file"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-search-products query-item-1 product-1)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: product name of checklist entry 1",
+          "object": "query-item-1"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-add-product-to-cart product-1 amazon-token quantity-1 item-1 checklist-start)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id matching checklist entry 1 (or the product id listed directly in the checklist)",
+          "object": "product-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity of checklist entry 1",
+          "object": "quantity-1"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-search-products query-item-2 product-2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: product name of checklist entry 2",
+          "object": "query-item-2"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-add-product-to-cart product-2 amazon-token quantity-2 item-2 item-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id matching checklist entry 2 (or the product id listed directly in the checklist)",
+          "object": "product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity of checklist entry 2",
+          "object": "quantity-2"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-search-products query-item-3 product-3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: product name of checklist entry 3",
+          "object": "query-item-3"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-add-product-to-cart product-3 amazon-token quantity-3 item-3 item-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id matching checklist entry 3 (or the product id listed directly in the checklist)",
+          "object": "product-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity of checklist entry 3",
+          "object": "quantity-3"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token item-3)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first (any) saved card",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the address named home (matches the supervisor's home address)",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

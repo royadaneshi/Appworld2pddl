@@ -1,0 +1,74 @@
+[
+  {
+    "object": "chris-mcco-at-gmail-com",
+    "value": "chris.mcco@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "datetime-2023-05-01",
+    "value": "2023-05-01T00:00:00",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "datetime-2023-05-31",
+    "value": "2023-05-31T23:59:59",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "direction-sent",
+    "value": "sent",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "this-month-expense",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "sum of transactions[*].amount over all result pages (sent transactions created in May 2023)"
+  },
+  {
+    "object": "query-venmo-expenses",
+    "value": "venmo expenses",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "venmo-expenses-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the note whose title is the monthly Venmo expenses log"
+  },
+  {
+    "object": "new-content",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content, keeping the '# Venmo Expenses' header and existing '- MM/YY => $X' lines, with a new line '- 05/23 => $<this-month-expense>' inserted so the months keep the note's existing chronological order (ascending: append at end; descending: insert right after the header)"
+  }
+]

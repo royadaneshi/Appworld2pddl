@@ -1,0 +1,157 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-ikea-lerhamn-dining-table ikea-lerhamn-dining-table)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "IKEA LERHAMN Dining Table"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login robertmartinez-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "robertmartinez@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-add-product-to-cart ikea-lerhamn-dining-table amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"IKEA LERHAMN Dining Table\"",
+          "object": "ikea-lerhamn-dining-table"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-login robertmartinez-at-gmail-com file-system-password amazon-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "robertmartinez@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-default)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-place-order payment-card-default home-address amazon-token order-new ikea-lerhamn-dining-table quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of any valid (non-expired) card",
+          "object": "payment-card-default"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the address whose name is the home address (name contains \"Home\" / matches supervisor's home address)",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-show-directory amazon-token dir-bills flag-true)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "directory_path": "~/bills/",
+        "recursive": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-download-order-receipt order-new amazon-token receipt-file-path amazon-token dir-bills)",
+      "api": "amazon.download_order_receipt",
+      "args": {
+        "order_id": {
+          "$from": "amazon.place_order",
+          "field": "order_id",
+          "object": "order-new"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "download_to_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "\"~/bills/amazon/\" + existing receipt file-name pattern observed in that sub-folder, instantiated with the new order's created_at year/month/day and order_id (order_id from amazon.place_order)",
+          "object": "receipt-file-path"
+        },
+        "file_system_access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task order-new ikea-lerhamn-dining-table quantity-1 home-address receipt-file-path)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "object": "lindseysimpson-at-gmail-com",
+    "value": "lindseysimpson@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == 'gmail'"
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == 'file_system'"
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-hotel",
+    "value": "hotel",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "hotel-thread-1",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the 1st hotel booking confirmation thread received today (2023-05-18)"
+  },
+  {
+    "object": "hotel-thread-2",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the 2nd hotel booking confirmation thread received today (2023-05-18)"
+  },
+  {
+    "object": "hotel-thread-3",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the 3rd hotel booking confirmation thread received today (2023-05-18)"
+  },
+  {
+    "object": "confirmation-attachment-1",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id of the confirmation email in hotel-thread-1"
+  },
+  {
+    "object": "confirmation-attachment-2",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id of the confirmation email in hotel-thread-2"
+  },
+  {
+    "object": "confirmation-attachment-3",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id of the confirmation email in hotel-thread-3"
+  },
+  {
+    "object": "receipt-file-1",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path where confirmation-attachment-1 was saved (default download location)"
+  },
+  {
+    "object": "receipt-file-2",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path where confirmation-attachment-2 was saved (default download location)"
+  },
+  {
+    "object": "receipt-file-3",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path where confirmation-attachment-3 was saved (default download location)"
+  },
+  {
+    "object": "total-mastercard-spend",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: sum of the booking amounts over all downloaded confirmations whose payment card is MasterCard (rounded to 2 decimals)"
+  }
+]

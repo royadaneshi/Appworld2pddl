@@ -1,0 +1,48 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login as-moore-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "as_moore@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-search-friends venmo-token friend-count-since-2022-10-01)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task friend-count-since-2022-10-01)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.search_friends",
+          "field": "integer count of friends (collected over all page_index pages until an empty page) whose friendship date (friend_since / created_at) >= 2022-10-01T00:00:00",
+          "object": "friend-count-since-2022-10-01"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

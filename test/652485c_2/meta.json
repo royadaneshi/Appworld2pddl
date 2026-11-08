@@ -1,0 +1,87 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2023,
+    "output_tokens": 26882,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "652485c_2",
+  "instruction": "Make a new public playlist from all my liked songs from my Spotify song, album and playlist libraries, and share its URL with my wife via phone text message.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "spotify",
+    "phone"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "spotify.login",
+    "spotify.show_song_library",
+    "spotify.show_album_library",
+    "spotify.show_album",
+    "spotify.show_playlist_library",
+    "spotify.show_playlist",
+    "spotify.show_liked_songs",
+    "spotify.create_playlist",
+    "spotify.add_song_to_playlist",
+    "spotify.add_song_to_playlist",
+    "spotify.add_song_to_playlist",
+    "spotify.show_playlist",
+    "phone.login",
+    "phone.search_contacts",
+    "phone.send_text_message",
+    "supervisor.complete_task"
+  ],
+  "notes": "Songs are abstracted into representatives: song-a (song library), song-b (an album in the album library), song-c (a playlist in the playlist library), all liked, plus song-d (in song library but not liked) to show the liked filter. Sources (song library, albums, playlists) share supertype 'source'; a song can be added only after its source's songs were listed and the liked list was retrieved. show_album_library / show_playlist_library carry an extra non-API parameter naming the library entry whose id becomes known (one listing call reveals all entries; with several entries the planner repeats the step). The created playlist's URL (shareable_link) is obtained by show_playlist on the new playlist and must be embedded in the text message sent to the contact with relationship 'wife'. Goal records (new-playlist, song-a/b/c, wife-contact, playlist-url-message) are declared as domain constants so supervisor-complete-task can require exactly the goal conditions. token-for/username-for static facts pin each app's credentials and token object.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(phone-login phone-username-4436271690 phone-password phone-token)",
+      "(spotify-login ric-riddle-at-gmail-com spotify-password spotify-token)",
+      "(phone-search-contacts phone-token wife wife-contact wife-phone-number)",
+      "(spotify-create-playlist title-my-liked-songs spotify-token is-public-true new-playlist)",
+      "(spotify-show-playlist new-playlist spotify-token new-playlist-url)",
+      "(phone-send-text-message wife-phone-number playlist-url-message phone-token wife-contact new-playlist-url new-playlist)",
+      "(spotify-show-album-library spotify-token library-album-1)",
+      "(spotify-show-liked-songs spotify-token)",
+      "(spotify-show-playlist-library spotify-token library-playlist-1)",
+      "(spotify-show-playlist library-playlist-1 spotify-token library-playlist-1-url)",
+      "(spotify-add-song-to-playlist new-playlist song-c spotify-token library-playlist-1)",
+      "(spotify-show-song-library spotify-token my-song-library)",
+      "(spotify-add-song-to-playlist new-playlist song-a spotify-token my-song-library)",
+      "(spotify-show-album library-album-1)",
+      "(spotify-add-song-to-playlist new-playlist song-b spotify-token library-album-1)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 0.85
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 279.0,
+  "effort": "xhigh"
+}

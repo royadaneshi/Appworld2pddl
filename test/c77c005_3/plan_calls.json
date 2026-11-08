@@ -1,0 +1,107 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login st-maldonado-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "st-maldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-search-friends venmo-token)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-show-transactions venmo-token direction-received datetime-2023-05-01t00-00-00)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "direction": "received",
+        "min_created_at": "2023-05-01T00:00:00"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-remove-friend derek-wong-at-gmail-com venmo-token derek-wong)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of each current friend not among this month's senders (one remove_friend call per such email)",
+          "object": "derek-wong-at-gmail-com"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-remove-friend carla-ruiz-at-gmail-com venmo-token carla-ruiz)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of each current friend not among this month's senders (one remove_friend call per such email)",
+          "object": "carla-ruiz-at-gmail-com"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-add-friend alice-chen-at-gmail-com venmo-token alice-chen)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "sender.email of each received transaction created this month whose sender is not in the current friend list (one add_friend call per such email)",
+          "object": "alice-chen-at-gmail-com"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

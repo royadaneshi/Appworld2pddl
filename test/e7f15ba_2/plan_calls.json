@@ -1,0 +1,222 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-kallax-shelf-unit kallax-shelf-unit)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "KALLAX Shelf Unit"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-search-products query-modern-ceramic-table-lamp modern-ceramic-table-lamp)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Modern Ceramic Table Lamp"
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-search-products query-nintendo-switch-oled-model nintendo-switch-oled-model)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Nintendo Switch OLED Model"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-login amazon-username-tr-solo-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-login phone-username-7273731063 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7273731063",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-product-to-cart kallax-shelf-unit amazon-token qty-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id where name == \"KALLAX Shelf Unit\"",
+          "object": "kallax-shelf-unit"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 4
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart modern-ceramic-table-lamp amazon-token qty-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id where name == \"Modern Ceramic Table Lamp\"",
+          "object": "modern-ceramic-table-lamp"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 3
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart nintendo-switch-oled-model amazon-token qty-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id where name == \"Nintendo Switch OLED Model\"",
+          "object": "nintendo-switch-oled-model"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 2
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(phone-search-contacts phone-token father troy-father father-home-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "father"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-address father-address-name father-street father-city father-state father-country father-zip amazon-token father-home-address father-amazon-address-id)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].first_name + ' ' + contacts[0].last_name (contact with relationship father)",
+          "object": "father-address-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, street component",
+          "object": "father-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, city component",
+          "object": "father-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, state component",
+          "object": "father-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, country component",
+          "object": "father-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].home_address, zip code component (integer)",
+          "object": "father-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order amazon-payment-card father-amazon-address-id amazon-token order-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_cards[0].payment_card_id",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "father-amazon-address-id"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task kallax-shelf-unit qty-4 modern-ceramic-table-lamp qty-3 nintendo-switch-oled-model qty-2 order-1 father-home-address father-amazon-address-id)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

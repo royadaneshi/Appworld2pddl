@@ -1,0 +1,56 @@
+[
+  {
+    "object": "brandon-webe-at-gmail-com",
+    "value": "brandon-webe@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as login username for gmail and file_system"
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-expense",
+    "value": "expense",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "company-trip-expense-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread about the company trip expense details (coworkers' replies to the supervisor's request)"
+  },
+  {
+    "object": "company-trip-expenses-csv",
+    "value": "~/documents/work/company_trip_expenses.csv",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "expenses-csv-content",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "composed at runtime: the existing header line (file_system.show_file -> content) followed by one CSV line per coworker reply, in header order (first name, flight, accommodation, meals), with values extracted from each reply email's sender first_name and body in emails[]"
+  }
+]

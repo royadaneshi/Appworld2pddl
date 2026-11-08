@@ -1,0 +1,49 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login kevin-blac-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "kevin.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-prime-subscriptions amazon-token page-limit-20 prime-total-amount)",
+      "api": "amazon.show_prime_subscriptions",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "page_limit": 20
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task prime-total-amount)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_prime_subscriptions",
+          "field": "sum of `amount` over all returned prime subscriptions (iterate page_index until the result is empty)",
+          "object": "prime-total-amount"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

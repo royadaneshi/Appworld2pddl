@@ -1,0 +1,32 @@
+[
+  {
+    "object": "pa-ritter-at-gmail-com",
+    "value": "pa_ritter@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as the amazon login username"
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "orders-this-year",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "order_id of every order whose order_date falls in 2023 (iterate over all pages; show_order is called once per such order)"
+  },
+  {
+    "object": "amount-total-spent-this-year",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order total amount, summed over all orders dated in calendar year 2023 (current date 2023-05-18)"
+  }
+]

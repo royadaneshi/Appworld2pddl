@@ -1,0 +1,261 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login jar-calhoun-at-gmail-com file-system-password token-file-system)",
+      "api": "file_system.login",
+      "args": {
+        "username": "jar_calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login jar-calhoun-at-gmail-com gmail-password token-file-system)",
+      "api": "gmail.login",
+      "args": {
+        "username": "jar_calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-create-directory bills-cable-dir token-file-system)",
+      "api": "file_system.create_directory",
+      "args": {
+        "directory_path": "~/bills_cable",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-inbox-threads token-file-system query-cable-bill)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "query": "cable bill"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-thread bill-thread-1 token-file-system query-cable-bill bill-email-1)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the oldest cable bill thread (one object per cable bill thread, chronological)",
+          "object": "bill-thread-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-download-attachment bill-attachment-1 token-file-system token-file-system bill-pdf-1 bill-email-1 bills-cable-dir)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of the bill pdf in bill-thread-1",
+          "object": "bill-attachment-1"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/bills_cable/MM-YYYY.pdf\" where MM-YYYY is the month the bill in bill-thread-1 is for (read from the bill email subject/body)",
+          "object": "bill-pdf-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-thread bill-thread-2 token-file-system query-cable-bill bill-email-2)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the next cable bill thread",
+          "object": "bill-thread-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-download-attachment bill-attachment-2 token-file-system token-file-system bill-pdf-2 bill-email-2 bill-pdf-1)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of the bill pdf in bill-thread-2",
+          "object": "bill-attachment-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/bills_cable/MM-YYYY.pdf\" where MM-YYYY is the month the bill in bill-thread-2 is for",
+          "object": "bill-pdf-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-show-thread bill-thread-3 token-file-system query-cable-bill bill-email-3)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the latest cable bill thread",
+          "object": "bill-thread-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-download-attachment bill-attachment-3 token-file-system token-file-system bill-pdf-3 bill-email-3 bill-pdf-2)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of the bill pdf in bill-thread-3",
+          "object": "bill-attachment-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/bills_cable/MM-YYYY.pdf\" where MM-YYYY is the month the bill in bill-thread-3 is for",
+          "object": "bill-pdf-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(file-system-compress-directory bills-cable-dir token-file-system bills-cable-zip bill-pdf-3)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": "~/bills_cable",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "compressed_file_path": "~/bills_cable.zip"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-show-thread partner-request-thread token-file-system query-cable-bill partner-request-email)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread in which the partner asks for the cable bills for tax purposes",
+          "object": "partner-request-thread"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(gmail-reply-to-email partner-request-thread partner-request-email body-please-see-attached token-file-system bills-cable-zip token-file-system)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread in which the partner asks for the cable bills for tax purposes",
+          "object": "partner-request-thread"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the partner's request email (its sender is the partner)",
+          "object": "partner-request-email"
+        },
+        "body": "Please see attached.",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        },
+        "attachment_file_paths": "~/bills_cable.zip",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task partner-request-email body-please-see-attached bills-cable-zip)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

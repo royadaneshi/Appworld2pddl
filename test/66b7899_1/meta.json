@@ -1,0 +1,72 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1244,
+    "output_tokens": 10094,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "66b7899_1",
+  "instruction": "My amazon package that is to be delivered today was an order for David. Request them the money for it on venmo.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "amazon",
+    "phone",
+    "venmo"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "amazon.login",
+    "amazon.show_orders",
+    "amazon.show_order",
+    "phone.login",
+    "phone.search_contacts",
+    "venmo.login",
+    "venmo.create_payment_request",
+    "supervisor.complete_task"
+  ],
+  "notes": "Three apps plus supervisor. The agent finds the Amazon order due today (show_orders, then show_order for its total cost), looks up David's email in the phone contact book, and sends a Venmo payment request for that amount to that email. Order, amount and David's email are runtime objects discovered by lookup actions (known-id, found-cost, known-email). Static init facts link the order to David (from the instruction) and the search query to David. The goal (request-sent david order-delivered-today) mirrors the evaluation's single added PaymentRequest with receiver = David's Venmo user and amount = order cost; no description is required. supervisor-complete-task carries the person/order as non-API record parameters so its precondition equals the task goal, and it is forced last via (not (task-completed)) on every other action.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(amazon-login caiburc-at-gmail-com amazon-password amazon-token)",
+      "(phone-login phone-5896230193 phone-password venmo-token)",
+      "(venmo-login caiburc-at-gmail-com venmo-password amazon-token)",
+      "(amazon-show-orders amazon-token order-delivered-today)",
+      "(amazon-show-order order-delivered-today amazon-token order-total-amount)",
+      "(phone-search-contacts venmo-token query-david david david-email)",
+      "(venmo-create-payment-request david-email order-total-amount amazon-token david order-delivered-today)",
+      "(supervisor-complete-task david order-delivered-today)"
+    ],
+    "message": "",
+    "seconds": 0.99
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 102.2,
+  "effort": "xhigh"
+}

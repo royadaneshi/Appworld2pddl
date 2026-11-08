@@ -1,0 +1,84 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login hun-weaver-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "hun.weaver@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-search-products query-ecobee-smartcamera ecobee-smartcamera)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "ecobee SmartCamera"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product-questions ecobee-smartcamera query-battery battery-question)",
+      "api": "amazon.show_product_questions",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"ecobee SmartCamera\"",
+          "object": "ecobee-smartcamera"
+        },
+        "query": "battery"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product-reviews ecobee-smartcamera query-battery verified-true)",
+      "api": "amazon.show_product_reviews",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"ecobee SmartCamera\"",
+          "object": "ecobee-smartcamera"
+        },
+        "query": "battery",
+        "is_verified": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-question-answers battery-question verified-true ecobee-smartcamera battery-hours)",
+      "api": "amazon.show_product_question_answers",
+      "args": {
+        "question_id": {
+          "$from": "amazon.show_product_questions",
+          "field": "question_id of the question asking about battery life/hours",
+          "object": "battery-question"
+        },
+        "is_verified": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task battery-hours ecobee-smartcamera)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_product_question_answers",
+          "field": "number of hours stated in a verified-purchaser answer (is_verified == true), cross-checked with verified reviews from amazon.show_product_reviews",
+          "object": "battery-hours"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

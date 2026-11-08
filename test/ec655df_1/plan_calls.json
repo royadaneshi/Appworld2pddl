@@ -1,0 +1,178 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-amazfit-band-5-fitness-tracker amazfit-band-5-fitness-tracker)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Amazfit Band 5 Fitness Tracker"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login ca-smit-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ca-smit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login ca-smit-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "ca-smit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-addresses amazon-token)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-inbox-threads amazon-token query-get-together get-together-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "get-together"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-thread get-together-thread amazon-token qty-rsvp-yes)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread about this Sunday night's coworker get-together (RSVP replies)",
+          "object": "get-together-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart amazfit-band-5-fitness-tracker amazon-token qty-rsvp-yes flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product whose name is 'Amazfit Band 5 Fitness Tracker'",
+          "object": "amazfit-band-5-fitness-tracker"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "gmail.show_thread",
+          "field": "count of distinct coworkers whose reply email in the thread RSVPs yes (used as quantity)",
+          "object": "qty-rsvp-yes"
+        },
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-gift-wrapping-to-product amazfit-band-5-fitness-tracker amazon-token qty-rsvp-yes)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product whose name is 'Amazfit Band 5 Fitness Tracker'",
+          "object": "amazfit-band-5-fitness-tracker"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "gmail.show_thread",
+          "field": "count of distinct coworkers whose reply email in the thread RSVPs yes (used as quantity)",
+          "object": "qty-rsvp-yes"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-show-addresses)",
+      "api": "supervisor.show_addresses",
+      "args": {}
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order amazon-payment-card home-address amazon-token amazfit-band-5-fitness-tracker qty-rsvp-yes)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any card, e.g. the first one)",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id whose address text matches the home address returned by supervisor.show_addresses",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task amazfit-band-5-fitness-tracker qty-rsvp-yes home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

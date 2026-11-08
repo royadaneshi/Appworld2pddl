@@ -1,0 +1,38 @@
+[
+  {
+    "object": "ashlee-martinez-at-gmail-com",
+    "value": "ashlee_martinez@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "my-playlist",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "playlist_id (every playlist in the library; iterate over all pages)"
+  },
+  {
+    "object": "playlist-song",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].song_id (union over all playlists, each distinct song id counted once)"
+  },
+  {
+    "object": "top-3-artists",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "artists[].name; count distinct songs per artist over all playlists, take the 3 artists with the highest counts, join with commas"
+  }
+]

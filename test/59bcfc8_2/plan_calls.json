@@ -1,0 +1,208 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login amazon-username-mir-powe-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "mir-powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == amazon",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-username-4885870260 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4885870260",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == phone",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts amazon-token query-jennifer jennifer jennifer-phone-number jennifer-home-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Jennifer"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-add-address jennifer-addr-name jennifer-street jennifer-city jennifer-state jennifer-country jennifer-zip-code amazon-token jennifer-home-address jennifer)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + space + last_name of the Jennifer contact",
+          "object": "jennifer-addr-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of the Jennifer contact",
+          "object": "jennifer-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address",
+          "object": "jennifer-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address",
+          "object": "jennifer-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address",
+          "object": "jennifer-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part parsed from home_address (as integer)",
+          "object": "jennifer-zip-code"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-voice-messages amazon-token jennifer-phone-number jennifer jennifer-favorite-color)",
+      "api": "phone.search_voice_messages",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name is Jennifer",
+          "object": "jennifer-phone-number"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-search-products query-wall-clock jennifer-favorite-color top-rated-wall-clock jennifer)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "wall clock",
+        "color": {
+          "$from": "phone.search_voice_messages",
+          "field": "color named as favorite in the voice message text from Jennifer",
+          "object": "jennifer-favorite-color"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart top-rated-wall-clock amazon-token)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the wall clock result (in favorite color) with the maximum rating",
+          "object": "top-rated-wall-clock"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-rated-wall-clock amazon-token)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the wall clock result (in favorite color) with the maximum rating",
+          "object": "top-rated-wall-clock"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order amazon-payment-card jennifer-home-address amazon-token top-rated-wall-clock)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first (any) listed card",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (newly added address built from the contact's home_address)",
+          "object": "jennifer-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task top-rated-wall-clock jennifer-home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,130 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login alexwhite-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "alexwhite@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-search-notes simple-note-token query-liked-songs liked-songs-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "liked songs"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-show-note liked-songs-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title refers to the liked songs log",
+          "object": "liked-songs-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-search-songs query-song-3-title song-3 liked-songs-note count-0 count-1)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: song title (text between '- ' and ' BY ') of the 1st line that has no RELEASED_AT part",
+          "object": "query-song-3-title"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-search-songs query-song-4-title song-4 liked-songs-note count-1 count-2)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: song title of the 2nd line that has no RELEASED_AT part",
+          "object": "query-song-4-title"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-search-songs query-song-5-title song-5 liked-songs-note count-2 count-3)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: song title of the 3rd line that has no RELEASED_AT part",
+          "object": "query-song-5-title"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-search-songs query-song-6-title song-6 liked-songs-note count-3 count-4)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: song title of the 4th line that has no RELEASED_AT part",
+          "object": "query-song-6-title"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(simple-note-update-note liked-songs-note simple-note-token content-with-release-months count-4)",
+      "api": "simple_note.update_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title refers to the liked songs log",
+          "object": "liked-songs-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "content": {
+          "$from": "spotify.search_songs",
+          "field": "original show_note content with ' RELEASED_AT <month>' appended to every line lacking it, where <month> is derived from release_date of the result whose title and artists match the line, formatted exactly like the already-annotated lines; all other lines unchanged",
+          "object": "content-with-release-months"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task liked-songs-note content-with-release-months)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

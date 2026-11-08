@@ -1,0 +1,56 @@
+[
+  {
+    "object": "les-ball-at-gmail-com",
+    "value": "les_ball@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "order-last-month",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "orders[].order_id where order_date falls in last calendar month (2023-04) and the order contains a grey t-shirt"
+  },
+  {
+    "object": "product-grey-tshirt",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "products[].product_id where product name/color indicates a grey t-shirt (confirmed via amazon.show_product: product_type == \"t-shirt\", color == \"grey\")"
+  },
+  {
+    "object": "email-les-ball-at-gmail-com",
+    "value": "les_ball@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "review-grey-tshirt",
+    "value": null,
+    "from_api": "amazon.show_product_reviews",
+    "field": "reviews[0].review_id (filtered with user_email = les_ball@gmail.com)"
+  },
+  {
+    "object": "rating-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "title-shrunk-and-misshaped-after-first-wash",
+    "value": "Shrunk and Misshaped After First Wash!",
+    "from_api": null,
+    "field": null
+  }
+]

@@ -1,0 +1,243 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products product-type-gaming-console-controller rating-3-8 controller-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "gaming console controller",
+        "min_product_rating": 3.8
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product controller-product)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with rating >= 3.8 whose review count (checked via amazon.show_product) is >= 10",
+          "object": "controller-product"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login paul-mill-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "paul_mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-3379617841 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3379617841",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-add-product-to-cart controller-product amazon-token quantity-1 bool-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with rating >= 3.8 whose review count (checked via amazon.show_product) is >= 10",
+          "object": "controller-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token controller-product unwrapped order-home)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a non-expired card",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry matching the supervisor's home address (name == \"Home\")",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart controller-product amazon-token quantity-1 bool-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with rating >= 3.8 whose review count (checked via amazon.show_product) is >= 10",
+          "object": "controller-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-gift-wrapping-to-product controller-product amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with rating >= 3.8 whose review count (checked via amazon.show_product) is >= 10",
+          "object": "controller-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(phone-search-contacts amazon-token relationship-father father)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "relationship": "father"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-address father-addr-name father-street father-city father-state father-country father-zip amazon-token father father-home-address)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of the contact with relationship father",
+          "object": "father-addr-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of the father contact",
+          "object": "father-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of the father contact",
+          "object": "father-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of the father contact",
+          "object": "father-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of the father contact",
+          "object": "father-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part) of the father contact",
+          "object": "father-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order payment-card-1 father-home-address amazon-token controller-product wrapped order-father)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a non-expired card",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "father-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task order-father father-home-address order-home home-address controller-product)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

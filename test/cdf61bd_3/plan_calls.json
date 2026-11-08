@@ -1,0 +1,103 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login username-alexwhite-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "alexwhite@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-orders amazon-token order-pink-tshirt-april)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-order order-pink-tshirt-april amazon-token pink-tshirt)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the order whose order/created date falls in the last calendar month (April 2023); page through orders as needed",
+          "object": "order-pink-tshirt-april"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product pink-tshirt)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].product_id of the item that is a pink t-shirt (confirmed via amazon.show_product: product_type == t-shirt, color == pink)",
+          "object": "pink-tshirt"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-reviews pink-tshirt email-alexwhite-at-gmail-com alex review-pink-tshirt)",
+      "api": "amazon.show_product_reviews",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].product_id of the item that is a pink t-shirt (confirmed via amazon.show_product: product_type == t-shirt, color == pink)",
+          "object": "pink-tshirt"
+        },
+        "user_email": "alexwhite@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-update-product-review review-pink-tshirt amazon-token rating-1 title-stitching-fell-apart-in-the-washer)",
+      "api": "amazon.update_product_review",
+      "args": {
+        "review_id": {
+          "$from": "amazon.show_product_reviews",
+          "field": "review_id of the review whose reviewer email == alexwhite@gmail.com",
+          "object": "review-pink-tshirt"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "rating": 1,
+        "title": "Stitching Fell Apart in the Washer!"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task review-pink-tshirt rating-1 title-stitching-fell-apart-in-the-washer)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

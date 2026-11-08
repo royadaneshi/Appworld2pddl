@@ -1,0 +1,108 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-2307354647 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2307354647",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login nan-ritt-at-gmail-com venmo-password phone-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts venmo-token relationship-roommate roommate roommate-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-show-received-payment-requests phone-token roommate roommate-email housing-request amount-requested amount-corrected)",
+      "api": "venmo.show_received_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-transaction roommate-email amount-corrected phone-token note-rent-decreased-10-percent roommate housing-request)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact returned for relationship == \"roommate\"",
+          "object": "roommate-email"
+        },
+        "amount": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "round(amount * 0.9, 2) of that payment request (10% less than requested)",
+          "object": "amount-corrected"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "description": "The rent decreased by 10% this month."
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-deny-payment-request housing-request phone-token)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request whose sender email == roommate-email, created today (2023-05-18), about the housing/rent bill",
+          "object": "housing-request"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task housing-request roommate amount-corrected note-rent-decreased-10-percent)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

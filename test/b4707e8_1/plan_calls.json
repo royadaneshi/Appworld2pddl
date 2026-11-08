@@ -1,0 +1,108 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login diwils-at-gmail-com amazon-password simple-note-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "diwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login diwils-at-gmail-com simple-note-password amazon-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "diwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-orders simple-note-token month-2023-05 amount-2023-05-total)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-search-notes amazon-token query-amazon-expenses amazon-expense-log-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Amazon expenses"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-show-note amazon-expense-log-note amazon-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title is the monthly Amazon expense log",
+          "object": "amazon-expense-log-note"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-add-content-to-note amazon-expense-log-note append entry-line-2023-05 amazon-token month-2023-05 amount-2023-05-total)",
+      "api": "simple_note.add_content_to_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title is the monthly Amazon expense log",
+          "object": "amazon-expense-log-note"
+        },
+        "append_or_prepend": "append",
+        "added_content": {
+          "$from": "amazon.show_orders",
+          "field": "new line formatted like existing entries (e.g. \"\\n- May 2023 => $<total>\"), where <total> is the sum of order totals of all orders whose order_date falls in 2023-05 (iterate pages; use amazon.show_order per order if totals are not listed); month key format copied from simple_note.show_note content",
+          "object": "entry-line-2023-05"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task amazon-expense-log-note month-2023-05)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

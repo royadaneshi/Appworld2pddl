@@ -1,0 +1,149 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login hun-weaver-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "hun.weaver@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login hun-weaver-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "hun.weaver@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-orders amazon-token)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-create-directory dir-bills-amazon-purchases file-system-token)",
+      "api": "file_system.create_directory",
+      "args": {
+        "directory_path": "~/bills/amazon_purchases/",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-download-order-receipt order-1 amazon-token receipt-file-order-1 file-system-token dir-bills-amazon-purchases)",
+      "api": "amazon.download_order_receipt",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 1st order in the full (all pages) order list",
+          "object": "order-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "download_to_file_path": {
+          "$from": "amazon.show_orders",
+          "field": "\"~/bills/amazon_purchases/\" + order placement datetime of order-1 formatted yyyy-mm-dd + \"__\" + order_id + \".txt\"",
+          "object": "receipt-file-order-1"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-download-order-receipt order-2 amazon-token receipt-file-order-2 file-system-token dir-bills-amazon-purchases)",
+      "api": "amazon.download_order_receipt",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 2nd order in the full (all pages) order list",
+          "object": "order-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "download_to_file_path": {
+          "$from": "amazon.show_orders",
+          "field": "\"~/bills/amazon_purchases/\" + order placement datetime of order-2 formatted yyyy-mm-dd + \"__\" + order_id + \".txt\"",
+          "object": "receipt-file-order-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-download-order-receipt order-3 amazon-token receipt-file-order-3 file-system-token dir-bills-amazon-purchases)",
+      "api": "amazon.download_order_receipt",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 3rd order in the full (all pages) order list",
+          "object": "order-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "download_to_file_path": {
+          "$from": "amazon.show_orders",
+          "field": "\"~/bills/amazon_purchases/\" + order placement datetime of order-3 formatted yyyy-mm-dd + \"__\" + order_id + \".txt\"",
+          "object": "receipt-file-order-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task order-1 order-2 order-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

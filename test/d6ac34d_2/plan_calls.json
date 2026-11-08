@@ -1,0 +1,92 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login sab-brown-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "sab-brown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-search-notes simple-note-token query-habit habit-log-yesterday)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "habit"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-show-note habit-log-yesterday simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the habit tracking log note whose title/date is yesterday (2023-05-17)",
+          "object": "habit-log-yesterday"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-create-note title-habit-log-today content-today-did-not-meditate simple-note-token tags-of-yesterday-log pinned-of-yesterday-log habit-log-today habit-log-yesterday)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "simple_note.show_note",
+          "field": "title, with yesterday's date (2023-05-17) replaced by today's date (2023-05-18)",
+          "object": "title-habit-log-today"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content, keeping the same header line (date updated to 2023-05-18) and the same YAML-style entries, except the meditation entry is changed to indicate it was not done (did not meditate)",
+          "object": "content-today-did-not-meditate"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "tags": {
+          "$from": "simple_note.show_note",
+          "field": "tags (copied unchanged)",
+          "object": "tags-of-yesterday-log"
+        },
+        "pinned": {
+          "$from": "simple_note.show_note",
+          "field": "pinned (copied unchanged)",
+          "object": "pinned-of-yesterday-log"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task habit-log-today title-habit-log-today content-today-did-not-meditate tags-of-yesterday-log pinned-of-yesterday-log)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

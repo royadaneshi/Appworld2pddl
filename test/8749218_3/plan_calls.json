@@ -1,0 +1,129 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login ka-burt-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "ka_burt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-clear-song-queue spotify-token)",
+      "api": "spotify.clear_song_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-recommendations spotify-token)",
+      "api": "spotify.show_recommendations",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-add-to-queue spotify-token rec-song-3)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id of 3rd recommended song (iterate all pages)",
+          "object": "rec-song-3"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-add-to-queue spotify-token rec-song-2)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id of 2nd recommended song (iterate all pages)",
+          "object": "rec-song-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-add-to-queue spotify-token rec-song-1)",
+      "api": "spotify.add_to_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "song_id": {
+          "$from": "spotify.show_recommendations",
+          "field": "song_id of 1st recommended song (iterate all pages)",
+          "object": "rec-song-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-shuffle-song-queue spotify-token)",
+      "api": "spotify.shuffle_song_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-play-music spotify-token)",
+      "api": "spotify.play_music",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

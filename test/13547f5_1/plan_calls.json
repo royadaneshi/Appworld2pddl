@@ -1,0 +1,79 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-username-3643463570 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3643463570",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-search-contacts phone-token roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-send-voice-message roommate-1-number msg-i-have-taken-out-the-trash phone-token roommate-1 roommate)",
+      "api": "phone.send_voice_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the 1st contact returned with relationship \"roommate\"",
+          "object": "roommate-1-number"
+        },
+        "message": "I have taken out the trash.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-send-voice-message roommate-2-number msg-i-have-taken-out-the-trash phone-token roommate-2 roommate)",
+      "api": "phone.send_voice_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the 2nd contact returned with relationship \"roommate\"",
+          "object": "roommate-2-number"
+        },
+        "message": "I have taken out the trash.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

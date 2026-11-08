@@ -1,0 +1,95 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login matthew-blac-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "matthew.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-clear-song-queue spotify-token)",
+      "api": "spotify.clear_song_queue",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-album-library spotify-token)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-show-downloaded-songs spotify-token)",
+      "api": "spotify.show_downloaded_songs",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-album album-enough-downloads)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of a library album whose downloaded songs (spotify.show_downloaded_songs entries with matching album_id, durations cross-checked via spotify.show_album) sum to >= 1200 seconds (20 minutes)",
+          "object": "album-enough-downloads"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-play-music spotify-token album-enough-downloads drive-20-minutes)",
+      "api": "spotify.play_music",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of a library album whose downloaded songs (spotify.show_downloaded_songs entries with matching album_id, durations cross-checked via spotify.show_album) sum to >= 1200 seconds (20 minutes)",
+          "object": "album-enough-downloads"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

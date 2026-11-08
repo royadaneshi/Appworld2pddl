@@ -1,0 +1,199 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login anita-burch-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "anita.burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login anita-burch-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "anita.burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token dir-documents-work-docs talk-reminder-template-file)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/work_docs"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-file talk-reminder-template-file file-system-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry that is the reminder email template file",
+          "object": "talk-reminder-template-file"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-inbox-threads file-system-token query-talk schedule-email-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "talk"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-thread schedule-email-thread file-system-token all-company-members)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from the manager containing the talk schedule",
+          "object": "schedule-email-thread"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-create-draft all-company-members body-2023-05-24 file-system-token subject-reminder-for-the-talk-today dt-2023-05-24t13-00-00)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "gmail.show_thread",
+          "field": "email addresses of all company members given by the manager's schedule email (listed members / addressed coworkers)",
+          "object": "all-company-members"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template with placeholders filled using the 2023-05-24 talk details from the schedule email)",
+          "object": "body-2023-05-24"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "subject": "Reminder for the Talk Today",
+        "scheduled_send_at": "2023-05-24T13:00:00"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-create-draft all-company-members body-2023-05-31 file-system-token subject-reminder-for-the-talk-today dt-2023-05-31t13-00-00)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "gmail.show_thread",
+          "field": "email addresses of all company members given by the manager's schedule email (listed members / addressed coworkers)",
+          "object": "all-company-members"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template with placeholders filled using the 2023-05-31 talk details from the schedule email)",
+          "object": "body-2023-05-31"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "subject": "Reminder for the Talk Today",
+        "scheduled_send_at": "2023-05-31T13:00:00"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-create-draft all-company-members body-2023-06-07 file-system-token subject-reminder-for-the-talk-today dt-2023-06-07t13-00-00)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "gmail.show_thread",
+          "field": "email addresses of all company members given by the manager's schedule email (listed members / addressed coworkers)",
+          "object": "all-company-members"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template with placeholders filled using the 2023-06-07 talk details from the schedule email)",
+          "object": "body-2023-06-07"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "subject": "Reminder for the Talk Today",
+        "scheduled_send_at": "2023-06-07T13:00:00"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-create-draft all-company-members body-2023-06-14 file-system-token subject-reminder-for-the-talk-today dt-2023-06-14t13-00-00)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "gmail.show_thread",
+          "field": "email addresses of all company members given by the manager's schedule email (listed members / addressed coworkers)",
+          "object": "all-company-members"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template with placeholders filled using the 2023-06-14 talk details from the schedule email)",
+          "object": "body-2023-06-14"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "subject": "Reminder for the Talk Today",
+        "scheduled_send_at": "2023-06-14T13:00:00"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

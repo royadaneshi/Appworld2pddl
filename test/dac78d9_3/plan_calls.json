@@ -1,0 +1,64 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login kat-simp-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "kat_simp@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-search-friends venmo-token page-0 page-limit-20 friend-count-since-march-2023)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "page_index": 0,
+        "page_limit": 20
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-search-friends venmo-token page-1 page-limit-20 friend-count-since-march-2023)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "page_index": 1,
+        "page_limit": 20
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task friend-count-since-march-2023)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.search_friends",
+          "field": "number of friend entries across all fetched pages whose friendship timestamp (friend_since / created_at) >= 2023-03-01T00:00:00",
+          "object": "friend-count-since-march-2023"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

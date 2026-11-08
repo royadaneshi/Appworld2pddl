@@ -1,0 +1,231 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login pa-ritter-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "pa_ritter@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login pa-ritter-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "pa_ritter@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-inbox-threads file-system-token query-hotel since-2023-05-18t00-00-00)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "hotel",
+        "min_created_at": "2023-05-18T00:00:00"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-thread hotel-thread-1 file-system-token query-hotel receipt-1)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the 1st hotel booking confirmation thread received today (2023-05-18)",
+          "object": "hotel-thread-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-download-attachment receipt-1 file-system-token file-system-token path-receipt-1)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (confirmation/receipt attachment of hotel-thread-1)",
+          "object": "receipt-1"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-file path-receipt-1 file-system-token receipt-1 sum-0 sum-1)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "gmail.download_attachment",
+          "field": "file_path reported in the download response (download location of receipt-1)",
+          "object": "path-receipt-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-thread hotel-thread-2 file-system-token query-hotel receipt-2)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the 2nd hotel booking confirmation thread received today (2023-05-18)",
+          "object": "hotel-thread-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-download-attachment receipt-2 file-system-token file-system-token path-receipt-2)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (confirmation/receipt attachment of hotel-thread-2)",
+          "object": "receipt-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-show-file path-receipt-2 file-system-token receipt-2 sum-1 sum-2)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "gmail.download_attachment",
+          "field": "file_path reported in the download response (download location of receipt-2)",
+          "object": "path-receipt-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-show-thread hotel-thread-3 file-system-token query-hotel receipt-3)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the 3rd hotel booking confirmation thread received today (2023-05-18)",
+          "object": "hotel-thread-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-download-attachment receipt-3 file-system-token file-system-token path-receipt-3)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (confirmation/receipt attachment of hotel-thread-3)",
+          "object": "receipt-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-show-file path-receipt-3 file-system-token receipt-3 sum-2 total-wells-fargo-spend)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "gmail.download_attachment",
+          "field": "file_path reported in the download response (download location of receipt-3)",
+          "object": "path-receipt-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task total-wells-fargo-spend)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "file_system.show_file",
+          "field": "content: sum of the charged amounts over all downloaded receipts whose payment card name is \"Wells Fargo\" (receipts paid with other cards contribute 0)",
+          "object": "total-wells-fargo-spend"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

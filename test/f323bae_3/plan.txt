@@ -1,0 +1,8 @@
+(supervisor-show-account-passwords)
+(file-system-login ric-riddle-at-gmail-com file-system-password file-system-token)
+(simple-note-login ric-riddle-at-gmail-com simple-note-password file-system-token)
+(file-system-create-directory backups-simple-note-dir file-system-token flag-true)
+(simple-note-search-notes file-system-token query-habit habit-log-note)
+(simple-note-show-note habit-log-note file-system-token)
+(file-system-create-file habits-csv-path file-system-token habits-csv-content habit-log-note backups-simple-note-dir)
+(supervisor-complete-task habits-csv-path habits-csv-content)

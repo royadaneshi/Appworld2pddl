@@ -1,0 +1,259 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-show-return-deliverers)",
+      "api": "amazon.show_return_deliverers",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login kia-bailey-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "kia_bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-orders amazon-token)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-order order-1 amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first)",
+          "object": "order-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-initiate-return order-1 product-1a fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first)",
+          "object": "order-1"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].product_id (each item of order-1)",
+          "object": "product-1a"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].quantity of the corresponding item",
+          "object": "quantity-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-initiate-return order-1 product-1b fedex quantity-2 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first)",
+          "object": "order-1"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].product_id (each item of order-1)",
+          "object": "product-1b"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].quantity of the corresponding item",
+          "object": "quantity-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-order order-2 amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 2nd most recent order",
+          "object": "order-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-initiate-return order-2 product-2a fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 2nd most recent order",
+          "object": "order-2"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].product_id (each item of order-2)",
+          "object": "product-2a"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].quantity of the corresponding item",
+          "object": "quantity-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-show-order order-3 amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 3rd most recent order",
+          "object": "order-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-initiate-return order-3 product-3a fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 3rd most recent order",
+          "object": "order-3"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].product_id (each item of order-3)",
+          "object": "product-3a"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].quantity of the corresponding item",
+          "object": "quantity-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-initiate-return order-3 product-3b fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the 3rd most recent order",
+          "object": "order-3"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].product_id (each item of order-3)",
+          "object": "product-3b"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].quantity of the corresponding item",
+          "object": "quantity-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

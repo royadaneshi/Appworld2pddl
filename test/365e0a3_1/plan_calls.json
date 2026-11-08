@@ -1,0 +1,48 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login corwils-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "corwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-prime-subscriptions amazon-token amount-total-prime-paid)",
+      "api": "amazon.show_prime_subscriptions",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task amount-total-prime-paid)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_prime_subscriptions",
+          "field": "sum of the paid amount (price) over all returned prime subscriptions, iterating page_index until no more results",
+          "object": "amount-total-prime-paid"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

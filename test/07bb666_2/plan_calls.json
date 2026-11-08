@@ -1,0 +1,144 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login cod-smith-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password of the entry whose account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-wish-list amazon-token)",
+      "api": "amazon.show_wish_list",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product wl-product-1)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry)",
+          "object": "wl-product-1"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wl-product-1 amazon-token qty-wl-1)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry)",
+          "object": "wl-product-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the wish-list entry bound to wl-product-1",
+          "object": "qty-wl-1"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product wl-product-2)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (second qualifying entry)",
+          "object": "wl-product-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wl-product-2 amazon-token qty-wl-2)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (second qualifying entry)",
+          "object": "wl-product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the wish-list entry bound to wl-product-2",
+          "object": "qty-wl-2"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-product wl-product-3)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (third qualifying entry)",
+          "object": "wl-product-3"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wl-product-3 amazon-token qty-wl-3)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (third qualifying entry)",
+          "object": "wl-product-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the wish-list entry bound to wl-product-3",
+          "object": "qty-wl-3"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

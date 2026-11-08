@@ -1,0 +1,60 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login username-3654328626 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3654328626",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-show-alarms phone-token weekday-wake-up-alarm)",
+      "api": "phone.show_alarms",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-update-alarm weekday-wake-up-alarm phone-token snooze-5)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of the alarm whose label refers to waking up and whose repeat_days are the weekdays (Monday-Friday)",
+          "object": "weekday-wake-up-alarm"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "snooze_minutes": 5
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task weekday-wake-up-alarm snooze-5)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

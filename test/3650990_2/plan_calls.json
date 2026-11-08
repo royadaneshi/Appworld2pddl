@@ -1,0 +1,72 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login saritt-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "saritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-returns amazon-token)",
+      "api": "amazon.show_returns",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product product-of-return-1 return-1)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_returns",
+          "field": "product_id of return-1",
+          "object": "product-of-return-1"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product product-of-return-2 return-2)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_returns",
+          "field": "product_id of return-2",
+          "object": "product-of-return-2"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task answer-yes-or-no product-of-return-1 product-of-return-2)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_product",
+          "field": "\"yes\" if any checked product has product_type == \"violin\" (i.e. a violin was returned in 2023), else \"no\"",
+          "object": "answer-yes-or-no"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

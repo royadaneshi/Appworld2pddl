@@ -1,0 +1,219 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login eri-powe-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "eri_powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login eri-powe-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "eri_powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-4675246489 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4675246489",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token rel-father father father-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "father"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token rel-mother mother mother-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "mother"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token rel-sister sister sister-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sister"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-inbox-threads gmail-token sister-email sister sister-photos-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "from_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact returned for relationship \"sister\"",
+          "object": "sister-email"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-show-thread sister-photos-thread gmail-token sister-tar-attachment)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from the sister's email that carries the .tar attachment",
+          "object": "sister-photos-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-download-attachment sister-tar-attachment file-system-token gmail-token path-sister-tar)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].id of the attachment whose file name ends with .tar",
+          "object": "sister-tar-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": "~/downloads/sister_childhood_photos.tar"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-decompress-file path-sister-tar file-system-token path-work-dir sister-tar-attachment)",
+      "api": "file_system.decompress_file",
+      "args": {
+        "compressed_file_path": "~/downloads/sister_childhood_photos.tar",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "decompressed_directory_path": "~/downloads/childhood_memories/"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(file-system-copy-directory path-childhood-pics path-work-dir-childhood-pics file-system-token path-work-dir)",
+      "api": "file_system.copy_directory",
+      "args": {
+        "source_directory_path": "~/photographs/childhood_pics/",
+        "destination_directory_path": "~/downloads/childhood_memories/childhood_pics/",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-compress-directory path-work-dir file-system-token path-updated-tar)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": "~/downloads/childhood_memories/",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": "~/downloads/childhood_memories.tar"
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(gmail-send-email father-email mother-email subject-childhood-memories body-checkout-attachments gmail-token path-updated-tar file-system-token father mother)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact returned for relationship \"mother\"",
+          "object": "mother-email"
+        },
+        "subject": "Childhood Memories",
+        "body": "Checkout attachments.",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": "~/downloads/childhood_memories.tar",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

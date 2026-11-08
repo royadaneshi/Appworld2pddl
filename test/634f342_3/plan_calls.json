@@ -1,0 +1,225 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login jack-maldonado-at-gmail-com file-system-password token-spotify)",
+      "api": "file_system.login",
+      "args": {
+        "username": "jack-maldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'file_system'",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login jack-maldonado-at-gmail-com spotify-password token-file-system)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jack-maldonado@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'spotify'",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-file documents-personal-list-of-old-songs-txt token-spotify)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": "~/documents/personal/list_of_old_songs.txt",
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-create-playlist title-archived-playlist-songs token-file-system archived-playlist-songs)",
+      "api": "spotify.create_playlist",
+      "args": {
+        "title": "Archived Playlist Songs",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-playlist-library token-file-system)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-playlist playlist-1 token-file-system)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "object": "playlist-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 old-song-1 token-file-system)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "object": "playlist-1"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
+          "object": "old-song-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 old-song-2 token-file-system)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "object": "playlist-1"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
+          "object": "old-song-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-playlist playlist-2 token-file-system)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "object": "playlist-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 old-song-2 token-file-system)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "object": "playlist-2"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
+          "object": "old-song-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-1 token-file-system)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
+          "object": "old-song-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-2 token-file-system)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
+          "object": "old-song-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

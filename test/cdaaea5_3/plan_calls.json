@@ -1,0 +1,181 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login jar-calhoun-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jar_calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login jar-calhoun-at-gmail-com simple-note-password amazon-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "jar_calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-search-notes amazon-token query-amazon-shopping-list amazon-shopping-list-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Amazon shopping list"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-show-note amazon-shopping-list-note amazon-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title is the Amazon shopping list",
+          "object": "amazon-shopping-list-note"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-search-products query-item-1 sort-by-rating-desc item-1 best-product-item-1)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: first listed item name",
+          "object": "query-item-1"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart best-product-item-1 amazon-token quantity-1 item-1 count-0 count-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating; among ties the lowest price (query = item 1)",
+          "object": "best-product-item-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products query-item-2 sort-by-rating-desc item-2 best-product-item-2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: second listed item name",
+          "object": "query-item-2"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart best-product-item-2 amazon-token quantity-1 item-2 count-1 count-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating; among ties the lowest price (query = item 2)",
+          "object": "best-product-item-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token count-2)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first/any card)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id where name == \"Home\"",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,173 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login gl-moore-at-gmail-com file-system-password fs-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "gl.moore@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login gl-moore-at-gmail-com simple-note-password fs-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "gl.moore@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory fs-token dir-documents-personal-simple-note)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        },
+        "directory_path": "~/documents/personal/simple_note/"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-file md-file-1-path fs-token md-file-1 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md",
+          "object": "md-file-1-path"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file md-file-2-path fs-token md-file-2 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 2nd listed file entry whose name ends with .md",
+          "object": "md-file-2-path"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-file md-file-3-path fs-token md-file-3 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 3rd listed file entry whose name ends with .md",
+          "object": "md-file-3-path"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(simple-note-create-note title-1 content-1 fs-token md-file-1)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' '",
+          "object": "title-1"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path)",
+          "object": "content-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(simple-note-create-note title-2 content-2 fs-token md-file-2)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-2-path without directory and .md extension, with '_' replaced by ' '",
+          "object": "title-2"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-2-path)",
+          "object": "content-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(simple-note-create-note title-3 content-3 fs-token md-file-3)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-3-path without directory and .md extension, with '_' replaced by ' '",
+          "object": "title-3"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-3-path)",
+          "object": "content-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task md-file-1 md-file-2 md-file-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

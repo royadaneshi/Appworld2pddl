@@ -1,0 +1,32 @@
+[
+  {
+    "object": "matthew-blac-at-gmail-com",
+    "value": "matthew.blac@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "album-enough-downloads",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of a library album whose downloaded songs (spotify.show_downloaded_songs entries with matching album_id, durations cross-checked via spotify.show_album) sum to >= 1200 seconds (20 minutes)"
+  },
+  {
+    "object": "album-few-downloads",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of any other library album (downloaded duration < 1200 seconds); only inspected, never played"
+  }
+]

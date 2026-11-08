@@ -1,0 +1,78 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login dav-mart-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "dav.mart@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-show-directory file-system-token dir-downloads substring-jpg)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/downloads",
+        "substring": ".jpg"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-delete-file jpg-file-1 file-system-token dir-downloads)",
+      "api": "file_system.delete_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "1st returned file path ending with .jpg",
+          "object": "jpg-file-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-delete-file jpg-file-2 file-system-token dir-downloads)",
+      "api": "file_system.delete_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "2nd returned file path ending with .jpg",
+          "object": "jpg-file-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task jpg-file-1 jpg-file-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

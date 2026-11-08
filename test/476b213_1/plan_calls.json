@@ -1,0 +1,65 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login chrharrison-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "chrharrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-prime-subscriptions amazon-token last-prime-subscription last-prime-card)",
+      "api": "amazon.show_prime_subscriptions",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-payment-card last-prime-card amazon-token last-prime-card-name)",
+      "api": "amazon.show_payment_card",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_prime_subscriptions",
+          "field": "payment_card_id of the most recent subscription entry",
+          "object": "last-prime-card"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task last-prime-card-name)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_payment_card",
+          "field": "card_name",
+          "object": "last-prime-card-name"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

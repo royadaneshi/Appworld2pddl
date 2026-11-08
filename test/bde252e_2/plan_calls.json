@@ -1,0 +1,195 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login jo-harr-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "jo-harr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(todoist-login jo-harr-at-gmail-com todoist-password simple-note-token)",
+      "api": "todoist.login",
+      "args": {
+        "username": "jo-harr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"todoist\"",
+          "object": "todoist-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-schedule work-schedule-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "schedule"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note work-schedule-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "notes[].note_id of the work-schedule note",
+          "object": "work-schedule-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(todoist-show-projects simple-note-token)",
+      "api": "todoist.show_projects",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(todoist-show-tasks inbox simple-note-token)",
+      "api": "todoist.show_tasks",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == \"Inbox\"",
+          "object": "inbox"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(todoist-show-tasks todays-target simple-note-token)",
+      "api": "todoist.show_tasks",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == \"Today's Target\"",
+          "object": "todays-target"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(todoist-create-task todays-target inbox-task-fits-title simple-note-token inbox-task-fits-description inbox-task-fits-duration inbox-task-fits-duration-unit inbox-task-fits-priority inbox-task-fits inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == \"Today's Target\"",
+          "object": "todays-target"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of the selected Inbox task",
+          "object": "inbox-task-fits-title"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of the selected Inbox task",
+          "object": "inbox-task-fits-description"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of the selected Inbox task",
+          "object": "inbox-task-fits-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of the selected Inbox task",
+          "object": "inbox-task-fits-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of the selected Inbox task",
+          "object": "inbox-task-fits-priority"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(todoist-delete-task inbox-task-fits simple-note-token inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each incomplete Inbox task selected shortest-duration-first until (daily work minutes from the schedule note) minus (sum of durations of incomplete Today's Target leftovers) is exhausted (repeat create+delete per task)",
+          "object": "inbox-task-fits"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(todoist-delete-task goal-task-done simple-note-token todays-target)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of every task in Today's Target with is_completed == true (repeat delete per task)",
+          "object": "goal-task-done"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task goal-task-done inbox-task-fits)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

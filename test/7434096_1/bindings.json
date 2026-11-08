@@ -1,0 +1,56 @@
+[
+  {
+    "object": "deniseburch-at-gmail-com",
+    "value": "deniseburch@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-hanes-undershirt",
+    "value": "Hanes Men's Tagless Crewneck Undershirt",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "order-hanes",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "order_id of the order placed this week (created_at within the last 7 days of 2023-05-19) whose items contain the Hanes Men's Tagless Crewneck Undershirt"
+  },
+  {
+    "object": "undershirt-non-xl-1",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order_items[].product_id of the first Hanes undershirt item whose relative_size is not extra-large (check amazon.show_product if size is not in the order item)"
+  },
+  {
+    "object": "undershirt-non-xl-2",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order_items[].product_id of the second Hanes undershirt item whose relative_size is not extra-large"
+  },
+  {
+    "object": "deliverer-ups",
+    "value": null,
+    "from_api": "amazon.show_return_deliverers",
+    "field": "deliverer_id where name == \"UPS\"; if UPS is absent, pick any other listed deliverer"
+  },
+  {
+    "object": "quantity-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  }
+]

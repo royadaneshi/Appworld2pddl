@@ -1,0 +1,144 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-send-password-reset-code anita-burch-at-gmail-com)",
+      "api": "amazon.send_password_reset_code",
+      "args": {
+        "email": "anita.burch@gmail.com"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login username-anita-burch-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "anita.burch@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login username-3643463570 phone-password gmail-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3643463570",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-password-reset amazon-reset-code-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "password reset"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-thread amazon-reset-code-thread gmail-token amazon-reset-code)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the most recent thread from Amazon containing the password reset code",
+          "object": "amazon-reset-code-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-reset-password anita-burch-at-gmail-com amazon-reset-code zlp9tir)",
+      "api": "amazon.reset_password",
+      "args": {
+        "email": "anita.burch@gmail.com",
+        "password_reset_code": {
+          "$from": "gmail.show_thread",
+          "field": "password reset code parsed from emails[0].body",
+          "object": "amazon-reset-code"
+        },
+        "new_password": "Zlp9tir"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts gmail-token roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-send-text-message phone-roommate-1 message-new-amazon-password gmail-token roommate-1 roommate zlp9tir)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the first contact with relationship roommate",
+          "object": "phone-roommate-1"
+        },
+        "message": "Hi! I changed the password of our shared Amazon Prime account. The new password is Zlp9tir",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-send-text-message phone-roommate-2 message-new-amazon-password gmail-token roommate-2 roommate zlp9tir)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the second contact with relationship roommate",
+          "object": "phone-roommate-2"
+        },
+        "message": "Hi! I changed the password of our shared Amazon Prime account. The new password is Zlp9tir",
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task zlp9tir roommate-1 roommate-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

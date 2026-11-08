@@ -1,0 +1,74 @@
+[
+  {
+    "object": "ce-maldonado-at-gmail-com",
+    "value": "ce-maldonado@gmail.com",
+    "from_api": null,
+    "field": "supervisor email address (amazon username)"
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "product-type-a",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "first distinct product_type among the cart items (use amazon.show_product if the cart item does not expose product_type)"
+  },
+  {
+    "object": "product-type-b",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "second distinct product_type among the cart items"
+  },
+  {
+    "object": "product-a-cheapest",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "product_id of the cart item with the lowest price among items whose product_type == product-type-a (stays in the cart and is ordered)"
+  },
+  {
+    "object": "product-a-other-1",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "product_id of a remaining (non-cheapest) cart item whose product_type == product-type-a"
+  },
+  {
+    "object": "product-a-other-2",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "product_id of the other remaining (non-cheapest) cart item whose product_type == product-type-a"
+  },
+  {
+    "object": "product-b-cheapest",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "product_id of the cart item with the lowest price among items whose product_type == product-type-b (stays in the cart and is ordered)"
+  },
+  {
+    "object": "product-b-other-1",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "product_id of the remaining (non-cheapest) cart item whose product_type == product-type-b"
+  },
+  {
+    "object": "address-primary",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id of the first (existing) address"
+  },
+  {
+    "object": "payment-card-primary",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id of the first (existing) payment card"
+  }
+]

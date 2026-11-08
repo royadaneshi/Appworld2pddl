@@ -1,0 +1,194 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-proform-pro-2000-treadmill proform-pro-2000-treadmill)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "ProForm Pro 2000 Treadmill"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login amazon-user-eri-powe-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "eri_powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-add-product-to-cart proform-pro-2000-treadmill amazon-token clear-cart-first-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"ProForm Pro 2000 Treadmill\"",
+          "object": "proform-pro-2000-treadmill"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-user-4675246489 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4675246489",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token amazon-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token coworker)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "coworker"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-text-messages phone-token coworker)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-search-contacts phone-token sibling)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sibling"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(phone-search-text-messages phone-token sibling)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-apply-promo-code-to-cart best-promo-code amazon-token proform-pro-2000-treadmill)",
+      "api": "amazon.apply_promo_code_to_cart",
+      "args": {
+        "promo_code": {
+          "$from": "phone.search_text_messages",
+          "field": "promo code string extracted from reply messages of sibling and coworker contacts (search_text_messages called with phone_number of each such contact); among all candidate codes choose the one yielding the largest cart discount (try each with amazon.apply_promo_code_to_cart and compare discount in amazon.show_cart; leave the best one applied)",
+          "object": "best-promo-code"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-show-cart amazon-token best-promo-code)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order amazon-payment-card amazon-address amazon-token proform-pro-2000-treadmill best-promo-code)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id (first existing address; do not add/update/delete addresses)",
+          "object": "amazon-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task proform-pro-2000-treadmill best-promo-code)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

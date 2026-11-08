@@ -1,0 +1,62 @@
+[
+  {
+    "object": "ma-smith-at-gmail-com",
+    "value": "ma_smith@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-tokyo",
+    "value": "Tokyo",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "thread-tokyo-flight",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread carrying the flight ticket to Tokyo"
+  },
+  {
+    "object": "email-tokyo-ticket",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].email_id of the email whose ticket is for a flight to Tokyo departing this weekend (2023-05-20/21)"
+  },
+  {
+    "object": "tokyo-ticket-attachment",
+    "value": null,
+    "from_api": "gmail.show_email",
+    "field": "attachments[].attachment_id of the ticket attachment"
+  },
+  {
+    "object": "path-downloads-ticket",
+    "value": null,
+    "from_api": "gmail.show_email",
+    "field": "\"~/downloads/\" + attachments[].name (file path inside the ~/downloads folder)"
+  }
+]

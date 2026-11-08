@@ -1,0 +1,86 @@
+[
+  {
+    "object": "phone-2254213734",
+    "value": "2254213734",
+    "from_api": null,
+    "field": "supervisor phone_number (phone app username)"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "rel-roommate",
+    "value": "roommate",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "jo-harr-at-gmail-com",
+    "value": "jo-harr@gmail.com",
+    "from_api": null,
+    "field": "supervisor email (venmo username)"
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "nancy-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the contact with first_name == \"Nancy\" among contacts with relationship \"roommate\""
+  },
+  {
+    "object": "roommate-a-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the first non-Nancy contact with relationship \"roommate\""
+  },
+  {
+    "object": "roommate-b-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the second non-Nancy contact with relationship \"roommate\""
+  },
+  {
+    "object": "amount-commute-share",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "computed: round(40 / (1 + number of roommate contacts returned), 2) (10.00 if there are 3 roommates)"
+  },
+  {
+    "object": "amount-dinner-share",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "computed: round(166 / (1 + number of roommate contacts returned), 2) (41.50 if there are 3 roommates)"
+  },
+  {
+    "object": "note-commute",
+    "value": "Commute",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "note-dinner",
+    "value": "Dinner",
+    "from_api": null,
+    "field": null
+  }
+]

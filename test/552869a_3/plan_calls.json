@@ -1,0 +1,52 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login mar-blac-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "mar_blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-show-transactions venmo-token query-internet-bill datetime-2023-01-01 datetime-2023-05-18 direction-sent total-internet-bill-paid)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "internet bill",
+        "min_created_at": "2023-01-01T00:00:00",
+        "max_created_at": "2023-05-18T12:00:00",
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task total-internet-bill-paid)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.show_transactions",
+          "field": "sum of `amount` over all returned transactions (sender == supervisor, description matches \"internet bill\", created_at >= 2023-01-01); paginate with page_index until exhausted, round to 2 decimals",
+          "object": "total-internet-bill-paid"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "object": "jes-mill-at-gmail-com",
+    "value": "jes.mill@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as the amazon and venmo username"
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == 'amazon'"
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == 'venmo'"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "safety-goggles",
+    "value": "safety goggles",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "price-ascending",
+    "value": "price",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "days-3",
+    "value": "3",
+    "from_api": null,
+    "field": "max delivery days filter (not an API argument)"
+  },
+  {
+    "object": "cheapest-safety-goggles",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the lowest-price result (results sorted by price ascending) whose delivery_days <= 3"
+  },
+  {
+    "object": "quantity-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "true-flag",
+    "value": "true",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "order-total",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "total amount payable for the cart (product price plus any delivery fee); this is the minimum money to withdraw from venmo"
+  },
+  {
+    "object": "amazon-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id of a card whose card_number also appears in venmo.show_payment_cards"
+  },
+  {
+    "object": "venmo-card",
+    "value": null,
+    "from_api": "venmo.show_payment_cards",
+    "field": "payment_card_id of the card whose card_number matches the chosen amazon card"
+  },
+  {
+    "object": "jessica-home-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id of the entry whose name is Home (matches the supervisor's home address)"
+  }
+]

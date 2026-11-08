@@ -1,0 +1,158 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login normansmit-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-5708520672 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "5708520672",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login normansmit-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-orders amazon-token order-latest order-second-latest)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-order order-latest amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (by order date)",
+          "object": "order-latest"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-order order-second-latest amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the second most recent order (by order date)",
+          "object": "order-second-latest"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token query-brenda relationship-friend brenda brenda-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Brenda",
+        "relationship": "friend"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-show-transactions venmo-token brenda-email datetime-2023-05-18t00-00-00 direction-received brenda)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with first_name Brenda and relationship friend",
+          "object": "brenda-email"
+        },
+        "min_created_at": "2023-05-18T00:00:00",
+        "direction": "received"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-create-payment-request brenda-email amount-difference venmo-token note-fixing-amazon-order-payment brenda order-latest order-second-latest)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with first_name Brenda and relationship friend",
+          "object": "brenda-email"
+        },
+        "amount": {
+          "$from": "amazon.show_order",
+          "field": "abs((total of order-latest + total of order-second-latest) - sum of venmo.show_transactions amounts received from brenda-email today); computed at runtime",
+          "object": "amount-difference"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Fixing amazon order payment."
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task brenda amount-difference note-fixing-amazon-order-payment)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

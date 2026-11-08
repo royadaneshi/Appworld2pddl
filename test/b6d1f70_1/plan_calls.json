@@ -1,0 +1,238 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-wireless-earbuds rating-3-9 wireless-earbuds)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "wireless earbuds",
+        "min_product_rating": 3.9
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product wireless-earbuds)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"wireless earbuds\", rating >= 3.9, and (checked with amazon.show_product) number of reviews >= 6",
+          "object": "wireless-earbuds"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login mel-bailey-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "mel.bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-add-product-to-cart wireless-earbuds amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"wireless earbuds\", rating >= 3.9, and (checked with amazon.show_product) number of reviews >= 6",
+          "object": "wireless-earbuds"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-login mel-bailey-at-gmail-com phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "mel.bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-addresses amazon-token home-address-id)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts phone-token relationship-parent parents-home-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "parent"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-address parents-home-name parents-street parents-city parents-state parents-country parents-zip amazon-token parents-home-address parents-address-id)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": "Parents Home",
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the parent contact (street part)",
+          "object": "parents-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the parent contact (city part)",
+          "object": "parents-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the parent contact (state part)",
+          "object": "parents-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the parent contact (country part)",
+          "object": "parents-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address of the parent contact (zip code part, as integer)",
+          "object": "parents-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-gift-wrapping-to-product wireless-earbuds amazon-token)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"wireless earbuds\", rating >= 3.9, and (checked with amazon.show_product) number of reviews >= 6",
+          "object": "wireless-earbuds"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order amazon-card parents-address-id amazon-token order-parents wireless-earbuds wrapped)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id",
+          "object": "parents-address-id"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-product-to-cart wireless-earbuds amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"wireless earbuds\", rating >= 3.9, and (checked with amazon.show_product) number of reviews >= 6",
+          "object": "wireless-earbuds"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order amazon-card home-address-id amazon-token order-home wireless-earbuds unwrapped)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry that is the supervisor's home address (name == \"home\")",
+          "object": "home-address-id"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task order-home order-parents wireless-earbuds home-address-id parents-address-id)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

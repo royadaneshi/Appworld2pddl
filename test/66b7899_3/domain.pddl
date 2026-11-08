@@ -1,0 +1,72 @@
+(define (domain appworld-66b7899-3)
+  (:requirements :strips :typing :negative-preconditions :equality)
+  (:types app person username password token order amount email query - object)
+  (:constants supervisor amazon phone venmo - app)
+  (:predicates
+    (passwords-known)
+    (password-for ?a - app ?pw - password)
+    (username-for ?a - app ?u - username)
+    (has-token ?a - app ?t - token)
+    (delivery-today ?o - order)
+    (order-for ?o - order ?p - person)
+    (known-id ?o - order)
+    (found-order-cost ?o - order ?amt - amount)
+    (contact-query ?p - person ?q - query)
+    (known-email ?p - person ?e - email)
+    (payment-request-created ?p - person ?amt - amount)
+    (task-completed))
+
+  ; API: supervisor.show_account_passwords
+  (:action supervisor-show-account-passwords
+    :parameters ()
+    :precondition (not (task-completed))
+    :effect (passwords-known))
+
+  ; API: amazon.login
+  (:action amazon-login
+    :parameters (?u - username ?pw - password ?t - token)
+    :precondition (and (passwords-known) (username-for amazon ?u) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
+    :effect (has-token amazon ?t))
+
+  ; API: amazon.show_orders
+  (:action amazon-show-orders
+    :parameters (?t - token ?o - order)
+    :precondition (and (has-token amazon ?t) (delivery-today ?o) (not (task-completed)))
+    :effect (known-id ?o))
+
+  ; API: amazon.show_order
+  (:action amazon-show-order
+    :parameters (?o - order ?t - token ?amt - amount)
+    :precondition (and (has-token amazon ?t) (known-id ?o) (not (task-completed)))
+    :effect (found-order-cost ?o ?amt))
+
+  ; API: phone.login
+  (:action phone-login
+    :parameters (?u - username ?pw - password ?t - token)
+    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :effect (has-token phone ?t))
+
+  ; API: phone.search_contacts
+  (:action phone-search-contacts
+    :parameters (?t - token ?q - query ?p - person ?e - email)
+    :precondition (and (has-token phone ?t) (contact-query ?p ?q) (not (task-completed)))
+    :effect (known-email ?p ?e))
+
+  ; API: venmo.login
+  (:action venmo-login
+    :parameters (?u - username ?pw - password ?t - token)
+    :precondition (and (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :effect (has-token venmo ?t))
+
+  ; API: venmo.create_payment_request
+  (:action venmo-create-payment-request
+    :parameters (?e - email ?amt - amount ?t - token ?p - person ?o - order)
+    :precondition (and (has-token venmo ?t) (known-email ?p ?e) (order-for ?o ?p) (known-id ?o) (found-order-cost ?o ?amt) (not (task-completed)))
+    :effect (payment-request-created ?p ?amt))
+
+  ; API: supervisor.complete_task
+  (:action supervisor-complete-task
+    :parameters (?p - person ?amt - amount)
+    :precondition (and (payment-request-created ?p ?amt) (not (task-completed)))
+    :effect (task-completed))
+)

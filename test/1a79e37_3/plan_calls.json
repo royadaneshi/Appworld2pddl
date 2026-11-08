@@ -1,0 +1,217 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login ka-ball-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ka_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login ka-ball-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "ka_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-number-7863159797 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7863159797",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token rel-partner partner partner-email partner-work-address)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "partner"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-inbox-threads amazon-token partner-email date-2023-05-18 partner partner-thread-today)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "from_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships include \"partner\"",
+          "object": "partner-email"
+        },
+        "min_created_at": "2023-05-18T00:00:00"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-thread partner-thread-today amazon-token requested-product-type requested-max-price partner-work-address)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from the partner created today",
+          "object": "partner-thread-today"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-address partner-address-name partner-street partner-city partner-state partner-country partner-zip amazon-token partner partner-work-address)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + last_name of the partner contact (address label/recipient)",
+          "object": "partner-address-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "work_address, street part",
+          "object": "partner-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "work_address, city part",
+          "object": "partner-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "work_address, state part",
+          "object": "partner-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "work_address, country part",
+          "object": "partner-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "work_address, zip code part",
+          "object": "partner-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products requested-product-type requested-max-price sort-rating-desc best-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": {
+          "$from": "gmail.show_thread",
+          "field": "product type named in the partner's email body",
+          "object": "requested-product-type"
+        },
+        "max_price": {
+          "$from": "gmail.show_thread",
+          "field": "maximum price (budget) stated in the partner's email body",
+          "object": "requested-max-price"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart best-product amazon-token qty-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product with the highest rating among results (first result when sorted by -rating)",
+          "object": "best-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order amazon-card partner-work-address amazon-token best-product new-order)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first (any) card",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id of the newly added address (text equals partner's work address)",
+          "object": "partner-work-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task new-order best-product partner-work-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

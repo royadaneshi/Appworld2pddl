@@ -1,0 +1,159 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products product-type-backpack rating-4-5 backpack-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "backpack",
+        "min_product_rating": 4.5
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product backpack-product)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (paginate if needed) whose amazon.show_product details confirm rating >= 4.5, num_product_reviews >= 6, and a delivery estimate on or before 2023-05-26 (end of the day before Saturday 2023-05-27)",
+          "object": "backpack-product"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login username-tr-solo-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login username-7273731063 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7273731063",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token friends)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "friends"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts phone-token roommates)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommates"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart backpack-product amazon-token qty-invitees flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result (paginate if needed) whose amazon.show_product details confirm rating >= 4.5, num_product_reviews >= 6, and a delivery estimate on or before 2023-05-26 (end of the day before Saturday 2023-05-27)",
+          "object": "backpack-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_contacts",
+          "field": "number of unique contacts in the union of results for relationship == \"friends\" and relationship == \"roommates\"",
+          "object": "qty-invitees"
+        },
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token backpack-product qty-invitees)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of any (non-expired) card",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry whose name/text is the supervisor's home address",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task backpack-product qty-invitees home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,48 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login gra-martinez-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "gra-martinez@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-show-received-payment-requests venmo-token amount-requested-last-10-days)",
+      "api": "venmo.show_received_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task amount-requested-last-10-days)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "sum of `amount` over all returned received payment requests (iterate page_index 0,1,... until an empty page) whose created_at is on or after 2023-05-24T00:00:00 (last 10 days including today 2023-06-02)",
+          "object": "amount-requested-last-10-days"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

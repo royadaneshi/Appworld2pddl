@@ -1,0 +1,66 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login angriddle-at-gmail-com pw-simple-note token-simple-note)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "angriddle@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "pw-simple-note"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-search-notes token-simple-note query-funny-quotes note-funny-quotes)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "token-simple-note"
+        },
+        "query": "funny quotes"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-show-note note-funny-quotes token-simple-note funny-quote)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "notes[i].note_id where the title is about funny quotes",
+          "object": "note-funny-quotes"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "token-simple-note"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task funny-quote)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "simple_note.show_note",
+          "field": "content -> pick one random quote line (quote text only)",
+          "object": "funny-quote"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

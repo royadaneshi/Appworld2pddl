@@ -1,0 +1,74 @@
+[
+  {
+    "object": "jasonsimp-at-gmail-com",
+    "value": "jasonsimp@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-camping",
+    "value": "camping",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "draft-camping-trip",
+    "value": null,
+    "from_api": "gmail.show_drafts",
+    "field": "draft_id of the draft addressed to the manager that lists the camping-trip items with TODO price placeholders"
+  },
+  {
+    "object": "query-camping-item-1",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "body: product name on the 1st item line of the form '- <qty> X <product name> => TODO'"
+  },
+  {
+    "object": "query-camping-item-2",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "body: product name on the 2nd item line of the form '- <qty> X <product name> => TODO'"
+  },
+  {
+    "object": "query-camping-item-3",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "body: product name on the 3rd item line of the form '- <qty> X <product name> => TODO'"
+  },
+  {
+    "object": "total-price-item-1",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "price of the result whose name matches item 1, multiplied by the quantity on that draft line"
+  },
+  {
+    "object": "total-price-item-2",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "price of the result whose name matches item 2, multiplied by the quantity on that draft line"
+  },
+  {
+    "object": "total-price-item-3",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "price of the result whose name matches item 3, multiplied by the quantity on that draft line"
+  },
+  {
+    "object": "body-with-prices",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "body with every 'TODO' placeholder replaced by '$<total price>' for that line; all other text unchanged"
+  }
+]

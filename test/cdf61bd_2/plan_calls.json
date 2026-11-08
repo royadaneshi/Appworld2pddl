@@ -1,0 +1,103 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login jar-calhoun-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jar_calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-orders amazon-token order-last-month)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-order order-last-month amazon-token beige-sweater)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the order whose order_date falls in the last calendar month (April 2023); paginate if needed",
+          "object": "order-last-month"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product beige-sweater)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "product_id of the ordered item that is a sweater with color beige (confirm via amazon.show_product product_type/color)",
+          "object": "beige-sweater"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-reviews beige-sweater email-jar-calhoun-at-gmail-com beige-sweater-review)",
+      "api": "amazon.show_product_reviews",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "product_id of the ordered item that is a sweater with color beige (confirm via amazon.show_product product_type/color)",
+          "object": "beige-sweater"
+        },
+        "user_email": "jar_calhoun@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-update-product-review beige-sweater-review amazon-token rating-2 title-pills-and-looks-worn-out-quickly)",
+      "api": "amazon.update_product_review",
+      "args": {
+        "review_id": {
+          "$from": "amazon.show_product_reviews",
+          "field": "review_id of the review with user_email == supervisor email",
+          "object": "beige-sweater-review"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "rating": 2,
+        "title": "Pills and Looks Worn Out Quickly."
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task beige-sweater-review rating-2 title-pills-and-looks-worn-out-quickly)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

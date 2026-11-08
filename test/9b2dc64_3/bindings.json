@@ -1,0 +1,56 @@
+[
+  {
+    "object": "jer-calhoun-at-gmail-com",
+    "value": "jer.calhoun@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "last-tshirt",
+    "value": null,
+    "from_api": "amazon.show_product_purchases",
+    "field": "product_id of the most recently purchased product whose product_type is t-shirt (newest purchase first; use amazon.show_product to confirm type/name/relative_size if needed)"
+  },
+  {
+    "object": "tshirt-black",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "variants[*].product_id where color == \"black\" and relative_size == relative_size of last-tshirt (same product name)"
+  },
+  {
+    "object": "tshirt-green",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "variants[*].product_id where color == \"green\" and relative_size == relative_size of last-tshirt (same product name)"
+  },
+  {
+    "object": "qty-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "address-home",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id where name matches \"home\" (case-insensitive)"
+  },
+  {
+    "object": "payment-card-1",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (first/any card)"
+  }
+]

@@ -1,0 +1,116 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-7487389769 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7487389769",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login tra-weber-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "tra_weber@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token relationship-son son son-email son-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "son"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-show-transactions venmo-token son-email direction-sent son amount-last-birthday-gift)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships include \"son\"",
+          "object": "son-email"
+        },
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-transaction son-email amount-twice-last-birthday-gift venmo-token note-happy-birthday private-true birthday-gift son amount-last-birthday-gift)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships include \"son\"",
+          "object": "son-email"
+        },
+        "amount": {
+          "$from": "venmo.show_transactions",
+          "field": "2 * amount of the last-birthday transaction (computed)",
+          "object": "amount-twice-last-birthday-gift"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Happy Birthday",
+        "private": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-send-text-message son-phone-number message-happy-birthday-son phone-token birthday-text son)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose relationships include \"son\"",
+          "object": "son-phone-number"
+        },
+        "message": "Happy Birthday son! Give a call when you are free.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task birthday-gift birthday-text)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

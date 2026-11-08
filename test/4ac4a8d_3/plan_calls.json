@@ -1,0 +1,223 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login bradley-ball-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "bradley_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login bradley-ball-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "bradley_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-9294880327 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "9294880327",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token query-glen glen glen-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Glen"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token query-nancy nancy nancy-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Nancy"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-inbox-threads gmail-token nancy-email nancy-expenses-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "from_email": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[].email where first_name == \"Nancy\"",
+          "object": "nancy-email"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-thread nancy-expenses-thread gmail-token nancy-expenses-email)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_threads[].email_thread_id of the thread from Nancy created yesterday (2023-05-17) that has a pdf attachment",
+          "object": "nancy-expenses-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-forward-email-from-thread nancy-expenses-thread nancy-expenses-email glen-email gmail-token draft-not-send-true forward-draft)",
+      "api": "gmail.forward_email_from_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_threads[].email_thread_id of the thread from Nancy created yesterday (2023-05-17) that has a pdf attachment",
+          "object": "nancy-expenses-thread"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the email sent by Nancy carrying the expenses pdf attachment",
+          "object": "nancy-expenses-email"
+        },
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[].email where first_name == \"Glen\"",
+          "object": "glen-email"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "draft_not_send": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-upload-attachments-to-draft forward-draft bradley-trip-expenses-pdf file-system-token gmail-token)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.forward_email_from_thread",
+          "field": "draft_id (call made with draft_not_send=true)",
+          "object": "forward-draft"
+        },
+        "attachment_file_paths": "~/documents/personal/bradley_trip_expenses.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-show-draft forward-draft gmail-token)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.forward_email_from_thread",
+          "field": "draft_id (call made with draft_not_send=true)",
+          "object": "forward-draft"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-update-draft forward-draft gmail-token note-prefixed-body)",
+      "api": "gmail.update_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.forward_email_from_thread",
+          "field": "draft_id (call made with draft_not_send=true)",
+          "object": "forward-draft"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "\"Mind splitting expenses? Ours are attached.\\n\\n\" + body (original forwarded draft body kept after the prefix)",
+          "object": "note-prefixed-body"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-send-email-from-draft forward-draft gmail-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.forward_email_from_thread",
+          "field": "draft_id (call made with draft_not_send=true)",
+          "object": "forward-draft"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task forward-draft nancy-expenses-email glen-email note-prefixed-body bradley-trip-expenses-pdf)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

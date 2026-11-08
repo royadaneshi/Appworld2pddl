@@ -1,0 +1,161 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-face-shield cheapest-face-shield)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "face shield"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login nan-ritt-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-add-product-to-cart cheapest-face-shield amazon-token clear-cart-first-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the lowest-price product (type face shield) whose delivery_days <= 4, scanning all result pages",
+          "object": "cheapest-face-shield"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-login nan-ritt-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-cart amazon-token cheapest-face-shield amount-order-total)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-addresses amazon-token nancy-home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-show-payment-cards venmo-token venmo-card-1)",
+      "api": "venmo.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-withdraw-from-venmo-balance amount-order-total venmo-card-1 venmo-token amazon-card-1)",
+      "api": "venmo.withdraw_from_venmo_balance",
+      "args": {
+        "amount": {
+          "$from": "amazon.show_cart",
+          "field": "total (grand total of the cart including any delivery fee)",
+          "object": "amount-order-total"
+        },
+        "payment_card_id": {
+          "$from": "venmo.show_payment_cards",
+          "field": "payment_card_id of the card whose card_number equals that of amazon-card-1",
+          "object": "venmo-card-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order amazon-card-1 nancy-home-address amazon-token cheapest-face-shield)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first listed card)",
+          "object": "amazon-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the address whose name is \"home\" (matches supervisor's home address)",
+          "object": "nancy-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task cheapest-face-shield nancy-home-address amount-order-total venmo-card-1)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

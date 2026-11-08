@@ -1,0 +1,110 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login mar-blac-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "mar_blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login mar-blac-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "mar_blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-venmo-expenses venmo-expenses-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "Venmo Expenses"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note venmo-expenses-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note that is the monthly venmo expense log (title/content about Venmo expenses)",
+          "object": "venmo-expenses-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-transactions venmo-token datetime-2023-05-01t00-00-00 datetime-2023-05-31t23-59-59 direction-sent month-05-23 amount-may-2023-expense)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "min_created_at": "2023-05-01T00:00:00",
+        "max_created_at": "2023-05-31T23:59:59",
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-update-note venmo-expenses-note simple-note-token content-with-may-2023-entry month-05-23 amount-may-2023-expense)",
+      "api": "simple_note.update_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note that is the monthly venmo expense log (title/content about Venmo expenses)",
+          "object": "venmo-expenses-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "existing content (field content, starting with \"# Venmo Expenses\") with a new line \"- 05/23 => $<amount>\" inserted so the existing month order is preserved (append at end if entries are ascending, insert right after the header if descending)",
+          "object": "content-with-may-2023-entry"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task venmo-expenses-note month-05-23 amount-may-2023-expense)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

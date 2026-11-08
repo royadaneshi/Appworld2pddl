@@ -1,0 +1,79 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 12694,
+    "output_tokens": 12252,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 58446
+  },
+  "task_id": "690d51b_3",
+  "instruction": "Buy me a cooling fan on amazon within $20 (excluding tax) and have it delivered to my home address.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "amazon.login",
+    "amazon.search_products",
+    "amazon.show_addresses",
+    "amazon.show_payment_cards",
+    "amazon.clear_cart",
+    "amazon.add_product_to_cart",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "Fixed the name clash: the predicate formerly named home-address (same as the address object) is now is-home. Single-app (amazon) purchase task. The cooling fan is one abstract product object whose type and price bound are static init facts; amazon.search_products (query/product_type \"cooling fan\", max_price 20) discovers its id. Home address id comes from amazon.show_addresses (name == \"Home\") and a payment card id from amazon.show_payment_cards. The cart is cleared first (cart-empty) so the placed order contains exactly one item with default quantity 1, matching the evaluation (one new Order with a single OrderItem of quantity 1, product_type \"cooling fan\", price <= 20, delivered to the Home address, no address updates/deletions). supervisor.complete_task takes no answer; its task-record parameters (?p ?a) are not API arguments and only enforce the goal condition before completion. Every other action requires (not (task-completed)), so complete_task is necessarily last.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(amazon-search-products query-cooling-fan type-cooling-fan price-20 cooling-fan)",
+      "(supervisor-show-account-passwords)",
+      "(amazon-login hun-weaver-at-gmail-com amazon-password amazon-token)",
+      "(amazon-clear-cart amazon-token)",
+      "(amazon-add-product-to-cart cooling-fan amazon-token)",
+      "(amazon-show-addresses amazon-token home-address)",
+      "(amazon-show-payment-cards amazon-token amazon-card)",
+      "(amazon-place-order amazon-card home-address amazon-token cooling-fan)",
+      "(supervisor-complete-task cooling-fan home-address)"
+    ],
+    "message": "",
+    "seconds": 1.09
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "parse_error",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "parse_error",
+      "planning_message": "UPProblemDefinitionError: Name home-address already defined! Different elements of a problem can have the same name if the environment flag error_used_name is disabled."
+    },
+    {
+      "attempt": 2,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 126.0,
+  "effort": "xhigh"
+}

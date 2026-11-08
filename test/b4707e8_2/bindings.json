@@ -1,0 +1,68 @@
+[
+  {
+    "object": "robertmartinez-at-gmail-com",
+    "value": "robertmartinez@gmail.com",
+    "from_api": null,
+    "field": "supervisor email, used as username for simple_note and amazon login"
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-amazon-expenses",
+    "value": "Amazon",
+    "from_api": null,
+    "field": "search query for the monthly Amazon expense log note"
+  },
+  {
+    "object": "amazon-expense-log-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the note whose title is the monthly Amazon expenses log"
+  },
+  {
+    "object": "may-2023",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "current month key (May 2023) written in the same month format as the existing '- <month> => $<amount>' lines of the note content"
+  },
+  {
+    "object": "amount-may-2023-total",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "sum of order totals of all orders with order_date in 2023-05 (paginate as needed; use amazon.show_order if a per-order total is not listed)"
+  },
+  {
+    "object": "entry-may-2023",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "added_content string: newline + '- <May 2023 key in note format> => $<amount-may-2023-total>' mirroring the existing line format"
+  },
+  {
+    "object": "append",
+    "value": "append",
+    "from_api": null,
+    "field": null
+  }
+]

@@ -1,0 +1,63 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login dav-mart-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "dav.mart@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-search-friends venmo-token query-ronald ronald ronald-email)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "Ronald"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-create-payment-request ronald-email amount-29 venmo-token note-for-the-road-trip private-false req-ronald-road-trip ronald)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose first_name == \"Ronald\"",
+          "object": "ronald-email"
+        },
+        "amount": 29,
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For the road trip",
+        "private": false
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task req-ronald-road-trip)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

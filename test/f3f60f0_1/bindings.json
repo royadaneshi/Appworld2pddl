@@ -1,0 +1,50 @@
+[
+  {
+    "object": "cheweber-at-gmail-com",
+    "value": "cheweber@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-song-1",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of a library song whose id does not appear in spotify.show_liked_songs (first such entry; paginate both lists fully)"
+  },
+  {
+    "object": "library-song-2",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of a library song whose id does not appear in spotify.show_liked_songs (next such entry; one spotify.like_song call per unliked library song)"
+  },
+  {
+    "object": "library-song-3",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of a library song already present in spotify.show_liked_songs (placeholder; never passed to an API)"
+  },
+  {
+    "object": "library-album-1",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of a library album whose id does not appear in spotify.show_liked_albums (one spotify.like_album call per unliked library album)"
+  },
+  {
+    "object": "library-album-2",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of a library album already present in spotify.show_liked_albums (placeholder; never passed to an API)"
+  }
+]

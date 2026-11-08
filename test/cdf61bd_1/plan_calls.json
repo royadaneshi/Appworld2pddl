@@ -1,0 +1,103 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login les-ball-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "les_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-orders amazon-token order-last-month)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-order order-last-month amazon-token product-grey-tshirt)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id where order_date falls in last calendar month (2023-04) and the order contains a grey t-shirt",
+          "object": "order-last-month"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product product-grey-tshirt)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "products[].product_id where product name/color indicates a grey t-shirt (confirmed via amazon.show_product: product_type == \"t-shirt\", color == \"grey\")",
+          "object": "product-grey-tshirt"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-reviews product-grey-tshirt email-les-ball-at-gmail-com review-grey-tshirt)",
+      "api": "amazon.show_product_reviews",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "products[].product_id where product name/color indicates a grey t-shirt (confirmed via amazon.show_product: product_type == \"t-shirt\", color == \"grey\")",
+          "object": "product-grey-tshirt"
+        },
+        "user_email": "les_ball@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-update-product-review review-grey-tshirt amazon-token rating-1 title-shrunk-and-misshaped-after-first-wash)",
+      "api": "amazon.update_product_review",
+      "args": {
+        "review_id": {
+          "$from": "amazon.show_product_reviews",
+          "field": "reviews[0].review_id (filtered with user_email = les_ball@gmail.com)",
+          "object": "review-grey-tshirt"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "rating": 1,
+        "title": "Shrunk and Misshaped After First Wash!"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task review-grey-tshirt rating-1 title-shrunk-and-misshaped-after-first-wash)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,125 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login username-5412564532 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "5412564532",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login username-corwils-at-gmail-com simple-note-password phone-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "corwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token relationship-mother mother mother-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "mother"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-text-messages phone-token mother-phone-number mother)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].phone_number (contact whose relationships include \"mother\")",
+          "object": "mother-phone-number"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-search-notes phone-token query-favorite-recipes favorite-recipes-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "favorite recipes"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-show-note favorite-recipes-note phone-token favorite-recipe-name)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "notes[i].note_id of the note whose title refers to favorite recipes",
+          "object": "favorite-recipes-note"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-send-text-message mother-phone-number favorite-recipe-name phone-token mother)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].phone_number (contact whose relationships include \"mother\")",
+          "object": "mother-phone-number"
+        },
+        "message": {
+          "$from": "simple_note.show_note",
+          "field": "content: pick exactly one recipe name listed in the note (sent verbatim as the message, nothing else)",
+          "object": "favorite-recipe-name"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task mother favorite-recipe-name)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

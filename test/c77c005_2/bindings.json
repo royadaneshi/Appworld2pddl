@@ -1,0 +1,56 @@
+[
+  {
+    "object": "angelica-wils-at-gmail-com",
+    "value": "angelica.wils@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "datetime-2023-05-01t00-00-00",
+    "value": "2023-05-01T00:00:00",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "direction-sent",
+    "value": "sent",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "email-payee-new",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "receiver.email of a sent transaction with created_at >= 2023-05-01 (deduplicated) whose receiver is NOT in the venmo.search_friends result"
+  },
+  {
+    "object": "email-payee-already-friend",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "receiver.email of a sent transaction this month whose receiver is already in the venmo.search_friends result (no API call is made for such users)"
+  },
+  {
+    "object": "email-old-friend-1",
+    "value": null,
+    "from_api": "venmo.search_friends",
+    "field": "email of a current friend who is not a receiver of any sent transaction this month"
+  },
+  {
+    "object": "email-old-friend-2",
+    "value": null,
+    "from_api": "venmo.search_friends",
+    "field": "email of a current friend who is not a receiver of any sent transaction this month"
+  }
+]

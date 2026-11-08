@@ -1,0 +1,93 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login andrew-brow-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "andrew_brow@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-wish-list amazon-token)",
+      "api": "amazon.show_wish_list",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart watch-1 amazon-token)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 1st wish-list entry whose product_type == \"watch\"",
+          "object": "watch-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart watch-2 amazon-token)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 2nd wish-list entry whose product_type == \"watch\"",
+          "object": "watch-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart watch-3 amazon-token)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 3rd wish-list entry whose product_type == \"watch\"",
+          "object": "watch-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task watch-1 watch-2 watch-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

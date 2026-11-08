@@ -1,0 +1,83 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2426,
+    "output_tokens": 26038,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "b6d1f70_3",
+  "instruction": "Buy 2 identical headphones from amazon with at least 5 reviews and at least 4.5 rating. Deliver one to my mother's home with gift wrapping and one to my home without gift wrapping.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "amazon.login",
+    "amazon.search_products",
+    "amazon.show_product",
+    "amazon.show_addresses",
+    "amazon.add_address",
+    "amazon.show_payment_cards",
+    "amazon.add_product_to_cart",
+    "amazon.add_gift_wrapping_to_product",
+    "amazon.place_order",
+    "amazon.add_product_to_cart",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "Two apps besides supervisor: phone (to find the mother's home address via search_contacts with relationship=mother) and amazon. The chosen product is a single runtime-selected object (headphones-product); search_products is called with product_type=headphones and min_product_rating=4.5, and show_product confirms rating >= 4.5 and >= 5 reviews, asserting (product-qualifies). The supervisor's home address is assumed to already exist in Amazon (listed-in-amazon, discovered by show_addresses); the mother's address is added with add_address (allowed by the evaluation, which ignores Address additions but forbids updates/deletes). Cart state is modeled with (in-cart) and (cart-gift-wrap ?p wrapped|unwrapped); add_product_to_cart uses quantity=1 and clear_cart_first=true so each order contains exactly one unit of one product, and place_order empties the cart. The static (wrap-target w addr) facts bind gift-wrapped -> mother's address and unwrapped -> home address, and place_order requires them, so (order-placed wrapped)/(order-placed unwrapped) in the goal are true exactly when the two correct orders exist; (ordered ?p ?addr ?w) mirrors the created Order rows. Order of the two orders is free; the reference plan places the gift-wrapped one first. If show_product does not expose the review count, show_product_rating_distribution (sum of counts) can be used instead at runtime.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(amazon-search-products product-type-headphones rating-4-5 headphones-product)",
+      "(amazon-show-product headphones-product)",
+      "(supervisor-show-account-passwords)",
+      "(amazon-login lindseysimpson-at-gmail-com amazon-password amazon-token)",
+      "(phone-login phone-3567801924 phone-password phone-token)",
+      "(amazon-add-product-to-cart headphones-product amazon-token quantity-1 flag-true)",
+      "(amazon-show-addresses amazon-token home-address)",
+      "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "(phone-search-contacts phone-token relationship-mother mother mother-home-address)",
+      "(amazon-add-address mother-address-name mother-street mother-city mother-state mother-country mother-zip amazon-token mother-home-address)",
+      "(amazon-add-gift-wrapping-to-product headphones-product amazon-token quantity-1)",
+      "(amazon-place-order payment-card-1 mother-home-address amazon-token headphones-product wrapped)",
+      "(amazon-add-product-to-cart headphones-product amazon-token quantity-1 flag-true)",
+      "(amazon-place-order payment-card-1 home-address amazon-token headphones-product unwrapped)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.25
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 278.3,
+  "effort": "xhigh"
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "object": "jasonsimp-at-gmail-com",
+    "value": "jasonsimp@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "watch",
+    "value": "watch",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "top-watch-seller",
+    "value": null,
+    "from_api": "amazon.search_sellers",
+    "field": "seller_id of the seller with the maximum rating among the sellers listed in amazon.show_product_feature_choices(product_type=\"watch\").sellers (paginate search_sellers as needed)"
+  },
+  {
+    "object": "watch-product",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the first result for product_type=\"watch\" and seller_id=top-watch-seller"
+  },
+  {
+    "object": "wells-fargo-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id where card_name contains \"Wells Fargo\""
+  },
+  {
+    "object": "work-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id where name == \"Work\""
+  },
+  {
+    "object": "quantity-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  }
+]

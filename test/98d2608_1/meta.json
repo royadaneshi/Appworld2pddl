@@ -1,0 +1,70 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1512,
+    "output_tokens": 10027,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "98d2608_1",
+  "instruction": "Email the driving license found in my file system to my partner.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "phone",
+    "file_system",
+    "gmail"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "phone.login",
+    "phone.search_contacts",
+    "file_system.login",
+    "file_system.show_directory",
+    "gmail.login",
+    "gmail.send_email",
+    "supervisor.complete_task"
+  ],
+  "notes": "Three apps plus supervisor: phone (search_contacts with relationship=partner to get the partner's email), file_system (show_directory recursive with substring to locate the driving license file path; the file-system token is also passed to gmail.send_email as file_system_access_token), and gmail (send_email with the file as attachment). Static init facts link the partner person to a placeholder email object and the driving-license file to the search substring so the planner grounds the lookups; the actual values are read at runtime. Goal demands exactly one email with the attachment sent to the partner (send action guarded against duplicates) and task completion last. email_addresses and attachment_file_paths are single-element lists built from the email and file-path objects. supervisor.complete_task takes no answer since the task is not a question.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(file-system-login cod-smith-at-gmail-com file-system-password file-system-token)",
+      "(gmail-login cod-smith-at-gmail-com gmail-password file-system-token)",
+      "(phone-login phone-7826309761 phone-password phone-token)",
+      "(file-system-show-directory file-system-token query-license flag-true driving-license-file)",
+      "(phone-search-contacts phone-token partner my-partner partner-email)",
+      "(gmail-send-email partner-email subject-driving-license body-driving-license file-system-token driving-license-file file-system-token my-partner)",
+      "(supervisor-complete-task my-partner driving-license-file)"
+    ],
+    "message": "",
+    "seconds": 1.15
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 105.9,
+  "effort": "xhigh"
+}

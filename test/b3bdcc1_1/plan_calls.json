@@ -1,0 +1,115 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products air-purifier top-seller-air-purifier top-seller)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "air purifier"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-seller top-seller)",
+      "api": "amazon.show_seller",
+      "args": {
+        "seller_id": {
+          "$from": "amazon.search_products",
+          "field": "seller_id of the returned air purifier products whose seller has the maximum rating (rating read via amazon.show_seller for each candidate seller_id)",
+          "object": "top-seller"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login ca-smit-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ca-smit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-add-product-to-cart top-seller-air-purifier amazon-token qty-1 true top-seller air-purifier)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id where product_type == \"air purifier\" and seller_id == top-seller",
+          "object": "top-seller-air-purifier"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token visa-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-place-order visa-card home-address amazon-token order-1 top-seller-air-purifier qty-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id where card_name == \"Visa\"",
+          "object": "visa-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id where name == \"Home\"",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task order-1 top-seller-air-purifier qty-1 visa-card home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

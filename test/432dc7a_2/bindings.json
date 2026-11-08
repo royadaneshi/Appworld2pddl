@@ -1,0 +1,74 @@
+[
+  {
+    "object": "an-harrison-at-gmail-com",
+    "value": "an-harrison@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as username for gmail and amazon logins"
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-amazon-promo",
+    "value": "promo",
+    "from_api": null,
+    "field": "search query for the promotional email from Amazon received today (2023-05-18)"
+  },
+  {
+    "object": "thread-amazon-promo",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread sent by Amazon on 2023-05-18 containing a promo code"
+  },
+  {
+    "object": "promo-new",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "promo code string parsed from emails[].body of the Amazon promotional email"
+  },
+  {
+    "object": "promo-old",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "promo_code currently applied to the cart (first show_cart call)"
+  },
+  {
+    "object": "promo-best",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "whichever of promo-old / promo-new yields the lower cart total after discount, comparing the two show_cart responses"
+  },
+  {
+    "object": "address-workplace",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id where name == \"workplace\" (work address)"
+  },
+  {
+    "object": "payment-card-default",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id of any (first) valid payment card"
+  }
+]

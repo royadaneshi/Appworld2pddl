@@ -1,0 +1,119 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login caiburc-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "caiburc@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login caiburc-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "caiburc@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-customer-support date-2023-04-20)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Customer Support",
+        "min_created_at": "2023-04-20T00:00:00"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-thread thread-1 gmail-token applicant-1)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread)",
+          "object": "thread-1"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-download-attachment attachment-1 file-system-token gmail-token path-attachment-1 thread-1)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment)",
+          "object": "attachment-1"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name",
+          "object": "path-attachment-1"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-create-file path-applications-list-csv file-system-token csv-content applicant-1)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/documents/work/recruiting_process/applications_list.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "gmail.show_thread",
+          "field": "CSV text: header line \"First Name,Last Name,LinkedIn URL\" followed by one line per applicant (first name, last name, LinkedIn URL extracted from the email body), omitting applicants whose email has no LinkedIn URL",
+          "object": "csv-content"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task path-applications-list-csv csv-content attachment-1 path-attachment-1)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

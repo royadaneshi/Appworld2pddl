@@ -1,0 +1,163 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login username-jes-mill-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jes.mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-3808719492 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3808719492",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts amazon-token query-david david david-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "David"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-text-messages amazon-token query-food-scale david-phone-number david david-food-scale-message)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "food scale",
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"David\"",
+          "object": "david-phone-number"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-product recommended-cheaper-food-scale david-food-scale-message)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "phone.search_text_messages",
+          "field": "product id mentioned in David's message that has the lower price according to amazon.show_product (field price)",
+          "object": "recommended-cheaper-food-scale"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-product recommended-expensive-food-scale david-food-scale-message)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "phone.search_text_messages",
+          "field": "the other product id mentioned in David's message (higher price per amazon.show_product)",
+          "object": "recommended-expensive-food-scale"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart recommended-cheaper-food-scale amazon-token quantity-1 clear-cart-true recommended-expensive-food-scale)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "phone.search_text_messages",
+          "field": "product id mentioned in David's message that has the lower price according to amazon.show_product (field price)",
+          "object": "recommended-cheaper-food-scale"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token new-order recommended-cheaper-food-scale)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first listed card",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the supervisor's (home) address, first entry",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task new-order recommended-cheaper-food-scale)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

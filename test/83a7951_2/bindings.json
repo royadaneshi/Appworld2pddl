@@ -1,0 +1,128 @@
+[
+  {
+    "object": "username-paul-mill-at-gmail-com",
+    "value": "paul_mill@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as username for venmo, file_system and splitwise"
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "splitwise-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"splitwise\""
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "splitwise-token",
+    "value": null,
+    "from_api": "splitwise.login",
+    "field": "access_token"
+  },
+  {
+    "object": "dt-2023-05-20t00-00-00",
+    "value": "2023-05-20T00:00:00",
+    "from_api": null,
+    "field": "start of today (current date)"
+  },
+  {
+    "object": "sent",
+    "value": "sent",
+    "from_api": null,
+    "field": "direction filter: only money the supervisor sent"
+  },
+  {
+    "object": "txn-1",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "transaction_id of the 1st transaction sent today to a person who posted a Splitwise expense yesterday that the supervisor owes"
+  },
+  {
+    "object": "txn-2",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "transaction_id of the 2nd such transaction (one object per matching transaction at runtime)"
+  },
+  {
+    "object": "payee-1-email",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "receiver.email of txn-1"
+  },
+  {
+    "object": "payee-2-email",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "receiver.email of txn-2"
+  },
+  {
+    "object": "amount-1",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "amount of txn-1"
+  },
+  {
+    "object": "amount-2",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "amount of txn-2"
+  },
+  {
+    "object": "receipt-path-1",
+    "value": null,
+    "from_api": null,
+    "field": "agent-chosen file path for the receipt of txn-1 (e.g. ~/venmo_receipt_<transaction_id>.txt); same path is passed to venmo.download_transaction_receipt and splitwise.record_payment"
+  },
+  {
+    "object": "receipt-path-2",
+    "value": null,
+    "from_api": null,
+    "field": "agent-chosen file path for the receipt of txn-2 (e.g. ~/venmo_receipt_<transaction_id>.txt)"
+  },
+  {
+    "object": "group-1",
+    "value": null,
+    "from_api": "splitwise.show_activity",
+    "field": "group_id of the expense created yesterday whose payer is payee-1 and in which the supervisor owes amount-1"
+  },
+  {
+    "object": "group-2",
+    "value": null,
+    "from_api": "splitwise.show_activity",
+    "field": "group_id of the expense created yesterday whose payer is payee-2 and in which the supervisor owes amount-2"
+  },
+  {
+    "object": "paul-mill-at-gmail-com",
+    "value": "paul_mill@gmail.com",
+    "from_api": null,
+    "field": "supervisor email (payer_email of each recorded payment)"
+  },
+  {
+    "object": "note-paid-via-venmo-see-attached-receipt",
+    "value": "Paid via Venmo, see attached receipt.",
+    "from_api": null,
+    "field": "description of each recorded payment"
+  }
+]

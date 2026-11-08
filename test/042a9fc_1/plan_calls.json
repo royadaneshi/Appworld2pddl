@@ -1,0 +1,175 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-username-2474975253 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2474975253",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login spotify-username-joseharr-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "joseharr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token roommates)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommates"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-text-messages phone-token roommate-1-phone roommate-1 roommates msg-from-roommate-1)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the first contact returned with relationship roommates",
+          "object": "roommate-1-phone"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-text-messages phone-token roommate-2-phone roommate-2 roommates msg-from-roommate-2)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the second contact returned with relationship roommates",
+          "object": "roommate-2-phone"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-playlist-library spotify-token roadtrip-playlist)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-playlist roadtrip-playlist spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the playlist whose title matches the playlist the supervisor shared in the text messages",
+          "object": "roadtrip-playlist"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-remove-song-from-playlist roadtrip-playlist song-to-remove spotify-token msg-from-roommate-2)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the playlist whose title matches the playlist the supervisor shared in the text messages",
+          "object": "roadtrip-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id whose title matches the song a roommate's reply asks to remove",
+          "object": "song-to-remove"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-search-songs query-song-to-add song-to-add msg-from-roommate-1)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "song title (and artist) that a roommate's reply asks to add",
+          "object": "query-song-to-add"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-add-song-to-playlist roadtrip-playlist song-to-add spotify-token msg-from-roommate-1)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the playlist whose title matches the playlist the supervisor shared in the text messages",
+          "object": "roadtrip-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the suggested addition",
+          "object": "song-to-add"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task roadtrip-playlist song-to-add song-to-remove)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

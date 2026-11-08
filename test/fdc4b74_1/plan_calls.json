@@ -1,0 +1,184 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login stmcco-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "stmcco@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login stmcco-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "stmcco@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-drafts amazon-token query-camping camping-items-draft)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "camping"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-draft camping-items-draft amazon-token)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager listing the camping-trip items with TODO prices",
+          "object": "camping-items-draft"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-search-products query-product-1 product-1 camping-items-draft)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name after ' X ' in the 1st line of the form '- <qty> X <name> => TODO'",
+          "object": "query-product-1"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product product-1)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name matches the 1st draft item",
+          "object": "product-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-search-products query-product-2 product-2 camping-items-draft)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name after ' X ' in the 2nd line of the form '- <qty> X <name> => TODO'",
+          "object": "query-product-2"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-product product-2)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name matches the 2nd draft item",
+          "object": "product-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products query-product-3 product-3 camping-items-draft)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name after ' X ' in the 3rd line of the form '- <qty> X <name> => TODO'",
+          "object": "query-product-3"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-product product-3)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name matches the 3rd draft item",
+          "object": "product-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-update-draft camping-items-draft amazon-token body-with-prices product-1 product-2 product-3)",
+      "api": "gmail.update_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager listing the camping-trip items with TODO prices",
+          "object": "camping-items-draft"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "body": {
+          "$from": "amazon.show_product",
+          "field": "price; new body = original draft body with each 'TODO' after '=>' replaced by '$<quantity * unit price>' (text before '=>' and all non-item lines unchanged)",
+          "object": "body-with-prices"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-send-email-from-draft camping-items-draft amazon-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager listing the camping-trip items with TODO prices",
+          "object": "camping-items-draft"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task camping-items-draft)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

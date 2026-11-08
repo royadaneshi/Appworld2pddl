@@ -1,0 +1,123 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login timothy-whit-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "timothy.whit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == venmo",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-show-payment-cards venmo-token)",
+      "api": "venmo.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-show-received-payment-requests venmo-token status-pending)",
+      "api": "venmo.show_received_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "status": "pending"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-approve-payment-request req-1 venmo-token)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request whose created_at falls in 2023-04-01..2023-05-18 (this or last month); first such entry",
+          "object": "req-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-approve-payment-request req-2 venmo-token)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request whose created_at falls in 2023-04-01..2023-05-18 (this or last month); second such entry",
+          "object": "req-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-venmo-balance venmo-token remaining-balance)",
+      "api": "venmo.show_venmo_balance",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-withdraw-from-venmo-balance remaining-balance card-1102 venmo-token)",
+      "api": "venmo.withdraw_from_venmo_balance",
+      "args": {
+        "amount": {
+          "$from": "venmo.show_venmo_balance",
+          "field": "venmo_balance (read after all approvals)",
+          "object": "remaining-balance"
+        },
+        "payment_card_id": {
+          "$from": "venmo.show_payment_cards",
+          "field": "payment_card_id where card_number ends with 1102",
+          "object": "card-1102"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task req-1 req-2 remaining-balance card-1102)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

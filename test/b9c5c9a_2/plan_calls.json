@@ -1,0 +1,146 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login corwils-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "corwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-5412564532 phone-password file-system-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "5412564532",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token personal-stuff-dir rsvp-csv-file)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/personal_stuff/"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-file rsvp-csv-file file-system-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "entry path of the file ending in .csv (the RSVP tracking CSV)",
+          "object": "rsvp-csv-file"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-text-messages file-system-token friend-1-phone-number friend-1 c0 c1)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "phone_number": {
+          "$from": "file_system.show_file",
+          "field": "content: phone number column of CSV data row 1",
+          "object": "friend-1-phone-number"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-text-messages file-system-token friend-2-phone-number friend-2 c1 c2)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "phone_number": {
+          "$from": "file_system.show_file",
+          "field": "content: phone number column of CSV data row 2",
+          "object": "friend-2-phone-number"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-text-messages file-system-token friend-3-phone-number friend-3 c2 c3)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "phone_number": {
+          "$from": "file_system.show_file",
+          "field": "content: phone number column of CSV data row 3",
+          "object": "friend-3-phone-number"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-update-file rsvp-csv-file rsvp-csv-updated-content file-system-token c3)",
+      "api": "file_system.update_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "entry path of the file ending in .csv (the RSVP tracking CSV)",
+          "object": "rsvp-csv-file"
+        },
+        "content": {
+          "$from": "phone.search_text_messages",
+          "field": "original CSV content (file_system.show_file content) with each invitee's RSVP column set from the latest message (message of the most recent text from that phone_number: yes/no)",
+          "object": "rsvp-csv-updated-content"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

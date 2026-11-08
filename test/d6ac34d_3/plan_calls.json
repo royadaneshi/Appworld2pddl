@@ -1,0 +1,92 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login ma-smith-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "ma_smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-search-notes simple-note-token query-habit-tracking yesterday-habit-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "habit tracking"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-show-note yesterday-habit-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the habit tracking log note for yesterday (2023-05-17)",
+          "object": "yesterday-habit-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-create-note title-habit-log-2023-05-18 content-habit-log-2023-05-18-home-prepared-meals simple-note-token tags-habit-log pinned-as-yesterday today-habit-note yesterday-habit-note)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "simple_note.show_note",
+          "field": "title of yesterday's note with the date replaced by 2023-05-18",
+          "object": "title-habit-log-2023-05-18"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of yesterday's note (header line updated to today's date, all habit entries unchanged except 'ate home-prepared meals' marked as done)",
+          "object": "content-habit-log-2023-05-18-home-prepared-meals"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "tags": {
+          "$from": "simple_note.show_note",
+          "field": "tags (same as yesterday's note)",
+          "object": "tags-habit-log"
+        },
+        "pinned": {
+          "$from": "simple_note.show_note",
+          "field": "pinned (same as yesterday's note)",
+          "object": "pinned-as-yesterday"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task today-habit-note)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

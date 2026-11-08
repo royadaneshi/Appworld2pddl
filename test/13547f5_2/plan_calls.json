@@ -1,0 +1,61 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login username-6639773608 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "6639773608",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-search-contacts phone-token partner partner-contact partner-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "partner"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-send-text-message partner-phone-number message-dishwasher-clean phone-token partner-contact)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[].phone_number of the contact returned for relationship == \"partner\"",
+          "object": "partner-phone-number"
+        },
+        "message": "The dishwasher is clean and ready to be emptied.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task partner-contact message-dishwasher-clean)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

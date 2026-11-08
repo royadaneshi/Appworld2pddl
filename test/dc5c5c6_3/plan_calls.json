@@ -1,0 +1,280 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-portable-air-conditioner product-type-portable-air-conditioner sort-by-rating-desc top-rated-portable-air-conditioner)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "portable air conditioner",
+        "product_type": "portable air conditioner",
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login nicholas-weber-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "nicholas.weber@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login nicholas-weber-at-gmail-com phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "nicholas.weber@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-add-product-to-cart top-rated-portable-air-conditioner amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating among products currently available/in stock",
+          "object": "top-rated-portable-air-conditioner"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-rated-portable-air-conditioner amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating among products currently available/in stock",
+          "object": "top-rated-portable-air-conditioner"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token relationship-sister)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sister"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-address sister-1-name sister-1-street sister-1-city sister-1-state sister-1-country sister-1-zip amazon-token addr-sister-1 sister-1 relationship-sister)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of 1st contact with relationship sister",
+          "object": "sister-1-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of 1st sister",
+          "object": "sister-1-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of 1st sister",
+          "object": "sister-1-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of 1st sister",
+          "object": "sister-1-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of 1st sister",
+          "object": "sister-1-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code parsed from home_address of 1st sister",
+          "object": "sister-1-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-address sister-2-name sister-2-street sister-2-city sister-2-state sister-2-country sister-2-zip amazon-token addr-sister-2 sister-2 relationship-sister)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of 2nd contact with relationship sister",
+          "object": "sister-2-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of 2nd sister",
+          "object": "sister-2-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of 2nd sister",
+          "object": "sister-2-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of 2nd sister",
+          "object": "sister-2-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of 2nd sister",
+          "object": "sister-2-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code parsed from home_address of 2nd sister",
+          "object": "sister-2-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order amazon-card addr-sister-1 amazon-token top-rated-portable-air-conditioner sister-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first (or any valid) card",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding sister-1's home address",
+          "object": "addr-sister-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-product-to-cart top-rated-portable-air-conditioner amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating among products currently available/in stock",
+          "object": "top-rated-portable-air-conditioner"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-rated-portable-air-conditioner amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating among products currently available/in stock",
+          "object": "top-rated-portable-air-conditioner"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order amazon-card addr-sister-2 amazon-token top-rated-portable-air-conditioner sister-2)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first (or any valid) card",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding sister-2's home address",
+          "object": "addr-sister-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task sister-1 sister-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

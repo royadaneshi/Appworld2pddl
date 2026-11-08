@@ -1,0 +1,148 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-2254213734 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "2254213734",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login jo-harr-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "jo-harr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token rel-roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-create-transaction nancy-email amount-dinner-share venmo-token note-dinner nancy)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with first_name == \"Nancy\" among contacts with relationship \"roommate\"",
+          "object": "nancy-email"
+        },
+        "amount": {
+          "$from": "phone.search_contacts",
+          "field": "computed: round(166 / (1 + number of roommate contacts returned), 2) (41.50 if there are 3 roommates)",
+          "object": "amount-dinner-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Dinner"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-payment-request nancy-email amount-commute-share venmo-token note-commute nancy)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact with first_name == \"Nancy\" among contacts with relationship \"roommate\"",
+          "object": "nancy-email"
+        },
+        "amount": {
+          "$from": "phone.search_contacts",
+          "field": "computed: round(40 / (1 + number of roommate contacts returned), 2) (10.00 if there are 3 roommates)",
+          "object": "amount-commute-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Commute"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-payment-request roommate-a-email amount-commute-share venmo-token note-commute roommate-a)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the first non-Nancy contact with relationship \"roommate\"",
+          "object": "roommate-a-email"
+        },
+        "amount": {
+          "$from": "phone.search_contacts",
+          "field": "computed: round(40 / (1 + number of roommate contacts returned), 2) (10.00 if there are 3 roommates)",
+          "object": "amount-commute-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Commute"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-create-payment-request roommate-b-email amount-commute-share venmo-token note-commute roommate-b)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the second non-Nancy contact with relationship \"roommate\"",
+          "object": "roommate-b-email"
+        },
+        "amount": {
+          "$from": "phone.search_contacts",
+          "field": "computed: round(40 / (1 + number of roommate contacts returned), 2) (10.00 if there are 3 roommates)",
+          "object": "amount-commute-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Commute"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

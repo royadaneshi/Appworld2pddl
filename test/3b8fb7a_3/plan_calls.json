@@ -1,0 +1,193 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login morgan-harrison-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "morgan-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login morgan-harrison-at-gmail-com venmo-password simple-note-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "morgan-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-miami miami-trip-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "Miami"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note miami-trip-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note about the Miami trip money owed",
+          "object": "miami-trip-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-create-transaction email-friend-i-owe-1 amount-i-owe-1 simple-note-token desc-for-miami-trip private-true friend-i-owe-1 miami-trip-note)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "simple_note.show_note",
+          "field": "content: venmo email of 1st friend listed under money I owe",
+          "object": "email-friend-i-owe-1"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount I owe to 1st friend",
+          "object": "amount-i-owe-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Miami trip",
+        "private": true
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-transaction email-friend-i-owe-2 amount-i-owe-2 simple-note-token desc-for-miami-trip private-true friend-i-owe-2 miami-trip-note)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "simple_note.show_note",
+          "field": "content: venmo email of 2nd friend listed under money I owe",
+          "object": "email-friend-i-owe-2"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount I owe to 2nd friend",
+          "object": "amount-i-owe-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Miami trip",
+        "private": true
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-create-payment-request email-friend-owes-me-1 amount-owed-to-me-1 simple-note-token desc-for-miami-trip private-true friend-owes-me-1 miami-trip-note)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "simple_note.show_note",
+          "field": "content: venmo email of 1st friend listed under money owed to me",
+          "object": "email-friend-owes-me-1"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount 1st friend owes me",
+          "object": "amount-owed-to-me-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Miami trip",
+        "private": true
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-create-payment-request email-friend-owes-me-2 amount-owed-to-me-2 simple-note-token desc-for-miami-trip private-true friend-owes-me-2 miami-trip-note)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "simple_note.show_note",
+          "field": "content: venmo email of 2nd friend listed under money owed to me",
+          "object": "email-friend-owes-me-2"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount 2nd friend owes me",
+          "object": "amount-owed-to-me-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Miami trip",
+        "private": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-create-payment-request email-friend-owes-me-3 amount-owed-to-me-3 simple-note-token desc-for-miami-trip private-true friend-owes-me-3 miami-trip-note)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "simple_note.show_note",
+          "field": "content: venmo email of 3rd friend listed under money owed to me",
+          "object": "email-friend-owes-me-3"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount 3rd friend owes me",
+          "object": "amount-owed-to-me-3"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Miami trip",
+        "private": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,66 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1601,
+    "output_tokens": 11339,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "07bb666_1",
+  "instruction": "Move all products with under 4.2 rating from my amazon cart to wish list.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "amazon.login",
+    "amazon.show_cart",
+    "amazon.show_product",
+    "amazon.show_product",
+    "amazon.move_product_from_cart_to_wish_list",
+    "supervisor.complete_task"
+  ],
+  "notes": "The cart contents and product ratings are world facts the agent discovers at runtime: show_cart makes product ids known (cart-listed), show_product reveals each product's rating (rating-known), and only products with rating under 4.2 (static fact rating-under-threshold) may be moved. product-a / product-b are placeholders for the two classes of cart products (under 4.2 vs not); at runtime the move action is repeated for every product in the first class and show_product for every cart product. move_product_from_cart_to_wish_list is called without quantity so the full cart quantity is moved, matching the expected cart/wish-list quantity maps. Because the goal conditions are per-product and quantified goals are disallowed, supervisor-complete-task only requires (cart-listed); it is still forced to be last since every other action requires (not (task-completed)) and the goal demands the per-product conditions together with (task-completed). No answer is passed to complete_task.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(amazon-login ka-ball-at-gmail-com amazon-password amazon-token)",
+      "(amazon-show-cart amazon-token)",
+      "(amazon-show-product product-b)",
+      "(amazon-show-product product-a)",
+      "(amazon-move-product-from-cart-to-wish-list product-a amazon-token)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 0.77
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 131.2,
+  "effort": "xhigh"
+}

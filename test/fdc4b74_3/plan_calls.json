@@ -1,0 +1,147 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(gmail-login corwils-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "corwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'gmail'",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-show-drafts gmail-token query-camping draft-camping)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "camping"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-draft draft-camping gmail-token)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager that lists the camping trip items with TODO price placeholders",
+          "object": "draft-camping"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-search-products query-item-1 item-1 draft-camping c0 c1)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 1st body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-1"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-search-products query-item-2 item-2 draft-camping c1 c2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 2nd body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-search-products query-item-3 item-3 draft-camping c2 c3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 3rd body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-3"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-search-products query-item-4 item-4 draft-camping c3 c4)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 4th body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-4"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-update-draft draft-camping gmail-token body-with-prices c4)",
+      "api": "gmail.update_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager that lists the camping trip items with TODO price placeholders",
+          "object": "draft-camping"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "body": {
+          "$from": "amazon.search_products",
+          "field": "original draft body (gmail.show_draft body) with every TODO replaced by '$<quantity x price>' using the price of the matching product in the search results; all other text left unchanged",
+          "object": "body-with-prices"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-send-email-from-draft draft-camping gmail-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft addressed to the manager that lists the camping trip items with TODO price placeholders",
+          "object": "draft-camping"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task draft-camping)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,104 @@
+[
+  {
+    "object": "username-4288705164",
+    "value": "4288705164",
+    "from_api": null,
+    "field": "supervisor phone_number (phone app username)"
+  },
+  {
+    "object": "jepowell-at-gmail-com",
+    "value": "jepowell@gmail.com",
+    "from_api": null,
+    "field": "supervisor email (amazon and venmo username)"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "relationship-roommate",
+    "value": "roommate",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "roommate-phone-number",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "contacts[0].phone_number (contact with relationship roommate)"
+  },
+  {
+    "object": "roommate-email",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "contacts[0].email (contact with relationship roommate)"
+  },
+  {
+    "object": "query-returned-product",
+    "value": null,
+    "from_api": "phone.search_text_messages",
+    "field": "name of the product to return, as stated in the roommate's message text"
+  },
+  {
+    "object": "the-order",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "orders[].order_id of the order whose items contain the product named in the message"
+  },
+  {
+    "object": "returned-product",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order_items[].product_id of the item matching the product named in the message"
+  },
+  {
+    "object": "order-quantity",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order_items[].quantity of that item"
+  },
+  {
+    "object": "order-cost",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order_items[].price * quantity of that item (total paid for the product)"
+  },
+  {
+    "object": "return-deliverer",
+    "value": null,
+    "from_api": "amazon.show_return_deliverers",
+    "field": "deliverers[].id (the deliverer named in the message if any, else the first)"
+  }
+]

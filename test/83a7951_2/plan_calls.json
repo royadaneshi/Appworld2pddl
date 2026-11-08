@@ -1,0 +1,214 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login username-paul-mill-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "paul_mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(splitwise-login username-paul-mill-at-gmail-com splitwise-password file-system-token)",
+      "api": "splitwise.login",
+      "args": {
+        "username": "paul_mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"splitwise\"",
+          "object": "splitwise-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login username-paul-mill-at-gmail-com venmo-password file-system-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "paul_mill@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(splitwise-show-activity file-system-token)",
+      "api": "splitwise.show_activity",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-transactions file-system-token dt-2023-05-20t00-00-00 sent)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "min_created_at": "2023-05-20T00:00:00",
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-download-transaction-receipt txn-1 file-system-token receipt-path-1 file-system-token)",
+      "api": "venmo.download_transaction_receipt",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the 1st transaction sent today to a person who posted a Splitwise expense yesterday that the supervisor owes",
+          "object": "txn-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "download_to_file_path": {
+          "$from": null,
+          "field": "agent-chosen file path for the receipt of txn-1 (e.g. ~/venmo_receipt_<transaction_id>.txt); same path is passed to venmo.download_transaction_receipt and splitwise.record_payment",
+          "object": "receipt-path-1"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(splitwise-record-payment paul-mill-at-gmail-com payee-1-email amount-1 file-system-token group-1 note-paid-via-venmo-see-attached-receipt receipt-path-1 file-system-token txn-1 payee-1)",
+      "api": "splitwise.record_payment",
+      "args": {
+        "payer_email": "paul_mill@gmail.com",
+        "receiver_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of txn-1",
+          "object": "payee-1-email"
+        },
+        "amount": {
+          "$from": "venmo.show_transactions",
+          "field": "amount of txn-1",
+          "object": "amount-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "group_id": {
+          "$from": "splitwise.show_activity",
+          "field": "group_id of the expense created yesterday whose payer is payee-1 and in which the supervisor owes amount-1",
+          "object": "group-1"
+        },
+        "description": "Paid via Venmo, see attached receipt.",
+        "receipt_file_path": {
+          "$from": null,
+          "field": "agent-chosen file path for the receipt of txn-1 (e.g. ~/venmo_receipt_<transaction_id>.txt); same path is passed to venmo.download_transaction_receipt and splitwise.record_payment",
+          "object": "receipt-path-1"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-download-transaction-receipt txn-2 file-system-token receipt-path-2 file-system-token)",
+      "api": "venmo.download_transaction_receipt",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the 2nd such transaction (one object per matching transaction at runtime)",
+          "object": "txn-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "download_to_file_path": {
+          "$from": null,
+          "field": "agent-chosen file path for the receipt of txn-2 (e.g. ~/venmo_receipt_<transaction_id>.txt)",
+          "object": "receipt-path-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(splitwise-record-payment paul-mill-at-gmail-com payee-2-email amount-2 file-system-token group-2 note-paid-via-venmo-see-attached-receipt receipt-path-2 file-system-token txn-2 payee-2)",
+      "api": "splitwise.record_payment",
+      "args": {
+        "payer_email": "paul_mill@gmail.com",
+        "receiver_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of txn-2",
+          "object": "payee-2-email"
+        },
+        "amount": {
+          "$from": "venmo.show_transactions",
+          "field": "amount of txn-2",
+          "object": "amount-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "group_id": {
+          "$from": "splitwise.show_activity",
+          "field": "group_id of the expense created yesterday whose payer is payee-2 and in which the supervisor owes amount-2",
+          "object": "group-2"
+        },
+        "description": "Paid via Venmo, see attached receipt.",
+        "receipt_file_path": {
+          "$from": null,
+          "field": "agent-chosen file path for the receipt of txn-2 (e.g. ~/venmo_receipt_<transaction_id>.txt)",
+          "object": "receipt-path-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task txn-1 txn-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

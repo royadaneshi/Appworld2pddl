@@ -1,0 +1,49 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login morgan-harrison-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "morgan-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-search-friends venmo-token page-limit-20 friend-count-since-january)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "page_limit": 20
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task friend-count-since-january)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.search_friends",
+          "field": "count of friend entries (over all pages, page_index 0,1,... until empty) whose friends_since >= 2023-01-01T00:00:00",
+          "object": "friend-count-since-january"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

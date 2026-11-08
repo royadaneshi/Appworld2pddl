@@ -1,0 +1,38 @@
+[
+  {
+    "object": "joseharr-at-gmail-com",
+    "value": "joseharr@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as spotify username"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "my-playlist",
+    "value": null,
+    "from_api": "spotify.show_playlist_library",
+    "field": "[].playlist_id (representative: repeat show_playlist for every playlist, paginate)"
+  },
+  {
+    "object": "playlist-song",
+    "value": null,
+    "from_api": "spotify.show_playlist",
+    "field": "songs[].song_id (representative: every song across all playlists whose id appears in show_liked_songs)"
+  },
+  {
+    "object": "most-liked-genre",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "genre; answer = genre with the highest count over liked songs contained in the user's playlists"
+  }
+]

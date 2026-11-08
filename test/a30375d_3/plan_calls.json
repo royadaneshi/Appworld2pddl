@@ -1,0 +1,66 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login jefsmith-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "jefsmith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-search-notes simple-note-token query-movie-quotes movie-quotes-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "movie quotes"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-show-note movie-quotes-note simple-note-token movie-quote)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title is about movie quotes",
+          "object": "movie-quotes-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task movie-quote)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "simple_note.show_note",
+          "field": "content: one randomly chosen quote line (quote text only, no attribution or extra text)",
+          "object": "movie-quote"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

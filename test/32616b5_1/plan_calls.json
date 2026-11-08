@@ -1,0 +1,228 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login roburton-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "roburton@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(splitwise-login roburton-at-gmail-com splitwise-password simple-note-token)",
+      "api": "splitwise.login",
+      "args": {
+        "username": "roburton@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"splitwise\"",
+          "object": "splitwise-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-trip)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "trip"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note note-trip-1 simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the first trip note (title mentions a trip)",
+          "object": "note-trip-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-show-note note-trip-2 simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the second trip note (title mentions a trip)",
+          "object": "note-trip-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(splitwise-show-groups simple-note-token)",
+      "api": "splitwise.show_groups",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(splitwise-record-expense desc-trip-1-expense-1 amount-trip-1-expense-1 payer-trip-1-expense-1 debtors-trip-1-expense-1 simple-note-token debts-trip-1-expense-1 group-trip-1 trip-1-expense-1 note-trip-1)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of the first 'X owes Y' entry of trip 1 (e.g. trip/expense name)",
+          "object": "desc-trip-1-expense-1"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total amount owed in trip-1 entry 1",
+          "object": "amount-trip-1-expense-1"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the group member whose name is the person owed in trip-1 entry 1 (name read from simple_note.show_note content)",
+          "object": "payer-trip-1-expense-1"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for the people who owe in trip-1 entry 1 (names from note content)",
+          "object": "debtors-trip-1-expense-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: list of amounts owed by each debtor in trip-1 entry 1 (same order as debtor_emails)",
+          "object": "debts-trip-1-expense-1"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches trip 1 named in note-trip-1",
+          "object": "group-trip-1"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(splitwise-record-expense desc-trip-1-expense-2 amount-trip-1-expense-2 payer-trip-1-expense-2 debtors-trip-1-expense-2 simple-note-token debts-trip-1-expense-2 group-trip-1 trip-1-expense-2 note-trip-1)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of the second entry of trip 1",
+          "object": "desc-trip-1-expense-2"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total amount owed in trip-1 entry 2",
+          "object": "amount-trip-1-expense-2"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person owed in trip-1 entry 2 (name from note content)",
+          "object": "payer-trip-1-expense-2"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for the people who owe in trip-1 entry 2 (names from note content)",
+          "object": "debtors-trip-1-expense-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: list of amounts owed by each debtor in trip-1 entry 2",
+          "object": "debts-trip-1-expense-2"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches trip 1 named in note-trip-1",
+          "object": "group-trip-1"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(splitwise-record-expense desc-trip-2-expense-1 amount-trip-2-expense-1 payer-trip-2-expense-1 debtors-trip-2-expense-1 simple-note-token debts-trip-2-expense-1 group-trip-2 trip-2-expense-1 note-trip-2)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of the entry of trip 2",
+          "object": "desc-trip-2-expense-1"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total amount owed in trip-2 entry 1",
+          "object": "amount-trip-2-expense-1"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person owed in trip-2 entry 1 (name from note content)",
+          "object": "payer-trip-2-expense-1"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for the people who owe in trip-2 entry 1 (names from note content)",
+          "object": "debtors-trip-2-expense-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: list of amounts owed by each debtor in trip-2 entry 1",
+          "object": "debts-trip-2-expense-1"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches trip 2 named in note-trip-2",
+          "object": "group-trip-2"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task trip-1-expense-1 trip-1-expense-2 trip-2-expense-1)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

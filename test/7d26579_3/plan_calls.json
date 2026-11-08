@@ -1,0 +1,103 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login jo-harr-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "jo-harr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-orders amazon-token query-t-shirt last-tshirt-order)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "t-shirt"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-order last-tshirt-order amazon-token tshirt-product)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (by order_date) containing a t-shirt product",
+          "object": "last-tshirt-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product tshirt-product)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "products[].product_id of the t-shirt item in that order",
+          "object": "tshirt-product"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-questions tshirt-product email-jo-harr-at-gmail-com my-tshirt-question)",
+      "api": "amazon.show_product_questions",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "products[].product_id of the t-shirt item in that order",
+          "object": "tshirt-product"
+        },
+        "user_email": "jo-harr@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product-question-answers my-tshirt-question color-fading-answer)",
+      "api": "amazon.show_product_question_answers",
+      "args": {
+        "question_id": {
+          "$from": "amazon.show_product_questions",
+          "field": "question_id of the question posted by the supervisor on that product",
+          "object": "my-tshirt-question"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task color-fading-answer)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_product_question_answers",
+          "field": "\"yes\" if any answer reports color fading after the first wash, otherwise \"no\"",
+          "object": "color-fading-answer"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,117 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login ma-smith-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "ma_smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login ma-smith-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "ma_smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-show-inbox-threads file-system-token query-tokyo thread-tokyo-flight)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "Tokyo"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-thread thread-tokyo-flight file-system-token email-tokyo-ticket)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread carrying the flight ticket to Tokyo",
+          "object": "thread-tokyo-flight"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-email email-tokyo-ticket file-system-token tokyo-ticket-attachment tokyo date-this-weekend)",
+      "api": "gmail.show_email",
+      "args": {
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the email whose ticket is for a flight to Tokyo departing this weekend (2023-05-20/21)",
+          "object": "email-tokyo-ticket"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-download-attachment tokyo-ticket-attachment file-system-token file-system-token path-downloads-ticket)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_email",
+          "field": "attachments[].attachment_id of the ticket attachment",
+          "object": "tokyo-ticket-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_email",
+          "field": "\"~/downloads/\" + attachments[].name (file path inside the ~/downloads folder)",
+          "object": "path-downloads-ticket"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task tokyo-ticket-attachment tokyo date-this-weekend path-downloads-ticket)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

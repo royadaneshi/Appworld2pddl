@@ -1,0 +1,251 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-nintendo-switch-lite nintendo-switch-lite)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Nintendo Switch Lite"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login normansmit-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-add-product-to-cart nintendo-switch-lite amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Nintendo Switch Lite\"",
+          "object": "nintendo-switch-lite"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-login normansmit-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-login phone-5708520672 phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "5708520672",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-login normansmit-at-gmail-com venmo-password amazon-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-addresses amazon-token supervisor-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-payment-cards amazon-token supervisor-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-place-order supervisor-payment-card supervisor-address amazon-token new-order nintendo-switch-lite)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first/any card on the supervisor's amazon account)",
+          "object": "supervisor-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id (first/any existing address of the supervisor)",
+          "object": "supervisor-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-order new-order amazon-token order-total-amount)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.place_order",
+          "field": "order_id",
+          "object": "new-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-show-inbox-threads amazon-token query-amazon-order-confirmation confirmation-thread new-order)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Amazon Order Confirmation"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-show-thread confirmation-thread amazon-token confirmation-email)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the most recent thread with subject \"Amazon Order Confirmation\" (received after the order was placed)",
+          "object": "confirmation-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(phone-search-contacts venmo-token query-denise denise denise-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "Denise"
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-forward-email-from-thread confirmation-thread confirmation-email denise-email amazon-token denise)",
+      "api": "gmail.forward_email_from_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the most recent thread with subject \"Amazon Order Confirmation\" (received after the order was placed)",
+          "object": "confirmation-thread"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "email_id of the email in that thread whose body contains \"#<order_id>\" and carries the receipt attachment",
+          "object": "confirmation-email"
+        },
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Denise\"",
+          "object": "denise-email"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-create-payment-request denise-email order-total-amount amazon-token note-amazon-order denise)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Denise\"",
+          "object": "denise-email"
+        },
+        "amount": {
+          "$from": "amazon.show_order",
+          "field": "paid_amount (total cost of the new order)",
+          "object": "order-total-amount"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "description": "Amazon Order"
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(supervisor-complete-task new-order nintendo-switch-lite confirmation-email denise order-total-amount note-amazon-order)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

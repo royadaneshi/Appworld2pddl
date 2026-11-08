@@ -1,0 +1,168 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login william-mart-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "william_mart@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token primary-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-wish-list amazon-token)",
+      "api": "amazon.show_wish_list",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product mouse-pad-1)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product)",
+          "object": "mouse-pad-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart mouse-pad-1 amazon-token quantity-of-mouse-pad-1)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product)",
+          "object": "mouse-pad-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the entry for mouse-pad-1",
+          "object": "quantity-of-mouse-pad-1"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-product mouse-pad-2)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the next wish-list entry whose product_type is \"mouse pad\" (repeat for every such entry)",
+          "object": "mouse-pad-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart mouse-pad-2 amazon-token quantity-of-mouse-pad-2)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the next wish-list entry whose product_type is \"mouse pad\" (repeat for every such entry)",
+          "object": "mouse-pad-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the entry for mouse-pad-2",
+          "object": "quantity-of-mouse-pad-2"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order primary-card home-address amazon-token)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first (existing) payment card",
+          "object": "primary-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the first (existing) address",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

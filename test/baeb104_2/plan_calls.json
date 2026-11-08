@@ -1,0 +1,134 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login kri-powe-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "kri-powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login kri-powe-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "kri-powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-number-6017026518 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "6017026518",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token substring-sydney flag-true sydney-photos-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "substring": "sydney",
+        "recursive": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-compress-directory sydney-photos-dir file-system-token sydney-photos-tar)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the directory entry whose name contains \"sydney\" (the vacation photographs folder)",
+          "object": "sydney-photos-dir"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the sydney directory path with a \".tar\" extension appended (e.g. <sydney_dir_path>.tar); passed as compressed_file_path and later as the single attachment_file_paths entry",
+          "object": "sydney-photos-tar"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token relationship-sibling sibling-emails)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sibling"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-send-email sibling-emails subject-sydney-trip-photos body-sydney-trip-photos file-system-token sydney-photos-tar file-system-token sydney-photos-dir)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "list of `email` of every contact returned for relationship == \"sibling\" (all pages)",
+          "object": "sibling-emails"
+        },
+        "subject": "Sydney Trip Photographs",
+        "body": "Hi! Sharing all the photographs from our Sydney vacation trip. They are attached as a tar file.",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "the sydney directory path with a \".tar\" extension appended (e.g. <sydney_dir_path>.tar); passed as compressed_file_path and later as the single attachment_file_paths entry",
+          "object": "sydney-photos-tar"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task sibling-emails sydney-photos-tar sydney-photos-dir)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

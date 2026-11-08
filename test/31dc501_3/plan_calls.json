@@ -1,0 +1,77 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-3016947686 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3016947686",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-show-alarms phone-token weekday-wake-up-alarm)",
+      "api": "phone.show_alarms",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-show-alarm weekday-wake-up-alarm phone-token)",
+      "api": "phone.show_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of the alarm whose label is the wake-up alarm and whose repeat_days are the weekdays (Monday-Friday); confirmed via phone.show_alarm",
+          "object": "weekday-wake-up-alarm"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-update-alarm weekday-wake-up-alarm phone-token minutes-20)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of the alarm whose label is the wake-up alarm and whose repeat_days are the weekdays (Monday-Friday); confirmed via phone.show_alarm",
+          "object": "weekday-wake-up-alarm"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "snooze_minutes": 20
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task weekday-wake-up-alarm minutes-20)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

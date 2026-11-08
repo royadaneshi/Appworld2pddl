@@ -1,0 +1,80 @@
+[
+  {
+    "object": "chelsea-burch-at-gmail-com",
+    "value": "chelsea-burch@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "past-order-1",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "orders[].order_id (iterate every past order over all pages)"
+  },
+  {
+    "object": "past-product-1",
+    "value": null,
+    "from_api": "amazon.show_order",
+    "field": "order_items[].product_id (every product of every past order)"
+  },
+  {
+    "object": "trusted-seller-1",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "seller_id (collect the set over all past-purchased products; a seller for which a matching watch exists)"
+  },
+  {
+    "object": "query-watch",
+    "value": "watch",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "watch",
+    "value": "watch",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "max-price-110",
+    "value": "110",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "watch-product",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "products[0].product_id (result with product_type == watch, price <= 110, seller_id in trusted set)"
+  },
+  {
+    "object": "qty-1",
+    "value": "1",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "home-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "addresses[0].address_id"
+  },
+  {
+    "object": "supervisor-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_cards[0].payment_card_id"
+  }
+]

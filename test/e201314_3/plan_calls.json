@@ -1,0 +1,159 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-fitness-tracker rating-4-1 fitness-tracker)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "fitness tracker",
+        "min_product_rating": 4.1
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product fitness-tracker)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result whose product_type == \"fitness tracker\", rating >= 4.1, and (confirmed via amazon.show_product) num_product_reviews >= 7 and expected delivery on or before 2023-05-26T23:59:59",
+          "object": "fitness-tracker"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login amazon-username-mar-blac-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "mar_blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-username-3539110281 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3539110281",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token supervisor-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token coworker)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "coworker"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts phone-token roommate)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart fitness-tracker amazon-token quantity-num-invitees flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result whose product_type == \"fitness tracker\", rating >= 4.1, and (confirmed via amazon.show_product) num_product_reviews >= 7 and expected delivery on or before 2023-05-26T23:59:59",
+          "object": "fitness-tracker"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_contacts",
+          "field": "number of unique contacts in the union of the relationship == \"coworker\" and relationship == \"roommate\" results",
+          "object": "quantity-num-invitees"
+        },
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order supervisor-payment-card home-address amazon-token fitness-tracker quantity-num-invitees)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of any saved card (first entry)",
+          "object": "supervisor-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry matching the supervisor's home address (name == \"home\")",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task fitness-tracker quantity-num-invitees home-address)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

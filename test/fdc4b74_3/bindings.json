@@ -1,0 +1,62 @@
+[
+  {
+    "object": "corwils-at-gmail-com",
+    "value": "corwils@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == 'gmail'"
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-camping",
+    "value": "camping",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "draft-camping",
+    "value": null,
+    "from_api": "gmail.show_drafts",
+    "field": "draft_id of the draft addressed to the manager that lists the camping trip items with TODO price placeholders"
+  },
+  {
+    "object": "query-item-1",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "product name parsed from the 1st body line of the form '- <qty> X <product name> => TODO'"
+  },
+  {
+    "object": "query-item-2",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "product name parsed from the 2nd body line of the form '- <qty> X <product name> => TODO'"
+  },
+  {
+    "object": "query-item-3",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "product name parsed from the 3rd body line of the form '- <qty> X <product name> => TODO'"
+  },
+  {
+    "object": "query-item-4",
+    "value": null,
+    "from_api": "gmail.show_draft",
+    "field": "product name parsed from the 4th body line of the form '- <qty> X <product name> => TODO'"
+  },
+  {
+    "object": "body-with-prices",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "original draft body (gmail.show_draft body) with every TODO replaced by '$<quantity x price>' using the price of the matching product in the search results; all other text left unchanged"
+  }
+]

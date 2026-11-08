@@ -1,0 +1,74 @@
+[
+  {
+    "object": "jar-calhoun-at-gmail-com",
+    "value": "jar_calhoun@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == 'gmail'"
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == 'amazon'"
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-amazon-promo",
+    "value": "promo",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-promo-thread",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the thread from Amazon received today (2023-05-18)"
+  },
+  {
+    "object": "promo-code-new",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "promo code string parsed from emails[].body"
+  },
+  {
+    "object": "promo-code-existing",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "promo_code currently applied to the cart (first show_cart call)"
+  },
+  {
+    "object": "promo-code-best",
+    "value": null,
+    "from_api": "amazon.show_cart",
+    "field": "whichever of promo-code-existing / promo-code-new gives the larger discount (lower total), comparing the discount/total fields of the two show_cart responses"
+  },
+  {
+    "object": "address-home",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id where name == 'home'"
+  },
+  {
+    "object": "amazon-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (any card on the account)"
+  }
+]

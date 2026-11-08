@@ -1,0 +1,182 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login va-blac-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "va-blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-addresses amazon-token amazon-home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-purchases amazon-token tshirt-last)",
+      "api": "amazon.show_product_purchases",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product tshirt-last)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_product_purchases",
+          "field": "product_id of the most recent purchase whose product is a t-shirt",
+          "object": "tshirt-last"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-search-products query-tshirt-name black size-as-ordered tshirt-black tshirt-last)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "amazon.show_product",
+          "field": "name (of the last purchased t-shirt)",
+          "object": "query-tshirt-name"
+        },
+        "color": "black",
+        "relative_size": {
+          "$from": "amazon.show_product",
+          "field": "relative_size (of the last purchased t-shirt)",
+          "object": "size-as-ordered"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart tshirt-black amazon-token)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of result with same name, color == \"black\" and relative_size == ordered size",
+          "object": "tshirt-black"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products query-tshirt-name navy-blue size-as-ordered tshirt-navy-blue tshirt-last)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "amazon.show_product",
+          "field": "name (of the last purchased t-shirt)",
+          "object": "query-tshirt-name"
+        },
+        "color": "navy blue",
+        "relative_size": {
+          "$from": "amazon.show_product",
+          "field": "relative_size (of the last purchased t-shirt)",
+          "object": "size-as-ordered"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart tshirt-navy-blue amazon-token)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of result with same name, color == \"navy blue\" and relative_size == ordered size",
+          "object": "tshirt-navy-blue"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order amazon-payment-card amazon-home-address amazon-token tshirt-black tshirt-navy-blue)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any card)",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the address whose name is home (matches supervisor's home address)",
+          "object": "amazon-home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task tshirt-black tshirt-navy-blue)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

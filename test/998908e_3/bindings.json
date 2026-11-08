@@ -1,0 +1,104 @@
+[
+  {
+    "object": "pa-ritter-at-gmail-com",
+    "value": "pa_ritter@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-hotel",
+    "value": "hotel",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "since-2023-05-18t00-00-00",
+    "value": "2023-05-18T00:00:00",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "hotel-thread-1",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the 1st hotel booking confirmation thread received today (2023-05-18)"
+  },
+  {
+    "object": "hotel-thread-2",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the 2nd hotel booking confirmation thread received today (2023-05-18)"
+  },
+  {
+    "object": "hotel-thread-3",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "email_thread_id of the 3rd hotel booking confirmation thread received today (2023-05-18)"
+  },
+  {
+    "object": "receipt-1",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id (confirmation/receipt attachment of hotel-thread-1)"
+  },
+  {
+    "object": "receipt-2",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id (confirmation/receipt attachment of hotel-thread-2)"
+  },
+  {
+    "object": "receipt-3",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id (confirmation/receipt attachment of hotel-thread-3)"
+  },
+  {
+    "object": "path-receipt-1",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path reported in the download response (download location of receipt-1)"
+  },
+  {
+    "object": "path-receipt-2",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path reported in the download response (download location of receipt-2)"
+  },
+  {
+    "object": "path-receipt-3",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path reported in the download response (download location of receipt-3)"
+  },
+  {
+    "object": "total-wells-fargo-spend",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: sum of the charged amounts over all downloaded receipts whose payment card name is \"Wells Fargo\" (receipts paid with other cards contribute 0)"
+  }
+]

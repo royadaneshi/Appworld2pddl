@@ -1,0 +1,139 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login tra-weber-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "tra_weber@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-orders amazon-token query-gildan-womens-softstyle-cotton-t-shirt)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Gildan Women's Softstyle Cotton T-Shirt"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-order order-1 amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id of an order placed this week (on/after 2023-05-15) containing the Gildan T-Shirt in a non-large size (first such order)",
+          "object": "order-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-order order-2 amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id of an order placed this week containing the Gildan T-Shirt in a non-large size (second such order; may equal order-1 if both items are in one order)",
+          "object": "order-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-return-deliverers)",
+      "api": "amazon.show_return_deliverers",
+      "args": {}
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-initiate-return order-1 tshirt-other-1 fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id of an order placed this week (on/after 2023-05-15) containing the Gildan T-Shirt in a non-large size (first such order)",
+          "object": "order-1"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].product_id where product name == \"Gildan Women's Softstyle Cotton T-Shirt\" and size != \"large\" (first)",
+          "object": "tshirt-other-1"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": 1,
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-initiate-return order-2 tshirt-other-2 fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "orders[].order_id of an order placed this week containing the Gildan T-Shirt in a non-large size (second such order; may equal order-1 if both items are in one order)",
+          "object": "order-2"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].product_id where product name == \"Gildan Women's Softstyle Cotton T-Shirt\" and size != \"large\" (second)",
+          "object": "tshirt-other-2"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": 1,
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task order-1 tshirt-other-1 order-2 tshirt-other-2 fedex)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

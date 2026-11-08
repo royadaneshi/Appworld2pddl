@@ -1,0 +1,80 @@
+[
+  {
+    "object": "mar-blac-at-gmail-com",
+    "value": "mar_blac@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as username for simple_note and venmo"
+  },
+  {
+    "object": "simple-note-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"simple_note\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "simple-note-token",
+    "value": null,
+    "from_api": "simple_note.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-venmo-expenses",
+    "value": "Venmo Expenses",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "venmo-expenses-note",
+    "value": null,
+    "from_api": "simple_note.search_notes",
+    "field": "note_id of the note that is the monthly venmo expense log (title/content about Venmo expenses)"
+  },
+  {
+    "object": "datetime-2023-05-01t00-00-00",
+    "value": "2023-05-01T00:00:00",
+    "from_api": null,
+    "field": "first instant of the current month"
+  },
+  {
+    "object": "datetime-2023-05-31t23-59-59",
+    "value": "2023-05-31T23:59:59",
+    "from_api": null,
+    "field": "last instant of the current month"
+  },
+  {
+    "object": "direction-sent",
+    "value": "sent",
+    "from_api": null,
+    "field": "only outgoing transactions count as expenses"
+  },
+  {
+    "object": "month-05-23",
+    "value": "05/23",
+    "from_api": null,
+    "field": "current month formatted as MM/YY, the key used in note entries"
+  },
+  {
+    "object": "amount-may-2023-expense",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "sum of amount over all returned transactions (iterate page_index until exhausted), rounded to 2 decimals"
+  },
+  {
+    "object": "content-with-may-2023-entry",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "existing content (field content, starting with \"# Venmo Expenses\") with a new line \"- 05/23 => $<amount>\" inserted so the existing month order is preserved (append at end if entries are ascending, insert right after the header if descending)"
+  }
+]

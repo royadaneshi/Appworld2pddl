@@ -1,0 +1,91 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login tr-solo-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login tr-solo-at-gmail-com simple-note-password file-system-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "tr_solo@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes file-system-token query-habit habit-tracker-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "habit"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note habit-tracker-note file-system-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title refers to habit tracking logs",
+          "object": "habit-tracker-note"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-create-file downloads-habit-tracker-csv file-system-token habit-csv-content habit-tracker-note)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/downloads/habit_tracker.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content, transformed into CSV text: header line 'date,<habit1>,<habit2>,...' with habits in the order they appear in the log, then one row per logged date (yyyy-mm-dd) with yes/no per habit, rows sorted ascending by date",
+          "object": "habit-csv-content"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

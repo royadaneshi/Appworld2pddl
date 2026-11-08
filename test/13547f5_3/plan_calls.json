@@ -1,0 +1,61 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login username-6727300099 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "6727300099",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-search-contacts phone-token rel-husband husband husband-phone)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "husband"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-send-voice-message husband-phone msg-dont-forget-to-water-the-plants-today phone-token husband)",
+      "api": "phone.send_voice_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose relationships include \"husband\"",
+          "object": "husband-phone"
+        },
+        "message": "Don't forget to water the plants today.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task husband husband-phone msg-dont-forget-to-water-the-plants-today)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

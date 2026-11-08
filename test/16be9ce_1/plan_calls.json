@@ -1,0 +1,104 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login brenda-webe-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "brenda.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-9312015677 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "9312015677",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token rel-sister sister sister-birthday)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sister"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-orders amazon-token query-bean-bag-chair bean-bag-chair-order sister sister-birthday)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "bean bag chair"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-order bean-bag-chair-order amazon-token bean-bag-chair)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the order whose order date equals the sister's birthday in 2022 and contains a bean bag chair",
+          "object": "bean-bag-chair-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product bean-bag-chair bean-bag-chair-price)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "product_id of the bean bag chair product in the order",
+          "object": "bean-bag-chair"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task bean-bag-chair-price bean-bag-chair)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_product",
+          "field": "price (current product price, excluding tax and delivery)",
+          "object": "bean-bag-chair-price"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

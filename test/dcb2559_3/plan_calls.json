@@ -1,0 +1,76 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login an-harrison-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "an-harrison@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-show-payment-cards spotify-token spotify-card)",
+      "api": "spotify.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-premium-subscriptions spotify-token duration-same-as-expired)",
+      "api": "spotify.show_premium_subscriptions",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-subscribe-premium spotify-card duration-same-as-expired spotify-token)",
+      "api": "spotify.subscribe_premium",
+      "args": {
+        "payment_card_id": {
+          "$from": "spotify.show_payment_cards",
+          "field": "payment_card_id of the first listed card",
+          "object": "spotify-card"
+        },
+        "duration": {
+          "$from": "spotify.show_premium_subscriptions",
+          "field": "duration of the most recent subscription (the one whose end date is yesterday, 2023-05-17)",
+          "object": "duration-same-as-expired"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

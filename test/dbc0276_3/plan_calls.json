@@ -1,0 +1,90 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login brenda-webe-at-gmail-com amazon-password phone-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "brenda.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'amazon'",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login username-9312015677 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "9312015677",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'phone'",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-wish-list phone-token brenda-wish-list)",
+      "api": "amazon.show_wish_list",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts amazon-token relation-partner brenda-partner partner-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "relationship": "partner"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-send-text-message partner-phone-number message-wish-list-itemized amazon-token brenda-partner brenda-wish-list)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact returned for relationship == 'partner'",
+          "object": "partner-phone-number"
+        },
+        "message": {
+          "$from": "amazon.show_wish_list",
+          "field": "composed string: for each item '<name> => $<round(price * quantity)>', lines joined with '\\n'",
+          "object": "message-wish-list-itemized"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task brenda-partner message-wish-list-itemized)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

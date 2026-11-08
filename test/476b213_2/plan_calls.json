@@ -1,0 +1,65 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(spotify-login nan-ritt-at-gmail-com spotify-password spotify-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "nan_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-show-premium-subscriptions spotify-token last-premium-subscription last-payment-card)",
+      "api": "spotify.show_premium_subscriptions",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(spotify-show-payment-card last-payment-card spotify-token last-card-name)",
+      "api": "spotify.show_payment_card",
+      "args": {
+        "payment_card_id": {
+          "$from": "spotify.show_premium_subscriptions",
+          "field": "payment_card_id of the most recent subscription entry",
+          "object": "last-payment-card"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task last-card-name last-payment-card)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "spotify.show_payment_card",
+          "field": "card_name",
+          "object": "last-card-name"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

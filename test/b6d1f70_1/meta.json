@@ -1,0 +1,83 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 2432,
+    "output_tokens": 26424,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "b6d1f70_1",
+  "instruction": "Buy 2 identical wireless earbuds from amazon with at least 6 reviews and at least 3.9 rating. Deliver one to my parents' home with gift wrapping and one to my home without gift wrapping.",
+  "difficulty": 3,
+  "apps_used": [
+    "supervisor",
+    "amazon",
+    "phone"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "amazon.login",
+    "amazon.search_products",
+    "amazon.show_product",
+    "amazon.show_addresses",
+    "amazon.show_payment_cards",
+    "phone.login",
+    "phone.search_contacts",
+    "amazon.add_address",
+    "amazon.add_product_to_cart",
+    "amazon.add_gift_wrapping_to_product",
+    "amazon.place_order",
+    "amazon.add_product_to_cart",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "Two separate orders of the same product object (wireless-earbuds) guarantee identical products with one unit each; amazon.place_order empties the cart, and clear_cart_first=true on add_product_to_cart guards against pre-existing cart items so each order has exactly one item with quantity 1. Gift wrapping is tracked with a cart-wrap status (constants wrapped/unwrapped); static order-wrap and order-destination facts force the gift-wrapped order to go to the parents' address and the plain one to the supervisor's home, which mirrors the evaluation. Product eligibility: search_products with min_product_rating=3.9 gives rating-ok; show_product (or alternatively show_product_rating_distribution / show_product_reviews) confirms >= 6 reviews (reviews-ok). The parents' home address is read from phone.search_contacts(relationship=\"parent\") (verify the exact label with phone.show_contact_relationships if needed), parsed into components and registered with amazon.add_address (address additions are ignored by evaluation; if the parents' address already exists in amazon.show_addresses it may be reused). supervisor-complete-task takes the two order records as non-API parameters so its precondition mirrors the goal; no answer is passed.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(amazon-search-products query-wireless-earbuds rating-3-9 wireless-earbuds)",
+      "(amazon-show-product wireless-earbuds)",
+      "(supervisor-show-account-passwords)",
+      "(amazon-login mel-bailey-at-gmail-com amazon-password amazon-token)",
+      "(amazon-add-product-to-cart wireless-earbuds amazon-token quantity-1 flag-true)",
+      "(phone-login mel-bailey-at-gmail-com phone-password phone-token)",
+      "(amazon-show-addresses amazon-token home-address-id)",
+      "(amazon-show-payment-cards amazon-token amazon-card)",
+      "(phone-search-contacts phone-token relationship-parent parents-home-address)",
+      "(amazon-add-address parents-home-name parents-street parents-city parents-state parents-country parents-zip amazon-token parents-home-address parents-address-id)",
+      "(amazon-add-gift-wrapping-to-product wireless-earbuds amazon-token)",
+      "(amazon-place-order amazon-card parents-address-id amazon-token order-parents wireless-earbuds wrapped)",
+      "(amazon-add-product-to-cart wireless-earbuds amazon-token quantity-1 flag-true)",
+      "(amazon-place-order amazon-card home-address-id amazon-token order-home wireless-earbuds unwrapped)",
+      "(supervisor-complete-task order-home order-parents wireless-earbuds home-address-id parents-address-id)"
+    ],
+    "message": "",
+    "seconds": 1.42
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 282.7,
+  "effort": "xhigh"
+}

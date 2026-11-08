@@ -1,0 +1,105 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login normansmit-at-gmail-com amazon-password venmo-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login normansmit-at-gmail-com phone-password venmo-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login normansmit-at-gmail-com venmo-password amazon-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-cart venmo-token amount-cart-total)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts venmo-token query-denise relationship-friend denise denise-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "Denise",
+        "relationship": "friend"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-payment-request denise-email amount-cart-total amazon-token description-amazon-cart-items denise)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Denise\" and relationships contain \"friend\"",
+          "object": "denise-email"
+        },
+        "amount": {
+          "$from": "amazon.show_cart",
+          "field": "sum over cart items of price * quantity (item subtotal only; exclude tax and delivery fee)",
+          "object": "amount-cart-total"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "description": "Amazon cart items"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task denise amount-cart-total)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,51 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login cod-smith-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "cod.smith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-show-transactions venmo-token datetime-2023-05-01t00-00-00 datetime-2023-05-18t12-00-00 sent sent-total-this-month)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "min_created_at": "2023-05-01T00:00:00",
+        "max_created_at": "2023-05-18T12:00:00",
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task sent-total-this-month)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.show_transactions",
+          "field": "sum of `amount` over all returned transactions (iterate page_index until the list is empty)",
+          "object": "sent-total-this-month"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

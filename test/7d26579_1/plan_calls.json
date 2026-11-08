@@ -1,0 +1,98 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login user-matthew-blac-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "matthew.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-orders amazon-token last-tshirt-order)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-order last-tshirt-order amazon-token tshirt-product)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order that contains a t-shirt product (sort by date descending; confirm via show_order/show_product product_type == \"t-shirt\")",
+          "object": "last-tshirt-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product tshirt-product)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "products[].product_id of the t-shirt item in that order",
+          "object": "tshirt-product"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-product-questions tshirt-product matthew-blac-at-gmail-com matthew my-tshirt-question)",
+      "api": "amazon.show_product_questions",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "products[].product_id of the t-shirt item in that order",
+          "object": "tshirt-product"
+        },
+        "user_email": "matthew.blac@gmail.com"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product-question-answers my-tshirt-question answer-no)",
+      "api": "amazon.show_product_question_answers",
+      "args": {
+        "question_id": {
+          "$from": "amazon.show_product_questions",
+          "field": "question_id of the question posted by matthew.blac@gmail.com",
+          "object": "my-tshirt-question"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task answer-no)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": "no"
+      }
+    }
+  ],
+  "problems": []
+}

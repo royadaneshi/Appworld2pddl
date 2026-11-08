@@ -1,0 +1,86 @@
+[
+  {
+    "object": "phone-user-4675246489",
+    "value": "4675246489",
+    "from_api": null,
+    "field": "supervisor phone number (phone app username)"
+  },
+  {
+    "object": "amazon-user-eri-powe-at-gmail-com",
+    "value": "eri_powe@gmail.com",
+    "from_api": null,
+    "field": "supervisor email (amazon username)"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "sibling",
+    "value": "sibling",
+    "from_api": null,
+    "field": "relationship filter for search_contacts (confirm exact label via phone.show_contact_relationships if needed)"
+  },
+  {
+    "object": "coworker",
+    "value": "coworker",
+    "from_api": null,
+    "field": "relationship filter for search_contacts (confirm exact label via phone.show_contact_relationships if needed)"
+  },
+  {
+    "object": "query-proform-pro-2000-treadmill",
+    "value": "ProForm Pro 2000 Treadmill",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "proform-pro-2000-treadmill",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the result whose name == \"ProForm Pro 2000 Treadmill\""
+  },
+  {
+    "object": "best-promo-code",
+    "value": null,
+    "from_api": "phone.search_text_messages",
+    "field": "promo code string extracted from reply messages of sibling and coworker contacts (search_text_messages called with phone_number of each such contact); among all candidate codes choose the one yielding the largest cart discount (try each with amazon.apply_promo_code_to_cart and compare discount in amazon.show_cart; leave the best one applied)"
+  },
+  {
+    "object": "clear-cart-first-true",
+    "value": "true",
+    "from_api": null,
+    "field": "clear_cart_first so the order contains only 1 treadmill"
+  },
+  {
+    "object": "amazon-payment-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (first card)"
+  },
+  {
+    "object": "amazon-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id (first existing address; do not add/update/delete addresses)"
+  }
+]

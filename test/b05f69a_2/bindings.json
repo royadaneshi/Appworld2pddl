@@ -1,0 +1,80 @@
+[
+  {
+    "object": "nicholas-weber-at-gmail-com",
+    "value": "nicholas.weber@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as username for amazon and file_system"
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "order-1",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "orders[0].order_id (one placeholder per order returned; iterate all pages)"
+  },
+  {
+    "object": "order-2",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "orders[1].order_id"
+  },
+  {
+    "object": "order-3",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "orders[2].order_id"
+  },
+  {
+    "object": "receipt-path-order-1",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "\"~/bills/shopping_amazon/ordered-at-\" + orders[0].ordered_at[:10] + \"-order-id-\" + orders[0].order_id + \".txt\" (use amazon.show_order if the placement date is not in the listing)"
+  },
+  {
+    "object": "receipt-path-order-2",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "\"~/bills/shopping_amazon/ordered-at-\" + orders[1].ordered_at[:10] + \"-order-id-\" + orders[1].order_id + \".txt\""
+  },
+  {
+    "object": "receipt-path-order-3",
+    "value": null,
+    "from_api": "amazon.show_orders",
+    "field": "\"~/bills/shopping_amazon/ordered-at-\" + orders[2].ordered_at[:10] + \"-order-id-\" + orders[2].order_id + \".txt\""
+  },
+  {
+    "object": "dir-bills-shopping-amazon",
+    "value": "~/bills/shopping_amazon/",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "flag-true",
+    "value": "true",
+    "from_api": null,
+    "field": "recursive=true so ~/bills is created if missing"
+  }
+]

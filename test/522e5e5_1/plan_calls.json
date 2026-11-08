@@ -1,0 +1,77 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login ja-solomon-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-show-transactions venmo-token datetime-2023-05-01t00-00-00)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "min_created_at": "2023-05-01T00:00:00"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-add-friend counterparty-1-email venmo-token counterparty-1)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of the other party (receiver.email when sender is the supervisor, else sender.email) of the 1st distinct counterparty among transactions with created_at in 2023-05 who is not already a friend",
+          "object": "counterparty-1-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(venmo-add-friend counterparty-2-email venmo-token counterparty-2)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of the other party (receiver.email when sender is the supervisor, else sender.email) of the 2nd distinct counterparty among transactions with created_at in 2023-05 who is not already a friend",
+          "object": "counterparty-2-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

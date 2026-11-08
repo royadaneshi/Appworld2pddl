@@ -1,0 +1,211 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login siwhit-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "siwhit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-7295077363 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7295077363",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-payment-cards amazon-token sierra-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token query-valerie valerie valerie-phone-number valerie-home)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Valerie"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-add-address valerie-addr-name valerie-street valerie-city valerie-state valerie-country valerie-zip amazon-token valerie-home)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of Valerie's contact",
+          "object": "valerie-addr-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address, street part",
+          "object": "valerie-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address, city part",
+          "object": "valerie-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address, state part",
+          "object": "valerie-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address, country part",
+          "object": "valerie-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address, zip code part (integer)",
+          "object": "valerie-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-voice-messages phone-token valerie-phone-number valerie valerie-favorite-color)",
+      "api": "phone.search_voice_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name == \"Valerie\"",
+          "object": "valerie-phone-number"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-search-products product-type-sweater valerie-favorite-color sort-by-rating-desc sweater-best valerie)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "sweater",
+        "color": {
+          "$from": "phone.search_voice_messages",
+          "field": "color named in the voice message text (favorite color) from Valerie's phone_number",
+          "object": "valerie-favorite-color"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart sweater-best amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating (first result when sorted by -rating; check all pages if sort unsupported)",
+          "object": "sweater-best"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-gift-wrapping-to-product sweater-best amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating (first result when sorted by -rating; check all pages if sort unsupported)",
+          "object": "sweater-best"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-place-order sierra-card valerie-home amazon-token sweater-best quantity-1 order-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the first (any valid) card",
+          "object": "sierra-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id of the newly added address",
+          "object": "valerie-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task order-1 sweater-best valerie-home)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

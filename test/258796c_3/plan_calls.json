@@ -1,0 +1,65 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-hp-pavilion-15-laptop hp-pavilion-15-laptop)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "HP Pavilion 15 Laptop"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product-questions hp-pavilion-15-laptop query-battery battery-question)",
+      "api": "amazon.show_product_questions",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"HP Pavilion 15 Laptop\"",
+          "object": "hp-pavilion-15-laptop"
+        },
+        "query": "battery"
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-product-reviews hp-pavilion-15-laptop query-battery verified-true)",
+      "api": "amazon.show_product_reviews",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"HP Pavilion 15 Laptop\"",
+          "object": "hp-pavilion-15-laptop"
+        },
+        "query": "battery",
+        "is_verified": true
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-product-question-answers battery-question verified-true hp-pavilion-15-laptop)",
+      "api": "amazon.show_product_question_answers",
+      "args": {
+        "question_id": {
+          "$from": "amazon.show_product_questions",
+          "field": "question_id of the question asking about battery life/hours",
+          "object": "battery-question"
+        },
+        "is_verified": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(supervisor-complete-task battery-hours hp-pavilion-15-laptop)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "amazon.show_product_question_answers",
+          "field": "number of hours stated in verified-purchaser answers (is_verified=true) and/or verified reviews from amazon.show_product_reviews (is_verified=true, query=\"battery\")",
+          "object": "battery-hours"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

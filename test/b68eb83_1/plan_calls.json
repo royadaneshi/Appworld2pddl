@@ -1,0 +1,160 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(gmail-search-users query-kayla kayla kayla-email)",
+      "api": "gmail.search_users",
+      "args": {
+        "query": "Kayla"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login hun-weaver-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "hun.weaver@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'file_system'",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login hun-weaver-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "hun.weaver@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'gmail'",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(gmail-show-inbox-threads gmail-token kayla-email flag-true kayla kayla-trip-pictures-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "from_email": {
+          "$from": "gmail.search_users",
+          "field": "email of the user whose first_name is Kayla (the relative who sent the trip-pictures email; cross-check against inbox sender)",
+          "object": "kayla-email"
+        },
+        "attachment": true
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-thread kayla-trip-pictures-thread gmail-token kayla-trip-pictures-email)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from Kayla with an attachment about the trip pictures",
+          "object": "kayla-trip-pictures-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-email kayla-trip-pictures-email gmail-token trip-pictures-attachment)",
+      "api": "gmail.show_email",
+      "args": {
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the email carrying the pictures attachment",
+          "object": "kayla-trip-pictures-email"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-download-attachment trip-pictures-attachment file-system-token gmail-token downloads-trip-pictures-zip)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_email",
+          "field": "attachments[].id (the compressed pictures archive)",
+          "object": "trip-pictures-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": "~/downloads/trip_pictures.zip"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-decompress-file downloads-trip-pictures-zip file-system-token downloads-trip-pictures-dir)",
+      "api": "file_system.decompress_file",
+      "args": {
+        "compressed_file_path": "~/downloads/trip_pictures.zip",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "decompressed_directory_path": "~/downloads/trip_pictures"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-show-directory file-system-token downloads-trip-pictures-dir flag-true most-pictured-location)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/downloads/trip_pictures",
+        "recursive": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task most-pictured-location)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "file_system.show_directory",
+          "field": "name of the trip-location sub-directory containing the largest number of picture files in the recursive listing",
+          "object": "most-pictured-location"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

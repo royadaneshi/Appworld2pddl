@@ -1,0 +1,105 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login ric-riddle-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "ric.riddle@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login ric-riddle-at-gmail-com simple-note-password file-system-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "ric.riddle@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-create-directory backups-simple-note-dir file-system-token flag-true)",
+      "api": "file_system.create_directory",
+      "args": {
+        "directory_path": "~/backups/simple_note",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "recursive": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-search-notes file-system-token query-habit habit-log-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "habit"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-show-note habit-log-note file-system-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title refers to the habit tracking logs",
+          "object": "habit-log-note"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-create-file habits-csv-path file-system-token habits-csv-content habit-log-note backups-simple-note-dir)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/simple_note/habits.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content, parsed into CSV text: header 'date,<habit1>,<habit2>,...' (habits in log order), one row per logged date 'yyyy-mm-dd,yes|no,...' sorted ascending by date",
+          "object": "habits-csv-content"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task habits-csv-path habits-csv-content)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

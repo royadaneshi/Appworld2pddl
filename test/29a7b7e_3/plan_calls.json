@@ -1,0 +1,143 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login siwhit-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "siwhit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-show-directory file-system-token meetings-data-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/work/meetings_data/"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-create-directory target-dir-a file-system-token)",
+      "api": "file_system.create_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived: ~/documents/work/meetings_data/<file_name>/ for the <file_name> shared by source-path-1 and source-path-2",
+          "object": "target-dir-a"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-move-file source-path-1 target-path-1 file-system-token meeting-file-1 target-dir-a)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "1st file entry path in the listing, of the form ~/documents/work/meetings_data/<date>__<file_name>.<extension>",
+          "object": "source-path-1"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived from source-path-1: ~/documents/work/meetings_data/<file_name>/<date>.<extension> (split basename on '__')",
+          "object": "target-path-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-move-file source-path-2 target-path-2 file-system-token meeting-file-2 target-dir-a)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "2nd file entry path in the listing (same <file_name> as source-path-1 in this placeholder instance)",
+          "object": "source-path-2"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived from source-path-2: ~/documents/work/meetings_data/<file_name>/<date>.<extension>",
+          "object": "target-path-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-create-directory target-dir-b file-system-token)",
+      "api": "file_system.create_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived: ~/documents/work/meetings_data/<file_name>/ for the <file_name> of source-path-3",
+          "object": "target-dir-b"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-move-file source-path-3 target-path-3 file-system-token meeting-file-3 target-dir-b)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "3rd file entry path in the listing (a different <file_name>)",
+          "object": "source-path-3"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "derived from source-path-3: ~/documents/work/meetings_data/<file_name>/<date>.<extension>",
+          "object": "target-path-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task meeting-file-1 meeting-file-2 meeting-file-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

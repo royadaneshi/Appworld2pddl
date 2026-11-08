@@ -1,0 +1,74 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1744,
+    "output_tokens": 8120,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "d9987f6_2",
+  "instruction": "Buy me a gaming console controller on amazon with a rating over 3.8 and have it delivered to my work address.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "amazon.login",
+    "amazon.search_products",
+    "amazon.clear_cart",
+    "amazon.add_product_to_cart",
+    "amazon.show_addresses",
+    "amazon.show_payment_cards",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app Amazon purchase task. The agent logs into Amazon (username = supervisor email), searches products with query 'gaming console controller' and min_product_rating 3.8 (choosing a result with rating strictly > 3.8 and exact product_type), clears the cart so the order contains exactly one item with quantity 1, adds the product, looks up the 'Work' address id and a payment card id, and places the order. Address/card records are only read, never modified. supervisor-complete-task carries the product and address as non-API record parameters so its precondition mirrors the goal; it is called with no answer.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(x) are not in available types {'payment-card', 'token', 'rating', 'person', 'app', 'username', 'query', 'quantity', 'address', 'password', 'product'}"
+    ],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(amazon-search-products query-gaming-console-controller rating-3-8 gaming-console-controller)",
+      "(supervisor-show-account-passwords)",
+      "(amazon-login pa-ritter-at-gmail-com amazon-password amazon-token)",
+      "(amazon-clear-cart amazon-token)",
+      "(amazon-add-product-to-cart gaming-console-controller amazon-token quantity-1)",
+      "(amazon-show-addresses amazon-token work-address)",
+      "(amazon-show-payment-cards amazon-token payment-card-1)",
+      "(amazon-place-order payment-card-1 work-address amazon-token gaming-console-controller)",
+      "(supervisor-complete-task gaming-console-controller work-address)"
+    ],
+    "message": "",
+    "seconds": 1.11
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [
+        "domain: pddl-lib parser: types ['object'] of term Variable(x) are not in available types {'payment-card', 'token', 'rating', 'person', 'app', 'username', 'query', 'quantity', 'address', 'password', 'product'}"
+      ],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 87.0,
+  "effort": "xhigh"
+}

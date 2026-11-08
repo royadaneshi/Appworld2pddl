@@ -1,0 +1,358 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products query-codenames-board-game codenames-board-game)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": "Codenames Board Game"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login mir-powe-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "mir-powe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-1 clear-cart-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Codenames Board Game\"",
+          "object": "codenames-board-game"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login username-4885870260 phone-password amazon-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "4885870260",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-show-contact-relationships amazon-token)",
+      "api": "phone.show_contact_relationships",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts amazon-token relationship-parent)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "relationship": {
+          "$from": "phone.show_contact_relationships",
+          "field": "the relationship string denoting parents (e.g. \"parent\")",
+          "object": "relationship-parent"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-address name-parents street-parents city-parents state-parents country-parents zip-parents amazon-token home-parents relationship-parent)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of one parent contact (relationship=parent)",
+          "object": "name-parents"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of the parent contacts",
+          "object": "street-parents"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of the parent contacts",
+          "object": "city-parents"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of the parent contacts",
+          "object": "state-parents"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of the parent contacts",
+          "object": "country-parents"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code (integer) parsed from home_address of the parent contacts",
+          "object": "zip-parents"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-search-contacts amazon-token relationship-sibling)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "relationship": {
+          "$from": "phone.show_contact_relationships",
+          "field": "the relationship string denoting siblings (e.g. \"sibling\")",
+          "object": "relationship-sibling"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-address name-sibling-1 street-sibling-1 city-sibling-1 state-sibling-1 country-sibling-1 zip-sibling-1 amazon-token home-sibling-1 relationship-sibling)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of the first sibling contact (relationship=sibling)",
+          "object": "name-sibling-1"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of the first sibling",
+          "object": "street-sibling-1"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of the first sibling",
+          "object": "city-sibling-1"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of the first sibling",
+          "object": "state-sibling-1"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of the first sibling",
+          "object": "country-sibling-1"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code (integer) parsed from home_address of the first sibling",
+          "object": "zip-sibling-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-address name-sibling-2 street-sibling-2 city-sibling-2 state-sibling-2 country-sibling-2 zip-sibling-2 amazon-token home-sibling-2 relationship-sibling)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of the second sibling contact (relationship=sibling)",
+          "object": "name-sibling-2"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of the second sibling",
+          "object": "street-sibling-2"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of the second sibling",
+          "object": "city-sibling-2"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of the second sibling",
+          "object": "state-sibling-2"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of the second sibling",
+          "object": "country-sibling-2"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code (integer) parsed from home_address of the second sibling",
+          "object": "zip-sibling-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-place-order amazon-card home-sibling-1 amazon-token codenames-board-game quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding the first sibling's home address",
+          "object": "home-sibling-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-1 clear-cart-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Codenames Board Game\"",
+          "object": "codenames-board-game"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-place-order amazon-card home-sibling-2 amazon-token codenames-board-game quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding the second sibling's home address",
+          "object": "home-sibling-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-2 clear-cart-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Codenames Board Game\"",
+          "object": "codenames-board-game"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 2,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-place-order amazon-card home-parents amazon-token codenames-board-game quantity-2)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding the parents' home address",
+          "object": "home-parents"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

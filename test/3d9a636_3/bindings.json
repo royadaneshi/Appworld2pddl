@@ -1,0 +1,62 @@
+[
+  {
+    "object": "phone-number-7934818191",
+    "value": "7934818191",
+    "from_api": null,
+    "field": "supervisor phone_number (phone username)"
+  },
+  {
+    "object": "carbrown-at-gmail-com",
+    "value": "carbrown@gmail.com",
+    "from_api": null,
+    "field": "supervisor email (venmo username)"
+  },
+  {
+    "object": "phone-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"phone\""
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "phone-token",
+    "value": null,
+    "from_api": "phone.login",
+    "field": "access_token"
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "relationship-friend",
+    "value": "friend",
+    "from_api": null,
+    "field": "relationship filter for phone.search_contacts"
+  },
+  {
+    "object": "email-friend-to-add-1",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends"
+  },
+  {
+    "object": "email-friend-to-remove-1",
+    "value": null,
+    "from_api": "venmo.search_friends",
+    "field": "email of each current Venmo friend whose email is NOT among the phone friend contacts' emails"
+  },
+  {
+    "object": "email-mutual-friend-1",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of a contact present in both lists (no API call consumes it)"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "object": "jar-calhoun-at-gmail-com",
+    "value": "jar_calhoun@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "dish-rack-fitting",
+    "value": null,
+    "from_api": "amazon.show_wish_list",
+    "field": "product_id of a wish-list product with product_type == \"dish rack\" whose amazon.show_product details satisfy length <= 15.3 and width <= 13.3"
+  },
+  {
+    "object": "dish-rack-too-large",
+    "value": null,
+    "from_api": "amazon.show_wish_list",
+    "field": "product_id of any other wish-list dish rack whose length > 15.3 or width > 13.3 (not consumed in the reference plan)"
+  },
+  {
+    "object": "card-1",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (first/any card of the supervisor)"
+  },
+  {
+    "object": "address-1",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id (first/any existing address of the supervisor)"
+  },
+  {
+    "object": "flag-true",
+    "value": "true",
+    "from_api": null,
+    "field": null
+  }
+]

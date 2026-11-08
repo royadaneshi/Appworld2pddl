@@ -1,0 +1,38 @@
+[
+  {
+    "object": "jepowell-at-gmail-com",
+    "value": "jepowell@gmail.com",
+    "from_api": null,
+    "field": "supervisor email used as spotify username"
+  },
+  {
+    "object": "spotify-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"spotify\""
+  },
+  {
+    "object": "spotify-token",
+    "value": null,
+    "from_api": "spotify.login",
+    "field": "access_token"
+  },
+  {
+    "object": "library-album",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id (iterate over every album, all pages)"
+  },
+  {
+    "object": "library-album-song",
+    "value": null,
+    "from_api": "spotify.show_album",
+    "field": "songs[].id (iterate over every song of every library album)"
+  },
+  {
+    "object": "least-liked-genre",
+    "value": null,
+    "from_api": "spotify.show_song",
+    "field": "genre; answer = genre with the minimum number of liked songs (song id present in spotify.show_liked_songs results, all pages) among all songs of the album-library albums"
+  }
+]

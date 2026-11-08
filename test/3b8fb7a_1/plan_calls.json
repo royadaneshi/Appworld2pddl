@@ -1,0 +1,237 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login brenda-webe-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "brenda.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login brenda-webe-at-gmail-com venmo-password simple-note-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "brenda.webe@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-maui note-maui-trip)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "Maui"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note note-maui-trip simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note about the Maui trip money owed/owing",
+          "object": "note-maui-trip"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-search-friends simple-note-token query-friend-1 friend-1 email-friend-1 note-maui-trip)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: name of 1st friend listed under money I owe",
+          "object": "query-friend-1"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-transaction email-friend-1 amount-i-owe-friend-1 simple-note-token desc-for-maui-trip private-true friend-1 note-maui-trip)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend matching query-friend-1",
+          "object": "email-friend-1"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount I owe friend-1",
+          "object": "amount-i-owe-friend-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Maui trip",
+        "private": true
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-search-friends simple-note-token query-friend-2 friend-2 email-friend-2 note-maui-trip)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: name of 2nd friend listed under money I owe",
+          "object": "query-friend-2"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-create-transaction email-friend-2 amount-i-owe-friend-2 simple-note-token desc-for-maui-trip private-true friend-2 note-maui-trip)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend matching query-friend-2",
+          "object": "email-friend-2"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount I owe friend-2",
+          "object": "amount-i-owe-friend-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Maui trip",
+        "private": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-search-friends simple-note-token query-friend-3 friend-3 email-friend-3 note-maui-trip)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: name of 1st friend listed under money owed to me",
+          "object": "query-friend-3"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-create-payment-request email-friend-3 amount-friend-3-owes-me simple-note-token desc-for-maui-trip private-true friend-3 note-maui-trip)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend matching query-friend-3",
+          "object": "email-friend-3"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount friend-3 owes me",
+          "object": "amount-friend-3-owes-me"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Maui trip",
+        "private": true
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-search-friends simple-note-token query-friend-4 friend-4 email-friend-4 note-maui-trip)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: name of 2nd friend listed under money owed to me",
+          "object": "query-friend-4"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-create-payment-request email-friend-4 amount-friend-4-owes-me simple-note-token desc-for-maui-trip private-true friend-4 note-maui-trip)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend matching query-friend-4",
+          "object": "email-friend-4"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount friend-4 owes me",
+          "object": "amount-friend-4-owes-me"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": "For Maui trip",
+        "private": true
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

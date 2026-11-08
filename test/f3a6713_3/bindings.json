@@ -1,0 +1,122 @@
+[
+  {
+    "object": "gina-ritter-at-gmail-com",
+    "value": "gina-ritter@gmail.com",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "gmail-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"gmail\""
+  },
+  {
+    "object": "file-system-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"file_system\""
+  },
+  {
+    "object": "amazon-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"amazon\""
+  },
+  {
+    "object": "gmail-token",
+    "value": null,
+    "from_api": "gmail.login",
+    "field": "access_token"
+  },
+  {
+    "object": "file-system-token",
+    "value": null,
+    "from_api": "file_system.login",
+    "field": "access_token"
+  },
+  {
+    "object": "amazon-token",
+    "value": null,
+    "from_api": "amazon.login",
+    "field": "access_token"
+  },
+  {
+    "object": "query-camping",
+    "value": "camping",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "camping-checklist-thread",
+    "value": null,
+    "from_api": "gmail.show_outbox_threads",
+    "field": "email_thread_id of the thread whose subject/body is the camping checklist sent to the sisters"
+  },
+  {
+    "object": "camping-checklist-attachment",
+    "value": null,
+    "from_api": "gmail.show_thread",
+    "field": "emails[].attachments[].attachment_id of the checklist attachment on Gina's original email"
+  },
+  {
+    "object": "camping-checklist-file-path",
+    "value": null,
+    "from_api": "gmail.download_attachment",
+    "field": "file_path (download location returned in the response)"
+  },
+  {
+    "object": "query-camping-item-1",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: a checklist item not claimed by any sister in the replies seen via gmail.show_thread (first remaining item)"
+  },
+  {
+    "object": "query-camping-item-2",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: a checklist item not claimed by any sister in the replies seen via gmail.show_thread (second remaining item)"
+  },
+  {
+    "object": "sort-by-rating-desc",
+    "value": "-rating",
+    "from_api": null,
+    "field": null
+  },
+  {
+    "object": "best-product-item-1",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the result with the highest rating (first result when sorted by -rating)"
+  },
+  {
+    "object": "best-product-item-2",
+    "value": null,
+    "from_api": "amazon.search_products",
+    "field": "product_id of the result with the highest rating (first result when sorted by -rating)"
+  },
+  {
+    "object": "quantity-item-1",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: quantity listed for the first remaining checklist item (1 if none listed)"
+  },
+  {
+    "object": "quantity-item-2",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content: quantity listed for the second remaining checklist item (1 if none listed)"
+  },
+  {
+    "object": "gina-payment-card",
+    "value": null,
+    "from_api": "amazon.show_payment_cards",
+    "field": "payment_card_id (first card)"
+  },
+  {
+    "object": "gina-address",
+    "value": null,
+    "from_api": "amazon.show_addresses",
+    "field": "address_id (first/home address)"
+  }
+]

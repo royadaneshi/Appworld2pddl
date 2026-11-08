@@ -1,0 +1,124 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login phone-6759633882 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "6759633882",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(splitwise-login angelica-wils-at-gmail-com splitwise-password phone-token)",
+      "api": "splitwise.login",
+      "args": {
+        "username": "angelica.wils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"splitwise\"",
+          "object": "splitwise-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-text-messages phone-token query-splitwise)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "splitwise"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token contact-number-1)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "phone_number of a Splitwise-invitation message with created_at in the current week (since 2023-05-15) whose number IS returned by phone.search_contacts(query=phone_number)",
+          "object": "contact-number-1"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-contacts phone-token unknown-number-2)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "phone_number of a Splitwise-invitation message with created_at in the current week whose number is NOT returned by phone.search_contacts(query=phone_number)",
+          "object": "unknown-number-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-delete-text-message message-2 phone-token unknown-number-2)",
+      "api": "phone.delete_text_message",
+      "args": {
+        "text_message_id": {
+          "$from": "phone.search_text_messages",
+          "field": "text_message_id of the this-week invitation message sent by unknown-number-2",
+          "object": "message-2"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(splitwise-accept-group-invitation invite-code-1 phone-token message-1 contact-number-1)",
+      "api": "splitwise.accept_group_invitation",
+      "args": {
+        "invitation_code": {
+          "$from": "phone.search_text_messages",
+          "field": "invitation code parsed from the message text of the this-week invitation message sent by contact-number-1",
+          "object": "invite-code-1"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task invite-code-1 message-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

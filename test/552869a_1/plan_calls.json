@@ -1,0 +1,51 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(venmo-login jo-harr-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "jo-harr@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-show-transactions venmo-token query-phone-bill datetime-2023-01-01t00-00-00 direction-sent total-phone-bill-amount)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": "phone bill",
+        "min_created_at": "2023-01-01T00:00:00",
+        "direction": "sent"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-complete-task total-phone-bill-amount)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "venmo.show_transactions",
+          "field": "sum of `amount` over all returned transactions (iterate page_index until the result list is empty)",
+          "object": "total-phone-bill-amount"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

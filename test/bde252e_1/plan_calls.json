@@ -1,0 +1,278 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login diwils-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "diwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'simple_note'",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(todoist-login diwils-at-gmail-com todoist-password simple-note-token)",
+      "api": "todoist.login",
+      "args": {
+        "username": "diwils@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'todoist'",
+          "object": "todoist-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-schedule work-schedule-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "schedule"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note work-schedule-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title refers to the work schedule",
+          "object": "work-schedule-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(todoist-show-projects simple-note-token query-inbox project-inbox)",
+      "api": "todoist.show_projects",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "Inbox"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(todoist-show-tasks project-inbox simple-note-token)",
+      "api": "todoist.show_tasks",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Inbox'",
+          "object": "project-inbox"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(todoist-show-projects simple-note-token query-todays-goal project-todays-goal)",
+      "api": "todoist.show_projects",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "Today's Goal"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(todoist-show-tasks project-todays-goal simple-note-token)",
+      "api": "todoist.show_tasks",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(todoist-create-task project-todays-goal inbox-task-1-title simple-note-token inbox-task-1-description inbox-task-1-due-date inbox-task-1-duration inbox-task-1-duration-unit inbox-task-1-priority inbox-task-1 project-inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of inbox-task-1",
+          "object": "inbox-task-1-title"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-task-1",
+          "object": "inbox-task-1-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-task-1",
+          "object": "inbox-task-1-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-task-1",
+          "object": "inbox-task-1-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-task-1",
+          "object": "inbox-task-1-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-task-1",
+          "object": "inbox-task-1-priority"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(todoist-create-task project-todays-goal inbox-task-2-title simple-note-token inbox-task-2-description inbox-task-2-due-date inbox-task-2-duration inbox-task-2-duration-unit inbox-task-2-priority inbox-task-2 project-inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of inbox-task-2",
+          "object": "inbox-task-2-title"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-task-2",
+          "object": "inbox-task-2-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-task-2",
+          "object": "inbox-task-2-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-task-2",
+          "object": "inbox-task-2-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-task-2",
+          "object": "inbox-task-2-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-task-2",
+          "object": "inbox-task-2-priority"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(todoist-delete-task inbox-task-1 simple-note-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-task-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(todoist-delete-task inbox-task-2 simple-note-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of the next selected incomplete Inbox task (same greedy shortest-first rule)",
+          "object": "inbox-task-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(todoist-delete-task goal-task-done-1 simple-note-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task goal-task-done-1 inbox-task-1 inbox-task-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

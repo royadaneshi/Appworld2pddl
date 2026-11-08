@@ -1,0 +1,166 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login file-system-username file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "jefsmith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login gmail-username gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "jefsmith@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login phone-username phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3272301258",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token query-marcus marcus marcus-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Marcus"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-inbox-threads gmail-token marcus-email marcus trip-pictures-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "from_email": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[].email of the contact whose first_name == \"Marcus\"",
+          "object": "marcus-email"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-thread trip-pictures-thread gmail-token trip-pictures-attachment)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from Marcus containing the trip pictures attachment",
+          "object": "trip-pictures-thread"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-download-attachment trip-pictures-attachment file-system-token gmail-token trip-pictures-archive)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].id of the (compressed) trip pictures attachment",
+          "object": "trip-pictures-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-decompress-file trip-pictures-archive file-system-token trip-pictures-dir)",
+      "api": "file_system.decompress_file",
+      "args": {
+        "compressed_file_path": {
+          "$from": "gmail.download_attachment",
+          "field": "file_path of the downloaded attachment in the response (default download location)",
+          "object": "trip-pictures-archive"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-show-directory file-system-token trip-pictures-dir recursive-true most-pictured-location)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": {
+          "$from": "file_system.decompress_file",
+          "field": "decompressed directory path returned in the response (default: archive path without extension)",
+          "object": "trip-pictures-dir"
+        },
+        "recursive": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task most-pictured-location trip-pictures-attachment trip-pictures-archive trip-pictures-dir)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "file_system.show_directory",
+          "field": "name of the trip-location sub-directory containing the largest number of picture files (count entries per sub-directory in the recursive listing)",
+          "object": "most-pictured-location"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

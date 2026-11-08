@@ -1,0 +1,199 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login allison-calhoun-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "allison-calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == amazon",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login allison-calhoun-at-gmail-com simple-note-password amazon-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "allison-calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == simple_note",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-addresses amazon-token)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-search-notes amazon-token query-amazon-shopping-list amazon-shopping-list-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Amazon shopping list"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(simple-note-show-note amazon-shopping-list-note amazon-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "notes[].note_id of the note whose title is the Amazon shopping list",
+          "object": "amazon-shopping-list-note"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-search-products query-item-1-name shopping-list-item-1 amazon-shopping-list-note)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: product name of the first listed item",
+          "object": "query-item-1-name"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart shopping-list-item-1 amazon-token quantity-item-1 amazon-shopping-list-note)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id of the result matching the first note item",
+          "object": "shopping-list-item-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "simple_note.show_note",
+          "field": "content: quantity listed for the first item",
+          "object": "quantity-item-1"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-search-products query-item-2-name shopping-list-item-2 amazon-shopping-list-note)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: product name of the second listed item",
+          "object": "query-item-2-name"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-product-to-cart shopping-list-item-2 amazon-token quantity-item-2 amazon-shopping-list-note)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id of the result matching the second note item",
+          "object": "shopping-list-item-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "simple_note.show_note",
+          "field": "content: quantity listed for the second item",
+          "object": "quantity-item-2"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-place-order amazon-payment-card delivery-address amazon-token new-order amazon-shopping-list-note shopping-list-item-1 quantity-item-1 shopping-list-item-2 quantity-item-2)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_cards[].payment_card_id",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "addresses[].address_id where name matches the address name (Home/Work) given in the note",
+          "object": "delivery-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

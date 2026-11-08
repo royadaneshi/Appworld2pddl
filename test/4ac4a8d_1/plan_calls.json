@@ -1,0 +1,218 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login ja-solomon-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login ja-solomon-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-login ja-solomon-at-gmail-com phone-password file-system-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "ja-solomon@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts file-system-token query-denise denise denise-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "Denise"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-inbox-threads file-system-token denise-email denise denise-expenses-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "from_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Denise\"",
+          "object": "denise-email"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-thread denise-expenses-thread file-system-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from Denise's email created yesterday (2023-05-17) carrying the expenses pdf attachment",
+          "object": "denise-expenses-thread"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts file-system-token query-glenn glenn glenn-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "Glenn"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-forward-email-thread denise-expenses-thread glenn-email file-system-token true forward-draft glenn)",
+      "api": "gmail.forward_email_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread from Denise's email created yesterday (2023-05-17) carrying the expenses pdf attachment",
+          "object": "denise-expenses-thread"
+        },
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Glenn\"; passed as the single-element list email_addresses=[glenn-email]",
+          "object": "glenn-email"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "draft_not_send": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-upload-attachments-to-draft forward-draft expenses-james-pdf file-system-token file-system-token)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.forward_email_thread",
+          "field": "draft_id of the created forward draft",
+          "object": "forward-draft"
+        },
+        "attachment_file_paths": "~/documents/personal/expenses_james.pdf",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-show-draft forward-draft file-system-token)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.forward_email_thread",
+          "field": "draft_id of the created forward draft",
+          "object": "forward-draft"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-update-draft forward-draft file-system-token body-with-note)",
+      "api": "gmail.update_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.forward_email_thread",
+          "field": "draft_id of the created forward draft",
+          "object": "forward-draft"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "\"Can you please take care of splitting expenses? PFA for both of our expenses.\" + \"\\n\\n\" + body (the draft's original forwarded body)",
+          "object": "body-with-note"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-send-email-from-draft forward-draft file-system-token denise-expenses-thread glenn-email)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.forward_email_thread",
+          "field": "draft_id of the created forward draft",
+          "object": "forward-draft"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task denise-expenses-thread glenn-email)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

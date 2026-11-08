@@ -1,0 +1,279 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products gaming-console-controller sort-rating-desc top-rated-controller)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "gaming console controller",
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login carbrown-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "carbrown@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == amazon",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-add-product-to-cart top-rated-controller amazon-token qty-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock (available now) product with the highest rating among results of product_type gaming console controller",
+          "object": "top-rated-controller"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-7934818191 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "7934818191",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == phone",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-rated-controller amazon-token qty-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock (available now) product with the highest rating among results of product_type gaming console controller",
+          "object": "top-rated-controller"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token sibling)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sibling"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-address name-sibling-1 street-sibling-1 city-sibling-1 state-sibling-1 country-sibling-1 zip-sibling-1 amazon-token sibling-1 home-address-sibling-1)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of sibling contact 1",
+          "object": "name-sibling-1"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of sibling contact 1",
+          "object": "street-sibling-1"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of sibling contact 1",
+          "object": "city-sibling-1"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of sibling contact 1",
+          "object": "state-sibling-1"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of sibling contact 1",
+          "object": "country-sibling-1"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code (integer) parsed from home_address of sibling contact 1",
+          "object": "zip-sibling-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-address name-sibling-2 street-sibling-2 city-sibling-2 state-sibling-2 country-sibling-2 zip-sibling-2 amazon-token sibling-2 home-address-sibling-2)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of sibling contact 2",
+          "object": "name-sibling-2"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of sibling contact 2",
+          "object": "street-sibling-2"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of sibling contact 2",
+          "object": "city-sibling-2"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of sibling contact 2",
+          "object": "state-sibling-2"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of sibling contact 2",
+          "object": "country-sibling-2"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code (integer) parsed from home_address of sibling contact 2",
+          "object": "zip-sibling-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order amazon-card-1 home-address-sibling-1 amazon-token sibling-1 top-rated-controller)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card in the list)",
+          "object": "amazon-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned for sibling 1",
+          "object": "home-address-sibling-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-product-to-cart top-rated-controller amazon-token qty-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock (available now) product with the highest rating among results of product_type gaming console controller",
+          "object": "top-rated-controller"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-rated-controller amazon-token qty-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock (available now) product with the highest rating among results of product_type gaming console controller",
+          "object": "top-rated-controller"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order amazon-card-1 home-address-sibling-2 amazon-token sibling-2 top-rated-controller)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first card in the list)",
+          "object": "amazon-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned for sibling 2",
+          "object": "home-address-sibling-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task sibling-1 sibling-2 top-rated-controller)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

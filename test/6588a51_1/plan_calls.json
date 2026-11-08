@@ -1,0 +1,89 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login bradley-ball-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "bradley_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-orders amazon-token last-tshirt-order)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-show-order last-tshirt-order amazon-token last-tshirt-product)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (iterate newest-first by order_date) that contains a product whose product_type is \"t-shirt\"",
+          "object": "last-tshirt-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-product last-tshirt-product t-shirt)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "products[].product_id of the item whose product_type (confirmed via amazon.show_product) == \"t-shirt\"",
+          "object": "last-tshirt-product"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-write-product-question last-tshirt-product question-color-fade amazon-token t-shirt)",
+      "api": "amazon.write_product_question",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "products[].product_id of the item whose product_type (confirmed via amazon.show_product) == \"t-shirt\"",
+          "object": "last-tshirt-product"
+        },
+        "question": "Has anyone experienced the color fade after the first wash?",
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(supervisor-complete-task last-tshirt-product question-color-fade)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

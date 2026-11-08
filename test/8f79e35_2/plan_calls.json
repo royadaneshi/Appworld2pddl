@@ -1,0 +1,183 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login as-moore-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "as_moore@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login as-moore-at-gmail-com gmail-password file-system-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "as_moore@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token dir-documents-personal)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/personal"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-file file-baby-shower-invitees file-system-token dir-documents-personal)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the file entry in the listing that holds the baby shower invitee list",
+          "object": "file-baby-shower-invitees"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-drafts file-system-token)",
+      "api": "gmail.show_drafts",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-draft draft-baby-shower-template file-system-token)",
+      "api": "gmail.show_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the draft that is the baby shower invitation template",
+          "object": "draft-baby-shower-template"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-send-email email-invitee-1 subject-baby-shower-invitation body-invitee-1 file-system-token invitee-1 file-baby-shower-invitees draft-baby-shower-template)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of invitee 1 (passed as single-element list)",
+          "object": "email-invitee-1"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "subject-baby-shower-invitation"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with {curly-brace} placeholders replaced by invitee 1's details from the invitee file",
+          "object": "body-invitee-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-send-email email-invitee-2 subject-baby-shower-invitation body-invitee-2 file-system-token invitee-2 file-baby-shower-invitees draft-baby-shower-template)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of invitee 2 (passed as single-element list)",
+          "object": "email-invitee-2"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "subject-baby-shower-invitation"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with {curly-brace} placeholders replaced by invitee 2's details from the invitee file",
+          "object": "body-invitee-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-send-email email-invitee-3 subject-baby-shower-invitation body-invitee-3 file-system-token invitee-3 file-baby-shower-invitees draft-baby-shower-template)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of invitee 3 (passed as single-element list)",
+          "object": "email-invitee-3"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "subject-baby-shower-invitation"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with {curly-brace} placeholders replaced by invitee 3's details from the invitee file",
+          "object": "body-invitee-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task invitee-1 invitee-2 invitee-3)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,165 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(gmail-login username-matthew-blac-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "matthew.blac@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == 'gmail'",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-payment-cards)",
+      "api": "supervisor.show_payment_cards",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-profile)",
+      "api": "supervisor.show_profile",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-signup first-name-matthew last-name-blackburn matthew-blac-at-gmail-com amazon-new-password matthew-blackburn)",
+      "api": "amazon.signup",
+      "args": {
+        "first_name": "Matthew",
+        "last_name": "Blackburn",
+        "email": "matthew.blac@gmail.com",
+        "password": "MatthewBlackburn@Amazon2023"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(gmail-show-inbox-threads amazon-token query-verification amazon-verification-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "verification"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(gmail-show-thread amazon-verification-thread amazon-token amazon-verification-code)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the newest thread whose subject/sender is the Amazon account verification email",
+          "object": "amazon-verification-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-verify-account matthew-blac-at-gmail-com amazon-verification-code)",
+      "api": "amazon.verify_account",
+      "args": {
+        "email": "matthew.blac@gmail.com",
+        "verification_code": {
+          "$from": "gmail.show_thread",
+          "field": "verification code parsed from the body of the Amazon verification email (emails[-1].body)",
+          "object": "amazon-verification-code"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-login username-matthew-blac-at-gmail-com amazon-new-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "matthew.blac@gmail.com",
+        "password": "MatthewBlackburn@Amazon2023"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-payment-card card-name-1 owner-name-1 card-number-1 expiry-year-1 expiry-month-1 cvv-number-1 amazon-token payment-card-1)",
+      "api": "amazon.add_payment_card",
+      "args": {
+        "card_name": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "card_name of the first listed card",
+          "object": "card-name-1"
+        },
+        "owner_name": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "owner_name of the first listed card",
+          "object": "owner-name-1"
+        },
+        "card_number": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "card_number of the first listed card",
+          "object": "card-number-1"
+        },
+        "expiry_year": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "expiry_year of the first listed card",
+          "object": "expiry-year-1"
+        },
+        "expiry_month": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "expiry_month of the first listed card",
+          "object": "expiry-month-1"
+        },
+        "cvv_number": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "cvv_number of the first listed card",
+          "object": "cvv-number-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-subscribe-prime payment-card-1 duration-yearly amazon-token)",
+      "api": "amazon.subscribe_prime",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.add_payment_card",
+          "field": "payment_card_id",
+          "object": "payment-card-1"
+        },
+        "duration": "yearly",
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

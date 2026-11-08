@@ -1,0 +1,44 @@
+[
+  {
+    "object": "glenn-burton-at-gmail-com",
+    "value": "glenn.burton@gmail.com",
+    "from_api": null,
+    "field": "supervisor email (venmo username)"
+  },
+  {
+    "object": "venmo-password",
+    "value": null,
+    "from_api": "supervisor.show_account_passwords",
+    "field": "password where account_name == \"venmo\""
+  },
+  {
+    "object": "venmo-token",
+    "value": null,
+    "from_api": "venmo.login",
+    "field": "access_token"
+  },
+  {
+    "object": "datetime-2023-05-01t00-00-00",
+    "value": "2023-05-01T00:00:00",
+    "from_api": null,
+    "field": "start of current month (current datetime 2023-05-18)"
+  },
+  {
+    "object": "email-recent-payee-1",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "counterpart email (sender.email or receiver.email that is not the supervisor) of a transaction with created_at >= 2023-05-01, for a user not present in venmo.search_friends results"
+  },
+  {
+    "object": "email-recent-payee-2",
+    "value": null,
+    "from_api": "venmo.show_transactions",
+    "field": "counterpart email of another this-month transaction whose user is not yet a friend"
+  },
+  {
+    "object": "email-stale-friend-1",
+    "value": null,
+    "from_api": "venmo.search_friends",
+    "field": "email of a current friend who appears in no transaction with created_at >= 2023-05-01"
+  }
+]

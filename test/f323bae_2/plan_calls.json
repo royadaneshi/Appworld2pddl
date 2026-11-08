@@ -1,0 +1,104 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login spencer-powell-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "spencer.powell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-login spencer-powell-at-gmail-com simple-note-password file-system-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "spencer.powell@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-create-directory backups-dir file-system-token)",
+      "api": "file_system.create_directory",
+      "args": {
+        "directory_path": "~/backups",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-search-notes file-system-token query-habit habit-tracking-log-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": "habit"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(simple-note-show-note habit-tracking-log-note file-system-token csv-habit-log)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "notes[].note_id of the note whose title is the habit tracking log",
+          "object": "habit-tracking-log-note"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-create-file backups-habit-log-csv file-system-token csv-habit-log backups-dir)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/habit_log.csv",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content, transformed to CSV: header 'date,<habit1>,<habit2>,...' (habits in the order they appear in the log), one row per logged date 'yyyy-mm-dd,yes|no,...', rows sorted by date descending, newline-separated",
+          "object": "csv-habit-log"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task backups-habit-log-csv csv-habit-log)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

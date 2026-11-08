@@ -1,0 +1,199 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login ka-ball-at-gmail-com pw-amazon token-amazon)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ka_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "pw-amazon"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(phone-login phone-7863159797 pw-phone token-venmo)",
+      "api": "phone.login",
+      "args": {
+        "username": "7863159797",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "pw-phone"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login ka-ball-at-gmail-com pw-venmo token-amazon)",
+      "api": "venmo.login",
+      "args": {
+        "username": "ka_ball@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "pw-venmo"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-clear-cart token-amazon)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards token-amazon payment-card-1)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts token-venmo rel-brother brother brother-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "relationship": "brother"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-show-transactions token-amazon brother-email direction-received brother brother-transaction requested-product)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose relationships contain \"brother\"",
+          "object": "brother-email"
+        },
+        "direction": "received"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-create-transaction-comment brother-transaction comment-thank-you token-amazon)",
+      "api": "venmo.create_transaction_comment",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the received transaction from the brother whose description refers to the amazon item he asked for",
+          "object": "brother-transaction"
+        },
+        "comment": "Thank you!",
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products query-requested-product requested-product)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "venmo.show_transactions",
+          "field": "product name extracted from the description of the brother's transaction",
+          "object": "query-requested-product"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart requested-product token-amazon qty-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product whose name matches the requested product name",
+          "object": "requested-product"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-show-addresses)",
+      "api": "supervisor.show_addresses",
+      "args": {}
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-show-addresses token-amazon home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-place-order payment-card-1 home-address token-amazon requested-product qty-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any card of the user)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry matching the supervisor's home address (from supervisor.show_addresses)",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "token-amazon"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task requested-product home-address brother-transaction comment-thank-you)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

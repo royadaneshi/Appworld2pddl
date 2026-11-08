@@ -1,0 +1,253 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-login de-ritt-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "de_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(file-system-login de-ritt-at-gmail-com file-system-password amazon-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "de_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login de-ritt-at-gmail-com gmail-password amazon-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "de_ritt@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-show-addresses amazon-token home-address)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-payment-cards amazon-token default-payment-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-inbox-threads amazon-token query-camping camping-checklist-thread)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "camping"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-show-thread camping-checklist-thread amazon-token checklist-attachment)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread about the camping trip checklist sent to the siblings",
+          "object": "camping-checklist-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-download-attachment checklist-attachment amazon-token amazon-token checklist-file-path)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "attachment id of the checklist file attached to the supervisor's original email in the thread (emails[].attachments[])",
+          "object": "checklist-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-show-file checklist-file-path amazon-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "gmail.download_attachment",
+          "field": "file path where the attachment was saved (download path reported in the response)",
+          "object": "checklist-file-path"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-search-products remaining-type-1 sort-by-rating-desc best-product-1)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": {
+          "$from": "file_system.show_file",
+          "field": "content: a checklist item (product type) that no sibling committed to bring in the gmail.show_thread replies (first such item)",
+          "object": "remaining-type-1"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-product-to-cart best-product-1 amazon-token qty-type-1 remaining-type-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the first result (highest rated) when searching remaining-type-1 sorted by -rating",
+          "object": "best-product-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity listed in the checklist for remaining-type-1 (1 if unspecified)",
+          "object": "qty-type-1"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-search-products remaining-type-2 sort-by-rating-desc best-product-2)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": {
+          "$from": "file_system.show_file",
+          "field": "content: a checklist item (product type) that no sibling committed to bring in the gmail.show_thread replies (second such item)",
+          "object": "remaining-type-2"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-add-product-to-cart best-product-2 amazon-token qty-type-2 remaining-type-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the first result (highest rated) when searching remaining-type-2 sorted by -rating",
+          "object": "best-product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity listed in the checklist for remaining-type-2 (1 if unspecified)",
+          "object": "qty-type-2"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-place-order default-payment-card home-address amazon-token remaining-type-1 remaining-type-2)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of the supervisor's existing (first) payment card",
+          "object": "default-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the supervisor's existing (first/home) address",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

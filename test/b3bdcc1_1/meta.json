@@ -1,0 +1,70 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1735,
+    "output_tokens": 14411,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "b3bdcc1_1",
+  "instruction": "Buy me a air purifier on amazon from its highest-rated seller using my visa card for my home address.",
+  "difficulty": 2,
+  "apps_used": [
+    "supervisor",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "amazon.login",
+    "amazon.search_products",
+    "amazon.show_seller",
+    "amazon.add_product_to_cart",
+    "amazon.show_payment_cards",
+    "amazon.show_addresses",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "Single-app (amazon) purchase task. The highest-rated seller and its air purifier are abstracted as the objects top-seller / top-seller-air-purifier with static facts of-type, sold-by and top-rated-seller; the agent realizes them at runtime by searching products of type 'air purifier', calling show_seller for each candidate seller_id and picking the max rating (the reference solution may call show_seller several times, hence 11 API calls vs. 9 plan steps). add_product_to_cart is modeled with quantity=1 and clear_cart_first=true so the resulting order contains exactly one item of quantity 1 (CartEntry changes are ignored by the evaluation). Card and address ids are discovered via show_payment_cards (card_name 'Visa') and show_addresses (name 'Home'); addresses are never modified. place_order records order-placed with product, quantity, card and address, which is the sole task-specific goal and the precondition of supervisor-complete-task (no answer parameter since the task asks no question).",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(amazon-search-products air-purifier top-seller-air-purifier top-seller)",
+      "(amazon-show-seller top-seller)",
+      "(supervisor-show-account-passwords)",
+      "(amazon-login ca-smit-at-gmail-com amazon-password amazon-token)",
+      "(amazon-add-product-to-cart top-seller-air-purifier amazon-token qty-1 true top-seller air-purifier)",
+      "(amazon-show-addresses amazon-token home-address)",
+      "(amazon-show-payment-cards amazon-token visa-card)",
+      "(amazon-place-order visa-card home-address amazon-token order-1 top-seller-air-purifier qty-1)",
+      "(supervisor-complete-task order-1 top-seller-air-purifier qty-1 visa-card home-address)"
+    ],
+    "message": "",
+    "seconds": 1.37
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 157.6,
+  "effort": "xhigh"
+}

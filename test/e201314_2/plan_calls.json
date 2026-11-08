@@ -1,0 +1,159 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products electric-shaver rating-4-0 shaver)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "electric shaver",
+        "min_product_rating": 4
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product shaver reviews-7 deadline-2023-05-27)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"electric shaver\", rating >= 4.0, whose amazon.show_product shows num_product_reviews >= 7 and an expected delivery no later than 2023-05-27",
+          "object": "shaver"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(amazon-login user-ed-wilson-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "ed_wilson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login user-8506051563 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "8506051563",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-addresses amazon-token addr-home)",
+      "api": "amazon.show_addresses",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-payment-cards amazon-token card-default)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token coworker)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "coworker"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-search-contacts phone-token friend)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "friend"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-add-product-to-cart shaver amazon-token quantity-num-invitees flag-true coworker friend)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of a result with product_type == \"electric shaver\", rating >= 4.0, whose amazon.show_product shows num_product_reviews >= 7 and an expected delivery no later than 2023-05-27",
+          "object": "shaver"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_contacts",
+          "field": "number of unique contacts in the union of the relationship=coworker and relationship=friend results",
+          "object": "quantity-num-invitees"
+        },
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-place-order card-default addr-home amazon-token shaver quantity-num-invitees)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (any of the supervisor's cards)",
+          "object": "card-default"
+        },
+        "address_id": {
+          "$from": "amazon.show_addresses",
+          "field": "address_id of the entry named home / matching the supervisor's home address",
+          "object": "addr-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

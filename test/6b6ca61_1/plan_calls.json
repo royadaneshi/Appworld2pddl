@@ -1,0 +1,230 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login lindseysimpson file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "lindseysimpson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(splitwise-login lindseysimpson splitwise-password file-system-token)",
+      "api": "splitwise.login",
+      "args": {
+        "username": "lindseysimpson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"splitwise\"",
+          "object": "splitwise-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(venmo-login lindseysimpson venmo-password file-system-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "lindseysimpson@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-directory file-system-token)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file owe-list-csv file-system-token)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry named owe_list.csv in the recursive listing",
+          "object": "owe-list-csv"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-search-users file-system-token email-owee-1 owee-1)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 1",
+          "object": "email-owee-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-create-transaction email-owee-1 amount-owee-1 file-system-token description-owee-1 private-true owee-1)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 1",
+          "object": "email-owee-1"
+        },
+        "amount": {
+          "$from": "file_system.show_file",
+          "field": "content: amount column of CSV row 1",
+          "object": "amount-owee-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: description column of CSV row 1",
+          "object": "description-owee-1"
+        },
+        "private": true
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-search-users file-system-token email-owee-2 owee-2)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 2",
+          "object": "email-owee-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-create-transaction email-owee-2 amount-owee-2 file-system-token description-owee-2 private-true owee-2)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 2",
+          "object": "email-owee-2"
+        },
+        "amount": {
+          "$from": "file_system.show_file",
+          "field": "content: amount column of CSV row 2",
+          "object": "amount-owee-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: description column of CSV row 2",
+          "object": "description-owee-2"
+        },
+        "private": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-search-users file-system-token email-owee-3 owee-3)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 3",
+          "object": "email-owee-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(splitwise-record-expense description-owee-3 amount-owee-3 email-owee-3 lindseysimpson-at-gmail-com file-system-token receipt-owee-3-pdf file-system-token owee-3)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: description column of CSV row 3",
+          "object": "description-owee-3"
+        },
+        "paid_amount": {
+          "$from": "file_system.show_file",
+          "field": "content: amount column of CSV row 3",
+          "object": "amount-owee-3"
+        },
+        "payer_email": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 3",
+          "object": "email-owee-3"
+        },
+        "debtor_emails": "lindseysimpson@gmail.com",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "receipt_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the .pdf receipt for CSV row 3's person, in the same folder as owe_list.csv",
+          "object": "receipt-owee-3-pdf"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

@@ -1,0 +1,326 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-search-products product-type-gaming-console sort-by-rating-desc top-gaming-console)",
+      "api": "amazon.search_products",
+      "args": {
+        "product_type": "gaming console",
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 2,
+      "pddl": "(amazon-show-product top-gaming-console)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating whose inventory_quantity > 0 (confirm availability and read delivery_fee via amazon.show_product)",
+          "object": "top-gaming-console"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-show-prime-plans)",
+      "api": "amazon.show_prime_plans",
+      "args": {}
+    },
+    {
+      "step": 4,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 5,
+      "pddl": "(amazon-login amazon-username-caiburc-at-gmail-com amazon-password amazon-token)",
+      "api": "amazon.login",
+      "args": {
+        "username": "caiburc@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-add-product-to-cart top-gaming-console amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating whose inventory_quantity > 0 (confirm availability and read delivery_fee via amazon.show_product)",
+          "object": "top-gaming-console"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-login phone-username-5896230193 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "5896230193",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-gaming-console amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating whose inventory_quantity > 0 (confirm availability and read delivery_fee via amazon.show_product)",
+          "object": "top-gaming-console"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-payment-cards amazon-token amazon-card)",
+      "api": "amazon.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-subscribe-prime amazon-card duration-monthly amazon-token top-gaming-console)",
+      "api": "amazon.subscribe_prime",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first listed card)",
+          "object": "amazon-card"
+        },
+        "duration": "monthly",
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(phone-search-contacts phone-token query-kayla kayla)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Kayla"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-add-address kayla-name kayla-street kayla-city kayla-state kayla-country kayla-zip amazon-token address-kayla kayla)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of the contact matching query \"Kayla\"",
+          "object": "kayla-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of contact Kayla",
+          "object": "kayla-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of contact Kayla",
+          "object": "kayla-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of contact Kayla",
+          "object": "kayla-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of contact Kayla",
+          "object": "kayla-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code parsed from home_address of contact Kayla",
+          "object": "kayla-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(phone-search-contacts phone-token query-kyle kyle)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": "Kyle"
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-add-address kyle-name kyle-street kyle-city kyle-state kyle-country kyle-zip amazon-token address-kyle kyle)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of the contact matching query \"Kyle\"",
+          "object": "kyle-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of contact Kyle",
+          "object": "kyle-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of contact Kyle",
+          "object": "kyle-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of contact Kyle",
+          "object": "kyle-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of contact Kyle",
+          "object": "kyle-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code parsed from home_address of contact Kyle",
+          "object": "kyle-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-place-order amazon-card address-kayla amazon-token order-kayla kayla top-gaming-console)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first listed card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (returned by the add_address call made with Kayla's home address)",
+          "object": "address-kayla"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-add-product-to-cart top-gaming-console amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating whose inventory_quantity > 0 (confirm availability and read delivery_fee via amazon.show_product)",
+          "object": "top-gaming-console"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-gaming-console amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating whose inventory_quantity > 0 (confirm availability and read delivery_fee via amazon.show_product)",
+          "object": "top-gaming-console"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-place-order amazon-card address-kyle amazon-token order-kyle kyle top-gaming-console)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id (first listed card)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (returned by the add_address call made with Kyle's home address)",
+          "object": "address-kyle"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(supervisor-complete-task order-kayla order-kyle)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

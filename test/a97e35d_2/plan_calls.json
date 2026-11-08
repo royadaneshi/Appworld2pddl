@@ -1,0 +1,398 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(file-system-login eric-bailey-at-gmail-com file-system-password file-system-token)",
+      "api": "file_system.login",
+      "args": {
+        "username": "eric.bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"file_system\"",
+          "object": "file-system-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(gmail-login eric-bailey-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "eric.bailey@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(file-system-show-directory file-system-token hiring-dir)",
+      "api": "file_system.show_directory",
+      "args": {
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        },
+        "directory_path": "~/documents/work/hiring"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(file-system-show-file acceptance-template-file file-system-token hiring-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the acceptance email template entry",
+          "object": "acceptance-template-file"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(file-system-show-file candidates-list-file file-system-token hiring-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry listing the selected candidates (e.g. selected_candidates.txt)",
+          "object": "candidates-list-file"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(file-system-show-file offer-letter-template-file file-system-token hiring-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the offer letter template entry",
+          "object": "offer-letter-template-file"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(file-system-show-file rejection-template-file file-system-token hiring-dir)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the rejection email template entry",
+          "object": "rejection-template-file"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(file-system-create-file offer-letter-file-selected-1 file-system-token offer-letter-content-selected-1 selected-candidate-1 offer-letter-template-file candidates-list-file)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": {
+          "$from": null,
+          "field": "runtime: new file path under ~/documents/work/hiring containing 'offer_letter', personalized for selected candidate 1 (e.g. ~/documents/work/hiring/offer_letter_<first>_<last>.txt); passed as a one-element attachment_file_paths list",
+          "object": "offer-letter-file-selected-1"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content of the offer letter template with placeholders filled in with selected candidate 1's details",
+          "object": "offer-letter-content-selected-1"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(file-system-create-file offer-letter-file-selected-2 file-system-token offer-letter-content-selected-2 selected-candidate-2 offer-letter-template-file candidates-list-file)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": {
+          "$from": null,
+          "field": "runtime: new file path under ~/documents/work/hiring containing 'offer_letter', personalized for selected candidate 2; passed as a one-element attachment_file_paths list",
+          "object": "offer-letter-file-selected-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content of the offer letter template with placeholders filled in with selected candidate 2's details",
+          "object": "offer-letter-content-selected-2"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-graphic-designer datetime-2023-04-27t00-00-00)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Graphic Designer",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-show-thread thread-rejected-1 gmail-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the application thread sent by rejected candidate 1",
+          "object": "thread-rejected-1"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-reply-to-email thread-rejected-1 email-rejected-1 rejection-body-rejected-1 gmail-token no-attachment file-system-token rejected-candidate-1 rejection-template-file candidates-list-file)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the application thread sent by rejected candidate 1",
+          "object": "thread-rejected-1"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the candidate's application email in thread-rejected-1",
+          "object": "email-rejected-1"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content of the rejection template with placeholders filled in for rejected candidate 1",
+          "object": "rejection-body-rejected-1"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": {
+          "$from": null,
+          "field": "placeholder meaning attachment_file_paths (and file_system_access_token) are omitted for rejection replies",
+          "object": "no-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(gmail-show-thread thread-rejected-2 gmail-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the application thread sent by rejected candidate 2",
+          "object": "thread-rejected-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-reply-to-email thread-rejected-2 email-rejected-2 rejection-body-rejected-2 gmail-token no-attachment file-system-token rejected-candidate-2 rejection-template-file candidates-list-file)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the application thread sent by rejected candidate 2",
+          "object": "thread-rejected-2"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the candidate's application email in thread-rejected-2",
+          "object": "email-rejected-2"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content of the rejection template with placeholders filled in for rejected candidate 2",
+          "object": "rejection-body-rejected-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": {
+          "$from": null,
+          "field": "placeholder meaning attachment_file_paths (and file_system_access_token) are omitted for rejection replies",
+          "object": "no-attachment"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(gmail-show-thread thread-selected-1 gmail-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the application thread sent by selected candidate 1",
+          "object": "thread-selected-1"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(gmail-reply-to-email thread-selected-1 email-selected-1 acceptance-body-selected-1 gmail-token offer-letter-file-selected-1 file-system-token selected-candidate-1 acceptance-template-file candidates-list-file)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the application thread sent by selected candidate 1",
+          "object": "thread-selected-1"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the candidate's application email in thread-selected-1",
+          "object": "email-selected-1"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content of the acceptance template with placeholders filled in for selected candidate 1",
+          "object": "acceptance-body-selected-1"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": {
+          "$from": null,
+          "field": "runtime: new file path under ~/documents/work/hiring containing 'offer_letter', personalized for selected candidate 1 (e.g. ~/documents/work/hiring/offer_letter_<first>_<last>.txt); passed as a one-element attachment_file_paths list",
+          "object": "offer-letter-file-selected-1"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(gmail-show-thread thread-selected-2 gmail-token)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the application thread sent by selected candidate 2",
+          "object": "thread-selected-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(gmail-reply-to-email thread-selected-2 email-selected-2 acceptance-body-selected-2 gmail-token offer-letter-file-selected-2 file-system-token selected-candidate-2 acceptance-template-file candidates-list-file)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the application thread sent by selected candidate 2",
+          "object": "thread-selected-2"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the candidate's application email in thread-selected-2",
+          "object": "email-selected-2"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content of the acceptance template with placeholders filled in for selected candidate 2",
+          "object": "acceptance-body-selected-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": {
+          "$from": null,
+          "field": "runtime: new file path under ~/documents/work/hiring containing 'offer_letter', personalized for selected candidate 2; passed as a one-element attachment_file_paths list",
+          "object": "offer-letter-file-selected-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token (as file_system_access_token in reply_to_email it is only needed when an offer letter is attached)",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(supervisor-complete-task selected-candidate-1 selected-candidate-2 rejected-candidate-1 rejected-candidate-2)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

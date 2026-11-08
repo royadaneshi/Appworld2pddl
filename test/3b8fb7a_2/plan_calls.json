@@ -1,0 +1,181 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login alexander-ridd-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "alexander-ridd@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(venmo-login alexander-ridd-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "alexander-ridd@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-athens athens-trip-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "Athens"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note athens-trip-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note whose title/content refers to the Athens trip",
+          "object": "athens-trip-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-search-friends venmo-token)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-create-transaction email-i-owe-1 amount-i-owe-1 venmo-token note-for-athens-trip private-true friend-i-owe-1 athens-trip-note)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note",
+          "object": "email-i-owe-1"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount next to the 1st friend listed under money I owe",
+          "object": "amount-i-owe-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Athens trip",
+        "private": true
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-create-transaction email-i-owe-2 amount-i-owe-2 venmo-token note-for-athens-trip private-true friend-i-owe-2 athens-trip-note)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose name matches the 2nd 'I owe' entry of the note",
+          "object": "email-i-owe-2"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount next to the 2nd friend listed under money I owe",
+          "object": "amount-i-owe-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Athens trip",
+        "private": true
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-create-payment-request email-owes-me-1 amount-owes-me-1 venmo-token note-for-athens-trip private-true friend-owes-me-1 athens-trip-note)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose name matches the 1st 'owes me' entry of the note",
+          "object": "email-owes-me-1"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount next to the 1st friend listed under money owed to me",
+          "object": "amount-owes-me-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Athens trip",
+        "private": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-create-payment-request email-owes-me-2 amount-owes-me-2 venmo-token note-for-athens-trip private-true friend-owes-me-2 athens-trip-note)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose name matches the 2nd 'owes me' entry of the note",
+          "object": "email-owes-me-2"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount next to the 2nd friend listed under money owed to me",
+          "object": "amount-owes-me-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Athens trip",
+        "private": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

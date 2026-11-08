@@ -1,0 +1,83 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login kyl-moor-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "kyl_moor@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(simple-note-search-notes simple-note-token query-habit)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "habit"
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-show-note habit-log-note-1 simple-note-token query-habit limited-screen-time-to-1-hr longest-streak-days)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the first habit-tracking log note in the results",
+          "object": "habit-log-note-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note habit-log-note-2 simple-note-token query-habit limited-screen-time-to-1-hr longest-streak-days)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the second habit-tracking log note in the results",
+          "object": "habit-log-note-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(supervisor-complete-task longest-streak-days limited-screen-time-to-1-hr habit-log-note-1 habit-log-note-2)",
+      "api": "supervisor.complete_task",
+      "args": {
+        "answer": {
+          "$from": "simple_note.show_note",
+          "field": "content of all habit log notes: longest run of consecutive days on which 'limited-screen-time-to-1-hr' is marked done, as an integer number of days",
+          "object": "longest-streak-days"
+        }
+      }
+    }
+  ],
+  "problems": []
+}

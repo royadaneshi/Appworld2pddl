@@ -1,0 +1,190 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(amazon-show-return-deliverers usps)",
+      "api": "amazon.show_return_deliverers",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 3,
+      "pddl": "(amazon-login alexwhite-at-gmail-com amazon-pw amazon-tok)",
+      "api": "amazon.login",
+      "args": {
+        "username": "alexwhite@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\"",
+          "object": "amazon-pw"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(gmail-login alexwhite-at-gmail-com gmail-pw amazon-tok)",
+      "api": "gmail.login",
+      "args": {
+        "username": "alexwhite@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-pw"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-3707865891 phone-pw phone-tok)",
+      "api": "phone.login",
+      "args": {
+        "username": "3707865891",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-pw"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(amazon-show-orders amazon-tok query-eket-cabinet eket-cabinet-order)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-tok"
+        },
+        "query": "EKET Cabinet"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-order eket-cabinet-order amazon-tok eket-cabinet)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the order placed this week (week of 2023-05-18) that contains the EKET Cabinet",
+          "object": "eket-cabinet-order"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-tok"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-initiate-return eket-cabinet-order eket-cabinet usps qty-1 amazon-tok)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the order placed this week (week of 2023-05-18) that contains the EKET Cabinet",
+          "object": "eket-cabinet-order"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[].product_id where product name == \"EKET Cabinet\"",
+          "object": "eket-cabinet"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"USPS\"",
+          "object": "usps"
+        },
+        "quantity": 1,
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-tok"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-show-inbox-threads amazon-tok query-amazon-return-confirmation return-confirmation-thread eket-cabinet-order)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-tok"
+        },
+        "query": "Amazon Return Confirmation and Label"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-show-thread return-confirmation-thread amazon-tok return-confirmation-email)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread with subject \"Amazon Return Confirmation and Label\" created after the return was initiated (body mentions the order id)",
+          "object": "return-confirmation-thread"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-tok"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(phone-search-contacts phone-tok query-carl carl carl-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-tok"
+        },
+        "query": "Carl"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-forward-email-from-thread return-confirmation-thread return-confirmation-email carl-email amazon-tok carl)",
+      "api": "gmail.forward_email_from_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the thread with subject \"Amazon Return Confirmation and Label\" created after the return was initiated (body mentions the order id)",
+          "object": "return-confirmation-thread"
+        },
+        "email_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].email_id of the return confirmation email (with return label attachment) in that thread",
+          "object": "return-confirmation-email"
+        },
+        "email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "email of the contact whose first_name == \"Carl\" (passed as single-element email_addresses list)",
+          "object": "carl-email"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-tok"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task eket-cabinet-order eket-cabinet usps qty-1 return-confirmation-email carl-email)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

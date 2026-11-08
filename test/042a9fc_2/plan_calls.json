@@ -1,0 +1,175 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(phone-login username-3517418245 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "3517418245",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login cheweber-at-gmail-com spotify-password phone-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "cheweber@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(phone-search-contacts phone-token relationship-sibling)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "relationship": "sibling"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-text-messages phone-token phone-number-sibling-a sibling-a)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].phone_number (contact whose relationships include sibling)",
+          "object": "phone-number-sibling-a"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(phone-search-text-messages phone-token phone-number-sibling-b sibling-b)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[1].phone_number (next contact whose relationships include sibling)",
+          "object": "phone-number-sibling-b"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-playlist-library phone-token roadtrip-playlist)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-playlist roadtrip-playlist phone-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the playlist the supervisor shared with the siblings (the roadtrip playlist)",
+          "object": "roadtrip-playlist"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-remove-song-from-playlist roadtrip-playlist song-to-remove phone-token sibling-b)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the playlist the supervisor shared with the siblings (the roadtrip playlist)",
+          "object": "roadtrip-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id whose title matches the song a sibling asks to remove",
+          "object": "song-to-remove"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-search-songs query-song-to-add song-to-add sibling-a)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "message text: title of the song a sibling asks to add",
+          "object": "query-song-to-add"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-add-song-to-playlist roadtrip-playlist song-to-add phone-token sibling-a)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the playlist the supervisor shared with the siblings (the roadtrip playlist)",
+          "object": "roadtrip-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the suggested title/artist",
+          "object": "song-to-add"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task roadtrip-playlist song-to-add song-to-remove)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}

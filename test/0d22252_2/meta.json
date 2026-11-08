@@ -1,0 +1,76 @@
+{
+  "model": "claude-fable-5-1",
+  "stop_reason": "end_turn",
+  "request_id": null,
+  "usage": {
+    "input_tokens": 1962,
+    "output_tokens": 16099,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 29223
+  },
+  "task_id": "0d22252_2",
+  "instruction": "Place an order for all mouse pads in my amazon wish list.",
+  "difficulty": 1,
+  "apps_used": [
+    "supervisor",
+    "amazon"
+  ],
+  "api_sequence": [
+    "supervisor.show_account_passwords",
+    "amazon.login",
+    "amazon.show_wish_list",
+    "amazon.show_product",
+    "amazon.show_product",
+    "amazon.clear_cart",
+    "amazon.move_product_from_wish_list_to_cart",
+    "amazon.move_product_from_wish_list_to_cart",
+    "amazon.show_addresses",
+    "amazon.show_payment_cards",
+    "amazon.place_order",
+    "supervisor.complete_task"
+  ],
+  "notes": "The wish list is abstracted as two mouse pads (mouse-pad-1, mouse-pad-2) and one non-mouse-pad item (other-product); at runtime the show_product/move steps are repeated for every wish-list entry whose product_type is 'mouse pad'. Products and the 'mouse pad' product type are domain constants so that supervisor-complete-task's precondition can name the goal facts. amazon.clear_cart is required before any move so that pre-existing cart items are not ordered (CartEntry changes are ignored by the evaluation); moves are forbidden after the order is placed, so (in-cart ?p) at the end denotes exactly the items contained in the single new order, and in-wish-list quantities are preserved by passing the entry's quantity to move_product_from_wish_list_to_cart. Existing address and payment card are discovered with show_addresses/show_payment_cards (no address is created/updated). If show_wish_list already exposes product_type, the show_product calls can be skipped at runtime. No answer is passed to complete_task.",
+  "validation": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "parser": "pddl",
+    "api_issues": [],
+    "reference_check": null
+  },
+  "planning": {
+    "status": "solved",
+    "planner_status": "SOLVED_SATISFICING",
+    "plan": [
+      "(supervisor-show-account-passwords)",
+      "(amazon-login william-mart-at-gmail-com amazon-password amazon-token)",
+      "(amazon-clear-cart amazon-token)",
+      "(amazon-show-addresses amazon-token home-address)",
+      "(amazon-show-payment-cards amazon-token primary-card)",
+      "(amazon-show-wish-list amazon-token)",
+      "(amazon-show-product mouse-pad-1)",
+      "(amazon-move-product-from-wish-list-to-cart mouse-pad-1 amazon-token quantity-of-mouse-pad-1)",
+      "(amazon-show-product mouse-pad-2)",
+      "(amazon-move-product-from-wish-list-to-cart mouse-pad-2 amazon-token quantity-of-mouse-pad-2)",
+      "(amazon-place-order primary-card home-address amazon-token)",
+      "(supervisor-complete-task)"
+    ],
+    "message": "",
+    "seconds": 1.05
+  },
+  "solution_used": false,
+  "has_reference_solution": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "solved",
+      "errors": [],
+      "warnings": [],
+      "api_issues": [],
+      "planning_status": "solved",
+      "planning_message": ""
+    }
+  ],
+  "seconds": 181.7,
+  "effort": "xhigh"
+}

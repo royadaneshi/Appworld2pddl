@@ -1,0 +1,188 @@
+{
+  "calls": [
+    {
+      "step": 1,
+      "pddl": "(supervisor-show-account-passwords)",
+      "api": "supervisor.show_account_passwords",
+      "args": {}
+    },
+    {
+      "step": 2,
+      "pddl": "(simple-note-login jer-calhoun-at-gmail-com simple-note-password simple-note-token)",
+      "api": "simple_note.login",
+      "args": {
+        "username": "jer.calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"simple_note\"",
+          "object": "simple-note-password"
+        }
+      }
+    },
+    {
+      "step": 3,
+      "pddl": "(spotify-login jer-calhoun-at-gmail-com spotify-password simple-note-token)",
+      "api": "spotify.login",
+      "args": {
+        "username": "jer.calhoun@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\"",
+          "object": "spotify-password"
+        }
+      }
+    },
+    {
+      "step": 4,
+      "pddl": "(simple-note-search-notes simple-note-token query-songs songs-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "songs"
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-show-note songs-note simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the most recently created/updated note that lists songs",
+          "object": "songs-note"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-create-playlist random-playlist-title simple-note-token random-playlist)",
+      "api": "spotify.create_playlist",
+      "args": {
+        "title": "Random Playlist",
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-search-songs query-song-1 song-1 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: 1st song entry (title, optionally with artist)",
+          "object": "query-song-1"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-add-song-to-playlist random-playlist song-1 simple-note-token)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "random-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist matches the 1st note entry",
+          "object": "song-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-search-songs query-song-2 song-2 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: 2nd song entry (title, optionally with artist)",
+          "object": "query-song-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-add-song-to-playlist random-playlist song-2 simple-note-token)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "random-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist matches the 2nd note entry",
+          "object": "song-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-search-songs query-song-3 song-3 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: 3rd song entry (title, optionally with artist)",
+          "object": "query-song-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-add-song-to-playlist random-playlist song-3 simple-note-token)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "random-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist matches the 3rd note entry",
+          "object": "song-3"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task)",
+      "api": "supervisor.complete_task",
+      "args": {}
+    }
+  ],
+  "problems": []
+}
