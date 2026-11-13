@@ -13,6 +13,12 @@
     home-address - address
     tracy-payment-card - payment-card)
   (:init
+    (credential-of-app gmail tra-weber-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon tra-weber-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for gmail tra-weber-at-gmail-com)
     (username-for amazon tra-weber-at-gmail-com)
     (password-for gmail gmail-password)

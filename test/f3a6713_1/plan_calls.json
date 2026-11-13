@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(file-system-login de-ritt-at-gmail-com file-system-password amazon-token)",
+      "pddl": "(file-system-login de-ritt-at-gmail-com file-system-password file-system-token)",
       "api": "file_system.login",
       "args": {
         "username": "de_ritt@gmail.com",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-login de-ritt-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login de-ritt-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "de_ritt@gmail.com",
@@ -83,20 +83,20 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-camping camping-checklist-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-camping camping-checklist-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "camping"
       }
     },
     {
       "step": 9,
-      "pddl": "(gmail-show-thread camping-checklist-thread amazon-token checklist-attachment)",
+      "pddl": "(gmail-show-thread camping-checklist-thread gmail-token checklist-attachment)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -105,15 +105,15 @@
           "object": "camping-checklist-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(gmail-download-attachment checklist-attachment amazon-token amazon-token checklist-file-path)",
+      "pddl": "(gmail-download-attachment checklist-attachment file-system-token gmail-token checklist-file-path)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -122,20 +122,20 @@
           "object": "checklist-attachment"
         },
         "file_system_access_token": {
-          "$from": "amazon.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "file-system-token"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(file-system-show-file checklist-file-path amazon-token)",
+      "pddl": "(file-system-show-file checklist-file-path file-system-token)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
@@ -144,9 +144,9 @@
           "object": "checklist-file-path"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "file-system-token"
         }
       }
     },
@@ -227,7 +227,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id of the supervisor's existing (first) payment card",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "default-payment-card"
         },
         "address_id": {

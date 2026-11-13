@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login phone-2473084266 phone-password venmo-token)",
+      "pddl": "(phone-login phone-2473084266 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2473084266",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login kathrynmaldonado-at-gmail-com venmo-password amazon-token)",
+      "pddl": "(venmo-login kathrynmaldonado-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "kathrynmaldonado@gmail.com",
@@ -127,20 +127,20 @@
     },
     {
       "step": 10,
-      "pddl": "(phone-search-contacts venmo-token relationship-roommate)",
+      "pddl": "(phone-search-contacts phone-token relationship-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-payment-request roommate-1-email amount-share amazon-token note-for-amazon-orders roommate-1 c4)",
+      "pddl": "(venmo-create-payment-request roommate-1-email amount-share venmo-token note-for-amazon-orders roommate-1 c4)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -154,16 +154,16 @@
           "object": "amount-share"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "description": "For Amazon Orders"
       }
     },
     {
       "step": 12,
-      "pddl": "(venmo-create-payment-request roommate-2-email amount-share amazon-token note-for-amazon-orders roommate-2 c4)",
+      "pddl": "(venmo-create-payment-request roommate-2-email amount-share venmo-token note-for-amazon-orders roommate-2 c4)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -177,16 +177,16 @@
           "object": "amount-share"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "description": "For Amazon Orders"
       }
     },
     {
       "step": 13,
-      "pddl": "(venmo-create-payment-request roommate-3-email amount-share amazon-token note-for-amazon-orders roommate-3 c4)",
+      "pddl": "(venmo-create-payment-request roommate-3-email amount-share venmo-token note-for-amazon-orders roommate-3 c4)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -200,9 +200,9 @@
           "object": "amount-share"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "description": "For Amazon Orders"
       }

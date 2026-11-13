@@ -29,7 +29,7 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-login ca-smit-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login ca-smit-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "ca-smit@gmail.com",
@@ -66,20 +66,20 @@
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-get-together get-together-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-get-together get-together-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "get-together"
       }
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-thread get-together-thread amazon-token qty-rsvp-yes)",
+      "pddl": "(gmail-show-thread get-together-thread gmail-token qty-rsvp-yes)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -88,9 +88,9 @@
           "object": "get-together-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
@@ -152,7 +152,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (any card, e.g. the first one)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-payment-card"
         },
         "address_id": {

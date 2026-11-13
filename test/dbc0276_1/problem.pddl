@@ -10,6 +10,12 @@
     husband-phone-number - phone-number
     wish-list-message - message)
   (:init
+    (credential-of-app amazon ka-ball-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone phone-7863159797)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
     (username-for amazon ka-ball-at-gmail-com)
     (username-for phone phone-7863159797)
     (password-for amazon amazon-password)

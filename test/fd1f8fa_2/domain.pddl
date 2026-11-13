@@ -4,7 +4,8 @@
     app person username password token song position - object)
   (:constants
     spotify - app
-    queue-song-1 queue-song-2 queue-song-3 queue-song-4 - song)
+    unliked-queue-song-1 unliked-queue-song-2 unliked-queue-song-3 unliked-queue-song-4 unliked-queue-song-5 unliked-queue-song-6 unliked-queue-song-7 unliked-queue-song-8 unliked-queue-song-9 unliked-queue-song-10 unliked-queue-song-11 unliked-queue-song-12 liked-queue-song - song
+  )
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -60,8 +61,22 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (in-queue queue-song-1) (not (in-queue queue-song-2))
-                       (in-queue queue-song-3) (not (in-queue queue-song-4))
-                       (player-playing) (not (task-completed)))
+    :precondition (and
+      (in-queue liked-queue-song)
+      (not (in-queue unliked-queue-song-1))
+      (not (in-queue unliked-queue-song-2))
+      (not (in-queue unliked-queue-song-3))
+      (not (in-queue unliked-queue-song-4))
+      (not (in-queue unliked-queue-song-5))
+      (not (in-queue unliked-queue-song-6))
+      (not (in-queue unliked-queue-song-7))
+      (not (in-queue unliked-queue-song-8))
+      (not (in-queue unliked-queue-song-9))
+      (not (in-queue unliked-queue-song-10))
+      (not (in-queue unliked-queue-song-11))
+      (not (in-queue unliked-queue-song-12))
+      (player-playing)
+      (not (task-completed))
+      (not (task-completed)))
     :effect (task-completed))
 )

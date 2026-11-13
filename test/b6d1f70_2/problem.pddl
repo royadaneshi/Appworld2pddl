@@ -22,6 +22,12 @@
     order-father order-home - order
   )
   (:init
+    (credential-of-app amazon paul-mill-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone phone-3379617841)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
     (username-for amazon paul-mill-at-gmail-com)
     (username-for phone phone-3379617841)
     (password-for amazon amazon-password)

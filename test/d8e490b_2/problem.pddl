@@ -11,6 +11,12 @@
     thread-weekly-work-meeting-2023-05-16 - email-thread
   )
   (:init
+    (credential-of-app file-system gina-ritter-at-gmail-com)
+    (credential-of-app file-system password-file-system)
+    (credential-of-app file-system token-file-system)
+    (credential-of-app gmail gina-ritter-at-gmail-com)
+    (credential-of-app gmail password-gmail)
+    (credential-of-app gmail token-gmail)
     (password-for file-system password-file-system)
     (password-for gmail password-gmail)
     (thread-matches query-weekly-work-meeting thread-weekly-work-meeting-2023-05-16)

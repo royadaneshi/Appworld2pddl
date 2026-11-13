@@ -30,7 +30,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'person', 'app', 'content', 'password', 'token', 'query', 'username', 'email-thread', 'file'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -41,15 +43,15 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(file-system-login brandon-webe-at-gmail-com file-system-password file-system-token)",
-      "(gmail-login brandon-webe-at-gmail-com gmail-password file-system-token)",
+      "(gmail-login brandon-webe-at-gmail-com gmail-password gmail-token)",
       "(file-system-show-file company-trip-expenses-csv file-system-token)",
-      "(gmail-show-inbox-threads file-system-token query-expense company-trip-expense-thread)",
-      "(gmail-show-thread company-trip-expense-thread file-system-token)",
+      "(gmail-show-inbox-threads gmail-token query-expense company-trip-expense-thread)",
+      "(gmail-show-thread company-trip-expense-thread gmail-token)",
       "(file-system-update-file company-trip-expenses-csv expenses-csv-content file-system-token)",
       "(supervisor-complete-task company-trip-expenses-csv expenses-csv-content)"
     ],
     "message": "",
-    "seconds": 1.24
+    "seconds": 0.88
   },
   "solution_used": false,
   "has_reference_solution": false,

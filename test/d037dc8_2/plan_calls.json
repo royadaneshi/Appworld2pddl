@@ -169,7 +169,30 @@
     },
     {
       "step": 12,
-      "pddl": "(supervisor-complete-task roommate-1 roommate-2 share-per-roommate note-amazon-purchases)",
+      "pddl": "(venmo-create-payment-request roommate-3-email share-per-roommate venmo-token note-amazon-purchases roommate-3 order-1 order-2 order-3)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the third contact returned with relationship \"roommate\"",
+          "object": "roommate-3-email"
+        },
+        "amount": {
+          "$from": "amazon.show_order",
+          "field": "sum of `total` over the three orders divided by (number of roommates + 1), rounded to 2 decimals",
+          "object": "share-per-roommate"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Amazon Purchases"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task share-per-roommate note-amazon-purchases)",
       "api": "supervisor.complete_task",
       "args": {}
     }

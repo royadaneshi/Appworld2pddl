@@ -1,13 +1,16 @@
 (define (problem task-d18139b-3)
   (:domain appworld-d18139b-3)
   (:objects
-    nicholas roommate-1 roommate-2 - person
-    payment-request-1 payment-request-2 payment-request-3 - payment-request
+    nicholas roommate-1 roommate-2 roommate-3 - person
+    payment-request-1 payment-request-2 payment-request-3 payment-request-4 payment-request-5 payment-request-6 payment-request-7 payment-request-8 payment-request-9 payment-request-earlier-month - payment-request
     phone-number-9503658964 nicholas-weber-at-gmail-com - username
     phone-password venmo-password - password
     phone-token venmo-token - token
     relationship-roommate - relationship
-    status-pending - status)
+    status-pending - status
+    venmo-card - payment-card
+    topup-amount - amount
+  )
   (:init
     (username-for phone phone-number-9503658964)
     (username-for venmo nicholas-weber-at-gmail-com)
@@ -18,19 +21,49 @@
     (roommate-relationship relationship-roommate)
     (pending-status status-pending)
     (is-roommate roommate-1)
-    (is-roommate roommate-2)
     (sent-by payment-request-1 roommate-1)
-    (sent-by payment-request-2 roommate-1)
-    (sent-by payment-request-3 roommate-2)
     (created-this-month payment-request-1)
-    (created-this-month payment-request-2)
-    (created-this-month payment-request-3)
     (pending payment-request-1)
+    (sent-by payment-request-2 roommate-1)
+    (created-this-month payment-request-2)
     (pending payment-request-2)
-    (pending payment-request-3))
+    (is-roommate roommate-2)
+    (sent-by payment-request-3 roommate-2)
+    (created-this-month payment-request-3)
+    (pending payment-request-3)
+    (sent-by payment-request-4 roommate-2)
+    (created-this-month payment-request-4)
+    (pending payment-request-4)
+    (sent-by payment-request-5 roommate-2)
+    (created-this-month payment-request-5)
+    (pending payment-request-5)
+    (sent-by payment-request-6 roommate-2)
+    (created-this-month payment-request-6)
+    (pending payment-request-6)
+    (is-roommate roommate-3)
+    (sent-by payment-request-7 roommate-3)
+    (created-this-month payment-request-7)
+    (pending payment-request-7)
+    (sent-by payment-request-8 roommate-3)
+    (created-this-month payment-request-8)
+    (pending payment-request-8)
+    (sent-by payment-request-9 roommate-3)
+    (created-this-month payment-request-9)
+    (pending payment-request-9)
+    (sent-by payment-request-earlier-month roommate-1)
+    (pending payment-request-earlier-month)
+    (usable-card venmo-card)
+    (shortfall topup-amount)
+  )
   (:goal (and
     (approved payment-request-1)
     (approved payment-request-2)
     (approved payment-request-3)
+    (approved payment-request-4)
+    (approved payment-request-5)
+    (approved payment-request-6)
+    (approved payment-request-7)
+    (approved payment-request-8)
+    (approved payment-request-9)
     (task-completed)))
 )

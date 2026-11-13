@@ -13,6 +13,12 @@
     flag-true - flag
   )
   (:init
+    (credential-of-app gmail normansmit-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system normansmit-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for gmail gmail-password)
     (password-for file-system file-system-password)
     (draft-matches query-headshot headshot-draft)

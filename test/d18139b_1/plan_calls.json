@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(phone-login phone-username phone-password venmo-token)",
+      "pddl": "(phone-login phone-username phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2474975253",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login venmo-username venmo-password phone-token)",
+      "pddl": "(venmo-login venmo-username venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "joseharr@gmail.com",
@@ -34,84 +34,198 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-search-contacts venmo-token relationship-roommate)",
+      "pddl": "(phone-search-contacts phone-token relationship-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 5,
-      "pddl": "(venmo-show-received-payment-requests phone-token status-pending)",
+      "pddl": "(venmo-show-payment-cards venmo-token venmo-card)",
+      "api": "venmo.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-received-payment-requests venmo-token status-pending)",
       "api": "venmo.show_received_payment_requests",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "status": "pending"
       }
     },
     {
-      "step": 6,
-      "pddl": "(venmo-approve-payment-request pr-1 phone-token roommate-1)",
-      "api": "venmo.approve_payment_request",
-      "args": {
-        "payment_request_id": {
-          "$from": "venmo.show_received_payment_requests",
-          "field": "payment_request_id of each pending request whose sender.email is a roommate email and created_at falls in 2023-06",
-          "object": "pr-1"
-        },
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
       "step": 7,
-      "pddl": "(venmo-approve-payment-request pr-2 phone-token roommate-1)",
-      "api": "venmo.approve_payment_request",
+      "pddl": "(venmo-show-venmo-balance venmo-token)",
+      "api": "venmo.show_venmo_balance",
       "args": {
-        "payment_request_id": {
-          "$from": "venmo.show_received_payment_requests",
-          "field": "payment_request_id of each pending request whose sender.email is a roommate email and created_at falls in 2023-06",
-          "object": "pr-2"
-        },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-approve-payment-request pr-3 phone-token roommate-2)",
-      "api": "venmo.approve_payment_request",
+      "pddl": "(venmo-add-to-venmo-balance topup-amount venmo-card venmo-token)",
+      "api": "venmo.add_to_venmo_balance",
       "args": {
-        "payment_request_id": {
-          "$from": "venmo.show_received_payment_requests",
-          "field": "payment_request_id of each pending request whose sender.email is a roommate email and created_at falls in 2023-06",
-          "object": "pr-3"
+        "amount": {
+          "$from": "venmo.show_venmo_balance",
+          "field": "total amount of this month's pending requests from roommates minus venmo_balance: the shortfall that must be added to the balance first (skip if not positive)",
+          "object": "topup-amount"
+        },
+        "payment_card_id": {
+          "$from": "venmo.show_payment_cards",
+          "field": "payment_card_id of a card that has not expired (and has enough funds for the top-up)",
+          "object": "venmo-card"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(supervisor-complete-task pr-1 pr-2 pr-3)",
+      "pddl": "(venmo-approve-payment-request pr-1 venmo-token roommate-1)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request created in the current calendar month whose sender is a roommate [item 1 of 7; one object per such request]",
+          "object": "pr-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-approve-payment-request pr-2 venmo-token roommate-1)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request created in the current calendar month whose sender is a roommate [item 2 of 7; one object per such request]",
+          "object": "pr-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-approve-payment-request pr-3 venmo-token roommate-1)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request created in the current calendar month whose sender is a roommate [item 3 of 7; one object per such request]",
+          "object": "pr-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-approve-payment-request pr-4 venmo-token roommate-2)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request created in the current calendar month whose sender is a roommate [item 4 of 7; one object per such request]",
+          "object": "pr-4"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-approve-payment-request pr-5 venmo-token roommate-2)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request created in the current calendar month whose sender is a roommate [item 5 of 7; one object per such request]",
+          "object": "pr-5"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-approve-payment-request pr-6 venmo-token roommate-2)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request created in the current calendar month whose sender is a roommate [item 6 of 7; one object per such request]",
+          "object": "pr-6"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-approve-payment-request pr-7 venmo-token roommate-3)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of a pending request created in the current calendar month whose sender is a roommate [item 7 of 7; one object per such request]",
+          "object": "pr-7"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}
     }

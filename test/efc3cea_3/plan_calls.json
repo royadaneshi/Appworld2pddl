@@ -41,7 +41,7 @@
     },
     {
       "step": 5,
-      "pddl": "(gmail-login lindseysimpson-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login lindseysimpson-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "lindseysimpson@gmail.com",
@@ -78,20 +78,20 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-flight flight-confirmation-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-flight flight-confirmation-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "flight"
       }
     },
     {
       "step": 9,
-      "pddl": "(gmail-show-thread flight-confirmation-thread amazon-token)",
+      "pddl": "(gmail-show-thread flight-confirmation-thread gmail-token)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -100,9 +100,9 @@
           "object": "flight-confirmation-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
@@ -150,7 +150,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first/any card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "payment-card-1"
         },
         "address_id": {

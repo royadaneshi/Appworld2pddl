@@ -103,7 +103,7 @@
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "path of the entry listing the selected candidates (file name containing 'selected')",
+          "field": "path of the decisions file in the directory (one row per candidate with decision accept / reject)",
           "object": "selected-candidates-file"
         },
         "access_token": {
@@ -115,10 +115,14 @@
     },
     {
       "step": 9,
-      "pddl": "(file-system-create-file offer-letter-candidate-a file-system-token offer-content-candidate-a candidate-a offer-letter-template selected-candidates-file)",
+      "pddl": "(file-system-create-file offer-letter-1 file-system-token offer-content-candidate-1 candidate-1 offer-letter-template selected-candidates-file)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/documents/work/recruiting/offer_letter_<candidate-a-name>.<offer-template-extension>",
+        "file_path": {
+          "$from": null,
+          "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "offer-letter-1"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -126,17 +130,21 @@
         },
         "content": {
           "$from": "file_system.show_file",
-          "field": "content of offer letter template with placeholders (candidate name, position 'Software Engineer') filled in for candidate-a",
-          "object": "offer-content-candidate-a"
+          "field": "content of the offer letter template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "offer-content-candidate-1"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(file-system-create-file offer-letter-candidate-b file-system-token offer-content-candidate-b candidate-b offer-letter-template selected-candidates-file)",
+      "pddl": "(file-system-create-file offer-letter-2 file-system-token offer-content-candidate-2 candidate-2 offer-letter-template selected-candidates-file)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/documents/work/recruiting/offer_letter_<candidate-b-name>.<offer-template-extension>",
+        "file_path": {
+          "$from": null,
+          "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "offer-letter-2"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -144,13 +152,35 @@
         },
         "content": {
           "$from": "file_system.show_file",
-          "field": "content of offer letter template with placeholders filled in for candidate-b",
-          "object": "offer-content-candidate-b"
+          "field": "content of the offer letter template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "offer-content-candidate-2"
         }
       }
     },
     {
       "step": 11,
+      "pddl": "(file-system-create-file offer-letter-3 file-system-token offer-content-candidate-3 candidate-3 offer-letter-template selected-candidates-file)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": {
+          "$from": null,
+          "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "offer-letter-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content of the offer letter template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "offer-content-candidate-3"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(gmail-show-inbox-threads gmail-token query-software-engineer datetime-2023-05-04t00-00-00)",
       "api": "gmail.show_inbox_threads",
       "args": {
@@ -164,64 +194,35 @@
       }
     },
     {
-      "step": 12,
-      "pddl": "(gmail-reply-to-email thread-candidate-a email-candidate-a acceptance-body-candidate-a gmail-token offer-letter-candidate-a file-system-token candidate-a acceptance-email-template selected-candidates-file)",
-      "api": "gmail.reply_to_email",
-      "args": {
-        "email_thread_id": {
-          "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of the application thread sent by candidate-a",
-          "object": "thread-candidate-a"
-        },
-        "email_id": {
-          "$from": "gmail.show_inbox_threads",
-          "field": "emails[0].email_id of candidate-a's application thread",
-          "object": "email-candidate-a"
-        },
-        "body": {
-          "$from": "file_system.show_file",
-          "field": "content of acceptance email template with placeholders filled in for candidate-a",
-          "object": "acceptance-body-candidate-a"
-        },
-        "access_token": {
-          "$from": "gmail.login",
-          "field": "access_token",
-          "object": "gmail-token"
-        },
-        "attachment_file_paths": "~/documents/work/recruiting/offer_letter_<candidate-a-name>.<offer-template-extension>",
-        "file_system_access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
-        }
-      }
-    },
-    {
       "step": 13,
-      "pddl": "(gmail-reply-to-email thread-candidate-b email-candidate-b acceptance-body-candidate-b gmail-token offer-letter-candidate-b file-system-token candidate-b acceptance-email-template selected-candidates-file)",
+      "pddl": "(gmail-reply-to-email thread-candidate-1 email-candidate-1 acceptance-body-candidate-1 gmail-token offer-letter-1 file-system-token candidate-1 acceptance-email-template selected-candidates-file)",
       "api": "gmail.reply_to_email",
       "args": {
         "email_thread_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of the application thread sent by candidate-b",
-          "object": "thread-candidate-b"
+          "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 1 of 7 that match this rule; one object per matching item]",
+          "object": "thread-candidate-1"
         },
         "email_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "emails[0].email_id of candidate-b's application thread",
-          "object": "email-candidate-b"
+          "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 1 of 7 that match this rule; one object per matching item]",
+          "object": "email-candidate-1"
         },
         "body": {
           "$from": "file_system.show_file",
-          "field": "content of acceptance email template with placeholders filled in for candidate-b",
-          "object": "acceptance-body-candidate-b"
+          "field": "content of the acceptance email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "acceptance-body-candidate-1"
         },
         "access_token": {
           "$from": "gmail.login",
           "field": "access_token",
           "object": "gmail-token"
         },
-        "attachment_file_paths": "~/documents/work/recruiting/offer_letter_<candidate-b-name>.<offer-template-extension>",
+        "attachment_file_paths": {
+          "$from": null,
+          "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "offer-letter-1"
+        },
         "file_system_access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -231,30 +232,34 @@
     },
     {
       "step": 14,
-      "pddl": "(gmail-reply-to-email thread-candidate-c email-candidate-c rejection-body-candidate-c gmail-token no-attachment file-system-token candidate-c rejection-email-template selected-candidates-file)",
+      "pddl": "(gmail-reply-to-email thread-candidate-2 email-candidate-2 acceptance-body-candidate-2 gmail-token offer-letter-2 file-system-token candidate-2 acceptance-email-template selected-candidates-file)",
       "api": "gmail.reply_to_email",
       "args": {
         "email_thread_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of the application thread sent by candidate-c",
-          "object": "thread-candidate-c"
+          "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 2 of 7 that match this rule; one object per matching item]",
+          "object": "thread-candidate-2"
         },
         "email_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "emails[0].email_id of candidate-c's application thread",
-          "object": "email-candidate-c"
+          "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 2 of 7 that match this rule; one object per matching item]",
+          "object": "email-candidate-2"
         },
         "body": {
           "$from": "file_system.show_file",
-          "field": "content of rejection email template with placeholders filled in for candidate-c",
-          "object": "rejection-body-candidate-c"
+          "field": "content of the acceptance email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "acceptance-body-candidate-2"
         },
         "access_token": {
           "$from": "gmail.login",
           "field": "access_token",
           "object": "gmail-token"
         },
-        "attachment_file_paths": "[]",
+        "attachment_file_paths": {
+          "$from": null,
+          "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "offer-letter-2"
+        },
         "file_system_access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -264,23 +269,60 @@
     },
     {
       "step": 15,
-      "pddl": "(gmail-reply-to-email thread-candidate-d email-candidate-d rejection-body-candidate-d gmail-token no-attachment file-system-token candidate-d rejection-email-template selected-candidates-file)",
+      "pddl": "(gmail-reply-to-email thread-candidate-3 email-candidate-3 acceptance-body-candidate-3 gmail-token offer-letter-3 file-system-token candidate-3 acceptance-email-template selected-candidates-file)",
       "api": "gmail.reply_to_email",
       "args": {
         "email_thread_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of the application thread sent by candidate-d",
-          "object": "thread-candidate-d"
+          "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "thread-candidate-3"
         },
         "email_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "emails[0].email_id of candidate-d's application thread",
-          "object": "email-candidate-d"
+          "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "email-candidate-3"
         },
         "body": {
           "$from": "file_system.show_file",
-          "field": "content of rejection email template with placeholders filled in for candidate-d",
-          "object": "rejection-body-candidate-d"
+          "field": "content of the acceptance email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "acceptance-body-candidate-3"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": {
+          "$from": null,
+          "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "offer-letter-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(gmail-reply-to-email thread-candidate-4 email-candidate-4 rejection-body-candidate-1 gmail-token no-attachment file-system-token candidate-4 rejection-email-template selected-candidates-file)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "thread-candidate-4"
+        },
+        "email_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "email-candidate-4"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content of the rejection email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "rejection-body-candidate-1"
         },
         "access_token": {
           "$from": "gmail.login",
@@ -296,8 +338,107 @@
       }
     },
     {
-      "step": 16,
-      "pddl": "(supervisor-complete-task candidate-a candidate-b candidate-c candidate-d)",
+      "step": 17,
+      "pddl": "(gmail-reply-to-email thread-candidate-5 email-candidate-5 rejection-body-candidate-2 gmail-token no-attachment file-system-token candidate-5 rejection-email-template selected-candidates-file)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "thread-candidate-5"
+        },
+        "email_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "email-candidate-5"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content of the rejection email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "rejection-body-candidate-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": "[]",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(gmail-reply-to-email thread-candidate-6 email-candidate-6 rejection-body-candidate-3 gmail-token no-attachment file-system-token candidate-6 rejection-email-template selected-candidates-file)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "thread-candidate-6"
+        },
+        "email_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "email-candidate-6"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content of the rejection email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "rejection-body-candidate-3"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": "[]",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(gmail-reply-to-email thread-candidate-7 email-candidate-7 rejection-body-candidate-4 gmail-token no-attachment file-system-token candidate-7 rejection-email-template selected-candidates-file)",
+      "api": "gmail.reply_to_email",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "thread-candidate-7"
+        },
+        "email_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "email-candidate-7"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content of the rejection email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "rejection-body-candidate-4"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "attachment_file_paths": "[]",
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}
     }

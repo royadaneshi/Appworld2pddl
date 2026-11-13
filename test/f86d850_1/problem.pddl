@@ -18,6 +18,18 @@
     flag-true - flag
   )
   (:init
+    (credential-of-app phone phone-7273731063)
+    (credential-of-app phone password-phone)
+    (credential-of-app phone token-phone)
+    (credential-of-app amazon tr-solo-at-gmail-com)
+    (credential-of-app amazon password-amazon)
+    (credential-of-app amazon token-amazon)
+    (credential-of-app gmail tr-solo-at-gmail-com)
+    (credential-of-app gmail password-gmail)
+    (credential-of-app gmail token-gmail)
+    (credential-of-app venmo tr-solo-at-gmail-com)
+    (credential-of-app venmo password-venmo)
+    (credential-of-app venmo token-venmo)
     (username-for phone phone-7273731063)
     (username-for amazon tr-solo-at-gmail-com)
     (username-for gmail tr-solo-at-gmail-com)

@@ -157,7 +157,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "payment-card-1"
         },
         "address_id": {
@@ -239,7 +239,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "payment-card-1"
         },
         "address_id": {
@@ -256,7 +256,171 @@
     },
     {
       "step": 15,
-      "pddl": "(supervisor-complete-task kallax-shelf-unit home-1 home-2)",
+      "pddl": "(amazon-add-product-to-cart kallax-shelf-unit amazon-token quantity-1 home-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == 'KALLAX Shelf Unit'",
+          "object": "kallax-shelf-unit"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-add-address home-3-name home-3-street home-3-city home-3-state home-3-country home-3-zip amazon-token home-3)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of a contact living at home-3",
+          "object": "home-3-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part of home_address of contacts at home-3",
+          "object": "home-3-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part of home_address of contacts at home-3",
+          "object": "home-3-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part of home_address of contacts at home-3",
+          "object": "home-3-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part of home_address of contacts at home-3",
+          "object": "home-3-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part of home_address of contacts at home-3",
+          "object": "home-3-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-place-order payment-card-1 home-3 amazon-token kallax-shelf-unit quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (address record created for the third distinct home_address among siblings+parents)",
+          "object": "home-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-add-product-to-cart kallax-shelf-unit amazon-token quantity-1 home-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == 'KALLAX Shelf Unit'",
+          "object": "kallax-shelf-unit"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-add-address home-4-name home-4-street home-4-city home-4-state home-4-country home-4-zip amazon-token home-4)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + ' ' + last_name of a contact living at home-4",
+          "object": "home-4-name"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part of home_address of contacts at home-4",
+          "object": "home-4-street"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part of home_address of contacts at home-4",
+          "object": "home-4-city"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part of home_address of contacts at home-4",
+          "object": "home-4-state"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part of home_address of contacts at home-4",
+          "object": "home-4-country"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part of home_address of contacts at home-4",
+          "object": "home-4-zip"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(amazon-place-order payment-card-1 home-4 amazon-token kallax-shelf-unit quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
+          "object": "payment-card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id (address record created for the fourth distinct home_address among siblings+parents)",
+          "object": "home-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(supervisor-complete-task kallax-shelf-unit)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(file-system-login gina-ritter-at-gmail-com file-system-password amazon-token)",
+      "pddl": "(file-system-login gina-ritter-at-gmail-com file-system-password file-system-token)",
       "api": "file_system.login",
       "args": {
         "username": "gina-ritter@gmail.com",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-login gina-ritter-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login gina-ritter-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "gina-ritter@gmail.com",
@@ -83,20 +83,20 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-outbox-threads amazon-token query-camping camping-checklist-thread)",
+      "pddl": "(gmail-show-outbox-threads gmail-token query-camping camping-checklist-thread)",
       "api": "gmail.show_outbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "camping"
       }
     },
     {
       "step": 9,
-      "pddl": "(gmail-show-thread camping-checklist-thread amazon-token camping-checklist-attachment)",
+      "pddl": "(gmail-show-thread camping-checklist-thread gmail-token camping-checklist-attachment)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -105,15 +105,15 @@
           "object": "camping-checklist-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(gmail-download-attachment camping-checklist-attachment amazon-token amazon-token camping-checklist-file-path)",
+      "pddl": "(gmail-download-attachment camping-checklist-attachment file-system-token gmail-token camping-checklist-file-path)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -122,20 +122,20 @@
           "object": "camping-checklist-attachment"
         },
         "file_system_access_token": {
-          "$from": "amazon.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "file-system-token"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(file-system-show-file camping-checklist-file-path amazon-token)",
+      "pddl": "(file-system-show-file camping-checklist-file-path file-system-token)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
@@ -144,9 +144,9 @@
           "object": "camping-checklist-file-path"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "file-system-token"
         }
       }
     },
@@ -205,7 +205,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the result with the highest rating (first result when sorted by -rating)",
+          "field": "product_id of the result with the highest rating (second result when sorted by -rating)",
           "object": "best-product-item-2"
         },
         "access_token": {
@@ -222,12 +222,47 @@
     },
     {
       "step": 16,
-      "pddl": "(amazon-place-order gina-payment-card gina-address amazon-token camping-item-1 camping-item-2)",
+      "pddl": "(amazon-search-products query-camping-item-3 sort-by-rating-desc camping-item-3 best-product-item-3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: a checklist item not claimed by any sister in the replies seen via gmail.show_thread (third remaining item)",
+          "object": "query-camping-item-3"
+        },
+        "sort_by": "-rating"
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-add-product-to-cart best-product-item-3 amazon-token quantity-item-3 camping-item-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result with the highest rating (third result when sorted by -rating)",
+          "object": "best-product-item-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity listed for the third remaining checklist item (1 if none listed)",
+          "object": "quantity-item-3"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-place-order gina-payment-card gina-address amazon-token)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "gina-payment-card"
         },
         "address_id": {
@@ -243,7 +278,7 @@
       }
     },
     {
-      "step": 17,
+      "step": 19,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

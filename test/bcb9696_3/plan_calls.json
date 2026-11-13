@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login clmiller-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login clmiller-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "clmiller@gmail.com",
@@ -48,20 +48,20 @@
     },
     {
       "step": 5,
-      "pddl": "(gmail-show-drafts file-system-token query-headshot draft-headshot-reply)",
+      "pddl": "(gmail-show-drafts gmail-token query-headshot draft-headshot-reply)",
       "api": "gmail.show_drafts",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "query": "headshot"
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-upload-attachments-to-draft draft-headshot-reply headshot-file-path file-system-token file-system-token)",
+      "pddl": "(gmail-upload-attachments-to-draft draft-headshot-reply headshot-file-path file-system-token gmail-token)",
       "api": "gmail.upload_attachments_to_draft",
       "args": {
         "draft_id": {
@@ -80,15 +80,15 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-draft draft-headshot-reply file-system-token attachment-resume)",
+      "pddl": "(gmail-show-draft draft-headshot-reply gmail-token attachment-resume)",
       "api": "gmail.show_draft",
       "args": {
         "draft_id": {
@@ -97,15 +97,15 @@
           "object": "draft-headshot-reply"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(gmail-remove-attachment-from-draft draft-headshot-reply attachment-resume file-system-token)",
+      "pddl": "(gmail-remove-attachment-from-draft draft-headshot-reply attachment-resume gmail-token)",
       "api": "gmail.remove_attachment_from_draft",
       "args": {
         "draft_id": {
@@ -119,15 +119,15 @@
           "object": "attachment-resume"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(gmail-send-email-from-draft draft-headshot-reply file-system-token file-system-token)",
+      "pddl": "(gmail-send-email-from-draft draft-headshot-reply gmail-token file-system-token)",
       "api": "gmail.send_email_from_draft",
       "args": {
         "draft_id": {
@@ -136,9 +136,9 @@
           "object": "draft-headshot-reply"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "file_system_access_token": {
           "$from": "file_system.login",

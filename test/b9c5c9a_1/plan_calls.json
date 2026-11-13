@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-7336094411 phone-password file-system-token)",
+      "pddl": "(phone-login username-7336094411 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "7336094411",
@@ -64,57 +64,346 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-text-messages file-system-token phone-number-invitee-1 invitee-1 rsvp-csv-file csv-content-original csv-draft-after-reply-1)",
-      "api": "phone.search_text_messages",
+      "pddl": "(phone-search-contacts phone-token name-invitee-1 invitee-1 phone-number-invitee-1 rsvp-csv-file)",
+      "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "phone-token"
         },
-        "phone_number": {
+        "query": {
           "$from": "file_system.show_file",
-          "field": "content -> phone number column of CSV data row 1",
-          "object": "phone-number-invitee-1"
+          "field": "content -> Name column of CSV data row 1",
+          "object": "name-invitee-1"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(phone-search-text-messages file-system-token phone-number-invitee-2 invitee-2 rsvp-csv-file csv-draft-after-reply-1 csv-draft-after-reply-2)",
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-1 invitee-1 rsvp-csv-file csv-content-original csv-draft-after-reply-1)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "phone-token"
         },
         "phone_number": {
-          "$from": "file_system.show_file",
-          "field": "content -> phone number column of CSV data row 2",
-          "object": "phone-number-invitee-2"
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-1",
+          "object": "phone-number-invitee-1"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(phone-search-text-messages file-system-token phone-number-invitee-3 invitee-3 rsvp-csv-file csv-draft-after-reply-2 csv-content-updated)",
-      "api": "phone.search_text_messages",
+      "pddl": "(phone-search-contacts phone-token name-invitee-10 invitee-10 phone-number-invitee-10 rsvp-csv-file)",
+      "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "phone-token"
         },
-        "phone_number": {
+        "query": {
           "$from": "file_system.show_file",
-          "field": "content -> phone number column of CSV data row 3",
-          "object": "phone-number-invitee-3"
+          "field": "content -> Name column of CSV data row 10",
+          "object": "name-invitee-10"
         }
       }
     },
     {
       "step": 9,
+      "pddl": "(phone-search-contacts phone-token name-invitee-2 invitee-2 phone-number-invitee-2 rsvp-csv-file)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> Name column of CSV data row 2",
+          "object": "name-invitee-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-2 invitee-2 rsvp-csv-file csv-draft-after-reply-1 csv-draft-after-reply-2)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-2",
+          "object": "phone-number-invitee-2"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(phone-search-contacts phone-token name-invitee-3 invitee-3 phone-number-invitee-3 rsvp-csv-file)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> Name column of CSV data row 3",
+          "object": "name-invitee-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-3 invitee-3 rsvp-csv-file csv-draft-after-reply-2 csv-draft-after-reply-3)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-3",
+          "object": "phone-number-invitee-3"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(phone-search-contacts phone-token name-invitee-4 invitee-4 phone-number-invitee-4 rsvp-csv-file)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> Name column of CSV data row 4",
+          "object": "name-invitee-4"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-4 invitee-4 rsvp-csv-file csv-draft-after-reply-3 csv-draft-after-reply-4)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-4",
+          "object": "phone-number-invitee-4"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(phone-search-contacts phone-token name-invitee-5 invitee-5 phone-number-invitee-5 rsvp-csv-file)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> Name column of CSV data row 5",
+          "object": "name-invitee-5"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-5 invitee-5 rsvp-csv-file csv-draft-after-reply-4 csv-draft-after-reply-5)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-5",
+          "object": "phone-number-invitee-5"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(phone-search-contacts phone-token name-invitee-6 invitee-6 phone-number-invitee-6 rsvp-csv-file)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> Name column of CSV data row 6",
+          "object": "name-invitee-6"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-6 invitee-6 rsvp-csv-file csv-draft-after-reply-5 csv-draft-after-reply-6)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-6",
+          "object": "phone-number-invitee-6"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(phone-search-contacts phone-token name-invitee-7 invitee-7 phone-number-invitee-7 rsvp-csv-file)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> Name column of CSV data row 7",
+          "object": "name-invitee-7"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-7 invitee-7 rsvp-csv-file csv-draft-after-reply-6 csv-draft-after-reply-7)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-7",
+          "object": "phone-number-invitee-7"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(phone-search-contacts phone-token name-invitee-8 invitee-8 phone-number-invitee-8 rsvp-csv-file)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> Name column of CSV data row 8",
+          "object": "name-invitee-8"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-8 invitee-8 rsvp-csv-file csv-draft-after-reply-7 csv-draft-after-reply-8)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-8",
+          "object": "phone-number-invitee-8"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(phone-search-contacts phone-token name-invitee-9 invitee-9 phone-number-invitee-9 rsvp-csv-file)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> Name column of CSV data row 9",
+          "object": "name-invitee-9"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-9 invitee-9 rsvp-csv-file csv-draft-after-reply-8 csv-draft-after-reply-9)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-9",
+          "object": "phone-number-invitee-9"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(phone-search-text-messages phone-token phone-number-invitee-10 invitee-10 rsvp-csv-file csv-draft-after-reply-9 csv-content-updated)",
+      "api": "phone.search_text_messages",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the contact whose first_name equals name-invitee-10",
+          "object": "phone-number-invitee-10"
+        }
+      }
+    },
+    {
+      "step": 26,
       "pddl": "(file-system-update-file rsvp-csv-file csv-content-updated file-system-token)",
       "api": "file_system.update_file",
       "args": {
@@ -136,7 +425,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 27,
       "pddl": "(supervisor-complete-task rsvp-csv-file csv-content-updated)",
       "api": "supervisor.complete_task",
       "args": {}

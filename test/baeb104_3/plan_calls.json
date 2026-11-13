@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login mel-bailey-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login mel-bailey-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "mel.bailey@gmail.com",
@@ -95,7 +95,7 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-send-email roommate-emails subject-amsterdam-trip-photos body-amsterdam-trip-photos file-system-token amsterdam-photos-zip file-system-token)",
+      "pddl": "(gmail-send-email roommate-emails subject-amsterdam-trip-photos body-amsterdam-trip-photos gmail-token amsterdam-photos-zip file-system-token)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
@@ -106,9 +106,9 @@
         "subject": "Amsterdam trip photos",
         "body": "Hi all, attached is a zip file with all the photos from our Amsterdam vacation trip.",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "attachment_file_paths": {
           "$from": "file_system.show_directory",

@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(amazon-login ka-ball-at-gmail-com amazon-password phone-token)",
+      "pddl": "(amazon-login ka-ball-at-gmail-com amazon-password amazon-token)",
       "api": "amazon.login",
       "args": {
         "username": "ka_ball@gmail.com",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login phone-7863159797 phone-password amazon-token)",
+      "pddl": "(phone-login phone-7863159797 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "7863159797",
@@ -34,25 +34,25 @@
     },
     {
       "step": 4,
-      "pddl": "(amazon-show-wish-list phone-token wishlist-product)",
+      "pddl": "(amazon-show-wish-list amazon-token wishlist-product)",
       "api": "amazon.show_wish_list",
-      "args": {
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
-      "step": 5,
-      "pddl": "(phone-search-contacts amazon-token rel-husband husband husband-phone-number)",
-      "api": "phone.search_contacts",
       "args": {
         "access_token": {
           "$from": "amazon.login",
           "field": "access_token",
           "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token rel-husband husband husband-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
         },
         "relationship": "husband"
       }
@@ -71,7 +71,7 @@
     },
     {
       "step": 7,
-      "pddl": "(phone-send-text-message husband-phone-number wish-list-message amazon-token husband wishlist-product)",
+      "pddl": "(phone-send-text-message husband-phone-number wish-list-message phone-token husband wishlist-product)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -85,9 +85,9 @@
           "object": "wish-list-message"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         }
       }
     },

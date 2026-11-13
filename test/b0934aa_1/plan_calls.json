@@ -101,18 +101,38 @@
     },
     {
       "step": 10,
-      "pddl": "(amazon-place-order amazon-payment-card home-address amazon-token qualifying-board-game quantity-1)",
-      "api": "amazon.place_order",
+      "pddl": "(amazon-add-address home-address-name home-address-street home-address-city home-address-state home-address-country home-address-zip amazon-token home-address)",
+      "api": "amazon.add_address",
       "args": {
-        "payment_card_id": {
-          "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
-          "object": "amazon-payment-card"
+        "name": {
+          "$from": "supervisor.show_addresses",
+          "field": "name of the supervisor's address whose name is 'Home'",
+          "object": "home-address-name"
         },
-        "address_id": {
-          "$from": "amazon.show_addresses",
-          "field": "address_id of the entry whose street_address/city/state/country/zip_code match the supervisor.show_addresses entry with name == \"Home\"",
-          "object": "home-address"
+        "street_address": {
+          "$from": "supervisor.show_addresses",
+          "field": "street_address of the supervisor's address whose name is 'Home'",
+          "object": "home-address-street"
+        },
+        "city": {
+          "$from": "supervisor.show_addresses",
+          "field": "city of the supervisor's address whose name is 'Home'",
+          "object": "home-address-city"
+        },
+        "state": {
+          "$from": "supervisor.show_addresses",
+          "field": "state of the supervisor's address whose name is 'Home'",
+          "object": "home-address-state"
+        },
+        "country": {
+          "$from": "supervisor.show_addresses",
+          "field": "country of the supervisor's address whose name is 'Home'",
+          "object": "home-address-country"
+        },
+        "zip_code": {
+          "$from": "supervisor.show_addresses",
+          "field": "zip_code of the supervisor's address whose name is 'Home'",
+          "object": "home-address-zip"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -123,6 +143,28 @@
     },
     {
       "step": 11,
+      "pddl": "(amazon-place-order amazon-payment-card home-address amazon-token qualifying-board-game quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
+          "object": "amazon-payment-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when the Home address is added (amazon.show_addresses does not list it)",
+          "object": "home-address"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(supervisor-complete-task qualifying-board-game home-address)",
       "api": "supervisor.complete_task",
       "args": {}

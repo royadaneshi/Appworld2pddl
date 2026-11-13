@@ -35,7 +35,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'query', 'app', 'draft', 'person', 'token', 'content', 'note', 'username', 'file-path', 'password', 'record'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -46,19 +48,19 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(file-system-login cod-smith-at-gmail-com file-system-password file-system-token)",
-      "(gmail-login cod-smith-at-gmail-com gmail-password file-system-token)",
-      "(simple-note-login cod-smith-at-gmail-com simple-note-password file-system-token)",
-      "(gmail-show-drafts file-system-token query-workout draft-reply-to-lindsey)",
-      "(gmail-show-draft draft-reply-to-lindsey file-system-token lindsey)",
-      "(simple-note-search-notes file-system-token query-workout workout-plan-note)",
-      "(simple-note-show-note workout-plan-note file-system-token workout-plan-content)",
+      "(gmail-login cod-smith-at-gmail-com gmail-password gmail-token)",
+      "(simple-note-login cod-smith-at-gmail-com simple-note-password simple-note-token)",
+      "(gmail-show-drafts gmail-token query-workout draft-reply-to-lindsey)",
+      "(gmail-show-draft draft-reply-to-lindsey gmail-token lindsey)",
+      "(simple-note-search-notes simple-note-token query-workout workout-plan-note)",
+      "(simple-note-show-note workout-plan-note simple-note-token workout-plan-content)",
       "(file-system-create-file workout-plan-txt file-system-token workout-plan-content)",
-      "(gmail-upload-attachments-to-draft draft-reply-to-lindsey workout-plan-txt file-system-token file-system-token)",
-      "(gmail-send-email-from-draft draft-reply-to-lindsey file-system-token)",
+      "(gmail-upload-attachments-to-draft draft-reply-to-lindsey workout-plan-txt file-system-token gmail-token)",
+      "(gmail-send-email-from-draft draft-reply-to-lindsey gmail-token)",
       "(supervisor-complete-task draft-reply-to-lindsey workout-plan-txt workout-plan-content)"
     ],
     "message": "",
-    "seconds": 1.22
+    "seconds": 0.88
   },
   "solution_used": false,
   "has_reference_solution": false,

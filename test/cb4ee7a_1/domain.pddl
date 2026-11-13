@@ -44,13 +44,14 @@
   ; API: amazon.signup
   (:action amazon-signup
     :parameters (?fn - name ?ln - name ?e - email ?pw - password)
-    :precondition (and (not (task-completed))
+    :precondition (and (passwords-known) (not (task-completed))
                        (supervisor-first-name ?fn)
                        (supervisor-last-name ?ln)
                        (supervisor-email ?e)
                        (signup-password ?pw)
                        (not (account-created)))
     :effect (and (account-created) (password-for amazon ?pw)))
+
 
   ; API: amazon.send_verification_code
   (:action amazon-send-verification-code

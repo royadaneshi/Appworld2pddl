@@ -60,22 +60,34 @@
     "field": "content: product id of the 3rd list entry (resolve via amazon.search_products if only a name is given)"
   },
   {
-    "object": "qty-1",
+    "object": "product-4",
     "value": null,
     "from_api": "simple_note.show_note",
-    "field": "content: quantity of the 1st entry, capped by the stock reported by amazon.show_product (skip product if unavailable)"
+    "field": "content: product id of the 4th list entry (resolve via amazon.search_products if only a name is given)"
+  },
+  {
+    "object": "qty-1",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "min(quantity written in the note for list entry 1, inventory_quantity of that product)"
   },
   {
     "object": "qty-2",
     "value": null,
-    "from_api": "simple_note.show_note",
-    "field": "content: quantity of the 2nd entry, capped by the stock reported by amazon.show_product (skip product if unavailable)"
+    "from_api": "amazon.show_product",
+    "field": "min(quantity written in the note for list entry 2, inventory_quantity of that product)"
   },
   {
     "object": "qty-3",
     "value": null,
-    "from_api": "simple_note.show_note",
-    "field": "content: quantity of the 3rd entry, capped by the stock reported by amazon.show_product (skip product if unavailable)"
+    "from_api": "amazon.show_product",
+    "field": "min(quantity written in the note for list entry 3, inventory_quantity of that product)"
+  },
+  {
+    "object": "qty-4",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "min(quantity written in the note for list entry 4, inventory_quantity of that product)"
   },
   {
     "object": "total-cost",

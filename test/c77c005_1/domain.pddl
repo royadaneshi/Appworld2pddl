@@ -4,7 +4,8 @@
     app person username password token email datetime - object)
   (:constants
     venmo - app
-    recent-payee-1 recent-payee-2 stale-friend-1 kept-friend-1 - person)
+    recent-payee-1 recent-payee-2 recent-payee-3 recent-payee-4 recent-payee-5 recent-payee-6 recent-payee-7 recent-payee-8 recent-payee-9 recent-payee-10 stale-friend-1 stale-friend-2 stale-friend-3 stale-friend-4 stale-friend-5 stale-friend-6 stale-friend-7 stale-friend-8 stale-friend-9 stale-friend-10 stale-friend-11 - person
+  )
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -56,6 +57,29 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (is-friend recent-payee-1) (is-friend recent-payee-2) (is-friend kept-friend-1) (not (is-friend stale-friend-1)) (not (task-completed)))
+    :precondition (and
+      (is-friend recent-payee-1)
+      (is-friend recent-payee-2)
+      (is-friend recent-payee-3)
+      (is-friend recent-payee-4)
+      (is-friend recent-payee-5)
+      (is-friend recent-payee-6)
+      (is-friend recent-payee-7)
+      (is-friend recent-payee-8)
+      (is-friend recent-payee-9)
+      (is-friend recent-payee-10)
+      (not (is-friend stale-friend-1))
+      (not (is-friend stale-friend-2))
+      (not (is-friend stale-friend-3))
+      (not (is-friend stale-friend-4))
+      (not (is-friend stale-friend-5))
+      (not (is-friend stale-friend-6))
+      (not (is-friend stale-friend-7))
+      (not (is-friend stale-friend-8))
+      (not (is-friend stale-friend-9))
+      (not (is-friend stale-friend-10))
+      (not (is-friend stale-friend-11))
+      (not (task-completed))
+      (not (task-completed)))
     :effect (and (task-completed)))
 )

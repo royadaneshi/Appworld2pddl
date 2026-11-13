@@ -1,9 +1,11 @@
 (define (domain appworld-f861c32-1)
   (:requirements :strips :typing :negative-preconditions :equality)
   (:types
-    app person username password token email amount note relationship payment-card - object)
+    app person username password token email amount note relationship payment-card - object
+    card-field - object)
   (:constants phone venmo - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -18,7 +20,10 @@
     (task-amount ?amt - amount)
     (task-note ?n - note)
     (paid ?p - person ?amt - amount ?n - note)
-    (task-completed))
+    (task-completed)
+    (venmo-cards-listed)
+    (supervisor-cards-known)
+    (card-details ?c - payment-card ?name ?owner ?number ?year ?month ?cvv - card-field))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -29,7 +34,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t))
 
   ; API: phone.search_contacts
@@ -41,7 +46,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (has-token venmo ?t))
 
   ; API: venmo.show_venmo_balance
@@ -50,10 +55,23 @@
     :precondition (and (has-token venmo ?t) (not (task-completed)))
     :effect (balance-checked))
 
-  ; API: venmo.show_payment_cards
+  ; API: venmo.show_payment_cards  (shows that every saved card is expired)
   (:action venmo-show-payment-cards
-    :parameters (?t - token ?c - payment-card)
+    :parameters (?t - token)
     :precondition (and (has-token venmo ?t) (not (task-completed)))
+    :effect (venmo-cards-listed))
+
+
+  ; API: supervisor.show_payment_cards
+  (:action supervisor-show-payment-cards
+    :parameters ()
+    :precondition (and (not (task-completed)))
+    :effect (supervisor-cards-known))
+
+  ; API: venmo.add_payment_card  (a non-expired card of the supervisor that Venmo does not have yet)
+  (:action venmo-add-payment-card
+    :parameters (?name ?owner ?number ?year ?month ?cvv - card-field ?t - token ?c - payment-card)
+    :precondition (and (has-token venmo ?t) (venmo-cards-listed) (supervisor-cards-known) (card-details ?c ?name ?owner ?number ?year ?month ?cvv) (not (known-id ?c)) (not (task-completed)))
     :effect (known-id ?c))
 
   ; API: venmo.add_to_venmo_balance

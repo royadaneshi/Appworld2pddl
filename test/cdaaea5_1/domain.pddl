@@ -1,11 +1,12 @@
 (define (domain appworld-cdaaea5-1)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person username password token query quantity item entity - object
     note product address payment-card - entity
   )
   (:constants supervisor simple-note amazon - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -34,7 +35,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (and (has-token simple-note ?t))
   )
 
@@ -55,7 +56,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
     :effect (and (has-token amazon ?t))
   )
 
@@ -103,8 +104,9 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p1 - product ?p2 - product ?ad - address)
-    :precondition (and (order-placed) (ordered-to ?ad) (in-cart ?p1) (in-cart ?p2) (not (= ?p1 ?p2)) (not (task-completed)))
+    :parameters (?ad - address)
+    :precondition (and (order-placed) (ordered-to ?ad) (forall (?p - product) (in-cart ?p)) (not (task-completed)))
     :effect (and (task-completed))
   )
+
 )

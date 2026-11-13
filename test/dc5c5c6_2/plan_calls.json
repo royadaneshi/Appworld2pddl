@@ -16,7 +16,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "field": "product_id of the highest-rated product of that type whose inventory_quantity is at least the number of gifts needed (one per sibling), so identical gifts can be bought for all",
           "object": "top-rated-watch"
         }
       }
@@ -47,7 +47,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "field": "product_id of the highest-rated product of that type whose inventory_quantity is at least the number of gifts needed (one per sibling), so identical gifts can be bought for all",
           "object": "top-rated-watch"
         },
         "access_token": {
@@ -91,7 +91,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "field": "product_id of the highest-rated product of that type whose inventory_quantity is at least the number of gifts needed (one per sibling), so identical gifts can be bought for all",
           "object": "top-rated-watch"
         },
         "access_token": {
@@ -201,12 +201,54 @@
     },
     {
       "step": 12,
+      "pddl": "(amazon-add-address name-brother-3 street-brother-3 city-brother-3 state-brother-3 country-brother-3 zip-brother-3 amazon-token brother-3 addr-brother-3)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of the 3rd contact with relationship brother",
+          "object": "name-brother-3"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part of home_address of the 3rd brother",
+          "object": "street-brother-3"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part of home_address of the 3rd brother",
+          "object": "city-brother-3"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part of home_address of the 3rd brother",
+          "object": "state-brother-3"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part of home_address of the 3rd brother",
+          "object": "country-brother-3"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code part of home_address of the 3rd brother",
+          "object": "zip-brother-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
       "pddl": "(amazon-place-order supervisor-card addr-brother-1 amazon-token brother-1 top-rated-watch)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card on file)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "supervisor-card"
         },
         "address_id": {
@@ -222,13 +264,13 @@
       }
     },
     {
-      "step": 13,
+      "step": 14,
       "pddl": "(amazon-add-product-to-cart top-rated-watch amazon-token quantity-1 flag-true)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "field": "product_id of the highest-rated product of that type whose inventory_quantity is at least the number of gifts needed (one per sibling), so identical gifts can be bought for all",
           "object": "top-rated-watch"
         },
         "access_token": {
@@ -241,13 +283,13 @@
       }
     },
     {
-      "step": 14,
+      "step": 15,
       "pddl": "(amazon-add-gift-wrapping-to-product top-rated-watch amazon-token quantity-1)",
       "api": "amazon.add_gift_wrapping_to_product",
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the product with the highest rating that is currently in stock (stock confirmed via amazon.show_product)",
+          "field": "product_id of the highest-rated product of that type whose inventory_quantity is at least the number of gifts needed (one per sibling), so identical gifts can be bought for all",
           "object": "top-rated-watch"
         },
         "access_token": {
@@ -259,13 +301,13 @@
       }
     },
     {
-      "step": 15,
+      "step": 16,
       "pddl": "(amazon-place-order supervisor-card addr-brother-2 amazon-token brother-2 top-rated-watch)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card on file)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "supervisor-card"
         },
         "address_id": {
@@ -281,8 +323,67 @@
       }
     },
     {
-      "step": 16,
-      "pddl": "(supervisor-complete-task brother-1 brother-2 top-rated-watch addr-brother-1 addr-brother-2)",
+      "step": 17,
+      "pddl": "(amazon-add-product-to-cart top-rated-watch amazon-token quantity-1 flag-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the highest-rated product of that type whose inventory_quantity is at least the number of gifts needed (one per sibling), so identical gifts can be bought for all",
+          "object": "top-rated-watch"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-add-gift-wrapping-to-product top-rated-watch amazon-token quantity-1)",
+      "api": "amazon.add_gift_wrapping_to_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the highest-rated product of that type whose inventory_quantity is at least the number of gifts needed (one per sibling), so identical gifts can be bought for all",
+          "object": "top-rated-watch"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-place-order supervisor-card addr-brother-3 amazon-token brother-3 top-rated-watch)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
+          "object": "supervisor-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned for the 3rd brother's home address",
+          "object": "addr-brother-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(supervisor-complete-task top-rated-watch)",
       "api": "supervisor.complete_task",
       "args": {}
     }

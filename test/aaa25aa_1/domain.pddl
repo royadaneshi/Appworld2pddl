@@ -2,8 +2,9 @@
   (:requirements :strips :typing :negative-preconditions :equality)
   (:types
     app person account username password token email query code relationship phone-number message inbox-email - object)
-  (:constants phone gmail spotify - app)
+  (:constants phone gmail amazon - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -36,7 +37,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t))
 
   ; API: phone.search_contacts
@@ -51,8 +52,8 @@
     :precondition (and (has-token phone ?t) (known-phone-number ?p ?n) (message-from ?m ?p) (not (task-completed)))
     :effect (message-read ?m))
 
-  ; API: spotify.send_verification_code
-  (:action spotify-send-verification-code
+  ; API: amazon.send_verification_code
+  (:action amazon-send-verification-code
     :parameters (?e - email ?acc - account ?m - message ?c - code)
     :precondition (and (account-email ?acc ?e) (message-read ?m) (message-about ?m ?acc) (verification-code-of ?acc ?c) (not (task-completed)))
     :effect (code-emailed ?c))
@@ -60,7 +61,7 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
     :effect (has-token gmail ?t))
 
   ; API: gmail.show_inbox_threads
@@ -75,20 +76,20 @@
     :precondition (and (has-token gmail ?t) (found-email ?em) (email-contains-code ?em ?c) (not (task-completed)))
     :effect (known-code ?c))
 
-  ; API: spotify.verify_account
-  (:action spotify-verify-account
+  ; API: amazon.verify_account
+  (:action amazon-verify-account
     :parameters (?e - email ?c - code ?acc - account)
     :precondition (and (account-email ?acc ?e) (verification-code-of ?acc ?c) (known-code ?c) (not (task-completed)))
     :effect (account-verified ?acc))
 
-  ; API: spotify.send_password_reset_code
-  (:action spotify-send-password-reset-code
+  ; API: amazon.send_password_reset_code
+  (:action amazon-send-password-reset-code
     :parameters (?e - email ?acc - account ?c - code)
     :precondition (and (account-email ?acc ?e) (reset-code-of ?acc ?c) (account-verified ?acc) (not (task-completed)))
     :effect (code-emailed ?c))
 
-  ; API: spotify.reset_password
-  (:action spotify-reset-password
+  ; API: amazon.reset_password
+  (:action amazon-reset-password
     :parameters (?e - email ?c - code ?npw - password ?acc - account)
     :precondition (and (account-email ?acc ?e) (reset-code-of ?acc ?c) (known-code ?c) (requested-password ?acc ?npw) (not (task-completed)))
     :effect (password-set ?acc ?npw))

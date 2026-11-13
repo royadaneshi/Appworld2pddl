@@ -1,5 +1,5 @@
 (define (domain appworld-d037dc8-2)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person username password token email order amount note relationship - object)
   (:constants supervisor amazon phone venmo - app)
@@ -85,10 +85,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p1 - person ?p2 - person ?amt - amount ?n - note)
-    :precondition (and (not (task-completed))
-                       (is-roommate ?p1) (is-roommate ?p2) (not (= ?p1 ?p2))
-                       (request-note ?n)
-                       (request-sent ?p1 ?amt ?n) (request-sent ?p2 ?amt ?n))
+    :parameters (?amt - amount ?n - note)
+    :precondition (and (request-note ?n) (forall (?p - person) (imply (is-roommate ?p) (request-sent ?p ?amt ?n))) (not (task-completed)))
     :effect (task-completed))
+
 )

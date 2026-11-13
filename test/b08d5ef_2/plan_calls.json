@@ -48,7 +48,7 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-login username-4885870260 phone-password amazon-token)",
+      "pddl": "(phone-login username-4885870260 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "4885870260",
@@ -73,25 +73,25 @@
     },
     {
       "step": 7,
-      "pddl": "(phone-show-contact-relationships amazon-token)",
+      "pddl": "(phone-show-contact-relationships phone-token)",
       "api": "phone.show_contact_relationships",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(phone-search-contacts amazon-token relationship-parent)",
+      "pddl": "(phone-search-contacts phone-token relationship-parent)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "relationship": {
           "$from": "phone.show_contact_relationships",
@@ -144,13 +144,13 @@
     },
     {
       "step": 10,
-      "pddl": "(phone-search-contacts amazon-token relationship-sibling)",
+      "pddl": "(phone-search-contacts phone-token relationship-sibling)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "relationship": {
           "$from": "phone.show_contact_relationships",
@@ -245,12 +245,54 @@
     },
     {
       "step": 13,
+      "pddl": "(amazon-add-address name-sibling-3 street-sibling-3 city-sibling-3 state-sibling-3 country-sibling-3 zip-sibling-3 amazon-token home-sibling-3 relationship-sibling)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of the third sibling contact (relationship=sibling)",
+          "object": "name-sibling-3"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "street part parsed from home_address of the third sibling",
+          "object": "street-sibling-3"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "city part parsed from home_address of the third sibling",
+          "object": "city-sibling-3"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "state part parsed from home_address of the third sibling",
+          "object": "state-sibling-3"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "country part parsed from home_address of the third sibling",
+          "object": "country-sibling-3"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "zip code (integer) parsed from home_address of the third sibling",
+          "object": "zip-sibling-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
       "pddl": "(amazon-place-order amazon-card home-sibling-1 amazon-token codenames-board-game quantity-1)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-card"
         },
         "address_id": {
@@ -266,7 +308,7 @@
       }
     },
     {
-      "step": 14,
+      "step": 15,
       "pddl": "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-1 clear-cart-true)",
       "api": "amazon.add_product_to_cart",
       "args": {
@@ -285,13 +327,13 @@
       }
     },
     {
-      "step": 15,
+      "step": 16,
       "pddl": "(amazon-place-order amazon-card home-sibling-2 amazon-token codenames-board-game quantity-1)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-card"
         },
         "address_id": {
@@ -307,7 +349,48 @@
       }
     },
     {
-      "step": 16,
+      "step": 17,
+      "pddl": "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-1 clear-cart-true)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Codenames Board Game\"",
+          "object": "codenames-board-game"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1,
+        "clear_cart_first": true
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-place-order amazon-card home-sibling-3 amazon-token codenames-board-game quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
+          "object": "amazon-card"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding the third sibling's home address",
+          "object": "home-sibling-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 19,
       "pddl": "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-2 clear-cart-true)",
       "api": "amazon.add_product_to_cart",
       "args": {
@@ -326,13 +409,13 @@
       }
     },
     {
-      "step": 17,
+      "step": 20,
       "pddl": "(amazon-place-order amazon-card home-parents amazon-token codenames-board-game quantity-2)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-card"
         },
         "address_id": {
@@ -348,7 +431,7 @@
       }
     },
     {
-      "step": 18,
+      "step": 21,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

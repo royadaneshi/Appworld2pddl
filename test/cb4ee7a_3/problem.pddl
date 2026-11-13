@@ -21,6 +21,14 @@
     duration-yearly - duration
   )
   (:init
+    (credential-of-app gmail matthew-blac-at-gmail-com)
+    (credential-of-app gmail username-matthew-blac-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon matthew-blac-at-gmail-com)
+    (credential-of-app amazon username-matthew-blac-at-gmail-com)
+    (credential-of-app amazon amazon-new-password)
+    (credential-of-app amazon amazon-token)
     (is-supervisor matthew-blackburn)
     (person-first-name matthew-blackburn first-name-matthew)
     (person-last-name matthew-blackburn last-name-blackburn)

@@ -15,6 +15,12 @@
     default-payment-card - payment-card
   )
   (:init
+    (credential-of-app gmail joseph-webe-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon joseph-webe-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for gmail gmail-password)
     (password-for amazon amazon-password)
     (thread-matches query-flight flight-confirmation-thread)

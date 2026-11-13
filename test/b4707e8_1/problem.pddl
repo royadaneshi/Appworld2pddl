@@ -13,6 +13,12 @@
     append - position
   )
   (:init
+    (credential-of-app simple-note diwils-at-gmail-com)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
+    (credential-of-app amazon diwils-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for simple-note diwils-at-gmail-com)
     (username-for amazon diwils-at-gmail-com)
     (password-for simple-note simple-note-password)

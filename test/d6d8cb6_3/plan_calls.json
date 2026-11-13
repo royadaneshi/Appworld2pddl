@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-login diwils-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login diwils-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "diwils@gmail.com",
@@ -111,20 +111,20 @@
     },
     {
       "step": 9,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-return-confirmation thread-return-confirmation order-vitamix-this-week)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-return-confirmation thread-return-confirmation order-vitamix-this-week)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "Amazon Return Confirmation and Label"
       }
     },
     {
       "step": 10,
-      "pddl": "(gmail-show-thread thread-return-confirmation amazon-token email-return-confirmation)",
+      "pddl": "(gmail-show-thread thread-return-confirmation gmail-token email-return-confirmation)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -133,9 +133,9 @@
           "object": "thread-return-confirmation"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
@@ -154,7 +154,7 @@
     },
     {
       "step": 12,
-      "pddl": "(gmail-forward-email-from-thread thread-return-confirmation email-return-confirmation jeffery-email-address amazon-token jeffery)",
+      "pddl": "(gmail-forward-email-from-thread thread-return-confirmation email-return-confirmation jeffery-email-address gmail-token jeffery)",
       "api": "gmail.forward_email_from_thread",
       "args": {
         "email_thread_id": {
@@ -173,9 +173,9 @@
           "object": "jeffery-email-address"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },

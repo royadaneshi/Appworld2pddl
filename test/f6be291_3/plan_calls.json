@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(file-system-login va-blac-at-gmail-com file-system-password amazon-token)",
+      "pddl": "(file-system-login va-blac-at-gmail-com file-system-password file-system-token)",
       "api": "file_system.login",
       "args": {
         "username": "va-blac@gmail.com",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-login va-blac-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login va-blac-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "va-blac@gmail.com",
@@ -47,7 +47,7 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-login phone-5822399497 phone-password gmail-token)",
+      "pddl": "(phone-login phone-5822399497 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "5822399497",
@@ -96,26 +96,26 @@
     },
     {
       "step": 9,
-      "pddl": "(phone-search-contacts gmail-token rel-partner partner partner-email)",
+      "pddl": "(phone-search-contacts phone-token rel-partner partner partner-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "relationship": "partner"
       }
     },
     {
       "step": 10,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-checklist partner-email partner checklist-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-checklist partner-email partner checklist-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "checklist",
         "from_email": {
@@ -127,7 +127,7 @@
     },
     {
       "step": 11,
-      "pddl": "(gmail-show-thread checklist-thread amazon-token checklist-attachment)",
+      "pddl": "(gmail-show-thread checklist-thread gmail-token checklist-attachment)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -136,15 +136,15 @@
           "object": "checklist-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(gmail-download-attachment checklist-attachment amazon-token amazon-token checklist-file)",
+      "pddl": "(gmail-download-attachment checklist-attachment file-system-token gmail-token checklist-file)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -153,20 +153,20 @@
           "object": "checklist-attachment"
         },
         "file_system_access_token": {
-          "$from": "amazon.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "file-system-token"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(file-system-show-file checklist-file amazon-token)",
+      "pddl": "(file-system-show-file checklist-file file-system-token)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
@@ -175,9 +175,9 @@
           "object": "checklist-file"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "file-system-token"
         }
       }
     },
@@ -285,12 +285,114 @@
     },
     {
       "step": 20,
-      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token item-3)",
+      "pddl": "(amazon-search-products query-item-4 product-4)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: product name of checklist entry 4",
+          "object": "query-item-4"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(amazon-add-product-to-cart product-4 amazon-token quantity-4 item-4 item-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id matching checklist entry 4 (or the product id listed directly in the checklist)",
+          "object": "product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity of checklist entry 4",
+          "object": "quantity-4"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(amazon-search-products query-item-5 product-5)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: product name of checklist entry 5",
+          "object": "query-item-5"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(amazon-add-product-to-cart product-5 amazon-token quantity-5 item-5 item-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id matching checklist entry 5 (or the product id listed directly in the checklist)",
+          "object": "product-5"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity of checklist entry 5",
+          "object": "quantity-5"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(amazon-search-products query-item-6 product-6)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: product name of checklist entry 6",
+          "object": "query-item-6"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(amazon-add-product-to-cart product-6 amazon-token quantity-6 item-6 item-5)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id matching checklist entry 6 (or the product id listed directly in the checklist)",
+          "object": "product-6"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content: quantity of checklist entry 6",
+          "object": "quantity-6"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token item-6)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id of the first (any) saved card",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "payment-card-1"
         },
         "address_id": {
@@ -306,7 +408,7 @@
       }
     },
     {
-      "step": 21,
+      "step": 27,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

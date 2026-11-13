@@ -1,5 +1,5 @@
 (define (domain appworld-ff58e36-2)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types app person relationship username password token email - object)
   (:constants venmo phone - app)
   (:predicates
@@ -53,7 +53,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p1 - person ?p2 - person ?p3 - person)
-    :precondition (and (venmo-friend ?p1) (venmo-friend ?p2) (venmo-friend ?p3) (not (= ?p1 ?p2)) (not (= ?p1 ?p3)) (not (= ?p2 ?p3)) (not (task-completed)))
+    :parameters ()
+    :precondition (and (forall (?p - person ?r - relationship) (imply (has-relationship ?p ?r) (venmo-friend ?p))) (not (task-completed)))
     :effect (task-completed))
+
 )

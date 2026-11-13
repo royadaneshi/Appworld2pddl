@@ -12,6 +12,15 @@
     draft-reply-to-lindsey - draft
   )
   (:init
+    (credential-of-app simple-note cod-smith-at-gmail-com)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
+    (credential-of-app file-system cod-smith-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app gmail cod-smith-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (password-for simple-note simple-note-password)
     (password-for file-system file-system-password)
     (password-for gmail gmail-password)

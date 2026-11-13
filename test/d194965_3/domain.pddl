@@ -7,11 +7,12 @@
   )
   (:constants
     supervisor simple-note spotify - app
-    song-1 song-2 song-3 - song
+    song-1 song-2 song-3 song-4 song-5 song-6 song-7 song-8 song-9 song-10 song-11 - song
     random-playlist - playlist
     random-playlist-title - title
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -36,7 +37,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (and (has-token simple-note ?t))
   )
 
@@ -57,7 +58,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for spotify ?pw) (not (has-token spotify ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw) (credential-of-app spotify ?u) (passwords-known) (password-for spotify ?pw) (not (has-token spotify ?t)) (not (task-completed)))
     :effect (and (has-token spotify ?t))
   )
 
@@ -85,7 +86,21 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (playlist-created random-playlist) (playlist-titled random-playlist random-playlist-title) (song-in-playlist song-1 random-playlist) (song-in-playlist song-2 random-playlist) (song-in-playlist song-3 random-playlist) (not (task-completed)))
+    :precondition (and
+      (playlist-created random-playlist)
+      (playlist-titled random-playlist random-playlist-title)
+      (song-in-playlist song-1 random-playlist)
+      (song-in-playlist song-2 random-playlist)
+      (song-in-playlist song-3 random-playlist)
+      (song-in-playlist song-4 random-playlist)
+      (song-in-playlist song-5 random-playlist)
+      (song-in-playlist song-6 random-playlist)
+      (song-in-playlist song-7 random-playlist)
+      (song-in-playlist song-8 random-playlist)
+      (song-in-playlist song-9 random-playlist)
+      (song-in-playlist song-10 random-playlist)
+      (song-in-playlist song-11 random-playlist)
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

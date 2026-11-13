@@ -45,7 +45,7 @@
     "object": "son-phone-number",
     "value": null,
     "from_api": "phone.search_contacts",
-    "field": "phone_number of the contact whose relationships include \"son\""
+    "field": "phone_number of the son/daughter contact who sent the account-creation message yesterday (several children may be in the contacts; check each one's messages)"
   },
   {
     "object": "son-message-yesterday",
@@ -61,15 +61,15 @@
   },
   {
     "object": "query-verification-code",
-    "value": "Account Verficiation Code",
-    "from_api": null,
-    "field": null
+    "value": null,
+    "from_api": "phone.search_text_messages",
+    "field": "search query built from the app named in the message plus 'verification code'"
   },
   {
     "object": "query-password-reset-code",
-    "value": "Password Reset Code",
-    "from_api": null,
-    "field": null
+    "value": null,
+    "from_api": "phone.search_text_messages",
+    "field": "search query built from the app named in the message plus 'password reset code'"
   },
   {
     "object": "verification-email-thread",
@@ -84,13 +84,13 @@
     "field": "email_thread_id of the newest thread with subject \"<App> Password Reset Code\""
   },
   {
-    "object": "spotify-verification-code",
+    "object": "new-app-verification-code",
     "value": null,
     "from_api": "gmail.show_thread",
     "field": "verification code parsed from emails[-1].body"
   },
   {
-    "object": "spotify-reset-code",
+    "object": "new-app-reset-code",
     "value": null,
     "from_api": "gmail.show_thread",
     "field": "password reset code parsed from emails[-1].body"

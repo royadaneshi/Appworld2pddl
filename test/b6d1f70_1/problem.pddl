@@ -22,6 +22,12 @@
     quantity-1 - quantity
     flag-true - flag)
   (:init
+    (credential-of-app amazon mel-bailey-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone phone-3383946795)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
     (password-for amazon amazon-password)
     (password-for phone phone-password)
     (search-criteria query-wireless-earbuds rating-3-9)

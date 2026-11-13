@@ -4,8 +4,9 @@
     app person username password token email phone-number relationship
     text-message email-thread code query - object
   )
-  (:constants supervisor phone gmail spotify - app)
+  (:constants supervisor phone gmail venmo - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -43,7 +44,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t)
   )
@@ -64,8 +65,8 @@
     :effect (and (message-read ?m) (account-setup-requested ?e))
   )
 
-  ; API: spotify.send_verification_code
-  (:action spotify-send-verification-code
+  ; API: venmo.send_verification_code
+  (:action venmo-send-verification-code
     :parameters (?e - email ?th - email-thread)
     :precondition (and (account-setup-requested ?e) (verification-thread-for ?e ?th)
                        (not (task-completed)))
@@ -75,7 +76,7 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for gmail ?u) (password-for gmail ?pw)
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw)
                        (not (has-token gmail ?t)) (not (task-completed)))
     :effect (has-token gmail ?t)
   )
@@ -96,23 +97,23 @@
     :effect (known-code ?c)
   )
 
-  ; API: spotify.verify_account
-  (:action spotify-verify-account
+  ; API: venmo.verify_account
+  (:action venmo-verify-account
     :parameters (?e - email ?c - code)
     :precondition (and (known-code ?c) (verification-code-for ?c ?e) (not (task-completed)))
     :effect (account-verified ?e)
   )
 
-  ; API: spotify.send_password_reset_code
-  (:action spotify-send-password-reset-code
+  ; API: venmo.send_password_reset_code
+  (:action venmo-send-password-reset-code
     :parameters (?e - email ?th - email-thread)
     :precondition (and (account-setup-requested ?e) (reset-thread-for ?e ?th)
                        (not (task-completed)))
     :effect (thread-exists ?th)
   )
 
-  ; API: spotify.reset_password
-  (:action spotify-reset-password
+  ; API: venmo.reset_password
+  (:action venmo-reset-password
     :parameters (?e - email ?c - code ?npw - password)
     :precondition (and (known-code ?c) (reset-code-for ?c ?e) (new-password ?npw)
                        (not (task-completed)))

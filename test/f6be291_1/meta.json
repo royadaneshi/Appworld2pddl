@@ -41,7 +41,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'file-path', 'app', 'count', 'query', 'payment-card', 'attachment', 'token', 'person', 'username', 'product', 'address', 'email-thread', 'quantity', 'password'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -52,25 +54,24 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(amazon-login pa-ritter-at-gmail-com amazon-password amazon-token)",
-      "(file-system-login pa-ritter-at-gmail-com file-system-password amazon-token)",
-      "(gmail-login pa-ritter-at-gmail-com gmail-password amazon-token)",
+      "(file-system-login pa-ritter-at-gmail-com file-system-password file-system-token)",
+      "(gmail-login pa-ritter-at-gmail-com gmail-password gmail-token)",
       "(amazon-clear-cart amazon-token)",
       "(amazon-show-addresses amazon-token address-home)",
       "(amazon-show-payment-cards amazon-token payment-card-1)",
-      "(gmail-show-inbox-threads amazon-token query-checklist checklist-thread)",
-      "(gmail-show-thread checklist-thread amazon-token checklist-attachment)",
-      "(gmail-download-attachment checklist-attachment amazon-token amazon-token checklist-file)",
-      "(file-system-show-file checklist-file amazon-token)",
+      "(gmail-show-inbox-threads gmail-token query-checklist checklist-thread)",
+      "(gmail-show-thread checklist-thread gmail-token checklist-attachment)",
+      "(gmail-download-attachment checklist-attachment file-system-token gmail-token checklist-file)",
+      "(file-system-show-file checklist-file file-system-token)",
       "(amazon-add-product-to-cart product-1 amazon-token quantity-1 count-0 count-1)",
       "(amazon-add-product-to-cart product-2 amazon-token quantity-2 count-1 count-2)",
       "(amazon-add-product-to-cart product-3 amazon-token quantity-3 count-2 count-3)",
       "(amazon-add-product-to-cart product-4 amazon-token quantity-4 count-3 count-4)",
-      "(amazon-add-product-to-cart product-5 amazon-token quantity-5 count-4 count-5)",
-      "(amazon-place-order payment-card-1 address-home amazon-token count-5)",
+      "(amazon-place-order payment-card-1 address-home amazon-token count-4)",
       "(supervisor-complete-task)"
     ],
     "message": "",
-    "seconds": 1.2
+    "seconds": 1.44
   },
   "solution_used": false,
   "has_reference_solution": false,

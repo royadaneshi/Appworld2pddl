@@ -16,6 +16,15 @@
     home-address - address
     default-payment-card - payment-card)
   (:init
+    (credential-of-app gmail de-ritt-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system de-ritt-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app amazon de-ritt-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for gmail gmail-password)
     (password-for file-system file-system-password)
     (password-for amazon amazon-password)

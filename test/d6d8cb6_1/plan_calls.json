@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-login timothy-whit-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login timothy-whit-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "timothy.whit@gmail.com",
@@ -111,20 +111,20 @@
     },
     {
       "step": 9,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-return-confirmation return-confirmation-thread lamp-order)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-return-confirmation return-confirmation-thread lamp-order)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "Amazon Return Confirmation and Label"
       }
     },
     {
       "step": 10,
-      "pddl": "(gmail-show-thread return-confirmation-thread amazon-token return-confirmation-email)",
+      "pddl": "(gmail-show-thread return-confirmation-thread gmail-token return-confirmation-email)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -133,9 +133,9 @@
           "object": "return-confirmation-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
@@ -154,7 +154,7 @@
     },
     {
       "step": 12,
-      "pddl": "(gmail-forward-email-from-thread return-confirmation-thread return-confirmation-email aaron-email amazon-token aaron)",
+      "pddl": "(gmail-forward-email-from-thread return-confirmation-thread return-confirmation-email aaron-email gmail-token aaron)",
       "api": "gmail.forward_email_from_thread",
       "args": {
         "email_thread_id": {
@@ -173,9 +173,9 @@
           "object": "aaron-email"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-2192158297 phone-password gmail-token)",
+      "pddl": "(phone-login username-2192158297 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2192158297",
@@ -34,45 +34,45 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-search-contacts gmail-token relationship-son son son-phone-number)",
+      "pddl": "(phone-search-contacts phone-token relationship-son son son-phone-number)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "relationship": "son"
       }
     },
     {
       "step": 5,
-      "pddl": "(phone-search-text-messages gmail-token son-phone-number son account-creation-message)",
+      "pddl": "(phone-search-text-messages phone-token son-phone-number son account-creation-message)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the contact returned for relationship \"son\"",
+          "field": "phone_number of the son/daughter contact who sent the account-creation message yesterday (several children may be in the contacts; check each one's messages)",
           "object": "son-phone-number"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(spotify-send-verification-code thomas-solomon-at-gmail-com thomas-spotify-account account-creation-message verification-code)",
-      "api": "spotify.send_verification_code",
+      "pddl": "(amazon-send-verification-code thomas-solomon-at-gmail-com thomas-new-app-account account-creation-message verification-code)",
+      "api": "amazon.send_verification_code",
       "args": {
         "email": "thomas.solomon@gmail.com"
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-inbox-threads gmail-token query-spotify-account verification-email verification-code)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-new-app-account verification-email verification-code)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
@@ -80,7 +80,11 @@
           "field": "access_token",
           "object": "gmail-token"
         },
-        "query": "Spotify Account"
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "search query built from the app named in the message plus 'verification code'",
+          "object": "query-new-app-account"
+        }
       }
     },
     {
@@ -102,8 +106,8 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-verify-account thomas-solomon-at-gmail-com verification-code thomas-spotify-account)",
-      "api": "spotify.verify_account",
+      "pddl": "(amazon-verify-account thomas-solomon-at-gmail-com verification-code thomas-new-app-account)",
+      "api": "amazon.verify_account",
       "args": {
         "email": "thomas.solomon@gmail.com",
         "verification_code": {
@@ -115,15 +119,15 @@
     },
     {
       "step": 10,
-      "pddl": "(spotify-send-password-reset-code thomas-solomon-at-gmail-com thomas-spotify-account reset-code)",
-      "api": "spotify.send_password_reset_code",
+      "pddl": "(amazon-send-password-reset-code thomas-solomon-at-gmail-com thomas-new-app-account reset-code)",
+      "api": "amazon.send_password_reset_code",
       "args": {
         "email": "thomas.solomon@gmail.com"
       }
     },
     {
       "step": 11,
-      "pddl": "(gmail-show-inbox-threads gmail-token query-spotify-password-reset-code reset-email reset-code)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-new-app-password-reset-code reset-email reset-code)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
@@ -131,7 +135,11 @@
           "field": "access_token",
           "object": "gmail-token"
         },
-        "query": "Spotify Password Reset Code"
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "search query built from the app named in the message plus 'password reset code'",
+          "object": "query-new-app-password-reset-code"
+        }
       }
     },
     {
@@ -153,8 +161,8 @@
     },
     {
       "step": 13,
-      "pddl": "(spotify-reset-password thomas-solomon-at-gmail-com reset-code new-password-vh-1r0 thomas-spotify-account)",
-      "api": "spotify.reset_password",
+      "pddl": "(amazon-reset-password thomas-solomon-at-gmail-com reset-code new-password-vh-1r0 thomas-new-app-account)",
+      "api": "amazon.reset_password",
       "args": {
         "email": "thomas.solomon@gmail.com",
         "password_reset_code": {
@@ -167,7 +175,7 @@
     },
     {
       "step": 14,
-      "pddl": "(supervisor-complete-task thomas-spotify-account new-password-vh-1r0)",
+      "pddl": "(supervisor-complete-task thomas-new-app-account new-password-vh-1r0)",
       "api": "supervisor.complete_task",
       "args": {}
     }

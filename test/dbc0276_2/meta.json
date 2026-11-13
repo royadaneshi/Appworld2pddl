@@ -31,7 +31,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'relationship', 'username', 'person', 'password', 'product', 'message', 'token', 'count', 'phone-number', 'app'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -41,17 +43,20 @@
     "planner_status": "SOLVED_SATISFICING",
     "plan": [
       "(supervisor-show-account-passwords)",
-      "(amazon-login je-simpson-at-gmail-com amazon-password phone-token)",
-      "(phone-login username-9654124977 phone-password amazon-token)",
-      "(amazon-show-wish-list phone-token)",
-      "(phone-search-contacts amazon-token relationship-wife wife wife-phone-number)",
+      "(amazon-login je-simpson-at-gmail-com amazon-password amazon-token)",
+      "(phone-login username-9654124977 phone-password phone-token)",
+      "(amazon-show-wish-list amazon-token)",
+      "(phone-search-contacts phone-token relationship-wife wife wife-phone-number)",
       "(amazon-show-product product-1 c0 c1)",
       "(amazon-show-product product-2 c1 c2)",
-      "(phone-send-text-message wife-phone-number message-itemized-wish-list amazon-token wife c2)",
+      "(amazon-show-product product-3 c2 c3)",
+      "(amazon-show-product product-4 c3 c4)",
+      "(amazon-show-product product-5 c4 c5)",
+      "(phone-send-text-message wife-phone-number message-itemized-wish-list phone-token wife c5)",
       "(supervisor-complete-task wife-phone-number message-itemized-wish-list)"
     ],
     "message": "",
-    "seconds": 1.16
+    "seconds": 1.0
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -7,6 +7,7 @@
     simple-note amazon - app
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -33,7 +34,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u)
       (passwords-known)
       (username-for simple-note ?u)
       (password-for simple-note ?pw)
@@ -68,7 +69,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u)
       (passwords-known)
       (username-for amazon ?u)
       (password-for amazon ?pw)

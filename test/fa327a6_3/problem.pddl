@@ -41,7 +41,7 @@
     (adjustment-note note-adjusting-amazon-payment)
     ; assumed outcome of the runtime comparison: Valerie sent less than the orders total,
     ; so the difference must be requested; replace with (overpaid valerie) to send instead
-    (underpaid valerie))
+    (overpaid valerie))
   (:goal (and
     (difference-settled valerie amount-difference note-adjusting-amazon-payment)
     (task-completed))))

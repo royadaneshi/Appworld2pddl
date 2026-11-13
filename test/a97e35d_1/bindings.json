@@ -39,7 +39,7 @@
     "object": "selected-candidates-file",
     "value": null,
     "from_api": "file_system.show_directory",
-    "field": "path of the entry listing the selected candidates (file name containing 'selected')"
+    "field": "path of the decisions file in the directory (one row per candidate with decision accept / reject)"
   },
   {
     "object": "acceptance-email-template",
@@ -60,16 +60,22 @@
     "field": "path of the offer letter template entry"
   },
   {
-    "object": "offer-letter-candidate-a",
-    "value": "~/documents/work/recruiting/offer_letter_<candidate-a-name>.<offer-template-extension>",
+    "object": "offer-letter-1",
+    "value": null,
     "from_api": null,
-    "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply"
+    "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 1 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "offer-letter-candidate-b",
-    "value": "~/documents/work/recruiting/offer_letter_<candidate-b-name>.<offer-template-extension>",
+    "object": "offer-letter-2",
+    "value": null,
     "from_api": null,
-    "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply"
+    "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 2 of 3 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "offer-letter-3",
+    "value": null,
+    "from_api": null,
+    "field": "new per-candidate file path constructed by the agent; passed as the single-element list attachment_file_paths in the reply (the value is not given in the task; read it from the tool output at run time) [item 3 of 3 that match this rule; one object per matching item]"
   },
   {
     "object": "no-attachment",
@@ -78,40 +84,64 @@
     "field": "empty attachment_file_paths list (rejection replies carry no attachment; file_system_access_token is then unused)"
   },
   {
-    "object": "offer-content-candidate-a",
+    "object": "offer-content-candidate-1",
     "value": null,
     "from_api": "file_system.show_file",
-    "field": "content of offer letter template with placeholders (candidate name, position 'Software Engineer') filled in for candidate-a"
+    "field": "content of the offer letter template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 1 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "offer-content-candidate-b",
+    "object": "offer-content-candidate-2",
     "value": null,
     "from_api": "file_system.show_file",
-    "field": "content of offer letter template with placeholders filled in for candidate-b"
+    "field": "content of the offer letter template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 2 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "acceptance-body-candidate-a",
+    "object": "offer-content-candidate-3",
     "value": null,
     "from_api": "file_system.show_file",
-    "field": "content of acceptance email template with placeholders filled in for candidate-a"
+    "field": "content of the offer letter template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 3 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "acceptance-body-candidate-b",
+    "object": "acceptance-body-candidate-1",
     "value": null,
     "from_api": "file_system.show_file",
-    "field": "content of acceptance email template with placeholders filled in for candidate-b"
+    "field": "content of the acceptance email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 1 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "rejection-body-candidate-c",
+    "object": "acceptance-body-candidate-2",
     "value": null,
     "from_api": "file_system.show_file",
-    "field": "content of rejection email template with placeholders filled in for candidate-c"
+    "field": "content of the acceptance email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 2 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "rejection-body-candidate-d",
+    "object": "acceptance-body-candidate-3",
     "value": null,
     "from_api": "file_system.show_file",
-    "field": "content of rejection email template with placeholders filled in for candidate-d"
+    "field": "content of the acceptance email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 3 of 3 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "rejection-body-candidate-1",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content of the rejection email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 1 of 4 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "rejection-body-candidate-2",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content of the rejection email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 2 of 4 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "rejection-body-candidate-3",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content of the rejection email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 3 of 4 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "rejection-body-candidate-4",
+    "value": null,
+    "from_api": "file_system.show_file",
+    "field": "content of the rejection email template with the placeholders filled in for the candidate this object is linked to in the problem facts [item 4 of 4 that match this rule; one object per matching item]"
   },
   {
     "object": "query-software-engineer",
@@ -126,75 +156,129 @@
     "field": "current datetime minus 2 weeks"
   },
   {
-    "object": "thread-candidate-a",
+    "object": "thread-candidate-1",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "email_thread_id of the application thread sent by candidate-a"
+    "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 1 of 7 that match this rule; one object per matching item]"
   },
   {
-    "object": "thread-candidate-b",
+    "object": "thread-candidate-2",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "email_thread_id of the application thread sent by candidate-b"
+    "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 2 of 7 that match this rule; one object per matching item]"
   },
   {
-    "object": "thread-candidate-c",
+    "object": "thread-candidate-3",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "email_thread_id of the application thread sent by candidate-c"
+    "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 3 of 7 that match this rule; one object per matching item]"
   },
   {
-    "object": "thread-candidate-d",
+    "object": "thread-candidate-4",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "email_thread_id of the application thread sent by candidate-d"
+    "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 4 of 7 that match this rule; one object per matching item]"
   },
   {
-    "object": "email-candidate-a",
+    "object": "thread-candidate-5",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "emails[0].email_id of candidate-a's application thread"
+    "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 5 of 7 that match this rule; one object per matching item]"
   },
   {
-    "object": "email-candidate-b",
+    "object": "thread-candidate-6",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "emails[0].email_id of candidate-b's application thread"
+    "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 6 of 7 that match this rule; one object per matching item]"
   },
   {
-    "object": "email-candidate-c",
+    "object": "thread-candidate-7",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "emails[0].email_id of candidate-c's application thread"
+    "field": "email_thread_id of the Software Engineer application thread sent by the candidate this object is linked to in the problem facts [item 7 of 7 that match this rule; one object per matching item]"
   },
   {
-    "object": "email-candidate-d",
+    "object": "email-candidate-1",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "emails[0].email_id of candidate-d's application thread"
+    "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 1 of 7 that match this rule; one object per matching item]"
   },
   {
-    "object": "candidate-a",
+    "object": "email-candidate-2",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 2 of 7 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "email-candidate-3",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 3 of 7 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "email-candidate-4",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 4 of 7 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "email-candidate-5",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 5 of 7 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "email-candidate-6",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 6 of 7 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "email-candidate-7",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "emails[0].email_id of the application thread of the candidate this object is linked to in the problem facts [item 7 of 7 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "candidate-1",
     "value": null,
     "from_api": "file_system.show_file",
-    "field": "first entry of the selected candidates file (name/email)"
+    "field": "a candidate whose decision in the decisions file is accept (first_name / last_name row) [item 1 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "candidate-b",
+    "object": "candidate-2",
     "value": null,
     "from_api": "file_system.show_file",
-    "field": "second entry of the selected candidates file (name/email)"
+    "field": "a candidate whose decision in the decisions file is accept (first_name / last_name row) [item 2 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "candidate-c",
+    "object": "candidate-3",
     "value": null,
-    "from_api": "gmail.show_inbox_threads",
-    "field": "sender of a Software Engineer application thread from the last 2 weeks who is not in the selected list"
+    "from_api": "file_system.show_file",
+    "field": "a candidate whose decision in the decisions file is accept (first_name / last_name row) [item 3 of 3 that match this rule; one object per matching item]"
   },
   {
-    "object": "candidate-d",
+    "object": "candidate-4",
     "value": null,
     "from_api": "gmail.show_inbox_threads",
-    "field": "sender of a Software Engineer application thread from the last 2 weeks who is not in the selected list"
+    "field": "a candidate whose decision in the decisions file is reject (first_name / last_name row) [item 1 of 4 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "candidate-5",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "a candidate whose decision in the decisions file is reject (first_name / last_name row) [item 2 of 4 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "candidate-6",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "a candidate whose decision in the decisions file is reject (first_name / last_name row) [item 3 of 4 that match this rule; one object per matching item]"
+  },
+  {
+    "object": "candidate-7",
+    "value": null,
+    "from_api": "gmail.show_inbox_threads",
+    "field": "a candidate whose decision in the decisions file is reject (first_name / last_name row) [item 4 of 4 that match this rule; one object per matching item]"
   }
 ]

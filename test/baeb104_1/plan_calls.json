@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login nan-ritt-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login nan-ritt-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "nan_ritt@gmail.com",
@@ -91,7 +91,7 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-send-email roommate-emails subject-bali-trip-photographs body-bali-trip-photographs file-system-token bali-zip file-system-token)",
+      "pddl": "(gmail-send-email roommate-emails subject-bali-trip-photographs body-bali-trip-photographs gmail-token bali-zip file-system-token)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
@@ -102,9 +102,9 @@
         "subject": "Bali Trip Photographs",
         "body": "Hi all, here are all the photographs from our Bali vacation trip, attached as a zip file.",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "attachment_file_paths": {
           "$from": "file_system.compress_directory",

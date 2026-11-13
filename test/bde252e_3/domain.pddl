@@ -1,11 +1,12 @@
 (define (domain appworld-bde252e-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person record - object
     note project task-item - record
     username password token query title description duration duration-unit priority - object)
   (:constants simple-note todoist - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -39,7 +40,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (not (task-completed))
                        (passwords-known)
                        (username-for simple-note ?u)
                        (password-for simple-note ?pw)
@@ -65,7 +66,7 @@
   ; API: todoist.login
   (:action todoist-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed))
+    :precondition (and (credential-of-app todoist ?t) (credential-of-app todoist ?pw) (credential-of-app todoist ?u) (not (task-completed))
                        (passwords-known)
                        (username-for todoist ?u)
                        (password-for todoist ?pw)
@@ -122,13 +123,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?done - task-item ?moved - task-item ?p - project)
-    :precondition (and (not (task-completed))
-                       (completed ?done)
-                       (deleted ?done)
-                       (is-today ?p)
-                       (fits-in-schedule ?moved)
-                       (copied-to ?moved ?p)
-                       (deleted ?moved))
+    :parameters ()
+    :precondition (and (forall (?i - task-item) (imply (to-delete ?i) (deleted ?i))) (forall (?i - task-item) (imply (fits-in-schedule ?i) (deleted ?i))) (not (task-completed)))
     :effect (task-completed))
+
 )

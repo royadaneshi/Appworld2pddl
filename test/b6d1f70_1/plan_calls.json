@@ -61,10 +61,10 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-login mel-bailey-at-gmail-com phone-password phone-token)",
+      "pddl": "(phone-login phone-3383946795 phone-password phone-token)",
       "api": "phone.login",
       "args": {
-        "username": "mel.bailey@gmail.com",
+        "username": "3383946795",
         "password": {
           "$from": "supervisor.show_account_passwords",
           "field": "password where account_name == \"phone\"",
@@ -171,7 +171,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-card"
         },
         "address_id": {
@@ -212,7 +212,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-card"
         },
         "address_id": {

@@ -36,7 +36,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'app', 'password', 'token', 'email-thread', 'product', 'email-msg', 'order', 'email', 'entity', 'deliverer', 'username', 'query', 'quantity', 'person'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -48,19 +50,19 @@
       "(amazon-show-return-deliverers usps)",
       "(supervisor-show-account-passwords)",
       "(amazon-login alexwhite-at-gmail-com amazon-pw amazon-tok)",
-      "(gmail-login alexwhite-at-gmail-com gmail-pw amazon-tok)",
+      "(gmail-login alexwhite-at-gmail-com gmail-pw gmail-tok)",
       "(phone-login phone-3707865891 phone-pw phone-tok)",
       "(amazon-show-orders amazon-tok query-eket-cabinet eket-cabinet-order)",
       "(amazon-show-order eket-cabinet-order amazon-tok eket-cabinet)",
       "(amazon-initiate-return eket-cabinet-order eket-cabinet usps qty-1 amazon-tok)",
-      "(gmail-show-inbox-threads amazon-tok query-amazon-return-confirmation return-confirmation-thread eket-cabinet-order)",
-      "(gmail-show-thread return-confirmation-thread amazon-tok return-confirmation-email)",
+      "(gmail-show-inbox-threads gmail-tok query-amazon-return-confirmation return-confirmation-thread eket-cabinet-order)",
+      "(gmail-show-thread return-confirmation-thread gmail-tok return-confirmation-email)",
       "(phone-search-contacts phone-tok query-carl carl carl-email)",
-      "(gmail-forward-email-from-thread return-confirmation-thread return-confirmation-email carl-email amazon-tok carl)",
+      "(gmail-forward-email-from-thread return-confirmation-thread return-confirmation-email carl-email gmail-tok carl)",
       "(supervisor-complete-task eket-cabinet-order eket-cabinet usps qty-1 return-confirmation-email carl-email)"
     ],
     "message": "",
-    "seconds": 1.22
+    "seconds": 1.08
   },
   "solution_used": false,
   "has_reference_solution": false,

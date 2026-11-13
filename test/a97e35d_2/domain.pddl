@@ -1,5 +1,5 @@
 (define (domain appworld-a97e35d-2)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person username password token directory file thread email body content query datetime - object
     candidate - person
@@ -109,11 +109,9 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?s1 - candidate ?s2 - candidate ?r1 - candidate ?r2 - candidate)
-    :precondition (and (not (task-completed))
-      (selected ?s1) (selected ?s2) (not (= ?s1 ?s2))
-      (rejected ?r1) (rejected ?r2) (not (= ?r1 ?r2))
-      (replied ?s1) (replied ?s2) (replied ?r1) (replied ?r2))
-    :effect (task-completed)
+    :parameters ()
+    :precondition (and (forall (?c - candidate) (replied ?c)) (not (task-completed)))
+    :effect (and (task-completed))
   )
+
 )

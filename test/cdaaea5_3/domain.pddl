@@ -4,6 +4,7 @@
     app person username password token query sort-key note shopping-item product quantity address payment-card count - object)
   (:constants simple-note amazon - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -22,7 +23,8 @@
     (is-home-address ?ad - address)
     (known-payment-card ?c - payment-card)
     (order-placed)
-    (task-completed))
+    (task-completed)
+    (cart-cleared))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -33,7 +35,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (and (has-token simple-note ?t)))
 
   ; API: simple_note.search_notes
@@ -51,7 +53,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
     :effect (and (has-token amazon ?t)))
 
   ; API: amazon.search_products
@@ -60,11 +62,18 @@
     :precondition (and (shopping-list-read) (query-for ?i ?q) (product-for-item ?i ?p) (not (task-completed)))
     :effect (and (best-product-found ?i ?p)))
 
+  ; API: amazon.clear_cart
+  (:action amazon-clear-cart
+    :parameters (?t - token)
+    :precondition (and (has-token amazon ?t) (not (cart-cleared)) (not (task-completed)))
+    :effect (cart-cleared))
+
   ; API: amazon.add_product_to_cart
   (:action amazon-add-product-to-cart
     :parameters (?p - product ?t - token ?qty - quantity ?i - shopping-item ?n - count ?m - count)
-    :precondition (and (has-token amazon ?t) (best-product-found ?i ?p) (not (item-carted ?i)) (not (in-cart ?p)) (cart-count ?n) (succ ?n ?m) (not (task-completed)))
+    :precondition (and (has-token amazon ?t) (cart-cleared) (best-product-found ?i ?p) (not (item-carted ?i)) (not (in-cart ?p)) (cart-count ?n) (succ ?n ?m) (not (task-completed)))
     :effect (and (in-cart ?p) (item-carted ?i) (not (cart-count ?n)) (cart-count ?m)))
+
 
   ; API: amazon.show_addresses
   (:action amazon-show-addresses

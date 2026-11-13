@@ -40,7 +40,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'quantity', 'token', 'password', 'relationship', 'city', 'query', 'state', 'flag', 'payment-card', 'home', 'product', 'street', 'app', 'person', 'addr-name', 'username', 'country', 'zip-code'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -53,23 +55,26 @@
       "(supervisor-show-account-passwords)",
       "(amazon-login mir-powe-at-gmail-com amazon-password amazon-token)",
       "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-1 clear-cart-true)",
-      "(phone-login username-4885870260 phone-password amazon-token)",
+      "(phone-login username-4885870260 phone-password phone-token)",
       "(amazon-show-payment-cards amazon-token amazon-card)",
-      "(phone-show-contact-relationships amazon-token)",
-      "(phone-search-contacts amazon-token relationship-parent)",
+      "(phone-show-contact-relationships phone-token)",
+      "(phone-search-contacts phone-token relationship-parent)",
       "(amazon-add-address name-parents street-parents city-parents state-parents country-parents zip-parents amazon-token home-parents relationship-parent)",
-      "(phone-search-contacts amazon-token relationship-sibling)",
+      "(phone-search-contacts phone-token relationship-sibling)",
       "(amazon-add-address name-sibling-1 street-sibling-1 city-sibling-1 state-sibling-1 country-sibling-1 zip-sibling-1 amazon-token home-sibling-1 relationship-sibling)",
       "(amazon-add-address name-sibling-2 street-sibling-2 city-sibling-2 state-sibling-2 country-sibling-2 zip-sibling-2 amazon-token home-sibling-2 relationship-sibling)",
+      "(amazon-add-address name-sibling-3 street-sibling-3 city-sibling-3 state-sibling-3 country-sibling-3 zip-sibling-3 amazon-token home-sibling-3 relationship-sibling)",
       "(amazon-place-order amazon-card home-sibling-1 amazon-token codenames-board-game quantity-1)",
       "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-1 clear-cart-true)",
       "(amazon-place-order amazon-card home-sibling-2 amazon-token codenames-board-game quantity-1)",
+      "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-1 clear-cart-true)",
+      "(amazon-place-order amazon-card home-sibling-3 amazon-token codenames-board-game quantity-1)",
       "(amazon-add-product-to-cart codenames-board-game amazon-token quantity-2 clear-cart-true)",
       "(amazon-place-order amazon-card home-parents amazon-token codenames-board-game quantity-2)",
       "(supervisor-complete-task)"
     ],
     "message": "",
-    "seconds": 1.19
+    "seconds": 0.87
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -42,7 +42,7 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-login phone-3379617841 phone-password amazon-token)",
+      "pddl": "(phone-login phone-3379617841 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3379617841",
@@ -103,7 +103,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id of a non-expired card",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "payment-card-1"
         },
         "address_id": {
@@ -157,13 +157,13 @@
     },
     {
       "step": 12,
-      "pddl": "(phone-search-contacts amazon-token relationship-father father)",
+      "pddl": "(phone-search-contacts phone-token relationship-father father)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "relationship": "father"
       }
@@ -217,7 +217,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id of a non-expired card",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "payment-card-1"
         },
         "address_id": {

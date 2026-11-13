@@ -60,6 +60,12 @@
     "field": "content: product name of list entry 3"
   },
   {
+    "object": "query-list-product-4",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: product name of list entry 4"
+  },
+  {
     "object": "list-product-1",
     "value": null,
     "from_api": "amazon.search_products",
@@ -69,25 +75,43 @@
     "object": "list-product-2",
     "value": null,
     "from_api": "amazon.search_products",
-    "field": "products[].product_id of the result matching list entry 2"
+    "field": "products[].product_id of the result matching list entry 2 (if the note already gives product ids, use them directly)"
   },
   {
     "object": "list-product-3",
     "value": null,
     "from_api": "amazon.search_products",
-    "field": "products[].product_id of the result matching list entry 3"
+    "field": "products[].product_id of the result matching list entry 3 (if the note already gives product ids, use them directly)"
   },
   {
-    "object": "qty-2",
+    "object": "list-product-4",
     "value": null,
-    "from_api": "amazon.show_product",
-    "field": "min(quantity requested in the note for the entry, inventory_quantity); entry is skipped when inventory_quantity == 0"
+    "from_api": "amazon.search_products",
+    "field": "products[].product_id of the result matching list entry 4 (if the note already gives product ids, use them directly)"
   },
   {
-    "object": "qty-1",
+    "object": "qty-product-1",
     "value": null,
     "from_api": "amazon.show_product",
-    "field": "min(quantity requested in the note for the entry, inventory_quantity); entry is skipped when inventory_quantity == 0"
+    "field": "min(quantity written in the note for list entry 1, inventory_quantity of that product)"
+  },
+  {
+    "object": "qty-product-2",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "min(quantity written in the note for list entry 2, inventory_quantity of that product)"
+  },
+  {
+    "object": "qty-product-3",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "min(quantity written in the note for list entry 3, inventory_quantity of that product)"
+  },
+  {
+    "object": "qty-product-4",
+    "value": null,
+    "from_api": "amazon.show_product",
+    "field": "min(quantity written in the note for list entry 4, inventory_quantity of that product)"
   },
   {
     "object": "total-cost",

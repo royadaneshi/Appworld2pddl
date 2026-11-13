@@ -18,6 +18,15 @@
     comment-thanks-a-lot - comment
   )
   (:init
+    (credential-of-app phone phone-username-2473084266)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo kathrynmaldonado-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
+    (credential-of-app amazon kathrynmaldonado-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for phone phone-username-2473084266)
     (username-for venmo kathrynmaldonado-at-gmail-com)
     (username-for amazon kathrynmaldonado-at-gmail-com)

@@ -1,11 +1,12 @@
 (define (domain appworld-bde252e-2)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person project task-item note
     username password token query
     title description duration duration-unit priority - object)
   (:constants simple-note todoist - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -38,7 +39,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (has-token simple-note ?t))
 
   ; API: simple_note.search_notes
@@ -56,7 +57,7 @@
   ; API: todoist.login
   (:action todoist-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for todoist ?pw) (not (has-token todoist ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app todoist ?t) (credential-of-app todoist ?pw) (credential-of-app todoist ?u) (passwords-known) (password-for todoist ?pw) (not (has-token todoist ?t)) (not (task-completed)))
     :effect (has-token todoist ?t))
 
   ; API: todoist.show_projects
@@ -88,7 +89,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?done - task-item ?moved - task-item)
-    :precondition (and (deleted ?done) (copied ?moved) (deleted ?moved) (not (= ?done ?moved)) (not (task-completed)))
+    :parameters ()
+    :precondition (and (forall (?i - task-item) (imply (fits-schedule ?i) (and (copied ?i) (deleted ?i)))) (not (task-completed)))
     :effect (task-completed))
+
 )

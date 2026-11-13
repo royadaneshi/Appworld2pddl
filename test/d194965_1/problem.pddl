@@ -5,9 +5,9 @@
     ka-ball-at-gmail-com - username
     simple-note-password spotify-password - password
     simple-note-token spotify-token - token
-    query-songs query-song-1 query-song-2 query-song-3 - query
+    query-songs query-song-1 query-song-2 query-song-3 query-song-4 query-song-5 query-song-6 query-song-7 query-song-8 query-song-9 query-song-10 query-song-11 query-song-12 query-song-13 query-song-14 - query
     songs-note - note
-    song-1 song-2 song-3 - song
+    song-1 song-2 song-3 song-4 song-5 song-6 song-7 song-8 song-9 song-10 song-11 song-12 song-13 song-14 - song
     random-songs-playlist - playlist
     title-random-songs - title
   )
@@ -22,15 +22,46 @@
     (song-in-note songs-note song-1)
     (song-in-note songs-note song-2)
     (song-in-note songs-note song-3)
+    (song-in-note songs-note song-4)
+    (song-in-note songs-note song-5)
+    (song-in-note songs-note song-6)
+    (song-in-note songs-note song-7)
+    (song-in-note songs-note song-8)
+    (song-in-note songs-note song-9)
+    (song-in-note songs-note song-10)
+    (song-in-note songs-note song-11)
+    (song-in-note songs-note song-12)
+    (song-in-note songs-note song-13)
+    (song-in-note songs-note song-14)
     (query-for-song query-song-1 song-1)
     (query-for-song query-song-2 song-2)
     (query-for-song query-song-3 song-3)
-  )
+    (query-for-song query-song-4 song-4)
+    (query-for-song query-song-5 song-5)
+    (query-for-song query-song-6 song-6)
+    (query-for-song query-song-7 song-7)
+    (query-for-song query-song-8 song-8)
+    (query-for-song query-song-9 song-9)
+    (query-for-song query-song-10 song-10)
+    (query-for-song query-song-11 song-11)
+    (query-for-song query-song-12 song-12)
+    (query-for-song query-song-13 song-13)
+    (query-for-song query-song-14 song-14))
   (:goal (and
     (playlist-created random-songs-playlist title-random-songs)
     (song-added random-songs-playlist song-1)
     (song-added random-songs-playlist song-2)
     (song-added random-songs-playlist song-3)
-    (task-completed)
-  ))
+    (song-added random-songs-playlist song-4)
+    (song-added random-songs-playlist song-5)
+    (song-added random-songs-playlist song-6)
+    (song-added random-songs-playlist song-7)
+    (song-added random-songs-playlist song-8)
+    (song-added random-songs-playlist song-9)
+    (song-added random-songs-playlist song-10)
+    (song-added random-songs-playlist song-11)
+    (song-added random-songs-playlist song-12)
+    (song-added random-songs-playlist song-13)
+    (song-added random-songs-playlist song-14)
+    (task-completed)))
 )

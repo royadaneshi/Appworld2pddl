@@ -126,10 +126,10 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-create-payment-request brenda-email amount-difference venmo-token note-fixing-amazon-order-payment brenda order-latest order-second-latest)",
-      "api": "venmo.create_payment_request",
+      "pddl": "(venmo-create-transaction brenda-email amount-difference venmo-token note-fixing-amazon-order-payment brenda order-latest order-second-latest)",
+      "api": "venmo.create_transaction",
       "args": {
-        "user_email": {
+        "receiver_email": {
           "$from": "phone.search_contacts",
           "field": "email of the contact with first_name Brenda and relationship friend",
           "object": "brenda-email"

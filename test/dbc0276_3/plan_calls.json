@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(amazon-login brenda-webe-at-gmail-com amazon-password phone-token)",
+      "pddl": "(amazon-login brenda-webe-at-gmail-com amazon-password amazon-token)",
       "api": "amazon.login",
       "args": {
         "username": "brenda.webe@gmail.com",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-9312015677 phone-password amazon-token)",
+      "pddl": "(phone-login username-9312015677 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "9312015677",
@@ -34,32 +34,32 @@
     },
     {
       "step": 4,
-      "pddl": "(amazon-show-wish-list phone-token brenda-wish-list)",
+      "pddl": "(amazon-show-wish-list amazon-token brenda-wish-list)",
       "api": "amazon.show_wish_list",
-      "args": {
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
-      "step": 5,
-      "pddl": "(phone-search-contacts amazon-token relation-partner brenda-partner partner-phone-number)",
-      "api": "phone.search_contacts",
       "args": {
         "access_token": {
           "$from": "amazon.login",
           "field": "access_token",
           "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token relation-partner brenda-partner partner-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
         },
         "relationship": "partner"
       }
     },
     {
       "step": 6,
-      "pddl": "(phone-send-text-message partner-phone-number message-wish-list-itemized amazon-token brenda-partner brenda-wish-list)",
+      "pddl": "(phone-send-text-message partner-phone-number message-wish-list-itemized phone-token brenda-partner brenda-wish-list)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -73,9 +73,9 @@
           "object": "message-wish-list-itemized"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         }
       }
     },

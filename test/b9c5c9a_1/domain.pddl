@@ -2,11 +2,12 @@
   (:requirements :strips :typing :negative-preconditions :equality)
   (:types
     app person username password token directory-path file-path phone-number content - object
-  )
+    contact-name - object)
   (:constants
     file-system phone - app
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -22,7 +23,8 @@
     (final-content ?f - file-path ?c - content)
     (file-updated ?f - file-path ?c - content)
     (task-completed)
-  )
+    (name-of ?p - person ?q - contact-name)
+    (phone-known ?p - person))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -34,7 +36,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (credential-of-app file-system ?u)
       (passwords-known)
       (username-for file-system ?u)
       (password-for file-system ?pw)
@@ -69,7 +71,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u)
       (passwords-known)
       (username-for phone ?u)
       (password-for phone ?pw)
@@ -79,6 +81,12 @@
     :effect (has-token phone ?t)
   )
 
+  ; API: phone.search_contacts  (the CSV has names only; the number comes from the contact book)
+  (:action phone-search-contacts
+    :parameters (?t - token ?q - contact-name ?p - person ?n - phone-number ?f - file-path)
+    :precondition (and (has-token phone ?t) (file-read ?f) (invitee-in-file ?p ?f) (name-of ?p ?q) (phone-of ?p ?n) (not (phone-known ?p)) (not (task-completed)))
+    :effect (phone-known ?p))
+
   ; API: phone.search_text_messages
   (:action phone-search-text-messages
     :parameters (?t - token ?n - phone-number ?p - person ?f - file-path ?c1 - content ?c2 - content)
@@ -86,7 +94,7 @@
       (has-token phone ?t)
       (file-read ?f)
       (invitee-in-file ?p ?f)
-      (phone-of ?p ?n)
+      (phone-of ?p ?n) (phone-known ?p)
       (not (found-latest-reply ?p))
       (content-draft ?f ?c1)
       (incorporates-reply ?c1 ?p ?c2)
@@ -98,6 +106,7 @@
       (content-draft ?f ?c2)
     )
   )
+
 
   ; API: file_system.update_file
   (:action file-system-update-file

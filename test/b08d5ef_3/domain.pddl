@@ -1,5 +1,5 @@
 (define (domain appworld-b08d5ef-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person username password token query relationship home product card quantity address-name street city state country zip-code - object)
   (:constants
@@ -89,7 +89,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p - product ?h1 - home ?h2 - home)
-    :precondition (and (ordered ?h1 ?p) (ordered ?h2 ?p) (not (= ?h1 ?h2)) (not (task-completed)))
+    :parameters (?p - product)
+    :precondition (and (forall (?h - home) (ordered ?h ?p)) (not (task-completed)))
     :effect (and (task-completed)))
+
 )

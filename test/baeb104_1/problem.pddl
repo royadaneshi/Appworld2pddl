@@ -14,6 +14,15 @@
     subject-bali-trip-photographs - subject
     body-bali-trip-photographs - body)
   (:init
+    (credential-of-app phone phone-username-2307354647)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app file-system nan-ritt-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app gmail nan-ritt-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (username-for phone phone-username-2307354647)
     (username-for file-system nan-ritt-at-gmail-com)
     (username-for gmail nan-ritt-at-gmail-com)

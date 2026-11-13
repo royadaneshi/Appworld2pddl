@@ -50,7 +50,7 @@
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of a library album (iterate all pages) whose id does not appear in spotify.show_liked_albums",
+          "field": "album_id of a library album that is not in spotify.show_liked_albums [item 1 of 6; one object per such album]",
           "object": "album-1"
         },
         "access_token": {
@@ -67,7 +67,7 @@
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of another library album whose id does not appear in spotify.show_liked_albums (one like_album call per such album)",
+          "field": "album_id of a library album that is not in spotify.show_liked_albums [item 2 of 6; one object per such album]",
           "object": "album-2"
         },
         "access_token": {
@@ -79,6 +79,74 @@
     },
     {
       "step": 7,
+      "pddl": "(spotify-like-album album-3 spotify-token)",
+      "api": "spotify.like_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of a library album that is not in spotify.show_liked_albums [item 3 of 6; one object per such album]",
+          "object": "album-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-like-album album-4 spotify-token)",
+      "api": "spotify.like_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of a library album that is not in spotify.show_liked_albums [item 4 of 6; one object per such album]",
+          "object": "album-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-like-album album-5 spotify-token)",
+      "api": "spotify.like_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of a library album that is not in spotify.show_liked_albums [item 5 of 6; one object per such album]",
+          "object": "album-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-like-album album-6 spotify-token)",
+      "api": "spotify.like_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of a library album that is not in spotify.show_liked_albums [item 6 of 6; one object per such album]",
+          "object": "album-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
       "pddl": "(spotify-show-liked-songs spotify-token)",
       "api": "spotify.show_liked_songs",
       "args": {
@@ -90,7 +158,7 @@
       }
     },
     {
-      "step": 8,
+      "step": 12,
       "pddl": "(spotify-show-song-library spotify-token)",
       "api": "spotify.show_song_library",
       "args": {
@@ -102,13 +170,13 @@
       }
     },
     {
-      "step": 9,
+      "step": 13,
       "pddl": "(spotify-like-song song-1 spotify-token)",
       "api": "spotify.like_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of a library song (iterate all pages) whose id does not appear in spotify.show_liked_songs",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 1 of 13; one object per such song]",
           "object": "song-1"
         },
         "access_token": {
@@ -119,13 +187,81 @@
       }
     },
     {
-      "step": 10,
+      "step": 14,
+      "pddl": "(spotify-like-song song-10 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 10 of 13; one object per such song]",
+          "object": "song-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-like-song song-11 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 11 of 13; one object per such song]",
+          "object": "song-11"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-like-song song-12 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 12 of 13; one object per such song]",
+          "object": "song-12"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-like-song song-13 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 13 of 13; one object per such song]",
+          "object": "song-13"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 18,
       "pddl": "(spotify-like-song song-2 spotify-token)",
       "api": "spotify.like_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of another library song whose id does not appear in spotify.show_liked_songs (one like_song call per such song)",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 2 of 13; one object per such song]",
           "object": "song-2"
         },
         "access_token": {
@@ -136,8 +272,127 @@
       }
     },
     {
-      "step": 11,
-      "pddl": "(supervisor-complete-task song-1 song-2 song-3 album-1 album-2 album-3)",
+      "step": 19,
+      "pddl": "(spotify-like-song song-3 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 3 of 13; one object per such song]",
+          "object": "song-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-like-song song-4 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 4 of 13; one object per such song]",
+          "object": "song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-like-song song-5 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 5 of 13; one object per such song]",
+          "object": "song-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-like-song song-6 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 6 of 13; one object per such song]",
+          "object": "song-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-like-song song-7 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 7 of 13; one object per such song]",
+          "object": "song-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-like-song song-8 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 8 of 13; one object per such song]",
+          "object": "song-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-like-song song-9 spotify-token)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of a library song that is not in spotify.show_liked_songs [item 9 of 13; one object per such song]",
+          "object": "song-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}
     }

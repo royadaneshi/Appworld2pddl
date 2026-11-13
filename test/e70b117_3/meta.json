@@ -34,7 +34,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'token', 'app', 'person', 'username', 'directory-path', 'file-path', 'recipient-list', 'datetime', 'subject', 'query', 'email-thread', 'password', 'body'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -45,19 +47,23 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(file-system-login anita-burch-at-gmail-com file-system-password file-system-token)",
-      "(gmail-login anita-burch-at-gmail-com gmail-password file-system-token)",
+      "(gmail-login anita-burch-at-gmail-com gmail-password gmail-token)",
       "(file-system-show-directory file-system-token dir-documents-work-docs talk-reminder-template-file)",
       "(file-system-show-file talk-reminder-template-file file-system-token)",
-      "(gmail-show-inbox-threads file-system-token query-talk schedule-email-thread)",
-      "(gmail-show-thread schedule-email-thread file-system-token all-company-members)",
-      "(gmail-create-draft all-company-members body-2023-05-24 file-system-token subject-reminder-for-the-talk-today dt-2023-05-24t13-00-00)",
-      "(gmail-create-draft all-company-members body-2023-05-31 file-system-token subject-reminder-for-the-talk-today dt-2023-05-31t13-00-00)",
-      "(gmail-create-draft all-company-members body-2023-06-07 file-system-token subject-reminder-for-the-talk-today dt-2023-06-07t13-00-00)",
-      "(gmail-create-draft all-company-members body-2023-06-14 file-system-token subject-reminder-for-the-talk-today dt-2023-06-14t13-00-00)",
+      "(gmail-show-inbox-threads gmail-token query-talk schedule-email-thread)",
+      "(gmail-show-thread schedule-email-thread gmail-token all-company-members)",
+      "(gmail-create-draft all-company-members body-talk-1 gmail-token subject-reminder-for-the-talk-today reminder-datetime-1)",
+      "(gmail-create-draft all-company-members body-talk-2 gmail-token subject-reminder-for-the-talk-today reminder-datetime-2)",
+      "(gmail-create-draft all-company-members body-talk-3 gmail-token subject-reminder-for-the-talk-today reminder-datetime-3)",
+      "(gmail-create-draft all-company-members body-talk-4 gmail-token subject-reminder-for-the-talk-today reminder-datetime-4)",
+      "(gmail-create-draft all-company-members body-talk-5 gmail-token subject-reminder-for-the-talk-today reminder-datetime-5)",
+      "(gmail-create-draft all-company-members body-talk-6 gmail-token subject-reminder-for-the-talk-today reminder-datetime-6)",
+      "(gmail-create-draft all-company-members body-talk-7 gmail-token subject-reminder-for-the-talk-today reminder-datetime-7)",
+      "(gmail-create-draft all-company-members body-talk-8 gmail-token subject-reminder-for-the-talk-today reminder-datetime-8)",
       "(supervisor-complete-task)"
     ],
     "message": "",
-    "seconds": 1.19
+    "seconds": 0.87
   },
   "solution_used": false,
   "has_reference_solution": false,

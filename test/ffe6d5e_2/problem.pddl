@@ -11,6 +11,12 @@
     favorite-recipes-note - note
     favorite-recipe - recipe)
   (:init
+    (credential-of-app phone phone-username-3808719492)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app simple-note username-jes-mill-at-gmail-com)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
     (username-for phone phone-username-3808719492)
     (password-for phone phone-password)
     (username-for simple-note username-jes-mill-at-gmail-com)

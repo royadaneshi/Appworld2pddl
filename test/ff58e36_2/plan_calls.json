@@ -72,13 +72,13 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-add-friend coworker-1-email venmo-token coworker-1 coworker)",
+      "pddl": "(venmo-add-friend coworker-new-1-email venmo-token coworker-new-1 coworker)",
       "api": "venmo.add_friend",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of each contact returned with relationship=coworker whose email is NOT in venmo.search_friends results",
-          "object": "coworker-1-email"
+          "field": "email of a coworker contact who is not in venmo.search_friends yet [item 1 of 4; one object per such contact]",
+          "object": "coworker-new-1-email"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -89,13 +89,13 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-add-friend friend-1-email venmo-token friend-1 friend)",
+      "pddl": "(venmo-add-friend coworker-new-2-email venmo-token coworker-new-2 coworker)",
       "api": "venmo.add_friend",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of each contact returned with relationship=friend whose email is NOT in venmo.search_friends results",
-          "object": "friend-1-email"
+          "field": "email of a coworker contact who is not in venmo.search_friends yet [item 2 of 4; one object per such contact]",
+          "object": "coworker-new-2-email"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -106,7 +106,92 @@
     },
     {
       "step": 9,
-      "pddl": "(supervisor-complete-task coworker-1 coworker-2 friend-1)",
+      "pddl": "(venmo-add-friend coworker-new-3-email venmo-token coworker-new-3 coworker)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a coworker contact who is not in venmo.search_friends yet [item 3 of 4; one object per such contact]",
+          "object": "coworker-new-3-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-add-friend coworker-new-4-email venmo-token coworker-new-4 coworker)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a coworker contact who is not in venmo.search_friends yet [item 4 of 4; one object per such contact]",
+          "object": "coworker-new-4-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-add-friend friend-new-1-email venmo-token friend-new-1 friend)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a friend contact who is not in venmo.search_friends yet [item 1 of 3; one object per such contact]",
+          "object": "friend-new-1-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-add-friend friend-new-2-email venmo-token friend-new-2 friend)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a friend contact who is not in venmo.search_friends yet [item 2 of 3; one object per such contact]",
+          "object": "friend-new-2-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-add-friend friend-new-3-email venmo-token friend-new-3 friend)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a friend contact who is not in venmo.search_friends yet [item 3 of 3; one object per such contact]",
+          "object": "friend-new-3-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}
     }

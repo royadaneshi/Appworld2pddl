@@ -47,7 +47,7 @@
     },
     {
       "step": 5,
-      "pddl": "(gmail-login tr-solo-at-gmail-com password-gmail token-amazon)",
+      "pddl": "(gmail-login tr-solo-at-gmail-com password-gmail token-gmail)",
       "api": "gmail.login",
       "args": {
         "username": "tr_solo@gmail.com",
@@ -60,7 +60,7 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-login phone-7273731063 password-phone token-venmo)",
+      "pddl": "(phone-login phone-7273731063 password-phone token-phone)",
       "api": "phone.login",
       "args": {
         "username": "7273731063",
@@ -73,7 +73,7 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-login tr-solo-at-gmail-com password-venmo token-amazon)",
+      "pddl": "(venmo-login tr-solo-at-gmail-com password-venmo token-venmo)",
       "api": "venmo.login",
       "args": {
         "username": "tr_solo@gmail.com",
@@ -115,7 +115,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card in the list)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "card-troy"
         },
         "address_id": {
@@ -149,20 +149,20 @@
     },
     {
       "step": 12,
-      "pddl": "(gmail-show-inbox-threads token-amazon query-amazon-order-confirmation thread-order-confirmation order-new)",
+      "pddl": "(gmail-show-inbox-threads token-gmail query-amazon-order-confirmation thread-order-confirmation order-new)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-amazon"
+          "object": "token-gmail"
         },
         "query": "Amazon Order Confirmation"
       }
     },
     {
       "step": 13,
-      "pddl": "(gmail-show-thread thread-order-confirmation token-amazon email-order-confirmation)",
+      "pddl": "(gmail-show-thread thread-order-confirmation token-gmail email-order-confirmation)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -171,28 +171,28 @@
           "object": "thread-order-confirmation"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-amazon"
+          "object": "token-gmail"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(phone-search-contacts token-venmo query-debra debra email-of-debra)",
+      "pddl": "(phone-search-contacts token-phone query-debra debra email-of-debra)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "token-venmo"
+          "object": "token-phone"
         },
         "query": "Debra"
       }
     },
     {
       "step": 15,
-      "pddl": "(gmail-forward-email-from-thread thread-order-confirmation email-order-confirmation email-of-debra token-amazon debra order-new)",
+      "pddl": "(gmail-forward-email-from-thread thread-order-confirmation email-order-confirmation email-of-debra token-gmail debra order-new)",
       "api": "gmail.forward_email_from_thread",
       "args": {
         "email_thread_id": {
@@ -211,15 +211,15 @@
           "object": "email-of-debra"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-amazon"
+          "object": "token-gmail"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(venmo-create-payment-request email-of-debra amount-order-total token-amazon note-for-amazon-order debra order-new)",
+      "pddl": "(venmo-create-payment-request email-of-debra amount-order-total token-venmo note-for-amazon-order debra order-new)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -233,9 +233,9 @@
           "object": "amount-order-total"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "token-amazon"
+          "object": "token-venmo"
         },
         "description": "For Amazon Order"
       }

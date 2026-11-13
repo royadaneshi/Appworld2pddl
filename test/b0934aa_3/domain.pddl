@@ -2,7 +2,7 @@
   (:requirements :strips :typing :negative-preconditions :equality)
   (:types
     app person username password token product-type price-limit rating-limit product address payment-card - object
-  )
+    address-field - object)
   (:constants amazon supervisor - app)
   (:predicates
     (passwords-known)
@@ -20,7 +20,14 @@
     (in-cart ?p - product)
     (ordered ?p - product ?ad - address)
     (task-completed)
-  )
+    (address-details-known ?ad - address)
+    (amazon-addresses-listed)
+    (address-name ?a - address ?x - address-field)
+    (address-street ?a - address ?x - address-field)
+    (address-city ?a - address ?x - address-field)
+    (address-state ?a - address ?x - address-field)
+    (address-country ?a - address ?x - address-field)
+    (address-zip ?a - address ?x - address-field))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -50,12 +57,20 @@
     :effect (verified-criteria ?p)
   )
 
+  ; API: supervisor.show_addresses
+  (:action supervisor-show-addresses
+    :parameters (?ad - address)
+    :precondition (and (is-home ?ad) (not (task-completed)))
+    :effect (address-details-known ?ad)
+  )
+
   ; API: amazon.show_addresses
   (:action amazon-show-addresses
     :parameters (?t - token ?ad - address)
     :precondition (and (has-token amazon ?t) (is-home ?ad) (not (task-completed)))
-    :effect (known-address ?ad)
+    :effect (amazon-addresses-listed)
   )
+
 
   ; API: amazon.show_payment_cards
   (:action amazon-show-payment-cards
@@ -77,6 +92,12 @@
     :precondition (and (has-token amazon ?t) (verified-criteria ?p) (cart-empty) (not (task-completed)))
     :effect (and (in-cart ?p) (not (cart-empty)))
   )
+
+  ; API: amazon.add_address  (the address is not saved in the Amazon account yet)
+  (:action amazon-add-address
+    :parameters (?name ?street ?city ?state ?country ?zip - address-field ?t - token ?a - address)
+    :precondition (and (has-token amazon ?t) (amazon-addresses-listed) (address-details-known ?a) (address-name ?a ?name) (address-street ?a ?street) (address-city ?a ?city) (address-state ?a ?state) (address-country ?a ?country) (address-zip ?a ?zip) (not (known-address ?a)) (not (task-completed)))
+    :effect (known-address ?a))
 
   ; API: amazon.place_order
   (:action amazon-place-order

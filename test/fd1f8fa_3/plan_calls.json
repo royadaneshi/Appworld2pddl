@@ -45,13 +45,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-remove-song-from-queue pos-4 spotify-token liked-song-1 pos-2)",
+      "pddl": "(spotify-remove-song-from-queue pos-liked-11 spotify-token liked-song-11 pos-liked-10)",
       "api": "spotify.remove_song_from_queue",
       "args": {
         "position": {
           "$from": "spotify.show_song_queue",
-          "field": "position (index in the queue song list) of the highest-positioned queued song whose id is in spotify.show_liked_songs results",
-          "object": "pos-4"
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 11 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-11"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -62,13 +62,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-remove-song-from-queue pos-2 spotify-token liked-song-2 pos-none)",
+      "pddl": "(spotify-remove-song-from-queue pos-liked-10 spotify-token liked-song-10 pos-liked-9)",
       "api": "spotify.remove_song_from_queue",
       "args": {
         "position": {
           "$from": "spotify.show_song_queue",
-          "field": "position (index in the queue song list) of the next lower queued song whose id is in spotify.show_liked_songs results",
-          "object": "pos-2"
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 10 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-10"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -79,6 +79,159 @@
     },
     {
       "step": 7,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-9 spotify-token liked-song-9 pos-liked-8)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 9 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-8 spotify-token liked-song-8 pos-liked-7)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 8 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-7 spotify-token liked-song-7 pos-liked-6)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 7 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-6 spotify-token liked-song-6 pos-liked-5)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 6 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-5 spotify-token liked-song-5 pos-liked-4)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 5 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-4 spotify-token liked-song-4 pos-liked-3)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 4 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-3 spotify-token liked-song-3 pos-liked-2)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 3 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-2 spotify-token liked-song-2 pos-liked-1)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 2 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-remove-song-from-queue pos-liked-1 spotify-token liked-song-1 pos-none)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is in spotify.show_liked_songs [item 1 of 11, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "pos-liked-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
       "pddl": "(spotify-play-music spotify-token)",
       "api": "spotify.play_music",
       "args": {
@@ -90,7 +243,7 @@
       }
     },
     {
-      "step": 8,
+      "step": 17,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

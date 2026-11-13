@@ -6,6 +6,7 @@
     simple-note spotify - app
     count-0 - count)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -32,7 +33,7 @@
   (:action simple-note-login
     ; API: simple_note.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (and (has-token simple-note ?t)))
 
   (:action simple-note-search-notes
@@ -50,7 +51,7 @@
   (:action spotify-login
     ; API: spotify.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for spotify ?pw) (not (has-token spotify ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw) (credential-of-app spotify ?u) (passwords-known) (password-for spotify ?pw) (not (has-token spotify ?t)) (not (task-completed)))
     :effect (and (has-token spotify ?t)))
 
   (:action spotify-search-songs

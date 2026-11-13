@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-3966728840 phone-password gmail-token)",
+      "pddl": "(phone-login username-3966728840 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3966728840",
@@ -34,45 +34,45 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-search-contacts gmail-token rel-son son son-phone-number)",
+      "pddl": "(phone-search-contacts phone-token rel-son son son-phone-number)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "relationship": "son"
       }
     },
     {
       "step": 5,
-      "pddl": "(phone-search-text-messages gmail-token son-phone-number son-message-yesterday son)",
+      "pddl": "(phone-search-text-messages phone-token son-phone-number son-message-yesterday son)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the contact whose relationships include \"son\"",
+          "field": "phone_number of the son/daughter contact who sent the account-creation message yesterday (several children may be in the contacts; check each one's messages)",
           "object": "son-phone-number"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(spotify-send-verification-code diwils-at-gmail-com spotify-verification-code)",
-      "api": "spotify.send_verification_code",
+      "pddl": "(venmo-send-verification-code diwils-at-gmail-com new-app-verification-code)",
+      "api": "venmo.send_verification_code",
       "args": {
         "email": "diwils@gmail.com"
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-inbox-threads gmail-token query-verification-code spotify-verification-code verification-email-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-verification-code new-app-verification-code verification-email-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
@@ -80,12 +80,16 @@
           "field": "access_token",
           "object": "gmail-token"
         },
-        "query": "Account Verficiation Code"
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "search query built from the app named in the message plus 'verification code'",
+          "object": "query-verification-code"
+        }
       }
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-thread verification-email-thread gmail-token spotify-verification-code)",
+      "pddl": "(gmail-show-thread verification-email-thread gmail-token new-app-verification-code)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -102,28 +106,28 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-verify-account diwils-at-gmail-com spotify-verification-code)",
-      "api": "spotify.verify_account",
+      "pddl": "(venmo-verify-account diwils-at-gmail-com new-app-verification-code)",
+      "api": "venmo.verify_account",
       "args": {
         "email": "diwils@gmail.com",
         "verification_code": {
           "$from": "gmail.show_thread",
           "field": "verification code parsed from emails[-1].body",
-          "object": "spotify-verification-code"
+          "object": "new-app-verification-code"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-send-password-reset-code diwils-at-gmail-com spotify-reset-code)",
-      "api": "spotify.send_password_reset_code",
+      "pddl": "(venmo-send-password-reset-code diwils-at-gmail-com new-app-reset-code)",
+      "api": "venmo.send_password_reset_code",
       "args": {
         "email": "diwils@gmail.com"
       }
     },
     {
       "step": 11,
-      "pddl": "(gmail-show-inbox-threads gmail-token query-password-reset-code spotify-reset-code reset-email-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-password-reset-code new-app-reset-code reset-email-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
@@ -131,12 +135,16 @@
           "field": "access_token",
           "object": "gmail-token"
         },
-        "query": "Password Reset Code"
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "search query built from the app named in the message plus 'password reset code'",
+          "object": "query-password-reset-code"
+        }
       }
     },
     {
       "step": 12,
-      "pddl": "(gmail-show-thread reset-email-thread gmail-token spotify-reset-code)",
+      "pddl": "(gmail-show-thread reset-email-thread gmail-token new-app-reset-code)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -153,14 +161,14 @@
     },
     {
       "step": 13,
-      "pddl": "(spotify-reset-password diwils-at-gmail-com spotify-reset-code password-ueha7gv)",
-      "api": "spotify.reset_password",
+      "pddl": "(venmo-reset-password diwils-at-gmail-com new-app-reset-code password-ueha7gv)",
+      "api": "venmo.reset_password",
       "args": {
         "email": "diwils@gmail.com",
         "password_reset_code": {
           "$from": "gmail.show_thread",
           "field": "password reset code parsed from emails[-1].body",
-          "object": "spotify-reset-code"
+          "object": "new-app-reset-code"
         },
         "new_password": "UEHA7Gv"
       }

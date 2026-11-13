@@ -42,15 +42,51 @@
     "field": "product_id of a result (paginate if needed) with product_type == \"hedge trimmer\", price < 60, rating > 3.9, and whose amazon.show_product details show more than 5 product reviews"
   },
   {
-    "object": "home-address",
-    "value": null,
-    "from_api": "amazon.show_addresses",
-    "field": "address_id where name == \"Home\""
-  },
-  {
     "object": "payment-card-1",
     "value": null,
     "from_api": "amazon.show_payment_cards",
-    "field": "payment_card_id (any existing card)"
+    "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)"
+  },
+  {
+    "object": "home-address",
+    "value": null,
+    "from_api": "amazon.add_address",
+    "field": "address_id returned when the Home address is added (amazon.show_addresses does not list it)"
+  },
+  {
+    "object": "home-address-name",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "name of the supervisor's address whose name is 'Home'"
+  },
+  {
+    "object": "home-address-street",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "street_address of the supervisor's address whose name is 'Home'"
+  },
+  {
+    "object": "home-address-city",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "city of the supervisor's address whose name is 'Home'"
+  },
+  {
+    "object": "home-address-state",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "state of the supervisor's address whose name is 'Home'"
+  },
+  {
+    "object": "home-address-country",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "country of the supervisor's address whose name is 'Home'"
+  },
+  {
+    "object": "home-address-zip",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "zip_code of the supervisor's address whose name is 'Home'"
   }
 ]

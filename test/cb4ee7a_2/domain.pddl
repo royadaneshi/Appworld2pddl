@@ -6,6 +6,7 @@
     expiry-year expiry-month cvv-number duration - object)
   (:constants spotify gmail - app yearly - duration)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (payment-cards-known)
@@ -56,15 +57,16 @@
   ; API: spotify.signup
   (:action spotify-signup
     :parameters (?fn - first-name ?ln - last-name ?e - email ?pw - password ?p - person)
-    :precondition (and (not (task-completed)) (profile-known) (supervisor ?p)
+    :precondition (and (passwords-known) (not (task-completed)) (profile-known) (supervisor ?p)
                        (first-name-of ?p ?fn) (last-name-of ?p ?ln) (email-of ?p ?e)
                        (chosen-password spotify ?pw) (not (account-created spotify)))
     :effect (and (account-created spotify) (account-email spotify ?e) (verification-email-sent spotify)))
 
+
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (login-username gmail ?u)
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (not (task-completed)) (passwords-known) (login-username gmail ?u)
                        (password-for gmail ?pw) (not (has-token gmail ?t)))
     :effect (has-token gmail ?t))
 
@@ -91,7 +93,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (account-verified spotify) (login-username spotify ?u)
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw) (credential-of-app spotify ?u) (not (task-completed)) (account-verified spotify) (login-username spotify ?u)
                        (chosen-password spotify ?pw) (not (has-token spotify ?t)))
     :effect (has-token spotify ?t))
 

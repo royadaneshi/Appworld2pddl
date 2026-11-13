@@ -32,7 +32,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'file', 'token', 'directory', 'password', 'substring', 'username', 'relationship', 'person', 'flag', 'body', 'email-list', 'subject', 'app'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -43,16 +45,16 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(file-system-login kri-powe-at-gmail-com file-system-password file-system-token)",
-      "(gmail-login kri-powe-at-gmail-com gmail-password file-system-token)",
+      "(gmail-login kri-powe-at-gmail-com gmail-password gmail-token)",
       "(phone-login phone-number-6017026518 phone-password phone-token)",
       "(file-system-show-directory file-system-token substring-sydney flag-true sydney-photos-dir)",
       "(file-system-compress-directory sydney-photos-dir file-system-token sydney-photos-tar)",
       "(phone-search-contacts phone-token relationship-sibling sibling-emails)",
-      "(gmail-send-email sibling-emails subject-sydney-trip-photos body-sydney-trip-photos file-system-token sydney-photos-tar file-system-token sydney-photos-dir)",
+      "(gmail-send-email sibling-emails subject-sydney-trip-photos body-sydney-trip-photos gmail-token sydney-photos-tar file-system-token sydney-photos-dir)",
       "(supervisor-complete-task sibling-emails sydney-photos-tar sydney-photos-dir)"
     ],
     "message": "",
-    "seconds": 1.0
+    "seconds": 1.07
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login username-masmith-at-gmail-com password-gmail token-file-system)",
+      "pddl": "(gmail-login username-masmith-at-gmail-com password-gmail token-gmail)",
       "api": "gmail.login",
       "args": {
         "username": "masmith@gmail.com",
@@ -77,20 +77,20 @@
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-inbox-threads token-file-system query-schedule schedule-email-thread)",
+      "pddl": "(gmail-show-inbox-threads token-gmail query-schedule schedule-email-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         },
         "query": "schedule"
       }
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-thread schedule-email-thread token-file-system)",
+      "pddl": "(gmail-show-thread schedule-email-thread token-gmail)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -99,9 +99,9 @@
           "object": "schedule-email-thread"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         }
       }
     },
@@ -120,7 +120,7 @@
     },
     {
       "step": 10,
-      "pddl": "(gmail-create-draft coworker-emails body-talk-1 token-file-system subject-talk-reminder reminder-datetime-talk-1 talk-1)",
+      "pddl": "(gmail-create-draft coworker-emails body-talk-1 token-gmail subject-talk-reminder reminder-datetime-talk-1 talk-1)",
       "api": "gmail.create_draft",
       "args": {
         "recipient_email_addresses": {
@@ -134,21 +134,21 @@
           "object": "body-talk-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         },
         "subject": "Talk Reminder",
         "scheduled_send_at": {
           "$from": "gmail.show_thread",
-          "field": "date of the 1st Thursday talk in the schedule email, formatted as <date>T09:00:00",
+          "field": "date of talk 1 of 7 in the manager's schedule e-mail, at the reminder time stated in the task (ISO datetime)",
           "object": "reminder-datetime-talk-1"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(gmail-create-draft coworker-emails body-talk-2 token-file-system subject-talk-reminder reminder-datetime-talk-2 talk-2)",
+      "pddl": "(gmail-create-draft coworker-emails body-talk-2 token-gmail subject-talk-reminder reminder-datetime-talk-2 talk-2)",
       "api": "gmail.create_draft",
       "args": {
         "recipient_email_addresses": {
@@ -158,25 +158,25 @@
         },
         "body": {
           "$from": "file_system.show_file",
-          "field": "content (template) with placeholders filled from the 2nd talk entry read via gmail.show_thread",
+          "field": "content (template) with placeholders filled from the 2nd talk entry (speaker/title/date) read via gmail.show_thread",
           "object": "body-talk-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         },
         "subject": "Talk Reminder",
         "scheduled_send_at": {
           "$from": "gmail.show_thread",
-          "field": "date of the 2nd Thursday talk in the schedule email, formatted as <date>T09:00:00",
+          "field": "date of talk 2 of 7 in the manager's schedule e-mail, at the reminder time stated in the task (ISO datetime)",
           "object": "reminder-datetime-talk-2"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(gmail-create-draft coworker-emails body-talk-3 token-file-system subject-talk-reminder reminder-datetime-talk-3 talk-3)",
+      "pddl": "(gmail-create-draft coworker-emails body-talk-3 token-gmail subject-talk-reminder reminder-datetime-talk-3 talk-3)",
       "api": "gmail.create_draft",
       "args": {
         "recipient_email_addresses": {
@@ -186,24 +186,136 @@
         },
         "body": {
           "$from": "file_system.show_file",
-          "field": "content (template) with placeholders filled from the 3rd talk entry read via gmail.show_thread",
+          "field": "content (template) with placeholders filled from the 3rd talk entry (speaker/title/date) read via gmail.show_thread",
           "object": "body-talk-3"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         },
         "subject": "Talk Reminder",
         "scheduled_send_at": {
           "$from": "gmail.show_thread",
-          "field": "date of the 3rd Thursday talk in the schedule email, formatted as <date>T09:00:00",
+          "field": "date of talk 3 of 7 in the manager's schedule e-mail, at the reminder time stated in the task (ISO datetime)",
           "object": "reminder-datetime-talk-3"
         }
       }
     },
     {
       "step": 13,
+      "pddl": "(gmail-create-draft coworker-emails body-talk-4 token-gmail subject-talk-reminder reminder-datetime-talk-4 talk-4)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "list of email of every returned contact (relationship == coworker)",
+          "object": "coworker-emails"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template) with placeholders filled from the 4th talk entry (speaker/title/date) read via gmail.show_thread",
+          "object": "body-talk-4"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "token-gmail"
+        },
+        "subject": "Talk Reminder",
+        "scheduled_send_at": {
+          "$from": "gmail.show_thread",
+          "field": "date of talk 4 of 7 in the manager's schedule e-mail, at the reminder time stated in the task (ISO datetime)",
+          "object": "reminder-datetime-talk-4"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(gmail-create-draft coworker-emails body-talk-5 token-gmail subject-talk-reminder reminder-datetime-talk-5 talk-5)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "list of email of every returned contact (relationship == coworker)",
+          "object": "coworker-emails"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template) with placeholders filled from the 5th talk entry (speaker/title/date) read via gmail.show_thread",
+          "object": "body-talk-5"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "token-gmail"
+        },
+        "subject": "Talk Reminder",
+        "scheduled_send_at": {
+          "$from": "gmail.show_thread",
+          "field": "date of talk 5 of 7 in the manager's schedule e-mail, at the reminder time stated in the task (ISO datetime)",
+          "object": "reminder-datetime-talk-5"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-create-draft coworker-emails body-talk-6 token-gmail subject-talk-reminder reminder-datetime-talk-6 talk-6)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "list of email of every returned contact (relationship == coworker)",
+          "object": "coworker-emails"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template) with placeholders filled from the 6th talk entry (speaker/title/date) read via gmail.show_thread",
+          "object": "body-talk-6"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "token-gmail"
+        },
+        "subject": "Talk Reminder",
+        "scheduled_send_at": {
+          "$from": "gmail.show_thread",
+          "field": "date of talk 6 of 7 in the manager's schedule e-mail, at the reminder time stated in the task (ISO datetime)",
+          "object": "reminder-datetime-talk-6"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(gmail-create-draft coworker-emails body-talk-7 token-gmail subject-talk-reminder reminder-datetime-talk-7 talk-7)",
+      "api": "gmail.create_draft",
+      "args": {
+        "recipient_email_addresses": {
+          "$from": "phone.search_contacts",
+          "field": "list of email of every returned contact (relationship == coworker)",
+          "object": "coworker-emails"
+        },
+        "body": {
+          "$from": "file_system.show_file",
+          "field": "content (template) with placeholders filled from the 7th talk entry (speaker/title/date) read via gmail.show_thread",
+          "object": "body-talk-7"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "token-gmail"
+        },
+        "subject": "Talk Reminder",
+        "scheduled_send_at": {
+          "$from": "gmail.show_thread",
+          "field": "date of talk 7 of 7 in the manager's schedule e-mail, at the reminder time stated in the task (ISO datetime)",
+          "object": "reminder-datetime-talk-7"
+        }
+      }
+    },
+    {
+      "step": 17,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

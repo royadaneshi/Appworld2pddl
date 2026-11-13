@@ -1,5 +1,5 @@
 (define (domain appworld-b05f69a-1)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person username password token query email-msg attachment order file-path - object)
   (:constants supervisor gmail file-system - app)
@@ -55,7 +55,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?o1 - order ?o2 - order)
-    :precondition (and (not (task-completed)) (not (= ?o1 ?o2)) (receipt-saved ?o1) (receipt-saved ?o2))
-    :effect (task-completed))
+    :parameters ()
+    :precondition (and (forall (?o - order) (receipt-saved ?o)) (not (task-completed)))
+    :effect (and (task-completed)))
+
 )

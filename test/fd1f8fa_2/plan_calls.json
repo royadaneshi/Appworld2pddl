@@ -45,13 +45,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-remove-song-from-queue position-4 spotify-token queue-song-4 no-song)",
+      "pddl": "(spotify-remove-song-from-queue position-unliked-12 spotify-token unliked-queue-song-12 no-song)",
       "api": "spotify.remove_song_from_queue",
       "args": {
         "position": {
           "$from": "spotify.show_song_queue",
-          "field": "queue position (index) of queue-song-4 in the songs list, using remove_song_from_queue's position convention",
-          "object": "position-4"
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 12 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-12"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -62,13 +62,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-remove-song-from-queue position-2 spotify-token queue-song-2 queue-song-4)",
+      "pddl": "(spotify-remove-song-from-queue position-unliked-11 spotify-token unliked-queue-song-11 unliked-queue-song-12)",
       "api": "spotify.remove_song_from_queue",
       "args": {
         "position": {
           "$from": "spotify.show_song_queue",
-          "field": "queue position (index) of queue-song-2 in the songs list, using remove_song_from_queue's position convention",
-          "object": "position-2"
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 11 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-11"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -79,6 +79,176 @@
     },
     {
       "step": 7,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-10 spotify-token unliked-queue-song-10 unliked-queue-song-11)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 10 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-9 spotify-token unliked-queue-song-9 unliked-queue-song-10)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 9 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-8 spotify-token unliked-queue-song-8 unliked-queue-song-9)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 8 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-7 spotify-token unliked-queue-song-7 unliked-queue-song-8)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 7 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-6 spotify-token unliked-queue-song-6 unliked-queue-song-7)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 6 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-5 spotify-token unliked-queue-song-5 unliked-queue-song-6)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 5 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-4 spotify-token unliked-queue-song-4 unliked-queue-song-5)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 4 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-3 spotify-token unliked-queue-song-3 unliked-queue-song-4)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 3 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-2 spotify-token unliked-queue-song-2 unliked-queue-song-3)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 2 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-remove-song-from-queue position-unliked-1 spotify-token unliked-queue-song-1 unliked-queue-song-2)",
+      "api": "spotify.remove_song_from_queue",
+      "args": {
+        "position": {
+          "$from": "spotify.show_song_queue",
+          "field": "position of the queue entry that is NOT in spotify.show_liked_songs [item 1 of 12, counted from the lowest position; remove from the highest position down so the remaining positions stay valid]",
+          "object": "position-unliked-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
       "pddl": "(spotify-play-music spotify-token)",
       "api": "spotify.play_music",
       "args": {
@@ -90,7 +260,7 @@
       }
     },
     {
-      "step": 8,
+      "step": 18,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

@@ -29,7 +29,7 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-login ka-ball-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login ka-ball-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "ka_ball@gmail.com",
@@ -42,7 +42,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login ka-ball-at-gmail-com venmo-password amazon-token)",
+      "pddl": "(venmo-login ka-ball-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "ka_ball@gmail.com",
@@ -113,7 +113,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (any of the supervisor's own cards, e.g. the first)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "katherine-payment-card"
         },
         "address_id": {
@@ -147,20 +147,20 @@
     },
     {
       "step": 12,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-amazon-order-confirmation confirmation-thread kindle-order)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-amazon-order-confirmation confirmation-thread kindle-order)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "Amazon Order Confirmation"
       }
     },
     {
       "step": 13,
-      "pddl": "(gmail-show-thread confirmation-thread amazon-token confirmation-email)",
+      "pddl": "(gmail-show-thread confirmation-thread gmail-token confirmation-email)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -169,28 +169,28 @@
           "object": "confirmation-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(venmo-search-friends amazon-token query-nicholas nicholas nicholas-email)",
+      "pddl": "(venmo-search-friends venmo-token query-nicholas nicholas nicholas-email)",
       "api": "venmo.search_friends",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "query": "Nicholas"
       }
     },
     {
       "step": 15,
-      "pddl": "(gmail-forward-email-from-thread confirmation-thread confirmation-email nicholas-email amazon-token kindle-order nicholas)",
+      "pddl": "(gmail-forward-email-from-thread confirmation-thread confirmation-email nicholas-email gmail-token kindle-order nicholas)",
       "api": "gmail.forward_email_from_thread",
       "args": {
         "email_thread_id": {
@@ -209,15 +209,15 @@
           "object": "nicholas-email"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(venmo-create-payment-request nicholas-email order-total-amount amazon-token note-order-on-amazon nicholas kindle-order)",
+      "pddl": "(venmo-create-payment-request nicholas-email order-total-amount venmo-token note-order-on-amazon nicholas kindle-order)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -231,9 +231,9 @@
           "object": "order-total-amount"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "description": "Order on Amazon"
       }

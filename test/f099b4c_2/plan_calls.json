@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(simple-note-login deniseburch-at-gmail-com simple-note-password amazon-token)",
+      "pddl": "(simple-note-login deniseburch-at-gmail-com simple-note-password simple-note-token)",
       "api": "simple_note.login",
       "args": {
         "username": "deniseburch@gmail.com",
@@ -58,20 +58,20 @@
     },
     {
       "step": 6,
-      "pddl": "(simple-note-search-notes amazon-token query-amazon-shopping-list shopping-list-note)",
+      "pddl": "(simple-note-search-notes simple-note-token query-amazon-shopping-list shopping-list-note)",
       "api": "simple_note.search_notes",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "simple-note-token"
         },
         "query": "amazon shopping list"
       }
     },
     {
       "step": 7,
-      "pddl": "(simple-note-show-note shopping-list-note amazon-token)",
+      "pddl": "(simple-note-show-note shopping-list-note simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
@@ -80,9 +80,9 @@
           "object": "shopping-list-note"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "simple-note-token"
         }
       }
     },
@@ -114,8 +114,8 @@
           "object": "amazon-token"
         },
         "quantity": {
-          "$from": "simple_note.show_note",
-          "field": "content: quantity of the 1st entry, capped by the stock reported by amazon.show_product (skip product if unavailable)",
+          "$from": "amazon.show_product",
+          "field": "min(quantity written in the note for list entry 1, inventory_quantity of that product)",
           "object": "qty-1"
         }
       }
@@ -160,8 +160,8 @@
           "object": "amazon-token"
         },
         "quantity": {
-          "$from": "simple_note.show_note",
-          "field": "content: quantity of the 2nd entry, capped by the stock reported by amazon.show_product (skip product if unavailable)",
+          "$from": "amazon.show_product",
+          "field": "min(quantity written in the note for list entry 2, inventory_quantity of that product)",
           "object": "qty-2"
         }
       }
@@ -206,8 +206,8 @@
           "object": "amazon-token"
         },
         "quantity": {
-          "$from": "simple_note.show_note",
-          "field": "content: quantity of the 3rd entry, capped by the stock reported by amazon.show_product (skip product if unavailable)",
+          "$from": "amazon.show_product",
+          "field": "min(quantity written in the note for list entry 3, inventory_quantity of that product)",
           "object": "qty-3"
         }
       }
@@ -226,6 +226,52 @@
     },
     {
       "step": 17,
+      "pddl": "(amazon-show-product product-4 shopping-list-note)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of the 4th list entry (resolve via amazon.search_products if only a name is given)",
+          "object": "product-4"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-add-product-to-cart product-4 amazon-token qty-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of the 4th list entry (resolve via amazon.search_products if only a name is given)",
+          "object": "product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_product",
+          "field": "min(quantity written in the note for list entry 4, inventory_quantity of that product)",
+          "object": "qty-4"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-show-cart amazon-token total-cost)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 20,
       "pddl": "(supervisor-complete-task total-cost)",
       "api": "supervisor.complete_task",
       "args": {

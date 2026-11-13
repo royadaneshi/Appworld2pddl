@@ -14,6 +14,12 @@
     home-address - address
     payment-card-1 - payment-card)
   (:init
+    (credential-of-app gmail lindseysimpson-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon lindseysimpson-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for gmail gmail-password)
     (password-for amazon amazon-password)
     (is-home-address home-address))

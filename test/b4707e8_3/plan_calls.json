@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(amazon-login clmiller-at-gmail-com amazon-password simple-note-token)",
+      "pddl": "(amazon-login clmiller-at-gmail-com amazon-password amazon-token)",
       "api": "amazon.login",
       "args": {
         "username": "clmiller@gmail.com",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(simple-note-login clmiller-at-gmail-com simple-note-password amazon-token)",
+      "pddl": "(simple-note-login clmiller-at-gmail-com simple-note-password simple-note-token)",
       "api": "simple_note.login",
       "args": {
         "username": "clmiller@gmail.com",
@@ -34,32 +34,32 @@
     },
     {
       "step": 4,
-      "pddl": "(amazon-show-orders simple-note-token total-may-2023)",
+      "pddl": "(amazon-show-orders amazon-token total-may-2023)",
       "api": "amazon.show_orders",
-      "args": {
-        "access_token": {
-          "$from": "simple_note.login",
-          "field": "access_token",
-          "object": "simple-note-token"
-        }
-      }
-    },
-    {
-      "step": 5,
-      "pddl": "(simple-note-search-notes amazon-token query-amazon-expenses amazon-expense-log-note)",
-      "api": "simple_note.search_notes",
       "args": {
         "access_token": {
           "$from": "amazon.login",
           "field": "access_token",
           "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(simple-note-search-notes simple-note-token query-amazon-expenses amazon-expense-log-note)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         },
         "query": "amazon expenses"
       }
     },
     {
       "step": 6,
-      "pddl": "(simple-note-show-note amazon-expense-log-note amazon-token)",
+      "pddl": "(simple-note-show-note amazon-expense-log-note simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
@@ -68,15 +68,15 @@
           "object": "amazon-expense-log-note"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(simple-note-add-content-to-note amazon-expense-log-note append entry-may-2023 amazon-token total-may-2023)",
+      "pddl": "(simple-note-add-content-to-note amazon-expense-log-note append entry-may-2023 simple-note-token total-may-2023)",
       "api": "simple_note.add_content_to_note",
       "args": {
         "note_id": {
@@ -91,9 +91,9 @@
           "object": "entry-may-2023"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "simple-note-token"
         }
       }
     },

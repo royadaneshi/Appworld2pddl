@@ -34,7 +34,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'record', 'duration', 'priority', 'query', 'project', 'task-item', 'username', 'description', 'password', 'person', 'app', 'token', 'duration-unit', 'note', 'title'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -45,19 +47,37 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(simple-note-login as-moore-at-gmail-com simple-note-password simple-note-token)",
-      "(todoist-login as-moore-at-gmail-com todoist-password simple-note-token)",
+      "(todoist-login as-moore-at-gmail-com todoist-password todoist-token)",
       "(simple-note-search-notes simple-note-token query-schedule work-schedule-note)",
       "(simple-note-show-note work-schedule-note simple-note-token)",
-      "(todoist-show-projects simple-note-token)",
-      "(todoist-show-tasks inbox-project simple-note-token)",
-      "(todoist-show-tasks today-project simple-note-token)",
-      "(todoist-create-task today-project title-of-inbox-fitting-task simple-note-token description-of-inbox-fitting-task duration-of-inbox-fitting-task unit-of-inbox-fitting-task priority-of-inbox-fitting-task inbox-fitting-task inbox-project)",
-      "(todoist-delete-task inbox-fitting-task simple-note-token inbox-project)",
-      "(todoist-delete-task today-done-task simple-note-token today-project)",
-      "(supervisor-complete-task today-done-task inbox-fitting-task today-project)"
+      "(todoist-show-projects todoist-token)",
+      "(todoist-show-tasks inbox-project todoist-token)",
+      "(todoist-show-tasks today-project todoist-token)",
+      "(todoist-create-task today-project title-of-inbox-fitting-task-1 todoist-token description-of-inbox-fitting-task-1 duration-of-inbox-fitting-task-1 unit-of-inbox-fitting-task-1 priority-of-inbox-fitting-task-1 inbox-fitting-task-1 inbox-project)",
+      "(todoist-create-task today-project title-of-inbox-fitting-task-2 todoist-token description-of-inbox-fitting-task-2 duration-of-inbox-fitting-task-2 unit-of-inbox-fitting-task-2 priority-of-inbox-fitting-task-2 inbox-fitting-task-2 inbox-project)",
+      "(todoist-create-task today-project title-of-inbox-fitting-task-3 todoist-token description-of-inbox-fitting-task-3 duration-of-inbox-fitting-task-3 unit-of-inbox-fitting-task-3 priority-of-inbox-fitting-task-3 inbox-fitting-task-3 inbox-project)",
+      "(todoist-create-task today-project title-of-inbox-fitting-task-4 todoist-token description-of-inbox-fitting-task-4 duration-of-inbox-fitting-task-4 unit-of-inbox-fitting-task-4 priority-of-inbox-fitting-task-4 inbox-fitting-task-4 inbox-project)",
+      "(todoist-create-task today-project title-of-inbox-fitting-task-5 todoist-token description-of-inbox-fitting-task-5 duration-of-inbox-fitting-task-5 unit-of-inbox-fitting-task-5 priority-of-inbox-fitting-task-5 inbox-fitting-task-5 inbox-project)",
+      "(todoist-create-task today-project title-of-inbox-fitting-task-6 todoist-token description-of-inbox-fitting-task-6 duration-of-inbox-fitting-task-6 unit-of-inbox-fitting-task-6 priority-of-inbox-fitting-task-6 inbox-fitting-task-6 inbox-project)",
+      "(todoist-delete-task inbox-fitting-task-1 todoist-token inbox-project)",
+      "(todoist-delete-task inbox-fitting-task-2 todoist-token inbox-project)",
+      "(todoist-delete-task inbox-fitting-task-3 todoist-token inbox-project)",
+      "(todoist-delete-task inbox-fitting-task-4 todoist-token inbox-project)",
+      "(todoist-delete-task inbox-fitting-task-5 todoist-token inbox-project)",
+      "(todoist-delete-task inbox-fitting-task-6 todoist-token inbox-project)",
+      "(todoist-delete-task today-done-task-1 todoist-token today-project)",
+      "(todoist-delete-task today-done-task-2 todoist-token today-project)",
+      "(todoist-delete-task today-done-task-3 todoist-token today-project)",
+      "(todoist-delete-task today-done-task-4 todoist-token today-project)",
+      "(todoist-delete-task today-done-task-5 todoist-token today-project)",
+      "(todoist-delete-task today-done-task-6 todoist-token today-project)",
+      "(todoist-delete-task today-done-task-7 todoist-token today-project)",
+      "(todoist-delete-task today-done-task-8 todoist-token today-project)",
+      "(todoist-delete-task today-done-task-9 todoist-token today-project)",
+      "(supervisor-complete-task)"
     ],
     "message": "",
-    "seconds": 0.82
+    "seconds": 0.98
   },
   "solution_used": false,
   "has_reference_solution": false,

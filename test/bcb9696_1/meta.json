@@ -32,7 +32,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'app', 'attachment', 'flag', 'token', 'file', 'query', 'username', 'path', 'password', 'person', 'entity', 'draft'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -43,17 +45,17 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(file-system-login normansmit-at-gmail-com file-system-password file-system-token)",
-      "(gmail-login normansmit-at-gmail-com gmail-password file-system-token)",
+      "(gmail-login normansmit-at-gmail-com gmail-password gmail-token)",
       "(file-system-show-directory file-system-token query-headshot flag-true headshot-file headshot-file-path)",
-      "(gmail-show-drafts file-system-token query-headshot headshot-draft)",
-      "(gmail-upload-attachments-to-draft headshot-draft headshot-file-path file-system-token file-system-token headshot-file)",
-      "(gmail-show-draft headshot-draft file-system-token resume-attachment)",
-      "(gmail-remove-attachment-from-draft headshot-draft resume-attachment file-system-token)",
-      "(gmail-send-email-from-draft headshot-draft file-system-token)",
+      "(gmail-show-drafts gmail-token query-headshot headshot-draft)",
+      "(gmail-upload-attachments-to-draft headshot-draft headshot-file-path file-system-token gmail-token headshot-file)",
+      "(gmail-show-draft headshot-draft gmail-token resume-attachment)",
+      "(gmail-remove-attachment-from-draft headshot-draft resume-attachment gmail-token)",
+      "(gmail-send-email-from-draft headshot-draft gmail-token)",
       "(supervisor-complete-task headshot-draft resume-attachment headshot-file)"
     ],
     "message": "",
-    "seconds": 1.27
+    "seconds": 1.08
   },
   "solution_used": false,
   "has_reference_solution": false,

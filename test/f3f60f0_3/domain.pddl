@@ -1,5 +1,5 @@
 (define (domain appworld-f3f60f0-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person username password token song album - object
   )
@@ -79,15 +79,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?s1 ?s2 ?s3 - song ?a1 ?a2 ?a3 - album)
-    :precondition (and
-      (in-song-library ?s1) (in-song-library ?s2) (in-song-library ?s3)
-      (not (= ?s1 ?s2)) (not (= ?s1 ?s3)) (not (= ?s2 ?s3))
-      (liked-song ?s1) (liked-song ?s2) (liked-song ?s3)
-      (in-album-library ?a1) (in-album-library ?a2) (in-album-library ?a3)
-      (not (= ?a1 ?a2)) (not (= ?a1 ?a3)) (not (= ?a2 ?a3))
-      (liked-album ?a1) (liked-album ?a2) (liked-album ?a3)
-      (not (task-completed)))
-    :effect (task-completed)
-  )
+    :parameters ()
+    :precondition (and (forall (?s - song) (liked-song ?s)) (forall (?a - album) (liked-album ?a)) (not (task-completed)))
+    :effect (task-completed))
+
 )

@@ -51,7 +51,7 @@
       "args": {
         "user_email": {
           "$from": "venmo.show_transactions",
-          "field": "counterpart email (sender.email or receiver.email that is not the supervisor) of a transaction with created_at >= 2023-05-01, for a user not present in venmo.search_friends results",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 1 of 10; one object per such user]",
           "object": "email-recent-payee-1"
         },
         "access_token": {
@@ -63,13 +63,13 @@
     },
     {
       "step": 6,
-      "pddl": "(venmo-add-friend email-recent-payee-2 venmo-token recent-payee-2)",
+      "pddl": "(venmo-add-friend email-recent-payee-10 venmo-token recent-payee-10)",
       "api": "venmo.add_friend",
       "args": {
         "user_email": {
           "$from": "venmo.show_transactions",
-          "field": "counterpart email of another this-month transaction whose user is not yet a friend",
-          "object": "email-recent-payee-2"
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 10 of 10; one object per such user]",
+          "object": "email-recent-payee-10"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -80,13 +80,13 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-remove-friend email-stale-friend-1 venmo-token stale-friend-1)",
-      "api": "venmo.remove_friend",
+      "pddl": "(venmo-add-friend email-recent-payee-2 venmo-token recent-payee-2)",
+      "api": "venmo.add_friend",
       "args": {
         "user_email": {
-          "$from": "venmo.search_friends",
-          "field": "email of a current friend who appears in no transaction with created_at >= 2023-05-01",
-          "object": "email-stale-friend-1"
+          "$from": "venmo.show_transactions",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 2 of 10; one object per such user]",
+          "object": "email-recent-payee-2"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -97,6 +97,312 @@
     },
     {
       "step": 8,
+      "pddl": "(venmo-add-friend email-recent-payee-3 venmo-token recent-payee-3)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 3 of 10; one object per such user]",
+          "object": "email-recent-payee-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-add-friend email-recent-payee-4 venmo-token recent-payee-4)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 4 of 10; one object per such user]",
+          "object": "email-recent-payee-4"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-add-friend email-recent-payee-5 venmo-token recent-payee-5)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 5 of 10; one object per such user]",
+          "object": "email-recent-payee-5"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-add-friend email-recent-payee-6 venmo-token recent-payee-6)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 6 of 10; one object per such user]",
+          "object": "email-recent-payee-6"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-add-friend email-recent-payee-7 venmo-token recent-payee-7)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 7 of 10; one object per such user]",
+          "object": "email-recent-payee-7"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-add-friend email-recent-payee-8 venmo-token recent-payee-8)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 8 of 10; one object per such user]",
+          "object": "email-recent-payee-8"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-add-friend email-recent-payee-9 venmo-token recent-payee-9)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "email of a user who sent money to or received money from the supervisor this month and is not in the friends list [item 9 of 10; one object per such user]",
+          "object": "email-recent-payee-9"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-remove-friend email-stale-friend-1 venmo-token stale-friend-1)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 1 of 11; one object per such friend]",
+          "object": "email-stale-friend-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-remove-friend email-stale-friend-10 venmo-token stale-friend-10)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 10 of 11; one object per such friend]",
+          "object": "email-stale-friend-10"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(venmo-remove-friend email-stale-friend-11 venmo-token stale-friend-11)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 11 of 11; one object per such friend]",
+          "object": "email-stale-friend-11"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(venmo-remove-friend email-stale-friend-2 venmo-token stale-friend-2)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 2 of 11; one object per such friend]",
+          "object": "email-stale-friend-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(venmo-remove-friend email-stale-friend-3 venmo-token stale-friend-3)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 3 of 11; one object per such friend]",
+          "object": "email-stale-friend-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(venmo-remove-friend email-stale-friend-4 venmo-token stale-friend-4)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 4 of 11; one object per such friend]",
+          "object": "email-stale-friend-4"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(venmo-remove-friend email-stale-friend-5 venmo-token stale-friend-5)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 5 of 11; one object per such friend]",
+          "object": "email-stale-friend-5"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(venmo-remove-friend email-stale-friend-6 venmo-token stale-friend-6)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 6 of 11; one object per such friend]",
+          "object": "email-stale-friend-6"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(venmo-remove-friend email-stale-friend-7 venmo-token stale-friend-7)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 7 of 11; one object per such friend]",
+          "object": "email-stale-friend-7"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(venmo-remove-friend email-stale-friend-8 venmo-token stale-friend-8)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 8 of 11; one object per such friend]",
+          "object": "email-stale-friend-8"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(venmo-remove-friend email-stale-friend-9 venmo-token stale-friend-9)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of a current friend who is not among the users who sent money to or received money from the supervisor this month [item 9 of 11; one object per such friend]",
+          "object": "email-stale-friend-9"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 26,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

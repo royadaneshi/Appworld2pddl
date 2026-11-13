@@ -32,7 +32,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'app', 'attachment', 'flag', 'substring', 'token', 'query', 'username', 'password', 'person', 'file-path', 'entity', 'draft'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -43,17 +45,17 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(file-system-login clmiller-at-gmail-com file-system-password file-system-token)",
-      "(gmail-login clmiller-at-gmail-com gmail-password file-system-token)",
+      "(gmail-login clmiller-at-gmail-com gmail-password gmail-token)",
       "(file-system-show-directory file-system-token substring-headshot true headshot-file-path)",
-      "(gmail-show-drafts file-system-token query-headshot draft-headshot-reply)",
-      "(gmail-upload-attachments-to-draft draft-headshot-reply headshot-file-path file-system-token file-system-token)",
-      "(gmail-show-draft draft-headshot-reply file-system-token attachment-resume)",
-      "(gmail-remove-attachment-from-draft draft-headshot-reply attachment-resume file-system-token)",
-      "(gmail-send-email-from-draft draft-headshot-reply file-system-token file-system-token)",
+      "(gmail-show-drafts gmail-token query-headshot draft-headshot-reply)",
+      "(gmail-upload-attachments-to-draft draft-headshot-reply headshot-file-path file-system-token gmail-token)",
+      "(gmail-show-draft draft-headshot-reply gmail-token attachment-resume)",
+      "(gmail-remove-attachment-from-draft draft-headshot-reply attachment-resume gmail-token)",
+      "(gmail-send-email-from-draft draft-headshot-reply gmail-token file-system-token)",
       "(supervisor-complete-task draft-headshot-reply attachment-resume headshot-file-path)"
     ],
     "message": "",
-    "seconds": 1.18
+    "seconds": 0.9
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -7,7 +7,8 @@
   (:constants
     supervisor phone amazon - app
     hurom-hp-slow-juicer - product
-    addr-parents-home addr-sibling-1-home addr-sibling-2-home - address)
+    addr-parents-home addr-sibling-1-home addr-sibling-2-home addr-sibling-3-home - address
+  )
   (:predicates
     (passwords-known)
     (username-for ?a - app ?u - username)
@@ -102,9 +103,11 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (ordered addr-parents-home hurom-hp-slow-juicer)
-                       (ordered addr-sibling-1-home hurom-hp-slow-juicer)
-                       (ordered addr-sibling-2-home hurom-hp-slow-juicer)
-                       (not (task-completed)))
+    :precondition (and
+      (ordered addr-parents-home hurom-hp-slow-juicer)
+      (ordered addr-sibling-1-home hurom-hp-slow-juicer)
+      (ordered addr-sibling-2-home hurom-hp-slow-juicer)
+      (ordered addr-sibling-3-home hurom-hp-slow-juicer)
+      (not (task-completed)))
     :effect (and (task-completed)))
 )

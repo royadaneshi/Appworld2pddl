@@ -13,7 +13,9 @@
     quantity-1 - quantity
     clear-cart-true - flag
     home-address - address
-    amazon-payment-card - payment-card)
+    amazon-payment-card - payment-card
+    home-address-name home-address-street home-address-city home-address-state home-address-country home-address-zip - address-field
+  )
   (:init
     (password-for amazon amazon-password)
     (query-for-type query-board-game board-game)
@@ -22,5 +24,12 @@
     (product-of-type qualifying-board-game board-game)
     (unit-quantity quantity-1)
     (clear-first clear-cart-true)
-    (is-home-address home-address))
+    (is-home-address home-address)
+    (address-name home-address home-address-name)
+    (address-street home-address home-address-street)
+    (address-city home-address home-address-city)
+    (address-state home-address home-address-state)
+    (address-country home-address home-address-country)
+    (address-zip home-address home-address-zip)
+  )
   (:goal (and (order-placed qualifying-board-game home-address) (task-completed))))

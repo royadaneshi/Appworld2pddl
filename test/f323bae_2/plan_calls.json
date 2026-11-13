@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(simple-note-login spencer-powell-at-gmail-com simple-note-password file-system-token)",
+      "pddl": "(simple-note-login spencer-powell-at-gmail-com simple-note-password simple-note-token)",
       "api": "simple_note.login",
       "args": {
         "username": "spencer.powell@gmail.com",
@@ -47,20 +47,20 @@
     },
     {
       "step": 5,
-      "pddl": "(simple-note-search-notes file-system-token query-habit habit-tracking-log-note)",
+      "pddl": "(simple-note-search-notes simple-note-token query-habit habit-tracking-log-note)",
       "api": "simple_note.search_notes",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "simple-note-token"
         },
         "query": "habit"
       }
     },
     {
       "step": 6,
-      "pddl": "(simple-note-show-note habit-tracking-log-note file-system-token csv-habit-log)",
+      "pddl": "(simple-note-show-note habit-tracking-log-note simple-note-token csv-habit-log)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
@@ -69,9 +69,9 @@
           "object": "habit-tracking-log-note"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "simple-note-token"
         }
       }
     },

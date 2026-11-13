@@ -1,5 +1,5 @@
 (define (domain appworld-d194965-1)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person entity username password token query title - object
     note song playlist - entity
@@ -79,8 +79,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p - playlist ?ti - title ?s1 - song ?s2 - song ?s3 - song)
-    :precondition (and (playlist-created ?p ?ti) (song-added ?p ?s1) (song-added ?p ?s2) (song-added ?p ?s3) (not (= ?s1 ?s2)) (not (= ?s1 ?s3)) (not (= ?s2 ?s3)) (not (task-completed)))
-    :effect (task-completed)
-  )
+    :parameters (?p - playlist ?ti - title)
+    :precondition (and (playlist-created ?p ?ti) (forall (?s - song) (song-added ?p ?s)) (not (task-completed)))
+    :effect (task-completed))
+
 )

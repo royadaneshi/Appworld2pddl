@@ -14,6 +14,12 @@
     flag-true - flag
   )
   (:init
+    (credential-of-app gmail ca-smit-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon ca-smit-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for gmail gmail-password)
     (password-for amazon amazon-password)
     (username-for gmail ca-smit-at-gmail-com)

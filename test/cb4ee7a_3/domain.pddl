@@ -9,6 +9,7 @@
   )
   (:constants amazon gmail - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (payment-cards-known)
@@ -65,11 +66,12 @@
   ; API: amazon.signup
   (:action amazon-signup
     :parameters (?fn - first-name ?ln - last-name ?e - email ?pw - password ?p - person)
-    :precondition (and (not (task-completed)) (profile-known) (is-supervisor ?p)
+    :precondition (and (passwords-known) (not (task-completed)) (profile-known) (is-supervisor ?p)
                        (person-first-name ?p ?fn) (person-last-name ?p ?ln) (person-email ?p ?e)
                        (password-for amazon ?pw) (not (account-exists amazon)))
     :effect (and (account-exists amazon) (account-email amazon ?e) (verification-sent amazon))
   )
+
 
   ; API: amazon.send_verification_code
   (:action amazon-send-verification-code
@@ -81,7 +83,7 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)))
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (not (task-completed)) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)))
     :effect (and (has-token gmail ?t))
   )
 
@@ -109,7 +111,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (account-exists amazon) (account-verified amazon) (username-for amazon ?u) (password-for amazon ?pw) (not (has-token amazon ?t)))
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (not (task-completed)) (account-exists amazon) (account-verified amazon) (username-for amazon ?u) (password-for amazon ?pw) (not (has-token amazon ?t)))
     :effect (and (has-token amazon ?t))
   )
 

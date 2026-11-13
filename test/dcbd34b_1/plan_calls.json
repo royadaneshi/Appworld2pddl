@@ -60,13 +60,13 @@
     },
     {
       "step": 6,
-      "pddl": "(gmail-show-thread thread-coworker-1 gmail-token coworker-1 n0 n1)",
+      "pddl": "(gmail-show-thread expense-request-thread gmail-token)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of the 1st thread whose reply from a coworker contains the company-trip expense details",
-          "object": "thread-coworker-1"
+          "field": "email_thread_id of the company-trip expense thread in which the coworkers replied with their expense details (one thread, one reply per coworker)",
+          "object": "expense-request-thread"
         },
         "access_token": {
           "$from": "gmail.login",
@@ -77,41 +77,7 @@
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-thread thread-coworker-2 gmail-token coworker-2 n1 n2)",
-      "api": "gmail.show_thread",
-      "args": {
-        "email_thread_id": {
-          "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of the 2nd thread whose reply from a coworker contains the company-trip expense details",
-          "object": "thread-coworker-2"
-        },
-        "access_token": {
-          "$from": "gmail.login",
-          "field": "access_token",
-          "object": "gmail-token"
-        }
-      }
-    },
-    {
-      "step": 8,
-      "pddl": "(gmail-show-thread thread-coworker-3 gmail-token coworker-3 n2 n3)",
-      "api": "gmail.show_thread",
-      "args": {
-        "email_thread_id": {
-          "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of the 3rd thread whose reply from a coworker contains the company-trip expense details",
-          "object": "thread-coworker-3"
-        },
-        "access_token": {
-          "$from": "gmail.login",
-          "field": "access_token",
-          "object": "gmail-token"
-        }
-      }
-    },
-    {
-      "step": 9,
-      "pddl": "(file-system-update-file reimbursements-csv reimbursements-csv-content file-system-token n3)",
+      "pddl": "(file-system-update-file reimbursements-csv reimbursements-csv-content file-system-token)",
       "api": "file_system.update_file",
       "args": {
         "file_path": "~/documents/work/reimbursements.csv",
@@ -128,7 +94,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 8,
       "pddl": "(supervisor-complete-task reimbursements-csv reimbursements-csv-content)",
       "api": "supervisor.complete_task",
       "args": {}

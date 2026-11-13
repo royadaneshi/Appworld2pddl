@@ -12,6 +12,12 @@
     attachment-resume - attachment
     headshot-file-path - file-path)
   (:init
+    (credential-of-app gmail clmiller-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system clmiller-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for gmail gmail-password)
     (password-for file-system file-system-password)
     (recipient-of draft-headshot-reply manager)

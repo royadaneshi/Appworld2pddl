@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(simple-note-login matthew-blac-at-gmail-com simple-note-password amazon-token)",
+      "pddl": "(simple-note-login matthew-blac-at-gmail-com simple-note-password simple-note-token)",
       "api": "simple_note.login",
       "args": {
         "username": "matthew.blac@gmail.com",
@@ -70,20 +70,20 @@
     },
     {
       "step": 7,
-      "pddl": "(simple-note-search-notes amazon-token query-amazon-shopping-list amazon-shopping-list-note)",
+      "pddl": "(simple-note-search-notes simple-note-token query-amazon-shopping-list amazon-shopping-list-note)",
       "api": "simple_note.search_notes",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "simple-note-token"
         },
         "query": "Amazon shopping list"
       }
     },
     {
       "step": 8,
-      "pddl": "(simple-note-show-note amazon-shopping-list-note amazon-token)",
+      "pddl": "(simple-note-show-note amazon-shopping-list-note simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
@@ -92,9 +92,9 @@
           "object": "amazon-shopping-list-note"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "simple-note-token"
         }
       }
     },
@@ -130,25 +130,25 @@
     },
     {
       "step": 11,
-      "pddl": "(amazon-search-products query-item-2 item-2 product-item-2)",
+      "pddl": "(amazon-search-products query-item-10 item-10 product-item-10)",
       "api": "amazon.search_products",
       "args": {
         "query": {
           "$from": "simple_note.show_note",
-          "field": "content: second item line of the shopping list",
-          "object": "query-item-2"
+          "field": "content: tenth item line of the shopping list",
+          "object": "query-item-10"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(amazon-add-product-to-cart product-item-2 amazon-token quantity-1)",
+      "pddl": "(amazon-add-product-to-cart product-item-10 amazon-token quantity-1)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the in-stock product with the highest rating for item 2 (lowest price on ties)",
-          "object": "product-item-2"
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-10"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -160,12 +160,252 @@
     },
     {
       "step": 13,
+      "pddl": "(amazon-search-products query-item-2 item-2 product-item-2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: second item line of the shopping list",
+          "object": "query-item-2"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-add-product-to-cart product-item-2 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-search-products query-item-3 item-3 product-item-3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: third item line of the shopping list",
+          "object": "query-item-3"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-add-product-to-cart product-item-3 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-search-products query-item-4 item-4 product-item-4)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: fourth item line of the shopping list",
+          "object": "query-item-4"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-add-product-to-cart product-item-4 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-search-products query-item-5 item-5 product-item-5)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: fifth item line of the shopping list",
+          "object": "query-item-5"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(amazon-add-product-to-cart product-item-5 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-5"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(amazon-search-products query-item-6 item-6 product-item-6)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: sixth item line of the shopping list",
+          "object": "query-item-6"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(amazon-add-product-to-cart product-item-6 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-6"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(amazon-search-products query-item-7 item-7 product-item-7)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: seventh item line of the shopping list",
+          "object": "query-item-7"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(amazon-add-product-to-cart product-item-7 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-7"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(amazon-search-products query-item-8 item-8 product-item-8)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: eighth item line of the shopping list",
+          "object": "query-item-8"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(amazon-add-product-to-cart product-item-8 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-8"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(amazon-search-products query-item-9 item-9 product-item-9)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: ninth item line of the shopping list",
+          "object": "query-item-9"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(amazon-add-product-to-cart product-item-9 amazon-token quantity-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the in-stock product with the highest rating for item 1 (lowest price on ties)",
+          "object": "product-item-9"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 29,
       "pddl": "(amazon-place-order amazon-payment-card address-home amazon-token)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id of a valid (non-expired) card, first one",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-payment-card"
         },
         "address_id": {
@@ -181,8 +421,8 @@
       }
     },
     {
-      "step": 14,
-      "pddl": "(supervisor-complete-task product-item-1 product-item-2 address-home)",
+      "step": 30,
+      "pddl": "(supervisor-complete-task address-home)",
       "api": "supervisor.complete_task",
       "args": {}
     }

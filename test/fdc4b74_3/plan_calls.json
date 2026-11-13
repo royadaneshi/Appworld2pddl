@@ -51,43 +51,7 @@
     },
     {
       "step": 5,
-      "pddl": "(amazon-search-products query-item-1 item-1 draft-camping c0 c1)",
-      "api": "amazon.search_products",
-      "args": {
-        "query": {
-          "$from": "gmail.show_draft",
-          "field": "product name parsed from the 1st body line of the form '- <qty> X <product name> => TODO'",
-          "object": "query-item-1"
-        }
-      }
-    },
-    {
-      "step": 6,
-      "pddl": "(amazon-search-products query-item-2 item-2 draft-camping c1 c2)",
-      "api": "amazon.search_products",
-      "args": {
-        "query": {
-          "$from": "gmail.show_draft",
-          "field": "product name parsed from the 2nd body line of the form '- <qty> X <product name> => TODO'",
-          "object": "query-item-2"
-        }
-      }
-    },
-    {
-      "step": 7,
-      "pddl": "(amazon-search-products query-item-3 item-3 draft-camping c2 c3)",
-      "api": "amazon.search_products",
-      "args": {
-        "query": {
-          "$from": "gmail.show_draft",
-          "field": "product name parsed from the 3rd body line of the form '- <qty> X <product name> => TODO'",
-          "object": "query-item-3"
-        }
-      }
-    },
-    {
-      "step": 8,
-      "pddl": "(amazon-search-products query-item-4 item-4 draft-camping c3 c4)",
+      "pddl": "(amazon-search-products query-item-4 item-4 draft-camping c0 c1)",
       "api": "amazon.search_products",
       "args": {
         "query": {
@@ -98,8 +62,80 @@
       }
     },
     {
+      "step": 6,
+      "pddl": "(amazon-search-products query-item-7 item-7 draft-camping c1 c2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 7th body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-7"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-search-products query-item-6 item-6 draft-camping c2 c3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 6th body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-6"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-search-products query-item-5 item-5 draft-camping c3 c4)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 5th body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-5"
+        }
+      }
+    },
+    {
       "step": 9,
-      "pddl": "(gmail-update-draft draft-camping gmail-token body-with-prices c4)",
+      "pddl": "(amazon-search-products query-item-3 item-3 draft-camping c4 c5)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 3rd body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-3"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products query-item-2 item-2 draft-camping c5 c6)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 2nd body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-2"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-search-products query-item-1 item-1 draft-camping c6 c7)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "product name parsed from the 1st body line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-item-1"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-update-draft draft-camping gmail-token body-with-prices c7)",
       "api": "gmail.update_draft",
       "args": {
         "draft_id": {
@@ -120,7 +156,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 13,
       "pddl": "(gmail-send-email-from-draft draft-camping gmail-token)",
       "api": "gmail.send_email_from_draft",
       "args": {
@@ -137,7 +173,7 @@
       }
     },
     {
-      "step": 11,
+      "step": 14,
       "pddl": "(supervisor-complete-task draft-camping)",
       "api": "supervisor.complete_task",
       "args": {}

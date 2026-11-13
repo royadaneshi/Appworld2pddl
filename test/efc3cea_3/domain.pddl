@@ -4,6 +4,7 @@
     app person username password token query email-thread product-type product quantity flag address payment-card - object)
   (:constants gmail amazon - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -25,7 +26,7 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (password-for gmail ?pw) (not (has-token gmail ?t)))
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (not (task-completed)) (passwords-known) (password-for gmail ?pw) (not (has-token gmail ?t)))
     :effect (and (has-token gmail ?t)))
 
   ; API: gmail.show_inbox_threads
@@ -43,7 +44,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)))
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (not (task-completed)) (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)))
     :effect (and (has-token amazon ?t)))
 
   ; API: amazon.search_products

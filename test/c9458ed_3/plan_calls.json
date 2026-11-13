@@ -139,7 +139,7 @@
       "args": {
         "promo_code": {
           "$from": "phone.search_text_messages",
-          "field": "promo code string extracted from reply messages of sibling and coworker contacts (search_text_messages called with phone_number of each such contact); among all candidate codes choose the one yielding the largest cart discount (try each with amazon.apply_promo_code_to_cart and compare discount in amazon.show_cart; leave the best one applied)",
+          "field": "promo code, among those sent in the replies of sibling / coworker contacts, that gives the largest discount (apply each and compare the cart total; several contacts replied with a code)",
           "object": "best-promo-code"
         },
         "access_token": {
@@ -168,7 +168,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-payment-card"
         },
         "address_id": {

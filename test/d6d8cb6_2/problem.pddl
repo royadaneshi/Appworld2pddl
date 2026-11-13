@@ -14,6 +14,15 @@
     return-confirmation-thread - email-thread
     return-confirmation-email - email-msg)
   (:init
+    (credential-of-app amazon alexwhite-at-gmail-com)
+    (credential-of-app amazon amazon-pw)
+    (credential-of-app amazon amazon-tok)
+    (credential-of-app phone phone-3707865891)
+    (credential-of-app phone phone-pw)
+    (credential-of-app phone phone-tok)
+    (credential-of-app gmail alexwhite-at-gmail-com)
+    (credential-of-app gmail gmail-pw)
+    (credential-of-app gmail gmail-tok)
     (username-for amazon alexwhite-at-gmail-com)
     (username-for gmail alexwhite-at-gmail-com)
     (username-for phone phone-3707865891)

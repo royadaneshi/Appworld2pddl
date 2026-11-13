@@ -11,6 +11,12 @@
     entry-may-2023 - content
     append - position)
   (:init
+    (credential-of-app simple-note clmiller-at-gmail-com)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
+    (credential-of-app amazon clmiller-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for simple-note simple-note-password)
     (password-for amazon amazon-password)
     (note-matches query-amazon-expenses amazon-expense-log-note)

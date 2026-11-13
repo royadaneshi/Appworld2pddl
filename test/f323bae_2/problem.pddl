@@ -12,6 +12,12 @@
     backups-dir - dirpath
   )
   (:init
+    (credential-of-app simple-note spencer-powell-at-gmail-com)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
+    (credential-of-app file-system spencer-powell-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for simple-note simple-note-password)
     (password-for file-system file-system-password)
     (note-matches query-habit habit-tracking-log-note)

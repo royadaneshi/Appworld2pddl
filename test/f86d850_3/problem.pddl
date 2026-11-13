@@ -17,6 +17,15 @@
     note-order-on-amazon - note
   )
   (:init
+    (credential-of-app amazon ka-ball-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app gmail ka-ball-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app venmo ka-ball-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for amazon ka-ball-at-gmail-com)
     (username-for gmail ka-ball-at-gmail-com)
     (username-for venmo ka-ball-at-gmail-com)

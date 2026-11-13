@@ -2,7 +2,7 @@
   (:requirements :strips :typing :negative-preconditions :equality)
   (:types
     app person username password token query product-type price rating quantity flag product address payment-card - object
-  )
+    address-field - object)
   (:constants amazon - app)
   (:predicates
     (passwords-known)
@@ -20,7 +20,13 @@
     (known-card-id ?pc - payment-card)
     (ordered ?p - product ?ad - address)
     (task-completed)
-  )
+    (amazon-addresses-listed)
+    (address-name ?a - address ?x - address-field)
+    (address-street ?a - address ?x - address-field)
+    (address-city ?a - address ?x - address-field)
+    (address-state ?a - address ?x - address-field)
+    (address-country ?a - address ?x - address-field)
+    (address-zip ?a - address ?x - address-field))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -68,8 +74,9 @@
   (:action amazon-show-addresses
     :parameters (?t - token ?ad - address)
     :precondition (and (has-token amazon ?t) (address-details-known ?ad) (not (task-completed)))
-    :effect (and (known-address-id ?ad))
+    :effect (and (amazon-addresses-listed))
   )
+
 
   ; API: amazon.show_payment_cards
   (:action amazon-show-payment-cards
@@ -77,6 +84,12 @@
     :precondition (and (has-token amazon ?t) (not (task-completed)))
     :effect (and (known-card-id ?pc))
   )
+
+  ; API: amazon.add_address  (the address is not saved in the Amazon account yet)
+  (:action amazon-add-address
+    :parameters (?name ?street ?city ?state ?country ?zip - address-field ?t - token ?a - address)
+    :precondition (and (has-token amazon ?t) (amazon-addresses-listed) (address-details-known ?a) (address-name ?a ?name) (address-street ?a ?street) (address-city ?a ?city) (address-state ?a ?state) (address-country ?a ?country) (address-zip ?a ?zip) (not (known-address-id ?a)) (not (task-completed)))
+    :effect (known-address-id ?a))
 
   ; API: amazon.place_order
   (:action amazon-place-order

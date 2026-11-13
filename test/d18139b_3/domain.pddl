@@ -1,7 +1,8 @@
 (define (domain appworld-d18139b-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
-    app person payment-request username password token relationship status - object)
+    app person payment-request username password token relationship status - object
+    amount payment-card - object)
   (:constants phone venmo - app)
   (:predicates
     (passwords-known)
@@ -18,7 +19,12 @@
     (roommates-found)
     (received-requests-found)
     (approved ?r - payment-request)
-    (task-completed))
+    (task-completed)
+    (balance-known)
+    (usable-card ?c - payment-card)
+    (card-known ?c - payment-card)
+    (shortfall ?a - amount)
+    (balance-sufficient))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -50,15 +56,35 @@
     :precondition (and (not (task-completed)) (has-token venmo ?t) (pending-status ?s))
     :effect (received-requests-found))
 
+  ; API: venmo.show_venmo_balance
+  (:action venmo-show-venmo-balance
+    :parameters (?t - token)
+    :precondition (and (has-token venmo ?t) (not (task-completed)))
+    :effect (balance-known))
+
+  ; API: venmo.show_payment_cards
+  (:action venmo-show-payment-cards
+    :parameters (?t - token ?c - payment-card)
+    :precondition (and (has-token venmo ?t) (usable-card ?c) (not (task-completed)))
+    :effect (card-known ?c))
+
+  ; API: venmo.add_to_venmo_balance  (the balance alone does not cover the payments)
+  (:action venmo-add-to-venmo-balance
+    :parameters (?a - amount ?c - payment-card ?t - token)
+    :precondition (and (has-token venmo ?t) (balance-known) (card-known ?c) (shortfall ?a) (not (balance-sufficient)) (not (task-completed)))
+    :effect (balance-sufficient))
+
   ; API: venmo.approve_payment_request
   (:action venmo-approve-payment-request
     :parameters (?r - payment-request ?t - token ?p - person)
-    :precondition (and (not (task-completed)) (has-token venmo ?t) (roommates-found) (received-requests-found) (sent-by ?r ?p) (is-roommate ?p) (created-this-month ?r) (pending ?r) (not (approved ?r)))
+    :precondition (and (not (task-completed)) (has-token venmo ?t) (balance-sufficient) (roommates-found) (received-requests-found) (sent-by ?r ?p) (is-roommate ?p) (created-this-month ?r) (pending ?r) (not (approved ?r)))
     :effect (and (approved ?r) (not (pending ?r))))
+
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?r1 ?r2 ?r3 - payment-request)
-    :precondition (and (not (task-completed)) (approved ?r1) (approved ?r2) (approved ?r3) (not (= ?r1 ?r2)) (not (= ?r1 ?r3)) (not (= ?r2 ?r3)))
+    :parameters ()
+    :precondition (and (forall (?r - payment-request) (imply (created-this-month ?r) (approved ?r))) (not (task-completed)))
     :effect (task-completed))
+
 )

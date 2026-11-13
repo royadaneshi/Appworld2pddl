@@ -242,12 +242,80 @@
     },
     {
       "step": 17,
+      "pddl": "(amazon-search-products query-product-4 product-4)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> product name of checklist line 4",
+          "object": "query-product-4"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-add-product-to-cart product-4 amazon-token qty-product-4 count-3 count-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id whose name exactly matches checklist line 4 (or the product id if the checklist lists ids directly)",
+          "object": "product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content -> quantity of checklist line 4",
+          "object": "qty-product-4"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-search-products query-product-5 product-5)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content -> product name of checklist line 5",
+          "object": "query-product-5"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(amazon-add-product-to-cart product-5 amazon-token qty-product-5 count-4 count-5)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id whose name exactly matches checklist line 5 (or the product id if the checklist lists ids directly)",
+          "object": "product-5"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "file_system.show_file",
+          "field": "content -> quantity of checklist line 5",
+          "object": "qty-product-5"
+        }
+      }
+    },
+    {
+      "step": 21,
       "pddl": "(supervisor-show-addresses)",
       "api": "supervisor.show_addresses",
       "args": {}
     },
     {
-      "step": 18,
+      "step": 22,
       "pddl": "(amazon-show-addresses amazon-token timothy-home-address)",
       "api": "amazon.show_addresses",
       "args": {
@@ -259,13 +327,13 @@
       }
     },
     {
-      "step": 19,
-      "pddl": "(amazon-place-order amazon-payment-card timothy-home-address amazon-token count-3)",
+      "step": 23,
+      "pddl": "(amazon-place-order amazon-payment-card timothy-home-address amazon-token count-5)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (any saved card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-payment-card"
         },
         "address_id": {
@@ -281,7 +349,7 @@
       }
     },
     {
-      "step": 20,
+      "step": 24,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

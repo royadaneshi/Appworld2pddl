@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(amazon-login paul-mill-at-gmail-com amazon-password venmo-token)",
+      "pddl": "(amazon-login paul-mill-at-gmail-com amazon-password amazon-token)",
       "api": "amazon.login",
       "args": {
         "username": "paul_mill@gmail.com",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login phone-3379617841 phone-password venmo-token)",
+      "pddl": "(phone-login phone-3379617841 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3379617841",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login paul-mill-at-gmail-com venmo-password amazon-token)",
+      "pddl": "(venmo-login paul-mill-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "paul_mill@gmail.com",
@@ -47,32 +47,32 @@
     },
     {
       "step": 5,
-      "pddl": "(amazon-show-orders venmo-token)",
+      "pddl": "(amazon-show-orders amazon-token)",
       "api": "amazon.show_orders",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "amazon.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "amazon-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token relationship-roommate)",
+      "pddl": "(phone-search-contacts phone-token relationship-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-create-payment-request roommate-1-email amount-share amazon-token note-for-shared-purchases-on-amazon roommate-1)",
+      "pddl": "(venmo-create-payment-request roommate-1-email amount-share venmo-token note-for-shared-purchases-on-amazon roommate-1)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -86,16 +86,16 @@
           "object": "amount-share"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "description": "For Shared Purchases on Amazon"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-create-payment-request roommate-2-email amount-share amazon-token note-for-shared-purchases-on-amazon roommate-2)",
+      "pddl": "(venmo-create-payment-request roommate-2-email amount-share venmo-token note-for-shared-purchases-on-amazon roommate-2)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -109,16 +109,39 @@
           "object": "amount-share"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "description": "For Shared Purchases on Amazon"
       }
     },
     {
       "step": 9,
-      "pddl": "(supervisor-complete-task roommate-1 roommate-2)",
+      "pddl": "(venmo-create-payment-request roommate-3-email amount-share venmo-token note-for-shared-purchases-on-amazon roommate-3)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the third contact returned with relationship roommate",
+          "object": "roommate-3-email"
+        },
+        "amount": {
+          "$from": "amazon.show_orders",
+          "field": "sum of the order totals of the 2 most recent orders divided by (number of roommates + 1), rounded to 2 decimals",
+          "object": "amount-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Shared Purchases on Amazon"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}
     }

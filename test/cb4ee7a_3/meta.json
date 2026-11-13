@@ -34,7 +34,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'email', 'query', 'password', 'card-number', 'app', 'payment-card', 'owner-name', 'cvv-number', 'card-name', 'first-name', 'duration', 'username', 'expiry-month', 'verification-code', 'token', 'email-thread', 'person', 'last-name', 'ex"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -44,12 +46,12 @@
     "planner_status": "SOLVED_SATISFICING",
     "plan": [
       "(supervisor-show-account-passwords)",
-      "(gmail-login username-matthew-blac-at-gmail-com gmail-password amazon-token)",
+      "(gmail-login username-matthew-blac-at-gmail-com gmail-password gmail-token)",
       "(supervisor-show-payment-cards)",
       "(supervisor-show-profile)",
       "(amazon-signup first-name-matthew last-name-blackburn matthew-blac-at-gmail-com amazon-new-password matthew-blackburn)",
-      "(gmail-show-inbox-threads amazon-token query-verification amazon-verification-thread)",
-      "(gmail-show-thread amazon-verification-thread amazon-token amazon-verification-code)",
+      "(gmail-show-inbox-threads gmail-token query-verification amazon-verification-thread)",
+      "(gmail-show-thread amazon-verification-thread gmail-token amazon-verification-code)",
       "(amazon-verify-account matthew-blac-at-gmail-com amazon-verification-code)",
       "(amazon-login username-matthew-blac-at-gmail-com amazon-new-password amazon-token)",
       "(amazon-add-payment-card card-name-1 owner-name-1 card-number-1 expiry-year-1 expiry-month-1 cvv-number-1 amazon-token payment-card-1)",

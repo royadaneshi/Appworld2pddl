@@ -30,7 +30,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'username', 'note', 'amount', 'app', 'query', 'person', 'token', 'password', 'content', 'position'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -40,16 +42,16 @@
     "planner_status": "SOLVED_SATISFICING",
     "plan": [
       "(supervisor-show-account-passwords)",
-      "(amazon-login clmiller-at-gmail-com amazon-password simple-note-token)",
-      "(simple-note-login clmiller-at-gmail-com simple-note-password amazon-token)",
-      "(amazon-show-orders simple-note-token total-may-2023)",
-      "(simple-note-search-notes amazon-token query-amazon-expenses amazon-expense-log-note)",
-      "(simple-note-show-note amazon-expense-log-note amazon-token)",
-      "(simple-note-add-content-to-note amazon-expense-log-note append entry-may-2023 amazon-token total-may-2023)",
+      "(amazon-login clmiller-at-gmail-com amazon-password amazon-token)",
+      "(simple-note-login clmiller-at-gmail-com simple-note-password simple-note-token)",
+      "(amazon-show-orders amazon-token total-may-2023)",
+      "(simple-note-search-notes simple-note-token query-amazon-expenses amazon-expense-log-note)",
+      "(simple-note-show-note amazon-expense-log-note simple-note-token)",
+      "(simple-note-add-content-to-note amazon-expense-log-note append entry-may-2023 simple-note-token total-may-2023)",
       "(supervisor-complete-task amazon-expense-log-note entry-may-2023)"
     ],
     "message": "",
-    "seconds": 1.39
+    "seconds": 0.84
   },
   "solution_used": false,
   "has_reference_solution": false,

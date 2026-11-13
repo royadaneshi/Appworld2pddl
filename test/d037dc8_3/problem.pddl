@@ -12,6 +12,15 @@
     order-1 order-2 order-3 order-4 - order
     c0 c1 c2 c3 c4 - count)
   (:init
+    (credential-of-app amazon kathrynmaldonado-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone phone-2473084266)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo kathrynmaldonado-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for amazon kathrynmaldonado-at-gmail-com)
     (username-for venmo kathrynmaldonado-at-gmail-com)
     (username-for phone phone-2473084266)

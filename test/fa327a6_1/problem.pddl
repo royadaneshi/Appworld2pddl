@@ -27,7 +27,7 @@
     (contact-relationship brenda relationship-friend)
     (email-of brenda brenda-email)
     (last-two-orders order-latest order-second-latest)
-    (underpaid brenda amount-difference))
+    (overpaid brenda amount-difference))
   (:goal (and
     (difference-settled brenda amount-difference note-fixing-amazon-order-payment)
     (task-completed))))

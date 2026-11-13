@@ -35,7 +35,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'email-thread', 'flag', 'address', 'person', 'query', 'entity', 'payment-card', 'product', 'quantity', 'app', 'password', 'username', 'token'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -47,11 +49,11 @@
       "(amazon-search-products query-picture-frame giftable-picture-frame)",
       "(supervisor-show-account-passwords)",
       "(amazon-login tra-weber-at-gmail-com amazon-password amazon-token)",
-      "(gmail-login tra-weber-at-gmail-com gmail-password amazon-token)",
+      "(gmail-login tra-weber-at-gmail-com gmail-password gmail-token)",
       "(amazon-show-addresses amazon-token home-address)",
       "(amazon-show-payment-cards amazon-token tracy-payment-card)",
-      "(gmail-show-inbox-threads amazon-token query-flight flight-confirmation-thread)",
-      "(gmail-show-thread flight-confirmation-thread amazon-token)",
+      "(gmail-show-inbox-threads gmail-token query-flight flight-confirmation-thread)",
+      "(gmail-show-thread flight-confirmation-thread gmail-token)",
       "(amazon-show-product giftable-picture-frame)",
       "(amazon-add-product-to-cart giftable-picture-frame amazon-token quantity-5 flag-true)",
       "(amazon-add-gift-wrapping-to-product giftable-picture-frame amazon-token quantity-5)",
@@ -59,7 +61,7 @@
       "(supervisor-complete-task giftable-picture-frame quantity-5 home-address)"
     ],
     "message": "",
-    "seconds": 1.22
+    "seconds": 1.01
   },
   "solution_used": false,
   "has_reference_solution": false,

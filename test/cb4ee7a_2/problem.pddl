@@ -19,6 +19,14 @@
     expiry-month-1 - expiry-month
     cvv-number-1 - cvv-number)
   (:init
+    (credential-of-app gmail chris-mcco-at-gmail-com)
+    (credential-of-app gmail username-chris-mcco-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app spotify chris-mcco-at-gmail-com)
+    (credential-of-app spotify username-chris-mcco-at-gmail-com)
+    (credential-of-app spotify spotify-new-password)
+    (credential-of-app spotify spotify-token)
     (supervisor chris-mccoy)
     (first-name-of chris-mccoy chris)
     (last-name-of chris-mccoy mccoy)

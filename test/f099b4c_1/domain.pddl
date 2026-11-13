@@ -6,6 +6,7 @@
   )
   (:constants amazon simple-note - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -33,7 +34,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (not (task-completed)) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)))
     :effect (has-token simple-note ?t)
   )
 
@@ -54,7 +55,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)))
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (not (task-completed)) (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)))
     :effect (has-token amazon ?t)
   )
 

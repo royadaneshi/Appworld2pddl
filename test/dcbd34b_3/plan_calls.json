@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login brandon-webe-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login brandon-webe-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "brandon-webe@gmail.com",
@@ -47,20 +47,20 @@
     },
     {
       "step": 5,
-      "pddl": "(gmail-show-inbox-threads file-system-token query-expense company-trip-expense-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-expense company-trip-expense-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "query": "expense"
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-show-thread company-trip-expense-thread file-system-token)",
+      "pddl": "(gmail-show-thread company-trip-expense-thread gmail-token)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -69,9 +69,9 @@
           "object": "company-trip-expense-thread"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(todoist-login diwils-at-gmail-com todoist-password simple-note-token)",
+      "pddl": "(todoist-login diwils-at-gmail-com todoist-password todoist-token)",
       "api": "todoist.login",
       "args": {
         "username": "diwils@gmail.com",
@@ -64,20 +64,20 @@
     },
     {
       "step": 6,
-      "pddl": "(todoist-show-projects simple-note-token query-inbox project-inbox)",
+      "pddl": "(todoist-show-projects todoist-token query-inbox project-inbox)",
       "api": "todoist.show_projects",
       "args": {
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
         },
         "query": "Inbox"
       }
     },
     {
       "step": 7,
-      "pddl": "(todoist-show-tasks project-inbox simple-note-token)",
+      "pddl": "(todoist-show-tasks project-inbox todoist-token)",
       "api": "todoist.show_tasks",
       "args": {
         "project_id": {
@@ -86,28 +86,28 @@
           "object": "project-inbox"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(todoist-show-projects simple-note-token query-todays-goal project-todays-goal)",
+      "pddl": "(todoist-show-projects todoist-token query-todays-goal project-todays-goal)",
       "api": "todoist.show_projects",
       "args": {
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
         },
         "query": "Today's Goal"
       }
     },
     {
       "step": 9,
-      "pddl": "(todoist-show-tasks project-todays-goal simple-note-token)",
+      "pddl": "(todoist-show-tasks project-todays-goal todoist-token)",
       "api": "todoist.show_tasks",
       "args": {
         "project_id": {
@@ -116,15 +116,15 @@
           "object": "project-todays-goal"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(todoist-create-task project-todays-goal inbox-task-1-title simple-note-token inbox-task-1-description inbox-task-1-due-date inbox-task-1-duration inbox-task-1-duration-unit inbox-task-1-priority inbox-task-1 project-inbox)",
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-1-title todoist-token inbox-fit-task-1-description inbox-fit-task-1-due-date inbox-fit-task-1-duration inbox-fit-task-1-duration-unit inbox-fit-task-1-priority inbox-fit-task-1 project-inbox)",
       "api": "todoist.create_task",
       "args": {
         "project_id": {
@@ -134,44 +134,44 @@
         },
         "title": {
           "$from": "todoist.show_tasks",
-          "field": "title of inbox-task-1",
-          "object": "inbox-task-1-title"
+          "field": "title of inbox-fit-task-1",
+          "object": "inbox-fit-task-1-title"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
         },
         "description": {
           "$from": "todoist.show_tasks",
-          "field": "description of inbox-task-1",
-          "object": "inbox-task-1-description"
+          "field": "description of inbox-fit-task-1",
+          "object": "inbox-fit-task-1-description"
         },
         "due_date": {
           "$from": "todoist.show_tasks",
-          "field": "due_date of inbox-task-1",
-          "object": "inbox-task-1-due-date"
+          "field": "due_date of inbox-fit-task-1",
+          "object": "inbox-fit-task-1-due-date"
         },
         "duration": {
           "$from": "todoist.show_tasks",
-          "field": "duration of inbox-task-1",
-          "object": "inbox-task-1-duration"
+          "field": "duration of inbox-fit-task-1",
+          "object": "inbox-fit-task-1-duration"
         },
         "duration_unit": {
           "$from": "todoist.show_tasks",
-          "field": "duration_unit of inbox-task-1",
-          "object": "inbox-task-1-duration-unit"
+          "field": "duration_unit of inbox-fit-task-1",
+          "object": "inbox-fit-task-1-duration-unit"
         },
         "priority": {
           "$from": "todoist.show_tasks",
-          "field": "priority of inbox-task-1",
-          "object": "inbox-task-1-priority"
+          "field": "priority of inbox-fit-task-1",
+          "object": "inbox-fit-task-1-priority"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(todoist-create-task project-todays-goal inbox-task-2-title simple-note-token inbox-task-2-description inbox-task-2-due-date inbox-task-2-duration inbox-task-2-duration-unit inbox-task-2-priority inbox-task-2 project-inbox)",
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-10-title todoist-token inbox-fit-task-10-description inbox-fit-task-10-due-date inbox-fit-task-10-duration inbox-fit-task-10-duration-unit inbox-fit-task-10-priority inbox-fit-task-10 project-inbox)",
       "api": "todoist.create_task",
       "args": {
         "project_id": {
@@ -181,78 +181,590 @@
         },
         "title": {
           "$from": "todoist.show_tasks",
-          "field": "title of inbox-task-2",
-          "object": "inbox-task-2-title"
+          "field": "title of inbox-fit-task-10",
+          "object": "inbox-fit-task-10-title"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
         },
         "description": {
           "$from": "todoist.show_tasks",
-          "field": "description of inbox-task-2",
-          "object": "inbox-task-2-description"
+          "field": "description of inbox-fit-task-10",
+          "object": "inbox-fit-task-10-description"
         },
         "due_date": {
           "$from": "todoist.show_tasks",
-          "field": "due_date of inbox-task-2",
-          "object": "inbox-task-2-due-date"
+          "field": "due_date of inbox-fit-task-10",
+          "object": "inbox-fit-task-10-due-date"
         },
         "duration": {
           "$from": "todoist.show_tasks",
-          "field": "duration of inbox-task-2",
-          "object": "inbox-task-2-duration"
+          "field": "duration of inbox-fit-task-10",
+          "object": "inbox-fit-task-10-duration"
         },
         "duration_unit": {
           "$from": "todoist.show_tasks",
-          "field": "duration_unit of inbox-task-2",
-          "object": "inbox-task-2-duration-unit"
+          "field": "duration_unit of inbox-fit-task-10",
+          "object": "inbox-fit-task-10-duration-unit"
         },
         "priority": {
           "$from": "todoist.show_tasks",
-          "field": "priority of inbox-task-2",
-          "object": "inbox-task-2-priority"
+          "field": "priority of inbox-fit-task-10",
+          "object": "inbox-fit-task-10-priority"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(todoist-delete-task inbox-task-1 simple-note-token project-inbox)",
-      "api": "todoist.delete_task",
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-2-title todoist-token inbox-fit-task-2-description inbox-fit-task-2-due-date inbox-fit-task-2-duration inbox-fit-task-2-duration-unit inbox-fit-task-2-priority inbox-fit-task-2 project-inbox)",
+      "api": "todoist.create_task",
       "args": {
-        "task_id": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
           "$from": "todoist.show_tasks",
-          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
-          "object": "inbox-task-1"
+          "field": "title of inbox-fit-task-2",
+          "object": "inbox-fit-task-2-title"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-fit-task-2",
+          "object": "inbox-fit-task-2-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-fit-task-2",
+          "object": "inbox-fit-task-2-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-fit-task-2",
+          "object": "inbox-fit-task-2-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-fit-task-2",
+          "object": "inbox-fit-task-2-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-fit-task-2",
+          "object": "inbox-fit-task-2-priority"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(todoist-delete-task inbox-task-2 simple-note-token project-inbox)",
-      "api": "todoist.delete_task",
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-3-title todoist-token inbox-fit-task-3-description inbox-fit-task-3-due-date inbox-fit-task-3-duration inbox-fit-task-3-duration-unit inbox-fit-task-3-priority inbox-fit-task-3 project-inbox)",
+      "api": "todoist.create_task",
       "args": {
-        "task_id": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
           "$from": "todoist.show_tasks",
-          "field": "task_id of the next selected incomplete Inbox task (same greedy shortest-first rule)",
-          "object": "inbox-task-2"
+          "field": "title of inbox-fit-task-3",
+          "object": "inbox-fit-task-3-title"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-fit-task-3",
+          "object": "inbox-fit-task-3-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-fit-task-3",
+          "object": "inbox-fit-task-3-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-fit-task-3",
+          "object": "inbox-fit-task-3-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-fit-task-3",
+          "object": "inbox-fit-task-3-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-fit-task-3",
+          "object": "inbox-fit-task-3-priority"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(todoist-delete-task goal-task-done-1 simple-note-token project-todays-goal)",
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-4-title todoist-token inbox-fit-task-4-description inbox-fit-task-4-due-date inbox-fit-task-4-duration inbox-fit-task-4-duration-unit inbox-fit-task-4-priority inbox-fit-task-4 project-inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of inbox-fit-task-4",
+          "object": "inbox-fit-task-4-title"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-fit-task-4",
+          "object": "inbox-fit-task-4-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-fit-task-4",
+          "object": "inbox-fit-task-4-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-fit-task-4",
+          "object": "inbox-fit-task-4-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-fit-task-4",
+          "object": "inbox-fit-task-4-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-fit-task-4",
+          "object": "inbox-fit-task-4-priority"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-5-title todoist-token inbox-fit-task-5-description inbox-fit-task-5-due-date inbox-fit-task-5-duration inbox-fit-task-5-duration-unit inbox-fit-task-5-priority inbox-fit-task-5 project-inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of inbox-fit-task-5",
+          "object": "inbox-fit-task-5-title"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-fit-task-5",
+          "object": "inbox-fit-task-5-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-fit-task-5",
+          "object": "inbox-fit-task-5-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-fit-task-5",
+          "object": "inbox-fit-task-5-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-fit-task-5",
+          "object": "inbox-fit-task-5-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-fit-task-5",
+          "object": "inbox-fit-task-5-priority"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-6-title todoist-token inbox-fit-task-6-description inbox-fit-task-6-due-date inbox-fit-task-6-duration inbox-fit-task-6-duration-unit inbox-fit-task-6-priority inbox-fit-task-6 project-inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of inbox-fit-task-6",
+          "object": "inbox-fit-task-6-title"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-fit-task-6",
+          "object": "inbox-fit-task-6-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-fit-task-6",
+          "object": "inbox-fit-task-6-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-fit-task-6",
+          "object": "inbox-fit-task-6-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-fit-task-6",
+          "object": "inbox-fit-task-6-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-fit-task-6",
+          "object": "inbox-fit-task-6-priority"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-7-title todoist-token inbox-fit-task-7-description inbox-fit-task-7-due-date inbox-fit-task-7-duration inbox-fit-task-7-duration-unit inbox-fit-task-7-priority inbox-fit-task-7 project-inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of inbox-fit-task-7",
+          "object": "inbox-fit-task-7-title"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-fit-task-7",
+          "object": "inbox-fit-task-7-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-fit-task-7",
+          "object": "inbox-fit-task-7-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-fit-task-7",
+          "object": "inbox-fit-task-7-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-fit-task-7",
+          "object": "inbox-fit-task-7-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-fit-task-7",
+          "object": "inbox-fit-task-7-priority"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-8-title todoist-token inbox-fit-task-8-description inbox-fit-task-8-due-date inbox-fit-task-8-duration inbox-fit-task-8-duration-unit inbox-fit-task-8-priority inbox-fit-task-8 project-inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of inbox-fit-task-8",
+          "object": "inbox-fit-task-8-title"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-fit-task-8",
+          "object": "inbox-fit-task-8-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-fit-task-8",
+          "object": "inbox-fit-task-8-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-fit-task-8",
+          "object": "inbox-fit-task-8-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-fit-task-8",
+          "object": "inbox-fit-task-8-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-fit-task-8",
+          "object": "inbox-fit-task-8-priority"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(todoist-create-task project-todays-goal inbox-fit-task-9-title todoist-token inbox-fit-task-9-description inbox-fit-task-9-due-date inbox-fit-task-9-duration inbox-fit-task-9-duration-unit inbox-fit-task-9-priority inbox-fit-task-9 project-inbox)",
+      "api": "todoist.create_task",
+      "args": {
+        "project_id": {
+          "$from": "todoist.show_projects",
+          "field": "project_id where name == 'Today's Goal'",
+          "object": "project-todays-goal"
+        },
+        "title": {
+          "$from": "todoist.show_tasks",
+          "field": "title of inbox-fit-task-9",
+          "object": "inbox-fit-task-9-title"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "description": {
+          "$from": "todoist.show_tasks",
+          "field": "description of inbox-fit-task-9",
+          "object": "inbox-fit-task-9-description"
+        },
+        "due_date": {
+          "$from": "todoist.show_tasks",
+          "field": "due_date of inbox-fit-task-9",
+          "object": "inbox-fit-task-9-due-date"
+        },
+        "duration": {
+          "$from": "todoist.show_tasks",
+          "field": "duration of inbox-fit-task-9",
+          "object": "inbox-fit-task-9-duration"
+        },
+        "duration_unit": {
+          "$from": "todoist.show_tasks",
+          "field": "duration_unit of inbox-fit-task-9",
+          "object": "inbox-fit-task-9-duration-unit"
+        },
+        "priority": {
+          "$from": "todoist.show_tasks",
+          "field": "priority of inbox-fit-task-9",
+          "object": "inbox-fit-task-9-priority"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(todoist-delete-task inbox-fit-task-1 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-1"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(todoist-delete-task inbox-fit-task-10 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-10"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(todoist-delete-task inbox-fit-task-2 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-2"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(todoist-delete-task inbox-fit-task-3 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-3"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(todoist-delete-task inbox-fit-task-4 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-4"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(todoist-delete-task inbox-fit-task-5 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-5"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(todoist-delete-task inbox-fit-task-6 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-6"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(todoist-delete-task inbox-fit-task-7 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-7"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(todoist-delete-task inbox-fit-task-8 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-8"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(todoist-delete-task inbox-fit-task-9 todoist-token project-inbox)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of a selected incomplete Inbox task: sort incomplete Inbox tasks by duration in minutes ascending and take them greedily while cumulative minutes <= (next work day's scheduled minutes from the note) - (minutes of incomplete tasks still in Today's Goal)",
+          "object": "inbox-fit-task-9"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(todoist-delete-task goal-task-done-1 todoist-token project-todays-goal)",
       "api": "todoist.delete_task",
       "args": {
         "task_id": {
@@ -261,15 +773,253 @@
           "object": "goal-task-done-1"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "todoist.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "todoist-token"
         }
       }
     },
     {
-      "step": 15,
-      "pddl": "(supervisor-complete-task goal-task-done-1 inbox-task-1 inbox-task-2)",
+      "step": 31,
+      "pddl": "(todoist-delete-task goal-task-done-10 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-10"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(todoist-delete-task goal-task-done-11 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-11"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(todoist-delete-task goal-task-done-12 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-12"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(todoist-delete-task goal-task-done-13 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-13"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(todoist-delete-task goal-task-done-14 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-14"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(todoist-delete-task goal-task-done-15 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-15"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(todoist-delete-task goal-task-done-2 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-2"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(todoist-delete-task goal-task-done-3 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-3"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(todoist-delete-task goal-task-done-4 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-4"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(todoist-delete-task goal-task-done-5 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-5"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(todoist-delete-task goal-task-done-6 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-6"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(todoist-delete-task goal-task-done-7 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-7"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(todoist-delete-task goal-task-done-8 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-8"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(todoist-delete-task goal-task-done-9 todoist-token project-todays-goal)",
+      "api": "todoist.delete_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id of each task in the Today's Goal project with is_completed == true (one placeholder per completed task)",
+          "object": "goal-task-done-9"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -37,7 +37,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'query', 'token', 'password', 'code', 'person', 'app', 'phone-number', 'text-message', 'relationship', 'email-thread', 'email', 'username'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -48,21 +50,21 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(gmail-login username-diwils-at-gmail-com gmail-password gmail-token)",
-      "(phone-login username-3966728840 phone-password gmail-token)",
-      "(phone-search-contacts gmail-token rel-son son son-phone-number)",
-      "(phone-search-text-messages gmail-token son-phone-number son-message-yesterday son)",
-      "(spotify-send-verification-code diwils-at-gmail-com spotify-verification-code)",
-      "(gmail-show-inbox-threads gmail-token query-verification-code spotify-verification-code verification-email-thread)",
-      "(gmail-show-thread verification-email-thread gmail-token spotify-verification-code)",
-      "(spotify-verify-account diwils-at-gmail-com spotify-verification-code)",
-      "(spotify-send-password-reset-code diwils-at-gmail-com spotify-reset-code)",
-      "(gmail-show-inbox-threads gmail-token query-password-reset-code spotify-reset-code reset-email-thread)",
-      "(gmail-show-thread reset-email-thread gmail-token spotify-reset-code)",
-      "(spotify-reset-password diwils-at-gmail-com spotify-reset-code password-ueha7gv)",
+      "(phone-login username-3966728840 phone-password phone-token)",
+      "(phone-search-contacts phone-token rel-son son son-phone-number)",
+      "(phone-search-text-messages phone-token son-phone-number son-message-yesterday son)",
+      "(venmo-send-verification-code diwils-at-gmail-com new-app-verification-code)",
+      "(gmail-show-inbox-threads gmail-token query-verification-code new-app-verification-code verification-email-thread)",
+      "(gmail-show-thread verification-email-thread gmail-token new-app-verification-code)",
+      "(venmo-verify-account diwils-at-gmail-com new-app-verification-code)",
+      "(venmo-send-password-reset-code diwils-at-gmail-com new-app-reset-code)",
+      "(gmail-show-inbox-threads gmail-token query-password-reset-code new-app-reset-code reset-email-thread)",
+      "(gmail-show-thread reset-email-thread gmail-token new-app-reset-code)",
+      "(venmo-reset-password diwils-at-gmail-com new-app-reset-code password-ueha7gv)",
       "(supervisor-complete-task)"
     ],
     "message": "",
-    "seconds": 1.17
+    "seconds": 0.86
   },
   "solution_used": false,
   "has_reference_solution": false,

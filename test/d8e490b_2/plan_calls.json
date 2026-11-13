@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login gina-ritter-at-gmail-com password-gmail token-file-system)",
+      "pddl": "(gmail-login gina-ritter-at-gmail-com password-gmail token-gmail)",
       "api": "gmail.login",
       "args": {
         "username": "gina-ritter@gmail.com",
@@ -48,20 +48,20 @@
     },
     {
       "step": 5,
-      "pddl": "(gmail-show-inbox-threads token-file-system query-weekly-work-meeting thread-weekly-work-meeting-2023-05-16)",
+      "pddl": "(gmail-show-inbox-threads token-gmail query-weekly-work-meeting thread-weekly-work-meeting-2023-05-16)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         },
         "query": "weekly work meeting"
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-show-thread thread-weekly-work-meeting-2023-05-16 token-file-system)",
+      "pddl": "(gmail-show-thread thread-weekly-work-meeting-2023-05-16 token-gmail)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -70,15 +70,15 @@
           "object": "thread-weekly-work-meeting-2023-05-16"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-download-attachment attachment-recording token-file-system token-file-system path-recording-2023-05-16 thread-weekly-work-meeting-2023-05-16)",
+      "pddl": "(gmail-download-attachment attachment-recording token-file-system token-gmail path-recording-2023-05-16 thread-weekly-work-meeting-2023-05-16)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -92,9 +92,9 @@
           "object": "token-file-system"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         },
         "download_to_file_path": {
           "$from": "file_system.show_directory",
@@ -105,7 +105,7 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-download-attachment attachment-slides token-file-system token-file-system path-slides-2023-05-16 thread-weekly-work-meeting-2023-05-16)",
+      "pddl": "(gmail-download-attachment attachment-slides token-file-system token-gmail path-slides-2023-05-16 thread-weekly-work-meeting-2023-05-16)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -119,9 +119,9 @@
           "object": "token-file-system"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-gmail"
         },
         "download_to_file_path": {
           "$from": "file_system.show_directory",

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login nan-ritt-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login nan-ritt-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "nan_ritt@gmail.com",
@@ -80,69 +80,120 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-search-friends phone-token)",
+      "pddl": "(venmo-search-friends venmo-token)",
       "api": "venmo.search_friends",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-add-friend friend-1-email phone-token friend-1 rel-friend)",
+      "pddl": "(venmo-add-friend friend-new-1-email venmo-token friend-new-1 rel-friend)",
       "api": "venmo.add_friend",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of a contact returned for relationship=friend whose email is not in the venmo.search_friends result",
-          "object": "friend-1-email"
+          "field": "email of a friend contact who is not in venmo.search_friends yet [item 1 of 5; one object per such contact]",
+          "object": "friend-new-1-email"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-add-friend roommate-1-email phone-token roommate-1 rel-roommate)",
+      "pddl": "(venmo-add-friend friend-new-2-email venmo-token friend-new-2 rel-friend)",
       "api": "venmo.add_friend",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of a contact returned for relationship=roommate whose email is not in the venmo.search_friends result",
-          "object": "roommate-1-email"
+          "field": "email of a friend contact who is not in venmo.search_friends yet [item 2 of 5; one object per such contact]",
+          "object": "friend-new-2-email"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(venmo-add-friend roommate-2-email phone-token roommate-2 rel-roommate)",
+      "pddl": "(venmo-add-friend friend-new-3-email venmo-token friend-new-3 rel-friend)",
       "api": "venmo.add_friend",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of a contact returned for relationship=roommate whose email is not in the venmo.search_friends result",
-          "object": "roommate-2-email"
+          "field": "email of a friend contact who is not in venmo.search_friends yet [item 3 of 5; one object per such contact]",
+          "object": "friend-new-3-email"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 11,
+      "pddl": "(venmo-add-friend friend-new-4-email venmo-token friend-new-4 rel-friend)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a friend contact who is not in venmo.search_friends yet [item 4 of 5; one object per such contact]",
+          "object": "friend-new-4-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-add-friend friend-new-5-email venmo-token friend-new-5 rel-friend)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a friend contact who is not in venmo.search_friends yet [item 5 of 5; one object per such contact]",
+          "object": "friend-new-5-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-add-friend roommate-new-1-email venmo-token roommate-new-1 rel-roommate)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of a roommate contact who is not in venmo.search_friends yet [item 1 of 1; one object per such contact]",
+          "object": "roommate-new-1-email"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

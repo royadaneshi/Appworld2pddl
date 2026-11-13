@@ -2,7 +2,8 @@
   (:requirements :strips :typing :negative-preconditions :equality)
   (:types
     app person username password token query product-type amount rating quantity flag entity - object
-    product address payment-card - entity)
+    product address payment-card - entity
+    address-field - object)
   (:constants supervisor amazon - app)
   (:predicates
     (passwords-known)
@@ -22,7 +23,14 @@
     (is-home-address ?addr - address)
     (known-address-details ?addr - address)
     (order-placed ?p - product ?addr - address)
-    (task-completed))
+    (task-completed)
+    (amazon-addresses-listed)
+    (address-name ?a - address ?x - address-field)
+    (address-street ?a - address ?x - address-field)
+    (address-city ?a - address ?x - address-field)
+    (address-state ?a - address ?x - address-field)
+    (address-country ?a - address ?x - address-field)
+    (address-zip ?a - address ?x - address-field))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -70,13 +78,20 @@
   (:action amazon-show-addresses
     :parameters (?t - token ?addr - address)
     :precondition (and (has-token amazon ?t) (known-address-details ?addr) (not (task-completed)))
-    :effect (known-id ?addr))
+    :effect (amazon-addresses-listed))
+
 
   ; API: amazon.show_payment_cards
   (:action amazon-show-payment-cards
     :parameters (?t - token ?c - payment-card)
     :precondition (and (has-token amazon ?t) (not (task-completed)))
     :effect (known-id ?c))
+
+  ; API: amazon.add_address  (the address is not saved in the Amazon account yet)
+  (:action amazon-add-address
+    :parameters (?name ?street ?city ?state ?country ?zip - address-field ?t - token ?a - address)
+    :precondition (and (has-token amazon ?t) (amazon-addresses-listed) (known-address-details ?a) (address-name ?a ?name) (address-street ?a ?street) (address-city ?a ?city) (address-state ?a ?state) (address-country ?a ?country) (address-zip ?a ?zip) (not (known-id ?a)) (not (task-completed)))
+    :effect (known-id ?a))
 
   ; API: amazon.place_order
   (:action amazon-place-order

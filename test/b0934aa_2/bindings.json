@@ -60,15 +60,51 @@
     "field": "product_id of a result with product_type == \"external hard drive\", price < 50 and rating > 3.8, whose amazon.show_product details show more than 6 reviews (num_product_reviews > 6)"
   },
   {
-    "object": "work-address",
-    "value": null,
-    "from_api": "amazon.show_addresses",
-    "field": "address_id where name == \"Work\" (street/city/state/country/zip match the Work entry from supervisor.show_addresses)"
-  },
-  {
     "object": "amazon-card",
     "value": null,
     "from_api": "amazon.show_payment_cards",
-    "field": "payment_card_id (any existing card, e.g. the first one)"
+    "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)"
+  },
+  {
+    "object": "work-address",
+    "value": null,
+    "from_api": "amazon.add_address",
+    "field": "address_id returned when the Work address is added (amazon.show_addresses does not list it)"
+  },
+  {
+    "object": "work-address-name",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "name of the supervisor's address whose name is 'Work'"
+  },
+  {
+    "object": "work-address-street",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "street_address of the supervisor's address whose name is 'Work'"
+  },
+  {
+    "object": "work-address-city",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "city of the supervisor's address whose name is 'Work'"
+  },
+  {
+    "object": "work-address-state",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "state of the supervisor's address whose name is 'Work'"
+  },
+  {
+    "object": "work-address-country",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "country of the supervisor's address whose name is 'Work'"
+  },
+  {
+    "object": "work-address-zip",
+    "value": null,
+    "from_api": "supervisor.show_addresses",
+    "field": "zip_code of the supervisor's address whose name is 'Work'"
   }
 ]

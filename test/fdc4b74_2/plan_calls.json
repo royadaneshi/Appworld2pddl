@@ -75,7 +75,7 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-search-products query-camping-item-3 camping-item-3 total-price-item-3 draft-camping-trip no-more-items)",
+      "pddl": "(amazon-search-products query-camping-item-3 camping-item-3 total-price-item-3 draft-camping-trip camping-item-4)",
       "api": "amazon.search_products",
       "args": {
         "query": {
@@ -87,6 +87,42 @@
     },
     {
       "step": 8,
+      "pddl": "(amazon-search-products query-camping-item-4 camping-item-4 total-price-item-4 draft-camping-trip camping-item-5)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name on the 4th item line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-camping-item-4"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-search-products query-camping-item-5 camping-item-5 total-price-item-5 draft-camping-trip camping-item-6)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name on the 5th item line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-camping-item-5"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-search-products query-camping-item-6 camping-item-6 total-price-item-6 draft-camping-trip no-more-items)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "gmail.show_draft",
+          "field": "body: product name on the 6th item line of the form '- <qty> X <product name> => TODO'",
+          "object": "query-camping-item-6"
+        }
+      }
+    },
+    {
+      "step": 11,
       "pddl": "(gmail-update-draft draft-camping-trip gmail-token body-with-prices no-more-items)",
       "api": "gmail.update_draft",
       "args": {
@@ -108,7 +144,7 @@
       }
     },
     {
-      "step": 9,
+      "step": 12,
       "pddl": "(gmail-send-email-from-draft draft-camping-trip gmail-token)",
       "api": "gmail.send_email_from_draft",
       "args": {
@@ -125,7 +161,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 13,
       "pddl": "(supervisor-complete-task draft-camping-trip)",
       "api": "supervisor.complete_task",
       "args": {}

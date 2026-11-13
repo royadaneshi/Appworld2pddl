@@ -1,5 +1,5 @@
 (define (domain appworld-ccf4b82-2)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person username password token status amount card payment-request - object)
   (:constants venmo - app)
@@ -63,6 +63,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?r1 ?r2 - payment-request ?amt - amount ?c - card)
-    :precondition (and (approved ?r1) (approved ?r2) (not (= ?r1 ?r2)) (withdrawn ?amt ?c) (balance-settled) (not (task-completed)))
-    :effect (task-completed)))
+    :parameters (?amt - amount ?c - card)
+    :precondition (and (forall (?r - payment-request) (imply (pending-in-window ?r) (approved ?r))) (withdrawn ?amt ?c) (balance-settled) (not (task-completed)))
+    :effect (task-completed))
+)

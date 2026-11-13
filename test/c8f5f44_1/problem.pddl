@@ -17,6 +17,15 @@
     brother-transaction - transaction
   )
   (:init
+    (credential-of-app phone phone-7863159797)
+    (credential-of-app phone pw-phone)
+    (credential-of-app phone token-phone)
+    (credential-of-app venmo ka-ball-at-gmail-com)
+    (credential-of-app venmo pw-venmo)
+    (credential-of-app venmo token-venmo)
+    (credential-of-app amazon ka-ball-at-gmail-com)
+    (credential-of-app amazon pw-amazon)
+    (credential-of-app amazon token-amazon)
     (username-for phone phone-7863159797)
     (username-for venmo ka-ball-at-gmail-com)
     (username-for amazon ka-ball-at-gmail-com)

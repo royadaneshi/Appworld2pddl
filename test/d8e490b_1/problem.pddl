@@ -12,6 +12,12 @@
     attachment-slides attachment-recording - attachment
     path-slides-2023-05-15 path-recording-2023-05-15 - file-path)
   (:init
+    (credential-of-app gmail ch-brow-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system ch-brow-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for gmail gmail-password)
     (password-for file-system file-system-password)
     (thread-matches query-weekly-work-meeting thread-weekly-work-meeting-2023-05-15)

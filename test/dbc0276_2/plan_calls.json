@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(amazon-login je-simpson-at-gmail-com amazon-password phone-token)",
+      "pddl": "(amazon-login je-simpson-at-gmail-com amazon-password amazon-token)",
       "api": "amazon.login",
       "args": {
         "username": "je.simpson@gmail.com",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-9654124977 phone-password amazon-token)",
+      "pddl": "(phone-login username-9654124977 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "9654124977",
@@ -34,25 +34,25 @@
     },
     {
       "step": 4,
-      "pddl": "(amazon-show-wish-list phone-token)",
+      "pddl": "(amazon-show-wish-list amazon-token)",
       "api": "amazon.show_wish_list",
-      "args": {
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
-      "step": 5,
-      "pddl": "(phone-search-contacts amazon-token relationship-wife wife wife-phone-number)",
-      "api": "phone.search_contacts",
       "args": {
         "access_token": {
           "$from": "amazon.login",
           "field": "access_token",
           "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-search-contacts phone-token relationship-wife wife wife-phone-number)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
         },
         "relationship": "wife"
       }
@@ -83,7 +83,43 @@
     },
     {
       "step": 8,
-      "pddl": "(phone-send-text-message wife-phone-number message-itemized-wish-list amazon-token wife c2)",
+      "pddl": "(amazon-show-product product-3 c2 c3)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 3rd wish list item (quantity taken from the same item)",
+          "object": "product-3"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-product product-4 c3 c4)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 4th wish list item (quantity taken from the same item)",
+          "object": "product-4"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-show-product product-5 c4 c5)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 5th wish list item (quantity taken from the same item)",
+          "object": "product-5"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(phone-send-text-message wife-phone-number message-itemized-wish-list phone-token wife c5)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -97,14 +133,14 @@
           "object": "message-itemized-wish-list"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         }
       }
     },
     {
-      "step": 9,
+      "step": 12,
       "pddl": "(supervisor-complete-task wife-phone-number message-itemized-wish-list)",
       "api": "supervisor.complete_task",
       "args": {}

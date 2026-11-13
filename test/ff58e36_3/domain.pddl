@@ -5,8 +5,10 @@
   (:constants
     supervisor phone venmo - app
     coworkers roommates - relation
-    coworker-1 coworker-2 roommate-1 roommate-2 - person)
+    coworker-new-1 coworker-new-2 coworker-new-3 coworker-new-4 roommate-new-1 coworker-already-1 coworker-already-2 coworker-already-3 coworker-already-4 roommate-already-1 - person
+  )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -28,7 +30,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (not (task-completed)) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)))
     :effect (has-token phone ?t))
 
   ; API: phone.show_contact_relationships
@@ -46,7 +48,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (not (task-completed)) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)))
     :effect (has-token venmo ?t))
 
   ; API: venmo.show_profile
@@ -64,6 +66,20 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed)) (contacts-found coworkers) (contacts-found roommates) (is-friend coworker-1) (is-friend coworker-2) (is-friend roommate-1) (is-friend roommate-2))
+    :precondition (and
+      (contacts-found coworkers)
+      (contacts-found roommates)
+      (is-friend coworker-new-1)
+      (is-friend coworker-new-2)
+      (is-friend coworker-new-3)
+      (is-friend coworker-new-4)
+      (is-friend roommate-new-1)
+      (is-friend coworker-already-1)
+      (is-friend coworker-already-2)
+      (is-friend coworker-already-3)
+      (is-friend coworker-already-4)
+      (is-friend roommate-already-1)
+      (not (task-completed))
+      (not (task-completed)))
     :effect (task-completed))
 )

@@ -14,6 +14,15 @@
     return-confirmation-thread - email-thread
     return-confirmation-email - email-message)
   (:init
+    (credential-of-app amazon timothy-whit-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone phone-9465999623)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app gmail timothy-whit-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (username-for amazon timothy-whit-at-gmail-com)
     (username-for gmail timothy-whit-at-gmail-com)
     (username-for phone phone-9465999623)

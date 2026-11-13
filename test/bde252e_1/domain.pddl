@@ -1,5 +1,5 @@
 (define (domain appworld-bde252e-1)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person entity username password token query - object
     note project - entity
@@ -7,6 +7,7 @@
     goal-task inbox-task - task-item)
   (:constants supervisor simple-note todoist - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -40,7 +41,7 @@
   (:action simple-note-login
     ; API: simple_note.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (and (has-token simple-note ?t)))
 
   (:action simple-note-search-notes
@@ -58,7 +59,7 @@
   (:action todoist-login
     ; API: todoist.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for todoist ?pw) (not (has-token todoist ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app todoist ?t) (credential-of-app todoist ?pw) (credential-of-app todoist ?u) (passwords-known) (password-for todoist ?pw) (not (has-token todoist ?t)) (not (task-completed)))
     :effect (and (has-token todoist ?t)))
 
   (:action todoist-show-projects
@@ -85,8 +86,9 @@
     :precondition (and (has-token todoist ?t) (task-in-project ?k ?p) (tasks-listed ?p) (removable ?k) (not (deleted ?k)) (not (task-completed)))
     :effect (and (deleted ?k)))
 
+  ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    ; API: supervisor.complete_task
-    :parameters (?done - goal-task ?m1 - inbox-task ?m2 - inbox-task)
-    :precondition (and (deleted ?done) (copied ?m1) (deleted ?m1) (copied ?m2) (deleted ?m2) (not (= ?m1 ?m2)) (not (task-completed)))
-    :effect (and (task-completed))))
+    :parameters ()
+    :precondition (and (forall (?g - goal-task) (imply (removable ?g) (deleted ?g))) (forall (?i - inbox-task) (imply (fits-schedule ?i) (and (copied ?i) (deleted ?i)))) (not (task-completed)))
+    :effect (task-completed))
+)

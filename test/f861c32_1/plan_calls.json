@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(phone-login phone-3567801924 phone-password venmo-token)",
+      "pddl": "(phone-login phone-3567801924 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3567801924",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login lindseysimpson-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login lindseysimpson-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "lindseysimpson@gmail.com",
@@ -34,44 +34,92 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-search-contacts venmo-token rel-roommate)",
+      "pddl": "(phone-search-contacts phone-token rel-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 5,
-      "pddl": "(venmo-show-payment-cards phone-token venmo-card)",
+      "pddl": "(venmo-show-payment-cards venmo-token)",
       "api": "venmo.show_payment_cards",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(venmo-show-venmo-balance phone-token)",
+      "pddl": "(venmo-show-venmo-balance venmo-token)",
       "api": "venmo.show_venmo_balance",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-add-to-venmo-balance amount-refill venmo-card phone-token)",
+      "pddl": "(supervisor-show-payment-cards)",
+      "api": "supervisor.show_payment_cards",
+      "args": {}
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-add-payment-card new-card-name new-card-owner new-card-number new-card-year new-card-month new-card-cvv venmo-token venmo-card)",
+      "api": "venmo.add_payment_card",
+      "args": {
+        "card_name": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "card_name of a supervisor card that has not expired (all fields from the same card)",
+          "object": "new-card-name"
+        },
+        "owner_name": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "owner_name of a supervisor card that has not expired (all fields from the same card)",
+          "object": "new-card-owner"
+        },
+        "card_number": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "card_number of a supervisor card that has not expired (all fields from the same card)",
+          "object": "new-card-number"
+        },
+        "expiry_year": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "expiry_year of a supervisor card that has not expired (all fields from the same card)",
+          "object": "new-card-year"
+        },
+        "expiry_month": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "expiry_month of a supervisor card that has not expired (all fields from the same card)",
+          "object": "new-card-month"
+        },
+        "cvv_number": {
+          "$from": "supervisor.show_payment_cards",
+          "field": "cvv_number of a supervisor card that has not expired (all fields from the same card)",
+          "object": "new-card-cvv"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-add-to-venmo-balance amount-refill venmo-card venmo-token)",
       "api": "venmo.add_to_venmo_balance",
       "args": {
         "amount": {
@@ -80,20 +128,20 @@
           "object": "amount-refill"
         },
         "payment_card_id": {
-          "$from": "venmo.show_payment_cards",
-          "field": "payment_card_id of a listed card",
+          "$from": "venmo.add_payment_card",
+          "field": "payment_card_id returned when the non-expired supervisor card is added to Venmo (all cards already saved in Venmo are expired)",
           "object": "venmo-card"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
-      "step": 8,
-      "pddl": "(venmo-create-transaction roommate-1-email amount-30 phone-token note-for-drinks roommate-1 rel-roommate)",
+      "step": 10,
+      "pddl": "(venmo-create-transaction roommate-1-email amount-30 venmo-token note-for-drinks roommate-1 rel-roommate)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -103,16 +151,16 @@
         },
         "amount": 30,
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "For Drinks"
       }
     },
     {
-      "step": 9,
-      "pddl": "(venmo-create-transaction roommate-2-email amount-30 phone-token note-for-drinks roommate-2 rel-roommate)",
+      "step": 11,
+      "pddl": "(venmo-create-transaction roommate-2-email amount-30 venmo-token note-for-drinks roommate-2 rel-roommate)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -122,16 +170,16 @@
         },
         "amount": 30,
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "For Drinks"
       }
     },
     {
-      "step": 10,
-      "pddl": "(venmo-create-transaction roommate-3-email amount-30 phone-token note-for-drinks roommate-3 rel-roommate)",
+      "step": 12,
+      "pddl": "(venmo-create-transaction roommate-3-email amount-30 venmo-token note-for-drinks roommate-3 rel-roommate)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -141,15 +189,15 @@
         },
         "amount": 30,
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "For Drinks"
       }
     },
     {
-      "step": 11,
+      "step": 13,
       "pddl": "(supervisor-complete-task roommate-1 roommate-2 roommate-3 amount-30 note-for-drinks)",
       "api": "supervisor.complete_task",
       "args": {}

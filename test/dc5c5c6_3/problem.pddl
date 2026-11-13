@@ -18,6 +18,12 @@
     flag-true - flag
   )
   (:init
+    (credential-of-app phone phone-9503658964)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app amazon nicholas-weber-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for phone phone-password)
     (password-for amazon amazon-password)
     (has-relationship sister-1 relationship-sister)

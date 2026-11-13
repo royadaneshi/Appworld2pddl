@@ -144,7 +144,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "card-1"
         },
         "address_id": {
@@ -239,7 +239,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "card-1"
         },
         "address_id": {
@@ -321,7 +321,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "card-1"
         },
         "address_id": {
@@ -338,6 +338,88 @@
     },
     {
       "step": 18,
+      "pddl": "(amazon-add-address name-sibling-3-home street-sibling-3-home city-sibling-3-home state-sibling-3-home country-sibling-3-home zip-sibling-3-home amazon-token addr-sibling-3-home sibling-3 rel-sibling)",
+      "api": "amazon.add_address",
+      "args": {
+        "name": {
+          "$from": "phone.search_contacts",
+          "field": "first_name + \" \" + last_name of third sibling contact (relationship=sibling)",
+          "object": "name-sibling-3-home"
+        },
+        "street_address": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (street part) of third sibling",
+          "object": "street-sibling-3-home"
+        },
+        "city": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (city part) of third sibling",
+          "object": "city-sibling-3-home"
+        },
+        "state": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (state part) of third sibling",
+          "object": "state-sibling-3-home"
+        },
+        "country": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (country part) of third sibling",
+          "object": "country-sibling-3-home"
+        },
+        "zip_code": {
+          "$from": "phone.search_contacts",
+          "field": "home_address (zip code part, as integer) of third sibling",
+          "object": "zip-sibling-3-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-add-product-to-cart hurom-hp-slow-juicer amazon-token quantity-1 addr-sibling-3-home)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name == \"Hurom HP Slow Juicer\"",
+          "object": "hurom-hp-slow-juicer"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(amazon-place-order card-1 addr-sibling-3-home amazon-token hurom-hp-slow-juicer quantity-1)",
+      "api": "amazon.place_order",
+      "args": {
+        "payment_card_id": {
+          "$from": "amazon.show_payment_cards",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
+          "object": "card-1"
+        },
+        "address_id": {
+          "$from": "amazon.add_address",
+          "field": "address_id returned when adding third sibling's home address",
+          "object": "addr-sibling-3-home"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 21,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

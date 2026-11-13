@@ -1,33 +1,70 @@
 (define (problem task-b9c5c9a-1)
   (:domain appworld-b9c5c9a-1)
   (:objects
-    ashley-moore invitee-1 invitee-2 invitee-3 - person
+    ashley-moore invitee-1 invitee-2 invitee-3 invitee-4 invitee-5 invitee-6 invitee-7 invitee-8 invitee-9 invitee-10 - person
     as-moore-at-gmail-com username-7336094411 - username
     file-system-password phone-password - password
     file-system-token phone-token - token
     dir-documents-personal - directory-path
     rsvp-csv-file - file-path
-    phone-number-invitee-1 phone-number-invitee-2 phone-number-invitee-3 - phone-number
-    csv-content-original csv-draft-after-reply-1 csv-draft-after-reply-2 csv-content-updated - content
+    phone-number-invitee-1 phone-number-invitee-2 phone-number-invitee-3 phone-number-invitee-4 phone-number-invitee-5 phone-number-invitee-6 phone-number-invitee-7 phone-number-invitee-8 phone-number-invitee-9 phone-number-invitee-10 - phone-number
+    csv-content-original csv-draft-after-reply-1 csv-draft-after-reply-2 csv-draft-after-reply-3 csv-draft-after-reply-4 csv-draft-after-reply-5 csv-draft-after-reply-6 csv-draft-after-reply-7 csv-draft-after-reply-8 csv-draft-after-reply-9 csv-content-updated - content
+    name-invitee-1 name-invitee-2 name-invitee-3 name-invitee-4 name-invitee-5 name-invitee-6 name-invitee-7 name-invitee-8 name-invitee-9 name-invitee-10 - contact-name
   )
   (:init
+    (credential-of-app file-system as-moore-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app phone username-7336094411)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
     (username-for file-system as-moore-at-gmail-com)
     (username-for phone username-7336094411)
     (password-for file-system file-system-password)
     (password-for phone phone-password)
     (file-in-directory rsvp-csv-file dir-documents-personal)
+    (content-draft rsvp-csv-file csv-content-original)
+    (final-content rsvp-csv-file csv-content-updated)
     (invitee-in-file invitee-1 rsvp-csv-file)
     (invitee-in-file invitee-2 rsvp-csv-file)
     (invitee-in-file invitee-3 rsvp-csv-file)
+    (invitee-in-file invitee-4 rsvp-csv-file)
+    (invitee-in-file invitee-5 rsvp-csv-file)
+    (invitee-in-file invitee-6 rsvp-csv-file)
+    (invitee-in-file invitee-7 rsvp-csv-file)
+    (invitee-in-file invitee-8 rsvp-csv-file)
+    (invitee-in-file invitee-9 rsvp-csv-file)
+    (invitee-in-file invitee-10 rsvp-csv-file)
+    (incorporates-reply csv-content-original invitee-1 csv-draft-after-reply-1)
+    (incorporates-reply csv-draft-after-reply-1 invitee-2 csv-draft-after-reply-2)
+    (incorporates-reply csv-draft-after-reply-2 invitee-3 csv-draft-after-reply-3)
+    (incorporates-reply csv-draft-after-reply-3 invitee-4 csv-draft-after-reply-4)
+    (incorporates-reply csv-draft-after-reply-4 invitee-5 csv-draft-after-reply-5)
+    (incorporates-reply csv-draft-after-reply-5 invitee-6 csv-draft-after-reply-6)
+    (incorporates-reply csv-draft-after-reply-6 invitee-7 csv-draft-after-reply-7)
+    (incorporates-reply csv-draft-after-reply-7 invitee-8 csv-draft-after-reply-8)
+    (incorporates-reply csv-draft-after-reply-8 invitee-9 csv-draft-after-reply-9)
+    (incorporates-reply csv-draft-after-reply-9 invitee-10 csv-content-updated)
     (phone-of invitee-1 phone-number-invitee-1)
     (phone-of invitee-2 phone-number-invitee-2)
     (phone-of invitee-3 phone-number-invitee-3)
-    (content-draft rsvp-csv-file csv-content-original)
-    (incorporates-reply csv-content-original invitee-1 csv-draft-after-reply-1)
-    (incorporates-reply csv-draft-after-reply-1 invitee-2 csv-draft-after-reply-2)
-    (incorporates-reply csv-draft-after-reply-2 invitee-3 csv-content-updated)
-    (final-content rsvp-csv-file csv-content-updated)
-  )
+    (phone-of invitee-4 phone-number-invitee-4)
+    (phone-of invitee-5 phone-number-invitee-5)
+    (phone-of invitee-6 phone-number-invitee-6)
+    (phone-of invitee-7 phone-number-invitee-7)
+    (phone-of invitee-8 phone-number-invitee-8)
+    (phone-of invitee-9 phone-number-invitee-9)
+    (phone-of invitee-10 phone-number-invitee-10)
+    (name-of invitee-1 name-invitee-1)
+    (name-of invitee-2 name-invitee-2)
+    (name-of invitee-3 name-invitee-3)
+    (name-of invitee-4 name-invitee-4)
+    (name-of invitee-5 name-invitee-5)
+    (name-of invitee-6 name-invitee-6)
+    (name-of invitee-7 name-invitee-7)
+    (name-of invitee-8 name-invitee-8)
+    (name-of invitee-9 name-invitee-9)
+    (name-of invitee-10 name-invitee-10))
   (:goal (and
     (file-updated rsvp-csv-file csv-content-updated)
     (task-completed)

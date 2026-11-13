@@ -10,6 +10,12 @@
     expense-file - file-path
     content-expense-rows - content)
   (:init
+    (credential-of-app gmail kat-simp-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system kat-simp-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (username-for gmail kat-simp-at-gmail-com)
     (username-for file-system kat-simp-at-gmail-com)
     (password-for gmail gmail-password)

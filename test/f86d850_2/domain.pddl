@@ -6,6 +6,7 @@
   )
   (:constants supervisor amazon gmail venmo phone - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -26,7 +27,7 @@
     (email-in-thread ?th - email-thread ?em - email-message)
     (forwarded ?em - email-message ?p - person)
     (payment-requested ?p - person ?amt - amount ?n - note)
-  )
+    (cart-cleared))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -38,7 +39,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)) (not (task-completed)))
     :effect (and (has-token phone ?t))
   )
@@ -53,7 +54,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for amazon ?u) (password-for amazon ?pw)
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (passwords-known) (username-for amazon ?u) (password-for amazon ?pw)
                        (not (has-token amazon ?t)) (not (task-completed)))
     :effect (and (has-token amazon ?t))
   )
@@ -65,12 +66,19 @@
     :effect (and (known-id ?pr))
   )
 
+  ; API: amazon.clear_cart  (the cart already holds unrelated items)
+  (:action amazon-clear-cart
+    :parameters (?t - token)
+    :precondition (and (has-token amazon ?t) (not (cart-cleared)) (not (task-completed)))
+    :effect (cart-cleared))
+
   ; API: amazon.add_product_to_cart
   (:action amazon-add-product-to-cart
     :parameters (?pr - product ?t - token ?qty - quantity)
-    :precondition (and (has-token amazon ?t) (known-id ?pr) (not (in-cart ?pr)) (not (task-completed)))
+    :precondition (and (has-token amazon ?t) (cart-cleared) (known-id ?pr) (not (in-cart ?pr)) (not (task-completed)))
     :effect (and (in-cart ?pr))
   )
+
 
   ; API: amazon.show_payment_cards
   (:action amazon-show-payment-cards
@@ -104,7 +112,7 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for gmail ?u) (password-for gmail ?pw)
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw)
                        (not (has-token gmail ?t)) (not (task-completed)))
     :effect (and (has-token gmail ?t))
   )
@@ -135,7 +143,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for venmo ?u) (password-for venmo ?pw)
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw)
                        (not (has-token venmo ?t)) (not (task-completed)))
     :effect (and (has-token venmo ?t))
   )

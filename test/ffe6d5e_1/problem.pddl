@@ -13,6 +13,12 @@
     message-favorite-recipe-name message-non-favorite-recipe-name - message
   )
   (:init
+    (credential-of-app phone username-2123782445)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app simple-note hun-weaver-at-gmail-com)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
     (username-for phone username-2123782445)
     (username-for simple-note hun-weaver-at-gmail-com)
     (password-for phone phone-password)

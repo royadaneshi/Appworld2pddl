@@ -5,9 +5,11 @@
     addr-name street city state country zip-code payment-card quantity flag - object)
   (:constants
     supervisor phone amazon - app
-    home-parents home-sibling-1 home-sibling-2 - home
-    codenames-board-game - product)
+    home-parents home-sibling-1 home-sibling-2 home-sibling-3 - home
+    codenames-board-game - product
+  )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -39,7 +41,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)) (not (task-completed)))
     :effect (and (has-token phone ?t)))
 
@@ -58,7 +60,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for amazon ?u) (password-for amazon ?pw)
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (passwords-known) (username-for amazon ?u) (password-for amazon ?pw)
                        (not (has-token amazon ?t)) (not (task-completed)))
     :effect (and (has-token amazon ?t)))
 
@@ -100,9 +102,11 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (order-placed home-parents codenames-board-game)
-                       (order-placed home-sibling-1 codenames-board-game)
-                       (order-placed home-sibling-2 codenames-board-game)
-                       (not (task-completed)))
+    :precondition (and
+      (order-placed home-parents codenames-board-game)
+      (order-placed home-sibling-1 codenames-board-game)
+      (order-placed home-sibling-2 codenames-board-game)
+      (order-placed home-sibling-3 codenames-board-game)
+      (not (task-completed)))
     :effect (and (task-completed)))
 )

@@ -38,7 +38,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'token', 'person', 'comment', 'product', 'address', 'query', 'password', 'relationship', 'app', 'username', 'quantity', 'entity', 'email', 'direction', 'transaction', 'payment-card'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -49,13 +51,13 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(amazon-login ka-ball-at-gmail-com pw-amazon token-amazon)",
-      "(phone-login phone-7863159797 pw-phone token-venmo)",
-      "(venmo-login ka-ball-at-gmail-com pw-venmo token-amazon)",
+      "(phone-login phone-7863159797 pw-phone token-phone)",
+      "(venmo-login ka-ball-at-gmail-com pw-venmo token-venmo)",
       "(amazon-clear-cart token-amazon)",
       "(amazon-show-payment-cards token-amazon payment-card-1)",
-      "(phone-search-contacts token-venmo rel-brother brother brother-email)",
-      "(venmo-show-transactions token-amazon brother-email direction-received brother brother-transaction requested-product)",
-      "(venmo-create-transaction-comment brother-transaction comment-thank-you token-amazon)",
+      "(phone-search-contacts token-phone rel-brother brother brother-email)",
+      "(venmo-show-transactions token-venmo brother-email direction-received brother brother-transaction requested-product)",
+      "(venmo-create-transaction-comment brother-transaction comment-thank-you token-venmo)",
       "(amazon-search-products query-requested-product requested-product)",
       "(amazon-add-product-to-cart requested-product token-amazon qty-1)",
       "(supervisor-show-addresses)",
@@ -64,7 +66,7 @@
       "(supervisor-complete-task requested-product home-address brother-transaction comment-thank-you)"
     ],
     "message": "",
-    "seconds": 1.38
+    "seconds": 1.2
   },
   "solution_used": false,
   "has_reference_solution": false,

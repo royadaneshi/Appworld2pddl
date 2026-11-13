@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(gmail-login username-matthew-blac-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login username-matthew-blac-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "matthew.blac@gmail.com",
@@ -39,25 +39,29 @@
         "first_name": "Matthew",
         "last_name": "Blackburn",
         "email": "matthew.blac@gmail.com",
-        "password": "MatthewBlackburn@Amazon2023"
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\" (the supervisor already keeps a password for this account; use it for signup and login)",
+          "object": "amazon-new-password"
+        }
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-verification amazon-verification-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-verification amazon-verification-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "verification"
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-thread amazon-verification-thread amazon-token amazon-verification-code)",
+      "pddl": "(gmail-show-thread amazon-verification-thread gmail-token amazon-verification-code)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -66,9 +70,9 @@
           "object": "amazon-verification-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
@@ -91,7 +95,11 @@
       "api": "amazon.login",
       "args": {
         "username": "matthew.blac@gmail.com",
-        "password": "MatthewBlackburn@Amazon2023"
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"amazon\" (the supervisor already keeps a password for this account; use it for signup and login)",
+          "object": "amazon-new-password"
+        }
       }
     },
     {
@@ -101,32 +109,32 @@
       "args": {
         "card_name": {
           "$from": "supervisor.show_payment_cards",
-          "field": "card_name of the first listed card",
+          "field": "card_name of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "card-name-1"
         },
         "owner_name": {
           "$from": "supervisor.show_payment_cards",
-          "field": "owner_name of the first listed card",
+          "field": "owner_name of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "owner-name-1"
         },
         "card_number": {
           "$from": "supervisor.show_payment_cards",
-          "field": "card_number of the first listed card",
+          "field": "card_number of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "card-number-1"
         },
         "expiry_year": {
           "$from": "supervisor.show_payment_cards",
-          "field": "expiry_year of the first listed card",
+          "field": "expiry_year of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "expiry-year-1"
         },
         "expiry_month": {
           "$from": "supervisor.show_payment_cards",
-          "field": "expiry_month of the first listed card",
+          "field": "expiry_month of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "expiry-month-1"
         },
         "cvv_number": {
           "$from": "supervisor.show_payment_cards",
-          "field": "cvv_number of the first listed card",
+          "field": "cvv_number of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "cvv-number-1"
         },
         "access_token": {

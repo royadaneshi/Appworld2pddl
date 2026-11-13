@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(simple-note-login username-jes-mill-at-gmail-com simple-note-password phone-token)",
+      "pddl": "(simple-note-login username-jes-mill-at-gmail-com simple-note-password simple-note-token)",
       "api": "simple_note.login",
       "args": {
         "username": "jes.mill@gmail.com",
@@ -64,20 +64,20 @@
     },
     {
       "step": 6,
-      "pddl": "(simple-note-search-notes phone-token query-favorite-recipes favorite-recipes-note)",
+      "pddl": "(simple-note-search-notes simple-note-token query-favorite-recipes favorite-recipes-note)",
       "api": "simple_note.search_notes",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "simple-note-token"
         },
         "query": "favorite recipes"
       }
     },
     {
       "step": 7,
-      "pddl": "(simple-note-show-note favorite-recipes-note phone-token favorite-recipe)",
+      "pddl": "(simple-note-show-note favorite-recipes-note simple-note-token favorite-recipe)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
@@ -86,9 +86,9 @@
           "object": "favorite-recipes-note"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "simple-note-token"
         }
       }
     },

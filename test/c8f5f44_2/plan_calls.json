@@ -106,7 +106,7 @@
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the transaction received from the sister whose description refers to the amazon item she asked for",
+          "field": "transaction_id of the transaction received from the sister whose description says the amazon purchase is for the sister themself ('for me'); the sister also sent money for a purchase meant for someone else, which is not the one asked for",
           "object": "sister-transaction"
         },
         "comment": "Thanks!",
@@ -172,7 +172,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id of a valid (non-expired) card",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "payment-card-1"
         },
         "address_id": {

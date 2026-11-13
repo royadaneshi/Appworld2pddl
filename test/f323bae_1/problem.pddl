@@ -8,6 +8,12 @@
     query-habit - query
     habit-tracker-note - note)
   (:init
+    (credential-of-app simple-note tr-solo-at-gmail-com)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
+    (credential-of-app file-system tr-solo-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for simple-note simple-note-password)
     (password-for file-system file-system-password)
     (query-finds query-habit habit-tracker-note)

@@ -41,7 +41,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'email-thread', 'email', 'app', 'order', 'username', 'product', 'query', 'entity', 'person', 'password', 'address', 'flag', 'payment-card', 'description', 'email-msg', 'amount', 'token'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -54,22 +56,22 @@
       "(supervisor-show-account-passwords)",
       "(amazon-login tr-solo-at-gmail-com password-amazon token-amazon)",
       "(amazon-add-product-to-cart sullivans-ceramic-vase-set token-amazon flag-true)",
-      "(gmail-login tr-solo-at-gmail-com password-gmail token-amazon)",
-      "(phone-login phone-7273731063 password-phone token-venmo)",
-      "(venmo-login tr-solo-at-gmail-com password-venmo token-amazon)",
+      "(gmail-login tr-solo-at-gmail-com password-gmail token-gmail)",
+      "(phone-login phone-7273731063 password-phone token-phone)",
+      "(venmo-login tr-solo-at-gmail-com password-venmo token-venmo)",
       "(amazon-show-addresses token-amazon address-troy)",
       "(amazon-show-payment-cards token-amazon card-troy)",
       "(amazon-place-order card-troy address-troy token-amazon sullivans-ceramic-vase-set order-new)",
       "(amazon-show-order order-new token-amazon amount-order-total)",
-      "(gmail-show-inbox-threads token-amazon query-amazon-order-confirmation thread-order-confirmation order-new)",
-      "(gmail-show-thread thread-order-confirmation token-amazon email-order-confirmation)",
-      "(phone-search-contacts token-venmo query-debra debra email-of-debra)",
-      "(gmail-forward-email-from-thread thread-order-confirmation email-order-confirmation email-of-debra token-amazon debra order-new)",
-      "(venmo-create-payment-request email-of-debra amount-order-total token-amazon note-for-amazon-order debra order-new)",
+      "(gmail-show-inbox-threads token-gmail query-amazon-order-confirmation thread-order-confirmation order-new)",
+      "(gmail-show-thread thread-order-confirmation token-gmail email-order-confirmation)",
+      "(phone-search-contacts token-phone query-debra debra email-of-debra)",
+      "(gmail-forward-email-from-thread thread-order-confirmation email-order-confirmation email-of-debra token-gmail debra order-new)",
+      "(venmo-create-payment-request email-of-debra amount-order-total token-venmo note-for-amazon-order debra order-new)",
       "(supervisor-complete-task order-new sullivans-ceramic-vase-set debra amount-order-total note-for-amazon-order)"
     ],
     "message": "",
-    "seconds": 1.18
+    "seconds": 1.35
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -29,6 +29,57 @@
     },
     {
       "step": 4,
+      "pddl": "(gmail-login normansmit-at-gmail-com gmail-password gmail-token)",
+      "api": "gmail.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"gmail\"",
+          "object": "gmail-password"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(phone-login phone-5708520672 phone-password phone-token)",
+      "api": "phone.login",
+      "args": {
+        "username": "5708520672",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"phone\"",
+          "object": "phone-password"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-login normansmit-at-gmail-com venmo-password venmo-token)",
+      "api": "venmo.login",
+      "args": {
+        "username": "normansmit@gmail.com",
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"venmo\"",
+          "object": "venmo-password"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
       "pddl": "(amazon-add-product-to-cart nintendo-switch-lite amazon-token quantity-1)",
       "api": "amazon.add_product_to_cart",
       "args": {
@@ -46,46 +97,7 @@
       }
     },
     {
-      "step": 5,
-      "pddl": "(gmail-login normansmit-at-gmail-com gmail-password amazon-token)",
-      "api": "gmail.login",
-      "args": {
-        "username": "normansmit@gmail.com",
-        "password": {
-          "$from": "supervisor.show_account_passwords",
-          "field": "password where account_name == \"gmail\"",
-          "object": "gmail-password"
-        }
-      }
-    },
-    {
-      "step": 6,
-      "pddl": "(phone-login phone-5708520672 phone-password venmo-token)",
-      "api": "phone.login",
-      "args": {
-        "username": "5708520672",
-        "password": {
-          "$from": "supervisor.show_account_passwords",
-          "field": "password where account_name == \"phone\"",
-          "object": "phone-password"
-        }
-      }
-    },
-    {
-      "step": 7,
-      "pddl": "(venmo-login normansmit-at-gmail-com venmo-password amazon-token)",
-      "api": "venmo.login",
-      "args": {
-        "username": "normansmit@gmail.com",
-        "password": {
-          "$from": "supervisor.show_account_passwords",
-          "field": "password where account_name == \"venmo\"",
-          "object": "venmo-password"
-        }
-      }
-    },
-    {
-      "step": 8,
+      "step": 9,
       "pddl": "(amazon-show-addresses amazon-token supervisor-address)",
       "api": "amazon.show_addresses",
       "args": {
@@ -97,7 +109,7 @@
       }
     },
     {
-      "step": 9,
+      "step": 10,
       "pddl": "(amazon-show-payment-cards amazon-token supervisor-payment-card)",
       "api": "amazon.show_payment_cards",
       "args": {
@@ -109,13 +121,13 @@
       }
     },
     {
-      "step": 10,
+      "step": 11,
       "pddl": "(amazon-place-order supervisor-payment-card supervisor-address amazon-token new-order nintendo-switch-lite)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first/any card on the supervisor's amazon account)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "supervisor-payment-card"
         },
         "address_id": {
@@ -131,7 +143,7 @@
       }
     },
     {
-      "step": 11,
+      "step": 12,
       "pddl": "(amazon-show-order new-order amazon-token order-total-amount)",
       "api": "amazon.show_order",
       "args": {
@@ -148,21 +160,21 @@
       }
     },
     {
-      "step": 12,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-amazon-order-confirmation confirmation-thread new-order)",
+      "step": 13,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-amazon-order-confirmation confirmation-thread new-order)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "Amazon Order Confirmation"
       }
     },
     {
-      "step": 13,
-      "pddl": "(gmail-show-thread confirmation-thread amazon-token confirmation-email)",
+      "step": 14,
+      "pddl": "(gmail-show-thread confirmation-thread gmail-token confirmation-email)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -171,28 +183,28 @@
           "object": "confirmation-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
-      "step": 14,
-      "pddl": "(phone-search-contacts venmo-token query-denise denise denise-email)",
+      "step": 15,
+      "pddl": "(phone-search-contacts phone-token query-denise denise denise-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "Denise"
       }
     },
     {
-      "step": 15,
-      "pddl": "(gmail-forward-email-from-thread confirmation-thread confirmation-email denise-email amazon-token denise)",
+      "step": 16,
+      "pddl": "(gmail-forward-email-from-thread confirmation-thread confirmation-email denise-email gmail-token denise)",
       "api": "gmail.forward_email_from_thread",
       "args": {
         "email_thread_id": {
@@ -211,15 +223,15 @@
           "object": "denise-email"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },
     {
-      "step": 16,
-      "pddl": "(venmo-create-payment-request denise-email order-total-amount amazon-token note-amazon-order denise)",
+      "step": 17,
+      "pddl": "(venmo-create-payment-request denise-email order-total-amount venmo-token note-amazon-order denise)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -233,15 +245,15 @@
           "object": "order-total-amount"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "description": "Amazon Order"
       }
     },
     {
-      "step": 17,
+      "step": 18,
       "pddl": "(supervisor-complete-task new-order nintendo-switch-lite confirmation-email denise order-total-amount note-amazon-order)",
       "api": "supervisor.complete_task",
       "args": {}

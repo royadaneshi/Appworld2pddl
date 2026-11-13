@@ -5,9 +5,10 @@
   )
   (:constants
     supervisor gmail file-system - app
-    dt-2023-05-24t13-00-00 dt-2023-05-31t13-00-00 dt-2023-06-07t13-00-00 dt-2023-06-14t13-00-00 - datetime
+    reminder-datetime-1 reminder-datetime-2 reminder-datetime-3 reminder-datetime-4 reminder-datetime-5 reminder-datetime-6 reminder-datetime-7 reminder-datetime-8 - datetime
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -38,14 +39,14 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
     :effect (has-token gmail ?t)
   )
 
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for file-system ?u) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (credential-of-app file-system ?u) (passwords-known) (username-for file-system ?u) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
     :effect (has-token file-system ?t)
   )
 
@@ -87,7 +88,16 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (draft-scheduled dt-2023-05-24t13-00-00) (draft-scheduled dt-2023-05-31t13-00-00) (draft-scheduled dt-2023-06-07t13-00-00) (draft-scheduled dt-2023-06-14t13-00-00) (not (task-completed)))
+    :precondition (and
+      (draft-scheduled reminder-datetime-1)
+      (draft-scheduled reminder-datetime-2)
+      (draft-scheduled reminder-datetime-3)
+      (draft-scheduled reminder-datetime-4)
+      (draft-scheduled reminder-datetime-5)
+      (draft-scheduled reminder-datetime-6)
+      (draft-scheduled reminder-datetime-7)
+      (draft-scheduled reminder-datetime-8)
+      (not (task-completed)))
     :effect (task-completed)
   )
 )

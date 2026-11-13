@@ -39,7 +39,11 @@
         "first_name": "Chris",
         "last_name": "Mccoy",
         "email": "chris.mcco@gmail.com",
-        "password": "ChrisMccoy2023!"
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\" (the supervisor already keeps a password for this account; use it for signup and login)",
+          "object": "spotify-new-password"
+        }
       }
     },
     {
@@ -87,58 +91,62 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-login username-chris-mcco-at-gmail-com spotify-new-password gmail-token)",
+      "pddl": "(spotify-login username-chris-mcco-at-gmail-com spotify-new-password spotify-token)",
       "api": "spotify.login",
       "args": {
         "username": "chris.mcco@gmail.com",
-        "password": "ChrisMccoy2023!"
+        "password": {
+          "$from": "supervisor.show_account_passwords",
+          "field": "password where account_name == \"spotify\" (the supervisor already keeps a password for this account; use it for signup and login)",
+          "object": "spotify-new-password"
+        }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-add-payment-card card-name-1 owner-name-chris-mccoy card-number-1 expiry-year-1 expiry-month-1 cvv-number-1 gmail-token supervisor-card)",
+      "pddl": "(spotify-add-payment-card card-name-1 owner-name-chris-mccoy card-number-1 expiry-year-1 expiry-month-1 cvv-number-1 spotify-token supervisor-card)",
       "api": "spotify.add_payment_card",
       "args": {
         "card_name": {
           "$from": "supervisor.show_payment_cards",
-          "field": "card_name (pick a card whose expiry is after 2023-05)",
+          "field": "card_name of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "card-name-1"
         },
         "owner_name": {
           "$from": "supervisor.show_payment_cards",
-          "field": "owner_name (same card)",
+          "field": "owner_name of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "owner-name-chris-mccoy"
         },
         "card_number": {
           "$from": "supervisor.show_payment_cards",
-          "field": "card_number (same card)",
+          "field": "card_number of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "card-number-1"
         },
         "expiry_year": {
           "$from": "supervisor.show_payment_cards",
-          "field": "expiry_year (same card)",
+          "field": "expiry_year of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "expiry-year-1"
         },
         "expiry_month": {
           "$from": "supervisor.show_payment_cards",
-          "field": "expiry_month (same card)",
+          "field": "expiry_month of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "expiry-month-1"
         },
         "cvv_number": {
           "$from": "supervisor.show_payment_cards",
-          "field": "cvv_number (same card)",
+          "field": "cvv_number of a supervisor card that has not expired (expiry_year / expiry_month not before the current date); all card fields come from the same card",
           "object": "cvv-number-1"
         },
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(spotify-subscribe-premium supervisor-card yearly gmail-token)",
+      "pddl": "(spotify-subscribe-premium supervisor-card yearly spotify-token)",
       "api": "spotify.subscribe_premium",
       "args": {
         "payment_card_id": {
@@ -148,9 +156,9 @@
         },
         "duration": "yearly",
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "spotify-token"
         }
       }
     },

@@ -14,6 +14,13 @@
     query-verification-code query-password-reset-code - query
   )
   (:init
+    (credential-of-app phone username-5896230193)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app gmail username-caiburc-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app gmail caiburc-at-gmail-com)
     (username-for phone username-5896230193)
     (username-for gmail username-caiburc-at-gmail-com)
     (password-for phone phone-password)

@@ -14,6 +14,7 @@
     external-hard-drive - product
     work-address - address
     amazon-card - payment-card
+    work-address-name work-address-street work-address-city work-address-state work-address-country work-address-zip - address-field
   )
   (:init
     (password-for amazon amazon-password)
@@ -21,6 +22,12 @@
     (quantity-one quantity-1)
     (clear-cart-flag flag-true)
     (target-delivery work-address)
+    (address-name work-address work-address-name)
+    (address-street work-address work-address-street)
+    (address-city work-address work-address-city)
+    (address-state work-address work-address-state)
+    (address-country work-address work-address-country)
+    (address-zip work-address work-address-zip)
   )
   (:goal (and
     (ordered external-hard-drive work-address)

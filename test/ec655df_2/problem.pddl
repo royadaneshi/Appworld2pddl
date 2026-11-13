@@ -14,6 +14,12 @@
     order-1 - order
   )
   (:init
+    (credential-of-app gmail she-bailey-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon she-bailey-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for gmail she-bailey-at-gmail-com)
     (username-for amazon she-bailey-at-gmail-com)
     (password-for gmail gmail-password)

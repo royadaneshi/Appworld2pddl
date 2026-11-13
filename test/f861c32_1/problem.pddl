@@ -9,8 +9,16 @@
     amount-30 amount-refill - amount
     note-for-drinks - note
     rel-roommate - relationship
-    venmo-card - payment-card)
+    venmo-card - payment-card
+    new-card-name new-card-owner new-card-number new-card-year new-card-month new-card-cvv - card-field
+  )
   (:init
+    (credential-of-app phone phone-3567801924)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo lindseysimpson-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for venmo lindseysimpson-at-gmail-com)
     (username-for phone phone-3567801924)
     (password-for venmo venmo-password)
@@ -23,7 +31,9 @@
     (contact-email roommate-3 roommate-3-email)
     (task-amount amount-30)
     (task-note note-for-drinks)
-    (refill-amount amount-refill))
+    (refill-amount amount-refill)
+    (card-details venmo-card new-card-name new-card-owner new-card-number new-card-year new-card-month new-card-cvv)
+  )
   (:goal (and
     (balance-refilled)
     (paid roommate-1 amount-30 note-for-drinks)

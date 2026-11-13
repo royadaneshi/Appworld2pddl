@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(spotify-login kia-bailey-at-gmail-com spotify-password simple-note-token)",
+      "pddl": "(spotify-login kia-bailey-at-gmail-com spotify-password spotify-token)",
       "api": "spotify.login",
       "args": {
         "username": "kia_bailey@gmail.com",
@@ -64,14 +64,14 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-create-playlist songs-from-simple-note simple-note-token new-playlist)",
+      "pddl": "(spotify-create-playlist songs-from-simple-note spotify-token new-playlist)",
       "api": "spotify.create_playlist",
       "args": {
         "title": "Songs from Simple Note",
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "spotify-token"
         }
       }
     },
@@ -89,7 +89,7 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-add-song-to-playlist new-playlist song-1 simple-note-token count-0 count-1)",
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-1 spotify-token count-0 count-1)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -103,14 +103,82 @@
           "object": "song-1"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 9,
+      "pddl": "(spotify-search-songs query-song-10 song-10 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content \u2014 10th song entry (title / artist) listed in the note",
+          "object": "query-song-10"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-10 spotify-token count-1 count-2)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the 10th note entry",
+          "object": "song-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-search-songs query-song-11 song-11 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content \u2014 11th song entry (title / artist) listed in the note",
+          "object": "query-song-11"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-11 spotify-token count-2 count-3)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the 11th note entry",
+          "object": "song-11"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
       "pddl": "(spotify-search-songs query-song-2 song-2 songs-note)",
       "api": "spotify.search_songs",
       "args": {
@@ -122,8 +190,8 @@
       }
     },
     {
-      "step": 10,
-      "pddl": "(spotify-add-song-to-playlist new-playlist song-2 simple-note-token count-1 count-2)",
+      "step": 14,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-2 spotify-token count-3 count-4)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -137,14 +205,14 @@
           "object": "song-2"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "spotify-token"
         }
       }
     },
     {
-      "step": 11,
+      "step": 15,
       "pddl": "(spotify-search-songs query-song-3 song-3 songs-note)",
       "api": "spotify.search_songs",
       "args": {
@@ -156,8 +224,8 @@
       }
     },
     {
-      "step": 12,
-      "pddl": "(spotify-add-song-to-playlist new-playlist song-3 simple-note-token count-2 count-3)",
+      "step": 16,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-3 spotify-token count-4 count-5)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -171,15 +239,219 @@
           "object": "song-3"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "spotify-token"
         }
       }
     },
     {
-      "step": 13,
-      "pddl": "(supervisor-complete-task new-playlist songs-from-simple-note songs-note count-3)",
+      "step": 17,
+      "pddl": "(spotify-search-songs query-song-4 song-4 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content \u2014 4th song entry (title / artist) listed in the note",
+          "object": "query-song-4"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-4 spotify-token count-5 count-6)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the 4th note entry",
+          "object": "song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-search-songs query-song-5 song-5 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content \u2014 5th song entry (title / artist) listed in the note",
+          "object": "query-song-5"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-5 spotify-token count-6 count-7)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the 5th note entry",
+          "object": "song-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-search-songs query-song-6 song-6 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content \u2014 6th song entry (title / artist) listed in the note",
+          "object": "query-song-6"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-6 spotify-token count-7 count-8)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the 6th note entry",
+          "object": "song-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-search-songs query-song-7 song-7 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content \u2014 7th song entry (title / artist) listed in the note",
+          "object": "query-song-7"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-7 spotify-token count-8 count-9)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the 7th note entry",
+          "object": "song-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-search-songs query-song-8 song-8 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content \u2014 8th song entry (title / artist) listed in the note",
+          "object": "query-song-8"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-8 spotify-token count-9 count-10)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the 8th note entry",
+          "object": "song-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-search-songs query-song-9 song-9 songs-note)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content \u2014 9th song entry (title / artist) listed in the note",
+          "object": "query-song-9"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-9 spotify-token count-10 count-11)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result whose title/artist match the 9th note entry",
+          "object": "song-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(supervisor-complete-task new-playlist songs-from-simple-note songs-note count-11)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -37,6 +37,7 @@
     "ok": true,
     "errors": [],
     "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'app', 'product', 'query', 'note', 'password', 'person', 'quantity', 'amount', 'token', 'username'}",
       "problem: pddl-lib parser: invalid name 'total-cost': it is a keyword"
     ],
     "parser": "pddl",
@@ -49,11 +50,11 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(amazon-login deniseburch-at-gmail-com amazon-password amazon-token)",
-      "(simple-note-login deniseburch-at-gmail-com simple-note-password amazon-token)",
+      "(simple-note-login deniseburch-at-gmail-com simple-note-password simple-note-token)",
       "(amazon-clear-cart amazon-token)",
       "(amazon-show-cart amazon-token total-cost)",
-      "(simple-note-search-notes amazon-token query-amazon-shopping-list shopping-list-note)",
-      "(simple-note-show-note shopping-list-note amazon-token)",
+      "(simple-note-search-notes simple-note-token query-amazon-shopping-list shopping-list-note)",
+      "(simple-note-show-note shopping-list-note simple-note-token)",
       "(amazon-show-product product-1 shopping-list-note)",
       "(amazon-add-product-to-cart product-1 amazon-token qty-1)",
       "(amazon-show-cart amazon-token total-cost)",
@@ -63,10 +64,13 @@
       "(amazon-show-product product-3 shopping-list-note)",
       "(amazon-add-product-to-cart product-3 amazon-token qty-3)",
       "(amazon-show-cart amazon-token total-cost)",
+      "(amazon-show-product product-4 shopping-list-note)",
+      "(amazon-add-product-to-cart product-4 amazon-token qty-4)",
+      "(amazon-show-cart amazon-token total-cost)",
       "(supervisor-complete-task total-cost)"
     ],
     "message": "",
-    "seconds": 1.07
+    "seconds": 1.01
   },
   "solution_used": false,
   "has_reference_solution": false,

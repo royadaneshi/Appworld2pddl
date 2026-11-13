@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login kri-powe-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login kri-powe-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "kri-powe@gmail.com",
@@ -96,7 +96,7 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-send-email sibling-emails subject-sydney-trip-photos body-sydney-trip-photos file-system-token sydney-photos-tar file-system-token sydney-photos-dir)",
+      "pddl": "(gmail-send-email sibling-emails subject-sydney-trip-photos body-sydney-trip-photos gmail-token sydney-photos-tar file-system-token sydney-photos-dir)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
@@ -107,9 +107,9 @@
         "subject": "Sydney Trip Photographs",
         "body": "Hi! Sharing all the photographs from our Sydney vacation trip. They are attached as a tar file.",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "attachment_file_paths": {
           "$from": "file_system.show_directory",

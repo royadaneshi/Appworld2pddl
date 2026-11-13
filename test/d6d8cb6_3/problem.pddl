@@ -14,6 +14,15 @@
     email-return-confirmation - email
     jeffery-email-address - email-address)
   (:init
+    (credential-of-app amazon diwils-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone username-3966728840)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app gmail diwils-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (username-for amazon diwils-at-gmail-com)
     (username-for gmail diwils-at-gmail-com)
     (username-for phone username-3966728840)

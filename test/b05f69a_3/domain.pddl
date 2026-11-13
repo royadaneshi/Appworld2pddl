@@ -1,5 +1,5 @@
 (define (domain appworld-b05f69a-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person username password token order filepath dirpath - object)
   (:constants amazon file-system - app)
@@ -53,7 +53,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?o1 ?o2 ?o3 - order)
-    :precondition (and (receipt-downloaded ?o1) (receipt-downloaded ?o2) (receipt-downloaded ?o3) (not (= ?o1 ?o2)) (not (= ?o1 ?o3)) (not (= ?o2 ?o3)) (not (task-completed)))
+    :parameters ()
+    :precondition (and (forall (?o - order) (receipt-downloaded ?o)) (not (task-completed)))
     :effect (and (task-completed)))
+
 )

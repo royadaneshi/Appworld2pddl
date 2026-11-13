@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login phone-username-2473084266 phone-password venmo-token)",
+      "pddl": "(phone-login phone-username-2473084266 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2473084266",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login kathrynmaldonado-at-gmail-com venmo-password amazon-token)",
+      "pddl": "(venmo-login kathrynmaldonado-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "kathrynmaldonado@gmail.com",
@@ -59,26 +59,26 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token relationship-sibling brother brother-email)",
+      "pddl": "(phone-search-contacts phone-token relationship-sibling brother brother-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "relationship": "sibling"
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-transactions amazon-token brother-email brother brother-transaction requested-product)",
+      "pddl": "(venmo-show-transactions venmo-token brother-email brother brother-transaction requested-product)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "user_email": {
           "$from": "phone.search_contacts",
@@ -89,19 +89,19 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-create-transaction-comment brother-transaction comment-thanks-a-lot amazon-token)",
+      "pddl": "(venmo-create-transaction-comment brother-transaction comment-thanks-a-lot venmo-token)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the received transaction from the brother whose description refers to the amazon purchase",
+          "field": "transaction_id of the transaction received from the brother whose description says the amazon purchase is for the brother themself ('for me'); the brother also sent money for a purchase meant for someone else, which is not the one asked for",
           "object": "brother-transaction"
         },
         "comment": "Thanks a lot!",
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         }
       }
     },
@@ -161,7 +161,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (any valid card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-card"
         },
         "address_id": {

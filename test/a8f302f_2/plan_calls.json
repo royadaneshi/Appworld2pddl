@@ -147,6 +147,23 @@
     },
     {
       "step": 11,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list other-of-type-b-1 amazon-token product-type-b)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a non-cheapest cart item of the second product type in the cart [item 1 of 2; one object per such item]",
+          "object": "other-of-type-b-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(amazon-move-product-from-cart-to-wish-list other-of-type-a-3 amazon-token product-type-a)",
       "api": "amazon.move_product_from_cart_to_wish_list",
       "args": {
@@ -163,7 +180,41 @@
       }
     },
     {
-      "step": 12,
+      "step": 13,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list other-of-type-a-2 amazon-token product-type-a)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a non-cheapest cart item of the first product type in the cart [item 2 of 3; one object per such item]",
+          "object": "other-of-type-a-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list other-of-type-a-1 amazon-token product-type-a)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a non-cheapest cart item of the first product type in the cart [item 1 of 3; one object per such item]",
+          "object": "other-of-type-a-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
       "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
       "api": "amazon.show_payment_cards",
       "args": {
@@ -175,7 +226,7 @@
       }
     },
     {
-      "step": 13,
+      "step": 16,
       "pddl": "(amazon-place-order payment-card-1 default-address amazon-token)",
       "api": "amazon.place_order",
       "args": {
@@ -197,7 +248,7 @@
       }
     },
     {
-      "step": 14,
+      "step": 17,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

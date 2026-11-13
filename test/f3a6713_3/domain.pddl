@@ -1,5 +1,5 @@
 (define (domain appworld-f3a6713-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person username password token query sort-key
     email-thread attachment file-path
@@ -7,6 +7,7 @@
   )
   (:constants gmail file-system amazon - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -40,7 +41,7 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
     :effect (has-token gmail ?t)
   )
 
@@ -61,7 +62,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for file-system ?u) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (credential-of-app file-system ?u) (passwords-known) (username-for file-system ?u) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
     :effect (has-token file-system ?t)
   )
 
@@ -82,7 +83,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for amazon ?u) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (passwords-known) (username-for amazon ?u) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
     :effect (has-token amazon ?t)
   )
 
@@ -121,12 +122,13 @@
     :effect (known-address ?ad)
   )
 
-  ; API: amazon.place_order
+  ; API: amazon.place_order  (every remaining checklist item must be in the cart)
   (:action amazon-place-order
-    :parameters (?pc - payment-card ?ad - address ?t - token ?pt1 - product-type ?pt2 - product-type)
-    :precondition (and (has-token amazon ?t) (known-payment-card ?pc) (known-address ?ad) (to-order ?pt1) (to-order ?pt2) (not (= ?pt1 ?pt2)) (in-cart ?pt1) (in-cart ?pt2) (not (order-placed)) (not (task-completed)))
+    :parameters (?pc - payment-card ?ad - address ?t - token)
+    :precondition (and (has-token amazon ?t) (known-payment-card ?pc) (known-address ?ad) (forall (?pt - product-type) (imply (to-order ?pt) (in-cart ?pt))) (not (order-placed)) (not (task-completed)))
     :effect (order-placed)
   )
+
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task

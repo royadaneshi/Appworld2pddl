@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-5896230193 phone-password gmail-token)",
+      "pddl": "(phone-login username-5896230193 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "5896230193",
@@ -34,38 +34,38 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-search-contacts gmail-token rel-daughter daughter daughter-phone)",
+      "pddl": "(phone-search-contacts phone-token rel-daughter daughter daughter-phone)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "relationship": "daughter"
       }
     },
     {
       "step": 5,
-      "pddl": "(phone-search-text-messages gmail-token daughter-phone daughter daughter-message caiburc-at-gmail-com)",
+      "pddl": "(phone-search-text-messages phone-token daughter-phone daughter daughter-message caiburc-at-gmail-com)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the contact whose relationships include \"daughter\"",
+          "field": "phone_number of the son/daughter contact who sent the account-creation message yesterday (several children may be in the contacts; check each one's messages)",
           "object": "daughter-phone"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(spotify-send-password-reset-code caiburc-at-gmail-com reset-thread)",
-      "api": "spotify.send_password_reset_code",
+      "pddl": "(venmo-send-password-reset-code caiburc-at-gmail-com reset-thread)",
+      "api": "venmo.send_password_reset_code",
       "args": {
         "email": "caiburc@gmail.com"
       }
@@ -80,7 +80,11 @@
           "field": "access_token",
           "object": "gmail-token"
         },
-        "query": "Password Reset Code"
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "search query built from the app named in the message plus 'password reset code'",
+          "object": "query-password-reset-code"
+        }
       }
     },
     {
@@ -102,8 +106,8 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-send-verification-code caiburc-at-gmail-com verification-thread)",
-      "api": "spotify.send_verification_code",
+      "pddl": "(venmo-send-verification-code caiburc-at-gmail-com verification-thread)",
+      "api": "venmo.send_verification_code",
       "args": {
         "email": "caiburc@gmail.com"
       }
@@ -118,7 +122,11 @@
           "field": "access_token",
           "object": "gmail-token"
         },
-        "query": "Verficiation Code"
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "search query built from the app named in the message plus 'verification code'",
+          "object": "query-verification-code"
+        }
       }
     },
     {
@@ -140,8 +148,8 @@
     },
     {
       "step": 12,
-      "pddl": "(spotify-reset-password caiburc-at-gmail-com reset-code new-password-j7yl6)",
-      "api": "spotify.reset_password",
+      "pddl": "(venmo-reset-password caiburc-at-gmail-com reset-code new-password-j7yl6)",
+      "api": "venmo.reset_password",
       "args": {
         "email": "caiburc@gmail.com",
         "password_reset_code": {
@@ -154,8 +162,8 @@
     },
     {
       "step": 13,
-      "pddl": "(spotify-verify-account caiburc-at-gmail-com verification-code)",
-      "api": "spotify.verify_account",
+      "pddl": "(venmo-verify-account caiburc-at-gmail-com verification-code)",
+      "api": "venmo.verify_account",
       "args": {
         "email": "caiburc@gmail.com",
         "verification_code": {

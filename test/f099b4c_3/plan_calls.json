@@ -124,6 +124,18 @@
     },
     {
       "step": 11,
+      "pddl": "(amazon-search-products query-list-product-4 list-product-4)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: product name of list entry 4",
+          "object": "query-list-product-4"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(amazon-show-product list-product-1)",
       "api": "amazon.show_product",
       "args": {
@@ -135,8 +147,8 @@
       }
     },
     {
-      "step": 12,
-      "pddl": "(amazon-add-product-to-cart list-product-1 amazon-token qty-2)",
+      "step": 13,
+      "pddl": "(amazon-add-product-to-cart list-product-1 amazon-token qty-product-1)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
@@ -151,13 +163,13 @@
         },
         "quantity": {
           "$from": "amazon.show_product",
-          "field": "min(quantity requested in the note for the entry, inventory_quantity); entry is skipped when inventory_quantity == 0",
-          "object": "qty-2"
+          "field": "min(quantity written in the note for list entry 1, inventory_quantity of that product)",
+          "object": "qty-product-1"
         }
       }
     },
     {
-      "step": 13,
+      "step": 14,
       "pddl": "(amazon-show-cart amazon-token)",
       "api": "amazon.show_cart",
       "args": {
@@ -169,25 +181,25 @@
       }
     },
     {
-      "step": 14,
+      "step": 15,
       "pddl": "(amazon-show-product list-product-2)",
       "api": "amazon.show_product",
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "products[].product_id of the result matching list entry 2",
+          "field": "products[].product_id of the result matching list entry 2 (if the note already gives product ids, use them directly)",
           "object": "list-product-2"
         }
       }
     },
     {
-      "step": 15,
-      "pddl": "(amazon-add-product-to-cart list-product-2 amazon-token qty-1)",
+      "step": 16,
+      "pddl": "(amazon-add-product-to-cart list-product-2 amazon-token qty-product-2)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "products[].product_id of the result matching list entry 2",
+          "field": "products[].product_id of the result matching list entry 2 (if the note already gives product ids, use them directly)",
           "object": "list-product-2"
         },
         "access_token": {
@@ -197,13 +209,13 @@
         },
         "quantity": {
           "$from": "amazon.show_product",
-          "field": "min(quantity requested in the note for the entry, inventory_quantity); entry is skipped when inventory_quantity == 0",
-          "object": "qty-1"
+          "field": "min(quantity written in the note for list entry 2, inventory_quantity of that product)",
+          "object": "qty-product-2"
         }
       }
     },
     {
-      "step": 16,
+      "step": 17,
       "pddl": "(amazon-show-cart amazon-token)",
       "api": "amazon.show_cart",
       "args": {
@@ -215,19 +227,99 @@
       }
     },
     {
-      "step": 17,
+      "step": 18,
       "pddl": "(amazon-show-product list-product-3)",
       "api": "amazon.show_product",
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "products[].product_id of the result matching list entry 3",
+          "field": "products[].product_id of the result matching list entry 3 (if the note already gives product ids, use them directly)",
           "object": "list-product-3"
         }
       }
     },
     {
-      "step": 18,
+      "step": 19,
+      "pddl": "(amazon-add-product-to-cart list-product-3 amazon-token qty-product-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id of the result matching list entry 3 (if the note already gives product ids, use them directly)",
+          "object": "list-product-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_product",
+          "field": "min(quantity written in the note for list entry 3, inventory_quantity of that product)",
+          "object": "qty-product-3"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(amazon-show-cart amazon-token)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(amazon-show-product list-product-4)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id of the result matching list entry 4 (if the note already gives product ids, use them directly)",
+          "object": "list-product-4"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(amazon-add-product-to-cart list-product-4 amazon-token qty-product-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "products[].product_id of the result matching list entry 4 (if the note already gives product ids, use them directly)",
+          "object": "list-product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_product",
+          "field": "min(quantity written in the note for list entry 4, inventory_quantity of that product)",
+          "object": "qty-product-4"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(amazon-show-cart amazon-token)",
+      "api": "amazon.show_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 24,
       "pddl": "(supervisor-complete-task total-cost)",
       "api": "supervisor.complete_task",
       "args": {

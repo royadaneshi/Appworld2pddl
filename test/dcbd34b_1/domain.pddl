@@ -20,7 +20,9 @@
     (headers-known ?f - file-path)
     (content-for ?c - content ?f - file-path)
     (file-updated ?f - file-path ?c - content)
-    (task-completed))
+    (task-completed)
+    (expense-thread ?th - thread)
+    (expenses-collected))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -40,11 +42,12 @@
     :precondition (and (has-token gmail ?t) (expense-query ?q) (not (task-completed)))
     :effect (and (expense-threads-listed)))
 
-  ; API: gmail.show_thread
+  ; API: gmail.show_thread  (one thread holds every coworker's reply)
   (:action gmail-show-thread
-    :parameters (?th - thread ?t - token ?p - person ?n1 - count ?n2 - count)
-    :precondition (and (has-token gmail ?t) (expense-threads-listed) (thread-from ?th ?p) (coworker ?p) (not (found-expenses ?p)) (collected-count ?n1) (succ ?n1 ?n2) (not (task-completed)))
-    :effect (and (found-expenses ?p) (not (collected-count ?n1)) (collected-count ?n2)))
+    :parameters (?th - thread ?t - token)
+    :precondition (and (has-token gmail ?t) (expense-threads-listed) (expense-thread ?th) (not (task-completed)))
+    :effect (and (expenses-collected)))
+
 
   ; API: file_system.login
   (:action file-system-login
@@ -60,9 +63,10 @@
 
   ; API: file_system.update_file
   (:action file-system-update-file
-    :parameters (?f - file-path ?c - content ?t - token ?n - count)
-    :precondition (and (has-token file-system ?t) (headers-known ?f) (content-for ?c ?f) (collected-count ?n) (num-coworkers ?n) (not (task-completed)))
+    :parameters (?f - file-path ?c - content ?t - token)
+    :precondition (and (has-token file-system ?t) (headers-known ?f) (content-for ?c ?f) (expenses-collected) (not (task-completed)))
     :effect (and (file-updated ?f ?c)))
+
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
