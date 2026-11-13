@@ -11,6 +11,12 @@
     attachment-cairo-ticket - attachment
     dir-documents-work - path)
   (:init
+    (credential-of-app gmail deniseburch-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system deniseburch-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for gmail gmail-password)
     (password-for file-system file-system-password)
     (thread-matches query-cairo thread-cairo-flight)

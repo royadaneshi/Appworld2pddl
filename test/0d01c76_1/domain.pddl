@@ -7,6 +7,7 @@
     file-system simple-note - app
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -32,7 +33,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw)
       (passwords-known)
       (username-for file-system ?u)
       (password-for file-system ?pw)
@@ -64,7 +65,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw)
       (passwords-known)
       (username-for simple-note ?u)
       (password-for simple-note ?pw)

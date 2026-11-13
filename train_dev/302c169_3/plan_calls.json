@@ -66,13 +66,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-update-alarm alarm-wake-up phone-token time-omitted bool-false)",
+      "pddl": "(phone-update-alarm alarm-other-1 phone-token time-omitted bool-false)",
       "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
-          "field": "alarm_id of the enabled \"Wake Up\" alarm (08:00)",
-          "object": "alarm-wake-up"
+          "field": "alarm_id of a remaining alarm (not the go-to-sleep one) with enabled == true [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "alarm-other-1"
         },
         "access_token": {
           "$from": "phone.login",
@@ -89,13 +89,13 @@
     },
     {
       "step": 7,
-      "pddl": "(phone-update-alarm alarm-water-plants phone-token time-omitted bool-false)",
+      "pddl": "(phone-update-alarm alarm-other-2 phone-token time-omitted bool-false)",
       "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
-          "field": "alarm_id of the enabled \"Water Plants\" alarm (17:00)",
-          "object": "alarm-water-plants"
+          "field": "alarm_id of a remaining alarm (not the go-to-sleep one) with enabled == true [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "alarm-other-2"
         },
         "access_token": {
           "$from": "phone.login",
@@ -112,13 +112,13 @@
     },
     {
       "step": 8,
-      "pddl": "(phone-update-alarm alarm-weekly-work-standup-meeting phone-token time-omitted bool-false)",
+      "pddl": "(phone-update-alarm alarm-other-3 phone-token time-omitted bool-false)",
       "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
-          "field": "alarm_id of the enabled \"Weekly Work Standup Meeting\" alarm (11:30)",
-          "object": "alarm-weekly-work-standup-meeting"
+          "field": "alarm_id of a remaining alarm (not the go-to-sleep one) with enabled == true [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "alarm-other-3"
         },
         "access_token": {
           "$from": "phone.login",

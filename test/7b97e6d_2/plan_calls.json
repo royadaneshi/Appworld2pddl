@@ -74,7 +74,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id; sort wish-list products by price ascending and greedily take them while the cumulative price stays <= 500; wish-product-1 is the cheapest selected product",
+          "field": "product_id; sort wish-list products by price ascending and greedily take them while the cumulative price stays <= 500; wish-product-1 is the cheapest selected product [item 1 of 9 that match this rule; one object per matching item]",
           "object": "wish-product-1"
         },
         "access_token": {
@@ -92,7 +92,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id; 2nd cheapest product of the greedy within-budget selection",
+          "field": "product_id; sort wish-list products by price ascending and greedily take them while the cumulative price stays <= 500; wish-product-1 is the cheapest selected product [item 2 of 9 that match this rule; one object per matching item]",
           "object": "wish-product-2"
         },
         "access_token": {
@@ -110,7 +110,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id; 3rd cheapest product of the greedy within-budget selection",
+          "field": "product_id; sort wish-list products by price ascending and greedily take them while the cumulative price stays <= 500; wish-product-1 is the cheapest selected product [item 3 of 9 that match this rule; one object per matching item]",
           "object": "wish-product-3"
         },
         "access_token": {
@@ -128,7 +128,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id; 4th cheapest product of the greedy within-budget selection",
+          "field": "product_id; sort wish-list products by price ascending and greedily take them while the cumulative price stays <= 500; wish-product-1 is the cheapest selected product [item 4 of 9 that match this rule; one object per matching item]",
           "object": "wish-product-4"
         },
         "access_token": {
@@ -146,7 +146,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id; 5th (last) cheapest product of the greedy within-budget selection (next cheapest would exceed 500)",
+          "field": "product_id; sort wish-list products by price ascending and greedily take them while the cumulative price stays <= 500; wish-product-1 is the cheapest selected product [item 5 of 9 that match this rule; one object per matching item]",
           "object": "wish-product-5"
         },
         "access_token": {
@@ -159,7 +159,25 @@
     },
     {
       "step": 12,
-      "pddl": "(amazon-place-order kayla-payment-card kayla-address amazon-token order-1 budget-after-5)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-6 amazon-token quantity-1 budget-after-5 budget-1)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id; sort wish-list products by price ascending and greedily take them while the cumulative price stays <= 500; wish-product-1 is the cheapest selected product [item 6 of 9 that match this rule; one object per matching item]",
+          "object": "wish-product-6"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": 1
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-place-order kayla-payment-card kayla-address amazon-token order-1 budget-1)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
@@ -180,7 +198,7 @@
       }
     },
     {
-      "step": 13,
+      "step": 14,
       "pddl": "(supervisor-complete-task order-1)",
       "api": "supervisor.complete_task",
       "args": {}

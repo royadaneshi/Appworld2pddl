@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(phone-login username-2473084266 phone-password venmo-token)",
+      "pddl": "(phone-login username-2473084266 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2473084266",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login kathrynmaldonado-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login kathrynmaldonado-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "kathrynmaldonado@gmail.com",
@@ -34,20 +34,20 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-search-contacts venmo-token relationship-roommate)",
+      "pddl": "(phone-search-contacts phone-token relationship-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 5,
-      "pddl": "(venmo-create-transaction nancy-email amount-food-share phone-token note-dinner-bill nancy)",
+      "pddl": "(venmo-create-transaction nancy-email amount-food-share venmo-token note-dinner-bill nancy)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -57,20 +57,20 @@
         },
         "amount": {
           "$from": "phone.search_contacts",
-          "field": "computed: round(122 / (1 + number of roommate contacts returned), 2) -> 40.67 for two roommates",
+          "field": "computed: round(122 / (1 + number of roommate contacts returned), 2)",
           "object": "amount-food-share"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Dinner Bill"
       }
     },
     {
       "step": 6,
-      "pddl": "(venmo-create-payment-request nancy-email amount-taxi-share phone-token note-taxi-fare nancy)",
+      "pddl": "(venmo-create-payment-request nancy-email amount-taxi-share venmo-token note-taxi-fare nancy)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -80,43 +80,66 @@
         },
         "amount": {
           "$from": "phone.search_contacts",
-          "field": "computed: round(73 / (1 + number of roommate contacts returned), 2) -> 24.33 for two roommates",
+          "field": "computed: round(73 / (1 + number of roommate contacts returned), 2)",
           "object": "amount-taxi-share"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Taxi Fare"
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-create-payment-request roommate-2-email amount-taxi-share phone-token note-taxi-fare roommate-2)",
+      "pddl": "(venmo-create-payment-request roommate-email-1 amount-taxi-share venmo-token note-taxi-fare roommate-1)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the other contact with relationship roommate (not Nancy)",
-          "object": "roommate-2-email"
+          "field": "email of the other contact with relationship roommate (not Nancy) [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "roommate-email-1"
         },
         "amount": {
           "$from": "phone.search_contacts",
-          "field": "computed: round(73 / (1 + number of roommate contacts returned), 2) -> 24.33 for two roommates",
+          "field": "computed: round(73 / (1 + number of roommate contacts returned), 2)",
           "object": "amount-taxi-share"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Taxi Fare"
       }
     },
     {
       "step": 8,
-      "pddl": "(supervisor-complete-task nancy roommate-2)",
+      "pddl": "(venmo-create-payment-request roommate-email-2 amount-taxi-share venmo-token note-taxi-fare roommate-2)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the other contact with relationship roommate (not Nancy) [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "roommate-email-2"
+        },
+        "amount": {
+          "$from": "phone.search_contacts",
+          "field": "computed: round(73 / (1 + number of roommate contacts returned), 2)",
+          "object": "amount-taxi-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Taxi Fare"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task nancy roommate-1)",
       "api": "supervisor.complete_task",
       "args": {}
     }

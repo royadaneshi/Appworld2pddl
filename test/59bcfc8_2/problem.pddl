@@ -19,6 +19,12 @@
     amazon-payment-card - payment-card
   )
   (:init
+    (credential-of-app phone phone-username-4885870260)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app amazon amazon-username-mir-powe-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for phone phone-username-4885870260)
     (username-for amazon amazon-username-mir-powe-at-gmail-com)
     (password-for phone phone-password)

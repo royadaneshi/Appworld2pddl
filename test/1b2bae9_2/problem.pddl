@@ -14,6 +14,10 @@
     receipt-file - file-path
   )
   (:init
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (username-for amazon ka-burt-at-gmail-com)
     (username-for file-system ka-burt-at-gmail-com)
     (password-for amazon amazon-password)

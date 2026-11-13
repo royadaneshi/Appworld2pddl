@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(amazon-login normansmit-at-gmail-com amazon-password venmo-token)",
+      "pddl": "(amazon-login normansmit-at-gmail-com amazon-password amazon-token)",
       "api": "amazon.login",
       "args": {
         "username": "normansmit@gmail.com",
@@ -21,10 +21,10 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login normansmit-at-gmail-com phone-password venmo-token)",
+      "pddl": "(phone-login phone-5708520672 phone-password phone-token)",
       "api": "phone.login",
       "args": {
-        "username": "normansmit@gmail.com",
+        "username": "5708520672",
         "password": {
           "$from": "supervisor.show_account_passwords",
           "field": "password where account_name == \"phone\"",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login normansmit-at-gmail-com venmo-password amazon-token)",
+      "pddl": "(venmo-login normansmit-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "normansmit@gmail.com",
@@ -47,25 +47,25 @@
     },
     {
       "step": 5,
-      "pddl": "(amazon-show-cart venmo-token amount-cart-total)",
+      "pddl": "(amazon-show-cart amazon-token amount-cart-total)",
       "api": "amazon.show_cart",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "amazon.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "amazon-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-denise relationship-friend denise denise-email)",
+      "pddl": "(phone-search-contacts phone-token query-denise relationship-friend denise denise-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "Denise",
         "relationship": "friend"
@@ -73,7 +73,7 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-create-payment-request denise-email amount-cart-total amazon-token description-amazon-cart-items denise)",
+      "pddl": "(venmo-create-payment-request denise-email amount-cart-total venmo-token description-amazon-cart-items denise)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -87,9 +87,9 @@
           "object": "amount-cart-total"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         },
         "description": "Amazon cart items"
       }

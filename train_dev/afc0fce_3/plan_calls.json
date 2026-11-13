@@ -60,7 +60,7 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-transactions venmo-token email-kathryn-maldonado datetime-2023-05-24 direction-received roommate-kathryn-maldonado)",
+      "pddl": "(venmo-show-transactions venmo-token roommate-email-1 datetime-2023-05-24 direction-received roommate-1)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -70,8 +70,8 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Kathryn Maldonado (kathrynmaldonado@gmail.com)",
-          "object": "email-kathryn-maldonado"
+          "field": "email of the 1st contact returned (iterate all pages with query='roommate', relationship='roommate') [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-1"
         },
         "min_created_at": "2023-05-24",
         "direction": "received"
@@ -79,7 +79,7 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-show-transactions venmo-token email-nancy-ritter datetime-2023-05-24 direction-received roommate-nancy-ritter)",
+      "pddl": "(venmo-show-transactions venmo-token roommate-email-2 datetime-2023-05-24 direction-received roommate-2)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -89,8 +89,8 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Nancy Ritter (nan_ritt@gmail.com)",
-          "object": "email-nancy-ritter"
+          "field": "email of the 1st contact returned (iterate all pages with query='roommate', relationship='roommate') [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-2"
         },
         "min_created_at": "2023-05-24",
         "direction": "received"
@@ -98,7 +98,7 @@
     },
     {
       "step": 9,
-      "pddl": "(venmo-show-transactions venmo-token email-troy-solomon datetime-2023-05-24 direction-received roommate-troy-solomon)",
+      "pddl": "(venmo-show-transactions venmo-token roommate-email-3 datetime-2023-05-24 direction-received roommate-3)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -108,8 +108,8 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Troy Solomon (tr_solo@gmail.com)",
-          "object": "email-troy-solomon"
+          "field": "email of the 1st contact returned (iterate all pages with query='roommate', relationship='roommate') [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-3"
         },
         "min_created_at": "2023-05-24",
         "direction": "received"
@@ -117,13 +117,13 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-create-transaction-comment tx-8319 comment-thank-you-so-much venmo-token roommate-kathryn-maldonado)",
+      "pddl": "(venmo-create-transaction-comment txn-a1-1 comment-thank-you-so-much venmo-token roommate-1)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $30.0 received from Kathryn Maldonado at 2023-05-25T15:18:33 (on or after 2023-05-24)",
-          "object": "tx-8319"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-1"
         },
         "comment": "Thank you so much!",
         "access_token": {
@@ -135,13 +135,13 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-transaction-comment tx-8328 comment-thank-you-so-much venmo-token roommate-kathryn-maldonado)",
+      "pddl": "(venmo-create-transaction-comment txn-a1-4 comment-thank-you-so-much venmo-token roommate-1)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $50.0 received from Kathryn Maldonado at 2023-05-30T12:28:07 (on or after 2023-05-24)",
-          "object": "tx-8328"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-4"
         },
         "comment": "Thank you so much!",
         "access_token": {
@@ -153,13 +153,13 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-create-transaction-comment tx-8339 comment-thank-you-so-much venmo-token roommate-kathryn-maldonado)",
+      "pddl": "(venmo-create-transaction-comment txn-a1-7 comment-thank-you-so-much venmo-token roommate-1)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $93.0 received from Kathryn Maldonado at 2023-06-01T06:04:53 (on or after 2023-05-24)",
-          "object": "tx-8339"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-7"
         },
         "comment": "Thank you so much!",
         "access_token": {
@@ -171,13 +171,13 @@
     },
     {
       "step": 13,
-      "pddl": "(venmo-like-transaction tx-8319 venmo-token roommate-kathryn-maldonado)",
+      "pddl": "(venmo-like-transaction txn-a1-1 venmo-token roommate-1)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $30.0 received from Kathryn Maldonado at 2023-05-25T15:18:33 (on or after 2023-05-24)",
-          "object": "tx-8319"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-1"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -188,13 +188,13 @@
     },
     {
       "step": 14,
-      "pddl": "(venmo-like-transaction tx-8328 venmo-token roommate-kathryn-maldonado)",
+      "pddl": "(venmo-like-transaction txn-a1-4 venmo-token roommate-1)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $50.0 received from Kathryn Maldonado at 2023-05-30T12:28:07 (on or after 2023-05-24)",
-          "object": "tx-8328"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-4"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -205,13 +205,13 @@
     },
     {
       "step": 15,
-      "pddl": "(venmo-like-transaction tx-8339 venmo-token roommate-kathryn-maldonado)",
+      "pddl": "(venmo-like-transaction txn-a1-7 venmo-token roommate-1)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $93.0 received from Kathryn Maldonado at 2023-06-01T06:04:53 (on or after 2023-05-24)",
-          "object": "tx-8339"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-7"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -222,13 +222,13 @@
     },
     {
       "step": 16,
-      "pddl": "(venmo-create-transaction-comment tx-8329 comment-thank-you-so-much venmo-token roommate-nancy-ritter)",
+      "pddl": "(venmo-create-transaction-comment txn-a1-2 comment-thank-you-so-much venmo-token roommate-2)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $27.0 received from Nancy Ritter at 2023-05-31T16:27:21 (on or after 2023-05-24)",
-          "object": "tx-8329"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-2"
         },
         "comment": "Thank you so much!",
         "access_token": {
@@ -240,13 +240,13 @@
     },
     {
       "step": 17,
-      "pddl": "(venmo-create-transaction-comment tx-8335 comment-thank-you-so-much venmo-token roommate-nancy-ritter)",
+      "pddl": "(venmo-create-transaction-comment txn-a1-3 comment-thank-you-so-much venmo-token roommate-2)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $21.0 received from Nancy Ritter at 2023-05-25T21:22:14 (on or after 2023-05-24)",
-          "object": "tx-8335"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-3"
         },
         "comment": "Thank you so much!",
         "access_token": {
@@ -258,15 +258,14 @@
     },
     {
       "step": 18,
-      "pddl": "(venmo-create-transaction-comment tx-8341 comment-thank-you-so-much venmo-token roommate-nancy-ritter)",
-      "api": "venmo.create_transaction_comment",
+      "pddl": "(venmo-like-transaction txn-a1-2 venmo-token roommate-2)",
+      "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $25.0 received from Nancy Ritter at 2023-06-02T23:18:47 (on or after 2023-05-24)",
-          "object": "tx-8341"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-2"
         },
-        "comment": "Thank you so much!",
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
@@ -276,13 +275,13 @@
     },
     {
       "step": 19,
-      "pddl": "(venmo-like-transaction tx-8329 venmo-token roommate-nancy-ritter)",
+      "pddl": "(venmo-like-transaction txn-a1-3 venmo-token roommate-2)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $27.0 received from Nancy Ritter at 2023-05-31T16:27:21 (on or after 2023-05-24)",
-          "object": "tx-8329"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-3"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -293,14 +292,15 @@
     },
     {
       "step": 20,
-      "pddl": "(venmo-like-transaction tx-8335 venmo-token roommate-nancy-ritter)",
-      "api": "venmo.like_transaction",
+      "pddl": "(venmo-create-transaction-comment txn-a1-5 comment-thank-you-so-much venmo-token roommate-3)",
+      "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $21.0 received from Nancy Ritter at 2023-05-25T21:22:14 (on or after 2023-05-24)",
-          "object": "tx-8335"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-5"
         },
+        "comment": "Thank you so much!",
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
@@ -310,14 +310,15 @@
     },
     {
       "step": 21,
-      "pddl": "(venmo-like-transaction tx-8341 venmo-token roommate-nancy-ritter)",
-      "api": "venmo.like_transaction",
+      "pddl": "(venmo-create-transaction-comment txn-a1-6 comment-thank-you-so-much venmo-token roommate-3)",
+      "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $25.0 received from Nancy Ritter at 2023-06-02T23:18:47 (on or after 2023-05-24)",
-          "object": "tx-8341"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-6"
         },
+        "comment": "Thank you so much!",
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
@@ -327,13 +328,13 @@
     },
     {
       "step": 22,
-      "pddl": "(venmo-create-transaction-comment tx-8320 comment-thank-you-so-much venmo-token roommate-troy-solomon)",
+      "pddl": "(venmo-create-transaction-comment txn-a1-8 comment-thank-you-so-much venmo-token roommate-3)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $16.0 received from Troy Solomon at 2023-05-25T15:18:33 (on or after 2023-05-24)",
-          "object": "tx-8320"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-8"
         },
         "comment": "Thank you so much!",
         "access_token": {
@@ -345,15 +346,14 @@
     },
     {
       "step": 23,
-      "pddl": "(venmo-create-transaction-comment tx-8327 comment-thank-you-so-much venmo-token roommate-troy-solomon)",
-      "api": "venmo.create_transaction_comment",
+      "pddl": "(venmo-like-transaction txn-a1-5 venmo-token roommate-3)",
+      "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $77.0 received from Troy Solomon at 2023-05-29T11:12:52 (on or after 2023-05-24)",
-          "object": "tx-8327"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-5"
         },
-        "comment": "Thank you so much!",
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
@@ -363,13 +363,13 @@
     },
     {
       "step": 24,
-      "pddl": "(venmo-like-transaction tx-8320 venmo-token roommate-troy-solomon)",
+      "pddl": "(venmo-like-transaction txn-a1-6 venmo-token roommate-3)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $16.0 received from Troy Solomon at 2023-05-25T15:18:33 (on or after 2023-05-24)",
-          "object": "tx-8320"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-6"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -380,13 +380,13 @@
     },
     {
       "step": 25,
-      "pddl": "(venmo-like-transaction tx-8327 venmo-token roommate-troy-solomon)",
+      "pddl": "(venmo-like-transaction txn-a1-8 venmo-token roommate-3)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $77.0 received from Troy Solomon at 2023-05-29T11:12:52 (on or after 2023-05-24)",
-          "object": "tx-8327"
+          "field": "transaction_id of each transaction returned for user_email=roommate-a-email, direction='received', min_created_at='2023-05-24' (all pages) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "txn-a1-8"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -397,7 +397,7 @@
     },
     {
       "step": 26,
-      "pddl": "(supervisor-complete-task tx-8320 tx-8327 tx-8341 comment-thank-you-so-much)",
+      "pddl": "(supervisor-complete-task txn-a1-5 txn-a1-6 txn-a1-8 comment-thank-you-so-much)",
       "api": "supervisor.complete_task",
       "args": {}
     }

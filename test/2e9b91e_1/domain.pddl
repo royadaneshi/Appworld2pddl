@@ -4,6 +4,7 @@
     app person username password token email query relationship amount description - object)
   (:constants supervisor amazon phone venmo - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -25,7 +26,7 @@
   ; API: amazon.login
   (:action amazon-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app amazon ?u) (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
     :effect (has-token amazon ?t))
 
   ; API: amazon.show_cart
@@ -37,7 +38,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?u) (credential-of-app phone ?t) (credential-of-app phone ?pw) (passwords-known) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t))
 
   ; API: phone.search_contacts
@@ -49,7 +50,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?u) (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (passwords-known) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (has-token venmo ?t))
 
   ; API: venmo.create_payment_request

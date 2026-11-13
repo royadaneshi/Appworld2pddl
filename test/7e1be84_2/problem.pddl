@@ -15,6 +15,12 @@
     amazon-payment-card - payment-card
     home-address - address)
   (:init
+    (credential-of-app phone username-4288705164)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app amazon jepowell-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for phone username-4288705164)
     (username-for amazon jepowell-at-gmail-com)
     (password-for phone phone-password)

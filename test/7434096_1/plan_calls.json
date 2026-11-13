@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(amazon-show-orders amazon-token query-hanes-undershirt order-hanes)",
+      "pddl": "(amazon-show-orders amazon-token query-hanes-undershirt order-hanes-1)",
       "api": "amazon.show_orders",
       "args": {
         "access_token": {
@@ -40,13 +40,13 @@
     },
     {
       "step": 5,
-      "pddl": "(amazon-show-order order-hanes amazon-token)",
+      "pddl": "(amazon-show-order order-hanes-1 amazon-token)",
       "api": "amazon.show_order",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the order placed this week (created_at within the last 7 days of 2023-05-19) whose items contain the Hanes Men's Tagless Crewneck Undershirt",
-          "object": "order-hanes"
+          "field": "order_id of the order placed this week (created_at within the last 7 days of 2023-05-19) whose items contain the Hanes Men's Tagless Crewneck Undershirt [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "order-hanes-1"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -57,13 +57,13 @@
     },
     {
       "step": 6,
-      "pddl": "(amazon-initiate-return order-hanes undershirt-non-xl-1 deliverer-ups quantity-1 amazon-token)",
+      "pddl": "(amazon-initiate-return order-hanes-1 undershirt-non-xl-1 deliverer-ups quantity-1 amazon-token)",
       "api": "amazon.initiate_return",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the order placed this week (created_at within the last 7 days of 2023-05-19) whose items contain the Hanes Men's Tagless Crewneck Undershirt",
-          "object": "order-hanes"
+          "field": "order_id of the order placed this week (created_at within the last 7 days of 2023-05-19) whose items contain the Hanes Men's Tagless Crewneck Undershirt [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "order-hanes-1"
         },
         "product_id": {
           "$from": "amazon.show_order",
@@ -85,13 +85,43 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-initiate-return order-hanes undershirt-non-xl-2 deliverer-ups quantity-1 amazon-token)",
+      "pddl": "(amazon-show-orders amazon-token query-hanes-undershirt order-hanes-2)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "Hanes Men's Tagless Crewneck Undershirt"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-order order-hanes-2 amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the order placed this week (created_at within the last 7 days of 2023-05-19) whose items contain the Hanes Men's Tagless Crewneck Undershirt [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "order-hanes-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-initiate-return order-hanes-2 undershirt-non-xl-2 deliverer-ups quantity-1 amazon-token)",
       "api": "amazon.initiate_return",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the order placed this week (created_at within the last 7 days of 2023-05-19) whose items contain the Hanes Men's Tagless Crewneck Undershirt",
-          "object": "order-hanes"
+          "field": "order_id of the order placed this week (created_at within the last 7 days of 2023-05-19) whose items contain the Hanes Men's Tagless Crewneck Undershirt [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "order-hanes-2"
         },
         "product_id": {
           "$from": "amazon.show_order",
@@ -112,8 +142,8 @@
       }
     },
     {
-      "step": 8,
-      "pddl": "(supervisor-complete-task order-hanes undershirt-non-xl-1 undershirt-non-xl-2)",
+      "step": 10,
+      "pddl": "(supervisor-complete-task order-hanes-1 undershirt-non-xl-1 order-hanes-2 undershirt-non-xl-2)",
       "api": "supervisor.complete_task",
       "args": {}
     }

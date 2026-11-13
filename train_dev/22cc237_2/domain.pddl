@@ -4,8 +4,8 @@
     app person username password token email query relationship note amount description direction datetime - object)
   (:constants
     phone simple-note venmo - app
-    dinner-friend-adrian dinner-friend-katie dinner-friend-martin dinner-friend-robin dinner-friend-matthew dinner-friend-melissa dinner-friend-glenn dinner-friend-brenda - person
-    share-adrian share-katie share-martin share-robin share-matthew share-melissa share-glenn share-brenda - amount
+    dinner-friend-1 dinner-friend-2 dinner-friend-5 dinner-friend-6 dinner-friend-7 dinner-friend-3 dinner-friend-4 dinner-friend-8 - person
+    amount-share-1 amount-share-2 amount-share-5 amount-share-6 amount-share-7 amount-share-3 amount-share-4 amount-share-8 - amount
     description-friends-dinner - description)
   (:predicates
     (credential-of-app ?a - app ?c - object)
@@ -108,10 +108,10 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (payment-request-created dinner-friend-adrian share-adrian description-friends-dinner)
-      (payment-request-created dinner-friend-katie share-katie description-friends-dinner)
-      (payment-request-created dinner-friend-melissa share-melissa description-friends-dinner)
-      (payment-request-created dinner-friend-glenn share-glenn description-friends-dinner)
+      (payment-request-created dinner-friend-1 amount-share-1 description-friends-dinner)
+      (payment-request-created dinner-friend-2 amount-share-2 description-friends-dinner)
+      (payment-request-created dinner-friend-3 amount-share-3 description-friends-dinner)
+      (payment-request-created dinner-friend-4 amount-share-4 description-friends-dinner)
       (not (task-completed)))
     :effect (task-completed))
 )

@@ -52,13 +52,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-457 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the library playlist \"The Baby Boomer Box: Classic Cuts\" (iterate all pages)",
-          "object": "playlist-457"
+          "field": "playlist_id of the 1st playlist returned (iterate all page_index values until empty) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -69,13 +69,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-458 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the library playlist \"Opera Opulence: Timeless Arias\" (iterate all pages)",
-          "object": "playlist-458"
+          "field": "playlist_id of the 1st playlist returned (iterate all page_index values until empty) [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -86,13 +86,13 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-playlist playlist-459 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-3 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the library playlist \"Yoga Retreat: Mind & Body\" (iterate all pages)",
-          "object": "playlist-459"
+          "field": "playlist_id of the 1st playlist returned (iterate all page_index values until empty) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -103,13 +103,13 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-playlist playlist-460 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-4 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the library playlist \"Countryside Chronicles: Folk Favorites\" (iterate all pages)",
-          "object": "playlist-460"
+          "field": "playlist_id of the 1st playlist returned (iterate all page_index values until empty) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -120,13 +120,13 @@
     },
     {
       "step": 10,
-      "pddl": "(spotify-show-playlist playlist-461 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-5 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the library playlist \"Velvet Voices: Best of R&B\" (iterate all pages)",
-          "object": "playlist-461"
+          "field": "playlist_id of the 1st playlist returned (iterate all page_index values until empty) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -137,31 +137,31 @@
     },
     {
       "step": 11,
-      "pddl": "(spotify-show-song song-164 playlist-457)",
+      "pddl": "(spotify-show-song song-1a-1 playlist-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Waiting for the Morning Light\" (rating 3.5 via spotify.show_song); the top song of its playlist",
-          "object": "song-164"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-1"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-show-song song-99 playlist-457)",
+      "pddl": "(spotify-show-song song-1b-30 playlist-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"The Distance Between Two Hearts\" (rating 0.0 via spotify.show_song)",
-          "object": "song-99"
+          "field": "songs[*].id for playlist-1 (the other songs; one object per song) [item 30 of 33 that match this rule; one object per matching item]",
+          "object": "song-1b-30"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-164 spotify-token playlist-457 song-99)",
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-1a-1 spotify-token playlist-1 song-1b-30)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -171,8 +171,8 @@
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Waiting for the Morning Light\" (rating 3.5 via spotify.show_song); the top song of its playlist",
-          "object": "song-164"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -183,31 +183,31 @@
     },
     {
       "step": 14,
-      "pddl": "(spotify-show-song song-58 playlist-458)",
+      "pddl": "(spotify-show-song song-1a-3 playlist-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Cursed Love\" (rating 4.0 via spotify.show_song); the top song of its playlist",
-          "object": "song-58"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-3"
         }
       }
     },
     {
       "step": 15,
-      "pddl": "(spotify-show-song song-76 playlist-458)",
+      "pddl": "(spotify-show-song song-1b-7 playlist-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Whispers of the Heart\" (rating 3.0 via spotify.show_song)",
-          "object": "song-76"
+          "field": "songs[*].id for playlist-1 (the other songs; one object per song) [item 7 of 33 that match this rule; one object per matching item]",
+          "object": "song-1b-7"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-58 spotify-token playlist-458 song-76)",
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-1a-3 spotify-token playlist-2 song-1b-7)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -217,8 +217,8 @@
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Cursed Love\" (rating 4.0 via spotify.show_song); the top song of its playlist",
-          "object": "song-58"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -229,31 +229,31 @@
     },
     {
       "step": 17,
-      "pddl": "(spotify-show-song song-209 playlist-459)",
+      "pddl": "(spotify-show-song song-1a-4 playlist-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Through the Veil of Tears\" (rating 4.0 via spotify.show_song); the top song of its playlist",
-          "object": "song-209"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-4"
         }
       }
     },
     {
       "step": 18,
-      "pddl": "(spotify-show-song song-51 playlist-459)",
+      "pddl": "(spotify-show-song song-1b-8 playlist-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"The Silence Between Us\" (rating 0.0 via spotify.show_song)",
-          "object": "song-51"
+          "field": "songs[*].id for playlist-1 (the other songs; one object per song) [item 8 of 33 that match this rule; one object per matching item]",
+          "object": "song-1b-8"
         }
       }
     },
     {
       "step": 19,
-      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-209 spotify-token playlist-459 song-51)",
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-1a-4 spotify-token playlist-3 song-1b-8)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -263,8 +263,8 @@
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Through the Veil of Tears\" (rating 4.0 via spotify.show_song); the top song of its playlist",
-          "object": "song-209"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -275,31 +275,31 @@
     },
     {
       "step": 20,
-      "pddl": "(spotify-show-song song-146 playlist-460)",
+      "pddl": "(spotify-show-song song-1a-2 playlist-4)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Drifting Through Eternal Skies\" (rating 3.5 via spotify.show_song); the top song of its playlist",
-          "object": "song-146"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-2"
         }
       }
     },
     {
       "step": 21,
-      "pddl": "(spotify-show-song song-80 playlist-460)",
+      "pddl": "(spotify-show-song song-1b-9 playlist-4)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Wandering the Streets Alone\" (rating 0.0 via spotify.show_song)",
-          "object": "song-80"
+          "field": "songs[*].id for playlist-1 (the other songs; one object per song) [item 9 of 33 that match this rule; one object per matching item]",
+          "object": "song-1b-9"
         }
       }
     },
     {
       "step": 22,
-      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-146 spotify-token playlist-460 song-80)",
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-1a-2 spotify-token playlist-4 song-1b-9)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -309,8 +309,8 @@
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Drifting Through Eternal Skies\" (rating 3.5 via spotify.show_song); the top song of its playlist",
-          "object": "song-146"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -321,31 +321,31 @@
     },
     {
       "step": 23,
-      "pddl": "(spotify-show-song song-304 playlist-461)",
+      "pddl": "(spotify-show-song song-1a-5 playlist-5)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Shadows in the Moonlight\" (rating 2.0 via spotify.show_song)",
-          "object": "song-304"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-5"
         }
       }
     },
     {
       "step": 24,
-      "pddl": "(spotify-show-song song-36 playlist-461)",
+      "pddl": "(spotify-show-song song-1b-33 playlist-5)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"A Whisper in the Midnight Air\" (rating 3.7 via spotify.show_song); the top song of its playlist",
-          "object": "song-36"
+          "field": "songs[*].id for playlist-1 (the other songs; one object per song) [item 33 of 33 that match this rule; one object per matching item]",
+          "object": "song-1b-33"
         }
       }
     },
     {
       "step": 25,
-      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-36 spotify-token playlist-461 song-304)",
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-1a-5 spotify-token playlist-5 song-1b-33)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -355,8 +355,8 @@
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"A Whisper in the Midnight Air\" (rating 3.7 via spotify.show_song); the top song of its playlist",
-          "object": "song-36"
+          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "song-1a-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -367,7 +367,7 @@
     },
     {
       "step": 26,
-      "pddl": "(supervisor-complete-task my-highest-rated-playlist-songs title-my-highest-rated-playlist-songs playlist-457 playlist-458)",
+      "pddl": "(supervisor-complete-task my-highest-rated-playlist-songs title-my-highest-rated-playlist-songs playlist-1 playlist-2)",
       "api": "supervisor.complete_task",
       "args": {}
     }

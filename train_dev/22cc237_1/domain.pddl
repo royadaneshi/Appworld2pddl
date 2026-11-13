@@ -4,8 +4,8 @@
     app person username password token email query relationship note amount description direction date - object)
   (:constants
     phone simple-note venmo - app
-    coworker-kayla coworker-sandra coworker-stephen coworker-jamie coworker-anita coworker-travis coworker-sabrina - person
-    share-kayla share-sandra share-stephen share-jamie share-anita share-travis share-sabrina - amount
+    coworker-1 coworker-5 coworker-6 coworker-2 coworker-3 coworker-7 coworker-4 - person
+    share-coworker-1 share-coworker-5 share-coworker-6 share-coworker-2 share-coworker-3 share-coworker-7 share-coworker-4 - amount
     work-dinner - description)
   (:predicates
     (passwords-known)
@@ -108,9 +108,9 @@
     ; API: supervisor.complete_task
     :parameters ()
     :precondition (and
-      (payment-request-sent coworker-sandra share-sandra work-dinner)
-      (payment-request-sent coworker-stephen share-stephen work-dinner)
-      (payment-request-sent coworker-travis share-travis work-dinner)
+      (payment-request-sent coworker-5 share-coworker-5 work-dinner)
+      (payment-request-sent coworker-6 share-coworker-6 work-dinner)
+      (payment-request-sent coworker-7 share-coworker-7 work-dinner)
       (not (task-completed)))
     :effect (task-completed))
 )

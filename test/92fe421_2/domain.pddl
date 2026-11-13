@@ -7,6 +7,7 @@
     supervisor phone spotify venmo - app
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -34,7 +35,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)) (not (task-completed)))
     :effect (and (has-token phone ?t))
   )
@@ -49,7 +50,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for spotify ?u) (password-for spotify ?pw)
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw) (credential-of-app spotify ?u) (passwords-known) (username-for spotify ?u) (password-for spotify ?pw)
                        (not (has-token spotify ?t)) (not (task-completed)))
     :effect (and (has-token spotify ?t))
   )
@@ -64,7 +65,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for venmo ?u) (password-for venmo ?pw)
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw)
                        (not (has-token venmo ?t)) (not (task-completed)))
     :effect (and (has-token venmo ?t))
   )
@@ -87,8 +88,10 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p1 - person ?p2 - person)
-    :precondition (and (not (= ?p1 ?p2)) (request-sent ?p1) (request-sent ?p2) (not (task-completed)))
+    :parameters (?p1 - person)
+    :precondition (and
+      (request-sent ?p1)
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

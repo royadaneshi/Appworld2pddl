@@ -11,6 +11,15 @@
     amount-cart-total - amount
     description-amazon-cart-items - description)
   (:init
+    (credential-of-app amazon normansmit-at-gmail-com)
+    (credential-of-app phone phone-5708520672)
+    (credential-of-app venmo normansmit-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (password-for amazon amazon-password)
     (password-for phone phone-password)
     (password-for venmo venmo-password)

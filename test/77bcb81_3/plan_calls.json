@@ -69,13 +69,13 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-3 amazon-token)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-9 amazon-token)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the 3rd wish list entry",
-          "object": "wish-product-3"
+          "field": "product_id of the 1st wish list entry [item 4 of 10 that match this rule; one object per matching item]",
+          "object": "wish-product-9"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -86,13 +86,13 @@
     },
     {
       "step": 8,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-2 amazon-token)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-8 amazon-token)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the 2nd wish list entry",
-          "object": "wish-product-2"
+          "field": "product_id of the 1st wish list entry [item 3 of 10 that match this rule; one object per matching item]",
+          "object": "wish-product-8"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -103,13 +103,13 @@
     },
     {
       "step": 9,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-1 amazon-token)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-7 amazon-token)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the 1st wish list entry",
-          "object": "wish-product-1"
+          "field": "product_id of the 1st wish list entry [item 2 of 10 that match this rule; one object per matching item]",
+          "object": "wish-product-7"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -120,6 +120,40 @@
     },
     {
       "step": 10,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-6 amazon-token)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 1st wish list entry [item 1 of 10 that match this rule; one object per matching item]",
+          "object": "wish-product-6"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-10 amazon-token)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 1st wish list entry [item 5 of 10 that match this rule; one object per matching item]",
+          "object": "wish-product-10"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(amazon-place-order payment-card-1 home-address amazon-token)",
       "api": "amazon.place_order",
       "args": {
@@ -141,7 +175,7 @@
       }
     },
     {
-      "step": 11,
+      "step": 13,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

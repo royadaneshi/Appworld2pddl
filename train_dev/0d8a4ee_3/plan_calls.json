@@ -68,7 +68,7 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-profile venmo-token email-friend-cheryl friend-cheryl friends)",
+      "pddl": "(venmo-show-profile venmo-token email-friend-1 friend-1 friends)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -78,14 +78,14 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"friends\" named Cheryl Martinez (iterate all pages)",
-          "object": "email-friend-cheryl"
+          "field": "email of 1st contact returned for relationship \"friends\" [item 1 of 6 that match this rule; one object per matching item]",
+          "object": "email-friend-1"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-show-profile venmo-token email-friend-cody friend-cody friends)",
+      "pddl": "(venmo-show-profile venmo-token email-friend-2 friend-2 friends)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -95,20 +95,37 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"friends\" named Cody Smith (iterate all pages)",
-          "object": "email-friend-cody"
+          "field": "email of 1st contact returned for relationship \"friends\" [item 2 of 6 that match this rule; one object per matching item]",
+          "object": "email-friend-2"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(phone-send-text-message phone-friend-cody msg-make-an-account-on-venmo-please phone-token friend-cody count-2 count-3)",
+      "pddl": "(venmo-show-profile venmo-token email-friend-3 friend-5 friends)",
+      "api": "venmo.show_profile",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of 1st contact returned for relationship \"friends\" [item 3 of 6 that match this rule; one object per matching item]",
+          "object": "email-friend-3"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-send-text-message phone-friend-3 msg-make-an-account-on-venmo-please phone-token friend-5 count-2 count-3)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the contact with relationship == \"friends\" named Cody Smith",
-          "object": "phone-friend-cody"
+          "field": "phone_number of 1st contact returned for relationship \"friends\" [item 3 of 6 that match this rule; one object per matching item]",
+          "object": "phone-friend-3"
         },
         "message": "Make an account on venmo please.",
         "access_token": {
@@ -119,25 +136,8 @@
       }
     },
     {
-      "step": 10,
-      "pddl": "(venmo-show-profile venmo-token email-friend-cory friend-cory friends)",
-      "api": "venmo.show_profile",
-      "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "venmo-token"
-        },
-        "email": {
-          "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"friends\" named Cory Wilson (iterate all pages)",
-          "object": "email-friend-cory"
-        }
-      }
-    },
-    {
       "step": 11,
-      "pddl": "(venmo-show-profile venmo-token email-friend-grant friend-grant friends)",
+      "pddl": "(venmo-show-profile venmo-token email-friend-4 friend-3 friends)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -147,14 +147,14 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"friends\" named Grant Martinez (iterate all pages)",
-          "object": "email-friend-grant"
+          "field": "email of 1st contact returned for relationship \"friends\" [item 4 of 6 that match this rule; one object per matching item]",
+          "object": "email-friend-4"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(venmo-show-profile venmo-token email-friend-travis friend-travis friends)",
+      "pddl": "(venmo-show-profile venmo-token email-friend-5 friend-4 friends)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -164,14 +164,14 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"friends\" named Travis Wilson (iterate all pages)",
-          "object": "email-friend-travis"
+          "field": "email of 1st contact returned for relationship \"friends\" [item 5 of 6 that match this rule; one object per matching item]",
+          "object": "email-friend-5"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(venmo-show-profile venmo-token email-friend-william friend-william friends)",
+      "pddl": "(venmo-show-profile venmo-token email-friend-6 friend-6 friends)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -181,20 +181,20 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"friends\" named William Martinez (iterate all pages)",
-          "object": "email-friend-william"
+          "field": "email of 1st contact returned for relationship \"friends\" [item 6 of 6 that match this rule; one object per matching item]",
+          "object": "email-friend-6"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(phone-send-text-message phone-friend-william msg-make-an-account-on-venmo-please phone-token friend-william count-1 count-2)",
+      "pddl": "(phone-send-text-message phone-friend-6 msg-make-an-account-on-venmo-please phone-token friend-6 count-1 count-2)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the contact with relationship == \"friends\" named William Martinez",
-          "object": "phone-friend-william"
+          "field": "phone_number of 1st contact returned for relationship \"friends\" [item 6 of 6 that match this rule; one object per matching item]",
+          "object": "phone-friend-6"
         },
         "message": "Make an account on venmo please.",
         "access_token": {
@@ -206,7 +206,7 @@
     },
     {
       "step": 15,
-      "pddl": "(venmo-show-profile venmo-token email-roommate-jose roommate-jose roommates)",
+      "pddl": "(venmo-show-profile venmo-token email-roommate-1 roommate-b roommates)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -216,37 +216,20 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"roommates\" named Jose Harrison (iterate all pages)",
-          "object": "email-roommate-jose"
+          "field": "email of 1st contact returned for relationship \"roommates\" [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "email-roommate-1"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(venmo-show-profile venmo-token email-roommate-lindsey roommate-lindsey roommates)",
-      "api": "venmo.show_profile",
-      "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "venmo-token"
-        },
-        "email": {
-          "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"roommates\" named Lindsey Simpson (iterate all pages)",
-          "object": "email-roommate-lindsey"
-        }
-      }
-    },
-    {
-      "step": 17,
-      "pddl": "(phone-send-text-message phone-roommate-lindsey msg-make-an-account-on-venmo-please phone-token roommate-lindsey count-0 count-1)",
+      "pddl": "(phone-send-text-message phone-roommate-1 msg-make-an-account-on-venmo-please phone-token roommate-b count-0 count-1)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the contact with relationship == \"roommates\" named Lindsey Simpson",
-          "object": "phone-roommate-lindsey"
+          "field": "phone_number of 1st contact returned for relationship \"roommates\" [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "phone-roommate-1"
         },
         "message": "Make an account on venmo please.",
         "access_token": {
@@ -257,8 +240,8 @@
       }
     },
     {
-      "step": 18,
-      "pddl": "(venmo-show-profile venmo-token email-roommate-paul roommate-paul roommates)",
+      "step": 17,
+      "pddl": "(venmo-show-profile venmo-token email-roommate-2 roommate-1 roommates)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -268,8 +251,25 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"roommates\" named Paul Miller (iterate all pages)",
-          "object": "email-roommate-paul"
+          "field": "email of 1st contact returned for relationship \"roommates\" [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "email-roommate-2"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(venmo-show-profile venmo-token email-roommate-3 roommate-2 roommates)",
+      "api": "venmo.show_profile",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of 1st contact returned for relationship \"roommates\" [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "email-roommate-3"
         }
       }
     },

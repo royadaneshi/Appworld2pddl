@@ -21,6 +21,12 @@
     supervisor-payment-card - payment-card
     sort-rating-desc - sort-key)
   (:init
+    (credential-of-app phone phone-username-4288705164)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app amazon amazon-username-jepowell-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for phone phone-password)
     (password-for amazon amazon-password)
     (username-for phone phone-username-4288705164)

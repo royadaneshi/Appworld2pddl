@@ -4,7 +4,7 @@
     app person note splitwise-group expense username password token query email description amount email-list amount-list - object)
   (:constants
     simple-note splitwise - app
-    expense-a1 expense-a2 expense-b1 expense-b2 - expense)
+    expense-a1-1 expense-a1-2 expense-a1-3 expense-a1-4 expense-a1-5 expense-a1-6 expense-a1-7 expense-a1-8 expense-a1-9 expense-a1-10 expense-a1-11 expense-a1-12 expense-a1-13 expense-a1-14 expense-a1-15 expense-a1-16 - expense)
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -70,6 +70,23 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed)) (expense-recorded expense-a1) (expense-recorded expense-a2) (expense-recorded expense-b1) (expense-recorded expense-b2))
+    :precondition (and
+      (expense-recorded expense-a1-1)
+      (expense-recorded expense-a1-2)
+      (expense-recorded expense-a1-3)
+      (expense-recorded expense-a1-4)
+      (expense-recorded expense-a1-5)
+      (expense-recorded expense-a1-6)
+      (expense-recorded expense-a1-7)
+      (expense-recorded expense-a1-8)
+      (expense-recorded expense-a1-9)
+      (expense-recorded expense-a1-10)
+      (expense-recorded expense-a1-11)
+      (expense-recorded expense-a1-12)
+      (expense-recorded expense-a1-13)
+      (expense-recorded expense-a1-14)
+      (expense-recorded expense-a1-15)
+      (expense-recorded expense-a1-16)
+      (not (task-completed)))
     :effect (and (task-completed)))
 )

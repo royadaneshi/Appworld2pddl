@@ -12,9 +12,9 @@
     file-internet-bill-last-month - file-path
     amount-bill-share - amount
     note-internet-bill-for-the-last-month - note
-    lindsey roommate-chris roommate-jose roommate-paul - person
-    email-roommate-chris email-roommate-jose email-roommate-paul - email
-    request-roommate-chris request-roommate-jose request-roommate-paul - payment-request
+    lindsey roommate-1 roommate-2 roommate-3 - person
+    email-roommate-1 email-roommate-2 email-roommate-3 - email
+    request-roommate-1 request-roommate-2 request-roommate-3 - payment-request
   )
   (:init
     (credential-of-app phone password-phone)
@@ -37,18 +37,18 @@
     (last-month-bill-receipt file-internet-bill-last-month)
     (bill-share amount-bill-share)
     (request-note note-internet-bill-for-the-last-month)
-    (roommate roommate-chris)
-    (roommate roommate-jose)
-    (roommate roommate-paul)
-    (roommate-email roommate-chris email-roommate-chris)
-    (roommate-email roommate-jose email-roommate-jose)
-    (roommate-email roommate-paul email-roommate-paul)
-    (request-for request-roommate-chris roommate-chris)
-    (request-for request-roommate-jose roommate-jose)
-    (request-for request-roommate-paul roommate-paul))
+    (roommate roommate-1)
+    (roommate roommate-2)
+    (roommate roommate-3)
+    (roommate-email roommate-1 email-roommate-1)
+    (roommate-email roommate-2 email-roommate-2)
+    (roommate-email roommate-3 email-roommate-3)
+    (request-for request-roommate-1 roommate-1)
+    (request-for request-roommate-2 roommate-2)
+    (request-for request-roommate-3 roommate-3))
   (:goal (and
-    (request-sent request-roommate-chris amount-bill-share note-internet-bill-for-the-last-month)
-    (request-sent request-roommate-jose amount-bill-share note-internet-bill-for-the-last-month)
-    (request-sent request-roommate-paul amount-bill-share note-internet-bill-for-the-last-month)
+    (request-sent request-roommate-1 amount-bill-share note-internet-bill-for-the-last-month)
+    (request-sent request-roommate-2 amount-bill-share note-internet-bill-for-the-last-month)
+    (request-sent request-roommate-3 amount-bill-share note-internet-bill-for-the-last-month)
     (task-completed)))
 )

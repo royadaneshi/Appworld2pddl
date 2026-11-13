@@ -52,13 +52,13 @@
     },
     {
       "step": 6,
-      "pddl": "(simple-note-show-note note-book-reading-lists simple-note-token)",
+      "pddl": "(simple-note-show-note note-1 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Book Reading Lists\" (iterate all pages)",
-          "object": "note-book-reading-lists"
+          "field": "note_id of the 1st note (iterate page_index until an empty page is returned)",
+          "object": "note-1"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -69,10 +69,14 @@
     },
     {
       "step": 7,
-      "pddl": "(file-system-create-file file-book-reading-lists file-system-token content-book-reading-lists note-book-reading-lists note-food-recipes)",
+      "pddl": "(file-system-create-file backup-file-note-1 file-system-token content-note-1 note-1 note-2)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Book_Reading_Lists.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 1 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-1"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -80,20 +84,20 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-book-reading-lists"
+          "field": "content (for note_id == note-1) [item 1 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-1"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(simple-note-show-note note-food-recipes simple-note-token)",
+      "pddl": "(simple-note-show-note note-10 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Food Recipes\" (iterate all pages)",
-          "object": "note-food-recipes"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 9 of 27 that match this rule; one object per matching item]",
+          "object": "note-10"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -104,31 +108,30 @@
     },
     {
       "step": 9,
-      "pddl": "(file-system-create-file file-food-recipes file-system-token content-food-recipes note-food-recipes note-funny-quotes-collection)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-11 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Food_Recipes.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 10 of 27 that match this rule; one object per matching item]",
+          "object": "note-11"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-food-recipes"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(simple-note-show-note note-funny-quotes-collection simple-note-token)",
+      "pddl": "(simple-note-show-note note-12 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Funny Quotes Collection\" (iterate all pages)",
-          "object": "note-funny-quotes-collection"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 11 of 27 that match this rule; one object per matching item]",
+          "object": "note-12"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -139,31 +142,30 @@
     },
     {
       "step": 11,
-      "pddl": "(file-system-create-file file-funny-quotes-collection file-system-token content-funny-quotes-collection note-funny-quotes-collection note-gift-ideas-for-various-occasions)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-13 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Funny_Quotes_Collection.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 12 of 27 that match this rule; one object per matching item]",
+          "object": "note-13"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-funny-quotes-collection"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(simple-note-show-note note-gift-ideas-for-various-occasions simple-note-token)",
+      "pddl": "(simple-note-show-note note-14 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Gift Ideas for Various Occasions\" (iterate all pages)",
-          "object": "note-gift-ideas-for-various-occasions"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 13 of 27 that match this rule; one object per matching item]",
+          "object": "note-14"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -174,31 +176,30 @@
     },
     {
       "step": 13,
-      "pddl": "(file-system-create-file file-gift-ideas-for-various-occasions file-system-token content-gift-ideas-for-various-occasions note-gift-ideas-for-various-occasions note-grocery-list)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-15 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Gift_Ideas_for_Various_Occasions.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 14 of 27 that match this rule; one object per matching item]",
+          "object": "note-15"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-gift-ideas-for-various-occasions"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(simple-note-show-note note-grocery-list simple-note-token)",
+      "pddl": "(simple-note-show-note note-16 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Grocery List\" (iterate all pages)",
-          "object": "note-grocery-list"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 15 of 27 that match this rule; one object per matching item]",
+          "object": "note-16"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -209,31 +210,30 @@
     },
     {
       "step": 15,
-      "pddl": "(file-system-create-file file-grocery-list file-system-token content-grocery-list note-grocery-list note-habit-tracking-log-for-2023-04-30)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-17 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Grocery_List.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 16 of 27 that match this rule; one object per matching item]",
+          "object": "note-17"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-grocery-list"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-04-30 simple-note-token)",
+      "pddl": "(simple-note-show-note note-18 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-04-30\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-04-30"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 17 of 27 that match this rule; one object per matching item]",
+          "object": "note-18"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -244,31 +244,30 @@
     },
     {
       "step": 17,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-04-30 file-system-token content-habit-tracking-log-for-2023-04-30 note-habit-tracking-log-for-2023-04-30 note-habit-tracking-log-for-2023-05-01)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-19 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-04-30.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 18 of 27 that match this rule; one object per matching item]",
+          "object": "note-19"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-04-30"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 18,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-01 simple-note-token)",
+      "pddl": "(simple-note-show-note note-2 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-01\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-01"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 1 of 27 that match this rule; one object per matching item]",
+          "object": "note-2"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -279,10 +278,14 @@
     },
     {
       "step": 19,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-01 file-system-token content-habit-tracking-log-for-2023-05-01 note-habit-tracking-log-for-2023-05-01 note-habit-tracking-log-for-2023-05-02)",
+      "pddl": "(file-system-create-file backup-file-note-2 file-system-token content-note-2 note-2 note-3)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-01.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 2 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-2"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -290,20 +293,20 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-01"
+          "field": "content (for note_id == note-1) [item 2 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-2"
         }
       }
     },
     {
       "step": 20,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-02 simple-note-token)",
+      "pddl": "(simple-note-show-note note-20 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-02\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-02"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 19 of 27 that match this rule; one object per matching item]",
+          "object": "note-20"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -314,31 +317,30 @@
     },
     {
       "step": 21,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-02 file-system-token content-habit-tracking-log-for-2023-05-02 note-habit-tracking-log-for-2023-05-02 note-habit-tracking-log-for-2023-05-03)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-21 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-02.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 20 of 27 that match this rule; one object per matching item]",
+          "object": "note-21"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-02"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 22,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-03 simple-note-token)",
+      "pddl": "(simple-note-show-note note-22 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-03\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-03"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 21 of 27 that match this rule; one object per matching item]",
+          "object": "note-22"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -349,31 +351,30 @@
     },
     {
       "step": 23,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-03 file-system-token content-habit-tracking-log-for-2023-05-03 note-habit-tracking-log-for-2023-05-03 note-habit-tracking-log-for-2023-05-04)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-23 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-03.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 22 of 27 that match this rule; one object per matching item]",
+          "object": "note-23"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-03"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 24,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-04 simple-note-token)",
+      "pddl": "(simple-note-show-note note-24 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-04\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-04"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 23 of 27 that match this rule; one object per matching item]",
+          "object": "note-24"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -384,31 +385,30 @@
     },
     {
       "step": 25,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-04 file-system-token content-habit-tracking-log-for-2023-05-04 note-habit-tracking-log-for-2023-05-04 note-habit-tracking-log-for-2023-05-05)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-25 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-04.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 24 of 27 that match this rule; one object per matching item]",
+          "object": "note-25"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-04"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 26,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-05 simple-note-token)",
+      "pddl": "(simple-note-show-note note-26 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-05\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-05"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 25 of 27 that match this rule; one object per matching item]",
+          "object": "note-26"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -419,31 +419,30 @@
     },
     {
       "step": 27,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-05 file-system-token content-habit-tracking-log-for-2023-05-05 note-habit-tracking-log-for-2023-05-05 note-habit-tracking-log-for-2023-05-06)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-27 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-05.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 26 of 27 that match this rule; one object per matching item]",
+          "object": "note-27"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-05"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 28,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-06 simple-note-token)",
+      "pddl": "(simple-note-show-note note-28 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-06\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-06"
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 27 of 27 that match this rule; one object per matching item]",
+          "object": "note-28"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -454,255 +453,287 @@
     },
     {
       "step": 29,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-06 file-system-token content-habit-tracking-log-for-2023-05-06 note-habit-tracking-log-for-2023-05-06 note-habit-tracking-log-for-2023-05-07)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-3 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-06.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 2 of 27 that match this rule; one object per matching item]",
+          "object": "note-3"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-06"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 30,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-07 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-3 file-system-token content-note-3 note-3 note-4)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-07\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-07"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 3 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-3"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 3 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-3"
         }
       }
     },
     {
       "step": 31,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-07 file-system-token content-habit-tracking-log-for-2023-05-07 note-habit-tracking-log-for-2023-05-07 note-habit-tracking-log-for-2023-05-08)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-4 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-07.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 3 of 27 that match this rule; one object per matching item]",
+          "object": "note-4"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-07"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 32,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-08 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-4 file-system-token content-note-4 note-4 note-5)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-08\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-08"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 4 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-4"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 4 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-4"
         }
       }
     },
     {
       "step": 33,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-08 file-system-token content-habit-tracking-log-for-2023-05-08 note-habit-tracking-log-for-2023-05-08 note-habit-tracking-log-for-2023-05-09)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-5 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-08.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 4 of 27 that match this rule; one object per matching item]",
+          "object": "note-5"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-08"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 34,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-09 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-5 file-system-token content-note-5 note-5 note-6)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-09\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-09"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 5 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-5"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 5 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-5"
         }
       }
     },
     {
       "step": 35,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-09 file-system-token content-habit-tracking-log-for-2023-05-09 note-habit-tracking-log-for-2023-05-09 note-habit-tracking-log-for-2023-05-10)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-6 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-09.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 5 of 27 that match this rule; one object per matching item]",
+          "object": "note-6"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-09"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 36,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-10 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-6 file-system-token content-note-6 note-6 note-7)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-10\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-10"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 6 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-6"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 6 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-6"
         }
       }
     },
     {
       "step": 37,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-10 file-system-token content-habit-tracking-log-for-2023-05-10 note-habit-tracking-log-for-2023-05-10 note-habit-tracking-log-for-2023-05-11)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-7 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-10.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 6 of 27 that match this rule; one object per matching item]",
+          "object": "note-7"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-10"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 38,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-11 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-7 file-system-token content-note-7 note-7 note-8)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-11\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-11"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 7 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-7"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 7 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-7"
         }
       }
     },
     {
       "step": 39,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-11 file-system-token content-habit-tracking-log-for-2023-05-11 note-habit-tracking-log-for-2023-05-11 note-habit-tracking-log-for-2023-05-12)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-8 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-11.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 7 of 27 that match this rule; one object per matching item]",
+          "object": "note-8"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-11"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 40,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-12 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-8 file-system-token content-note-8 note-8 note-9)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-12\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-12"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 8 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-8"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 8 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-8"
         }
       }
     },
     {
       "step": 41,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-12 file-system-token content-habit-tracking-log-for-2023-05-12 note-habit-tracking-log-for-2023-05-12 note-habit-tracking-log-for-2023-05-13)",
-      "api": "file_system.create_file",
+      "pddl": "(simple-note-show-note note-9 simple-note-token)",
+      "api": "simple_note.show_note",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-12.md",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the 2nd note (iterate page_index until an empty page is returned) [item 8 of 27 that match this rule; one object per matching item]",
+          "object": "note-9"
         },
-        "content": {
-          "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-12"
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 42,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-13 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-9 file-system-token content-note-9 note-9 note-10)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-13\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-13"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 9 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-9"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 9 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-9"
         }
       }
     },
     {
       "step": 43,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-13 file-system-token content-habit-tracking-log-for-2023-05-13 note-habit-tracking-log-for-2023-05-13 note-habit-tracking-log-for-2023-05-14)",
+      "pddl": "(file-system-create-file backup-file-note-10 file-system-token content-note-10 note-10 note-11)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-13.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 10 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-10"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -710,34 +741,43 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-13"
+          "field": "content (for note_id == note-1) [item 10 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-10"
         }
       }
     },
     {
       "step": 44,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-14 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-11 file-system-token content-note-11 note-11 note-12)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-14\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-14"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 11 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-11"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 11 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-11"
         }
       }
     },
     {
       "step": 45,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-14 file-system-token content-habit-tracking-log-for-2023-05-14 note-habit-tracking-log-for-2023-05-14 note-habit-tracking-log-for-2023-05-15)",
+      "pddl": "(file-system-create-file backup-file-note-12 file-system-token content-note-12 note-12 note-13)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-14.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 12 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-12"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -745,34 +785,43 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-14"
+          "field": "content (for note_id == note-1) [item 12 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-12"
         }
       }
     },
     {
       "step": 46,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-15 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-13 file-system-token content-note-13 note-13 note-14)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-15\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-15"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 13 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-13"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 13 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-13"
         }
       }
     },
     {
       "step": 47,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-15 file-system-token content-habit-tracking-log-for-2023-05-15 note-habit-tracking-log-for-2023-05-15 note-habit-tracking-log-for-2023-05-16)",
+      "pddl": "(file-system-create-file backup-file-note-14 file-system-token content-note-14 note-14 note-15)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-15.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 14 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-14"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -780,34 +829,43 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-15"
+          "field": "content (for note_id == note-1) [item 14 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-14"
         }
       }
     },
     {
       "step": 48,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-16 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-15 file-system-token content-note-15 note-15 note-16)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-16\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-16"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 15 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-15"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 15 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-15"
         }
       }
     },
     {
       "step": 49,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-16 file-system-token content-habit-tracking-log-for-2023-05-16 note-habit-tracking-log-for-2023-05-16 note-habit-tracking-log-for-2023-05-17)",
+      "pddl": "(file-system-create-file backup-file-note-16 file-system-token content-note-16 note-16 note-17)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-16.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 16 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-16"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -815,34 +873,43 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-16"
+          "field": "content (for note_id == note-1) [item 16 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-16"
         }
       }
     },
     {
       "step": 50,
-      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-17 simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-17 file-system-token content-note-17 note-17 note-18)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-17\" (iterate all pages)",
-          "object": "note-habit-tracking-log-for-2023-05-17"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 17 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-17"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 17 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-17"
         }
       }
     },
     {
       "step": 51,
-      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-17 file-system-token content-habit-tracking-log-for-2023-05-17 note-habit-tracking-log-for-2023-05-17 note-inspirational-quotes-collection)",
+      "pddl": "(file-system-create-file backup-file-note-18 file-system-token content-note-18 note-18 note-19)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Habit_Tracking_Log_for_2023-05-17.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 18 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-18"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -850,34 +917,43 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-habit-tracking-log-for-2023-05-17"
+          "field": "content (for note_id == note-1) [item 18 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-18"
         }
       }
     },
     {
       "step": 52,
-      "pddl": "(simple-note-show-note note-inspirational-quotes-collection simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-19 file-system-token content-note-19 note-19 note-20)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Inspirational Quotes Collection\" (iterate all pages)",
-          "object": "note-inspirational-quotes-collection"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 19 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-19"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 19 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-19"
         }
       }
     },
     {
       "step": 53,
-      "pddl": "(file-system-create-file file-inspirational-quotes-collection file-system-token content-inspirational-quotes-collection note-inspirational-quotes-collection note-movie-quotes-collection)",
+      "pddl": "(file-system-create-file backup-file-note-20 file-system-token content-note-20 note-20 note-21)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Inspirational_Quotes_Collection.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 20 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-20"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -885,34 +961,43 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-inspirational-quotes-collection"
+          "field": "content (for note_id == note-1) [item 20 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-20"
         }
       }
     },
     {
       "step": 54,
-      "pddl": "(simple-note-show-note note-movie-quotes-collection simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-21 file-system-token content-note-21 note-21 note-22)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Movie Quotes Collection\" (iterate all pages)",
-          "object": "note-movie-quotes-collection"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 21 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-21"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 21 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-21"
         }
       }
     },
     {
       "step": 55,
-      "pddl": "(file-system-create-file file-movie-quotes-collection file-system-token content-movie-quotes-collection note-movie-quotes-collection note-movie-recommendations)",
+      "pddl": "(file-system-create-file backup-file-note-22 file-system-token content-note-22 note-22 note-23)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Movie_Quotes_Collection.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 22 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-22"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -920,34 +1005,43 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-movie-quotes-collection"
+          "field": "content (for note_id == note-1) [item 22 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-22"
         }
       }
     },
     {
       "step": 56,
-      "pddl": "(simple-note-show-note note-movie-recommendations simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-23 file-system-token content-note-23 note-23 note-24)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Movie Recommendations\" (iterate all pages)",
-          "object": "note-movie-recommendations"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 23 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-23"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 23 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-23"
         }
       }
     },
     {
       "step": 57,
-      "pddl": "(file-system-create-file file-movie-recommendations file-system-token content-movie-recommendations note-movie-recommendations note-my-bucket-list-x-done-not-done)",
+      "pddl": "(file-system-create-file backup-file-note-24 file-system-token content-note-24 note-24 note-25)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Movie_Recommendations.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 24 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-24"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -955,34 +1049,43 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-movie-recommendations"
+          "field": "content (for note_id == note-1) [item 24 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-24"
         }
       }
     },
     {
       "step": 58,
-      "pddl": "(simple-note-show-note note-my-bucket-list-x-done-not-done simple-note-token)",
-      "api": "simple_note.show_note",
+      "pddl": "(file-system-create-file backup-file-note-25 file-system-token content-note-25 note-25 note-26)",
+      "api": "file_system.create_file",
       "args": {
-        "note_id": {
+        "file_path": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"My Bucket List ([x] = done, [ ] = not done))\" (iterate all pages)",
-          "object": "note-my-bucket-list-x-done-not-done"
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 25 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-25"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 25 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-25"
         }
       }
     },
     {
       "step": 59,
-      "pddl": "(file-system-create-file file-my-bucket-list-x-done-not-done file-system-token content-my-bucket-list-x-done-not-done note-my-bucket-list-x-done-not-done note-weekly-workout-plan)",
+      "pddl": "(file-system-create-file backup-file-note-26 file-system-token content-note-26 note-26 note-27)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/My_Bucket_List_([x]_=_done,_[_]_=_not_done)).md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 26 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-26"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -990,34 +1093,21 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-my-bucket-list-x-done-not-done"
+          "field": "content (for note_id == note-1) [item 26 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-26"
         }
       }
     },
     {
       "step": 60,
-      "pddl": "(simple-note-show-note note-weekly-workout-plan simple-note-token)",
-      "api": "simple_note.show_note",
-      "args": {
-        "note_id": {
-          "$from": "simple_note.search_notes",
-          "field": "note_id of the note titled \"Weekly Workout Plan\" (iterate all pages)",
-          "object": "note-weekly-workout-plan"
-        },
-        "access_token": {
-          "$from": "simple_note.login",
-          "field": "access_token",
-          "object": "simple-note-token"
-        }
-      }
-    },
-    {
-      "step": 61,
-      "pddl": "(file-system-create-file file-weekly-workout-plan file-system-token content-weekly-workout-plan note-weekly-workout-plan end-of-notes)",
+      "pddl": "(file-system-create-file backup-file-note-27 file-system-token content-note-27 note-27 note-28)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": "~/backups/simple_note/Weekly_Workout_Plan.md",
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 27 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-27"
+        },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -1025,8 +1115,30 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content of that note",
-          "object": "content-weekly-workout-plan"
+          "field": "content (for note_id == note-1) [item 27 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-27"
+        }
+      }
+    },
+    {
+      "step": 61,
+      "pddl": "(file-system-create-file backup-file-note-28 file-system-token content-note-28 note-28 end-of-notes)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": {
+          "$from": "simple_note.search_notes",
+          "field": "\"~/backups/simple_note/\" + title.replace(\" \", \"_\") + \".md\" (title of note-1) [item 28 of 28 that match this rule; one object per matching item]",
+          "object": "backup-file-note-28"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content (for note_id == note-1) [item 28 of 28 that match this rule; one object per matching item]",
+          "object": "content-note-28"
         }
       }
     },

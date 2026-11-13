@@ -63,7 +63,7 @@
       "args": {
         "task_id": {
           "$from": "todoist.show_tasks",
-          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false)",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 1 of 4 that match this rule; one object per matching item]",
           "object": "task-1"
         },
         "access_token": {
@@ -80,7 +80,7 @@
       "args": {
         "task_id": {
           "$from": "todoist.show_tasks",
-          "field": "task_id (2nd task returned with assignee_email=supervisor email, is_completed=false)",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 2 of 4 that match this rule; one object per matching item]",
           "object": "task-2"
         },
         "access_token": {
@@ -97,7 +97,7 @@
       "args": {
         "task_id": {
           "$from": "todoist.show_tasks",
-          "field": "task_id (3rd task returned; its comments contain no one agreeing to take it)",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 3 of 4 that match this rule; one object per matching item]",
           "object": "task-3"
         },
         "access_token": {
@@ -109,62 +109,47 @@
     },
     {
       "step": 9,
-      "pddl": "(todoist-assign-or-unassign-task task-1 todoist-token volunteer-a-email volunteer-a)",
-      "api": "todoist.assign_or_unassign_task",
+      "pddl": "(todoist-show-task-comments task-4 todoist-token work-project)",
+      "api": "todoist.show_task_comments",
       "args": {
         "task_id": {
           "$from": "todoist.show_tasks",
-          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false)",
-          "object": "task-1"
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "task-4"
         },
         "access_token": {
           "$from": "todoist.login",
           "field": "access_token",
           "object": "todoist-token"
-        },
-        "assignee_email": {
-          "$from": "todoist.show_task_comments",
-          "field": "commenter.email of the comment on task-1 in which the person agrees to take the task",
-          "object": "volunteer-a-email"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(todoist-assign-or-unassign-task task-2 todoist-token volunteer-b-email volunteer-b)",
-      "api": "todoist.assign_or_unassign_task",
+      "pddl": "(todoist-show-task-comments task-5 todoist-token work-project)",
+      "api": "todoist.show_task_comments",
       "args": {
         "task_id": {
           "$from": "todoist.show_tasks",
-          "field": "task_id (2nd task returned with assignee_email=supervisor email, is_completed=false)",
-          "object": "task-2"
+          "field": "task_id (3rd task returned; its comments contain no one agreeing to take it) [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "task-5"
         },
         "access_token": {
           "$from": "todoist.login",
           "field": "access_token",
           "object": "todoist-token"
-        },
-        "assignee_email": {
-          "$from": "todoist.show_task_comments",
-          "field": "commenter.email of the comment on task-2 in which the person agrees to take the task",
-          "object": "volunteer-b-email"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(todoist-post-task-comment task-1 thanks-volunteer-a todoist-token volunteer-a)",
-      "api": "todoist.post_task_comment",
+      "pddl": "(todoist-show-task-comments task-6 todoist-token work-project)",
+      "api": "todoist.show_task_comments",
       "args": {
         "task_id": {
           "$from": "todoist.show_tasks",
-          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false)",
-          "object": "task-1"
-        },
-        "content": {
-          "$from": "todoist.show_task_comments",
-          "field": "'Greatly appreciate it <first_name>!' with <first_name> = first name of the agreeing commenter on task-1 (commenter.name)",
-          "object": "thanks-volunteer-a"
+          "field": "task_id (3rd task returned; its comments contain no one agreeing to take it) [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "task-6"
         },
         "access_token": {
           "$from": "todoist.login",
@@ -175,18 +160,13 @@
     },
     {
       "step": 12,
-      "pddl": "(todoist-post-task-comment task-2 thanks-volunteer-b todoist-token volunteer-b)",
-      "api": "todoist.post_task_comment",
+      "pddl": "(todoist-show-task-comments task-7 todoist-token work-project)",
+      "api": "todoist.show_task_comments",
       "args": {
         "task_id": {
           "$from": "todoist.show_tasks",
-          "field": "task_id (2nd task returned with assignee_email=supervisor email, is_completed=false)",
-          "object": "task-2"
-        },
-        "content": {
-          "$from": "todoist.show_task_comments",
-          "field": "'Greatly appreciate it <first_name>!' with <first_name> = first name of the agreeing commenter on task-2 (commenter.name)",
-          "object": "thanks-volunteer-b"
+          "field": "task_id (3rd task returned; its comments contain no one agreeing to take it) [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "task-7"
         },
         "access_token": {
           "$from": "todoist.login",
@@ -197,7 +177,200 @@
     },
     {
       "step": 13,
-      "pddl": "(supervisor-complete-task task-1 task-2 task-3 volunteer-a volunteer-b thanks-volunteer-a thanks-volunteer-b)",
+      "pddl": "(todoist-show-task-comments task-8 todoist-token work-project)",
+      "api": "todoist.show_task_comments",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (3rd task returned; its comments contain no one agreeing to take it) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "task-8"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(todoist-assign-or-unassign-task task-1 todoist-token volunteer-email-1 volunteer-1)",
+      "api": "todoist.assign_or_unassign_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "task-1"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "assignee_email": {
+          "$from": "todoist.show_task_comments",
+          "field": "commenter.email of the comment on task-1 in which the person agrees to take the task [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "volunteer-email-1"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(todoist-assign-or-unassign-task task-2 todoist-token volunteer-email-2 volunteer-2)",
+      "api": "todoist.assign_or_unassign_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "task-2"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "assignee_email": {
+          "$from": "todoist.show_task_comments",
+          "field": "commenter.email of the comment on task-1 in which the person agrees to take the task [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "volunteer-email-2"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(todoist-assign-or-unassign-task task-3 todoist-token volunteer-email-3 volunteer-3)",
+      "api": "todoist.assign_or_unassign_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "task-3"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "assignee_email": {
+          "$from": "todoist.show_task_comments",
+          "field": "commenter.email of the comment on task-1 in which the person agrees to take the task [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "volunteer-email-3"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(todoist-assign-or-unassign-task task-4 todoist-token volunteer-email-4 volunteer-4)",
+      "api": "todoist.assign_or_unassign_task",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "task-4"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        },
+        "assignee_email": {
+          "$from": "todoist.show_task_comments",
+          "field": "commenter.email of the comment on task-1 in which the person agrees to take the task [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "volunteer-email-4"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(todoist-post-task-comment task-1 thanks-volunteer-1 todoist-token volunteer-1)",
+      "api": "todoist.post_task_comment",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "task-1"
+        },
+        "content": {
+          "$from": "todoist.show_task_comments",
+          "field": "'Greatly appreciate it <first_name>!' with <first_name> = first name of the agreeing commenter on task-1 (commenter.name) [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "thanks-volunteer-1"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(todoist-post-task-comment task-2 thanks-volunteer-2 todoist-token volunteer-2)",
+      "api": "todoist.post_task_comment",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "task-2"
+        },
+        "content": {
+          "$from": "todoist.show_task_comments",
+          "field": "'Greatly appreciate it <first_name>!' with <first_name> = first name of the agreeing commenter on task-1 (commenter.name) [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "thanks-volunteer-2"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(todoist-post-task-comment task-3 thanks-volunteer-3 todoist-token volunteer-3)",
+      "api": "todoist.post_task_comment",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "task-3"
+        },
+        "content": {
+          "$from": "todoist.show_task_comments",
+          "field": "'Greatly appreciate it <first_name>!' with <first_name> = first name of the agreeing commenter on task-1 (commenter.name) [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "thanks-volunteer-3"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(todoist-post-task-comment task-4 thanks-volunteer-4 todoist-token volunteer-4)",
+      "api": "todoist.post_task_comment",
+      "args": {
+        "task_id": {
+          "$from": "todoist.show_tasks",
+          "field": "task_id (1st task returned with assignee_email=supervisor email, is_completed=false) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "task-4"
+        },
+        "content": {
+          "$from": "todoist.show_task_comments",
+          "field": "'Greatly appreciate it <first_name>!' with <first_name> = first name of the agreeing commenter on task-1 (commenter.name) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "thanks-volunteer-4"
+        },
+        "access_token": {
+          "$from": "todoist.login",
+          "field": "access_token",
+          "object": "todoist-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(supervisor-complete-task task-3 task-4 task-5 volunteer-3 volunteer-4 thanks-volunteer-3 thanks-volunteer-4)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login username-ma-smith-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login username-ma-smith-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "ma_smith@gmail.com",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login username-7196131136 phone-password file-system-token)",
+      "pddl": "(phone-login username-7196131136 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "7196131136",
@@ -47,26 +47,26 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts file-system-token query-cody cody cody-phone-number)",
+      "pddl": "(phone-search-contacts phone-token query-cody cody cody-phone-number)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "phone-token"
         },
         "query": "Cody"
       }
     },
     {
       "step": 6,
-      "pddl": "(phone-search-text-messages file-system-token cody-phone-number cody cody-email vacation-pictures-directory)",
+      "pddl": "(phone-search-text-messages phone-token cody-phone-number cody cody-email vacation-pictures-directory)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "phone-token"
         },
         "phone_number": {
           "$from": "phone.search_contacts",
@@ -94,7 +94,7 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-send-email cody-email subject-vacation-pictures body-vacation-pictures file-system-token vacation-pictures-file file-system-token cody)",
+      "pddl": "(gmail-send-email cody-email subject-vacation-pictures body-vacation-pictures gmail-token vacation-pictures-file file-system-token cody)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
@@ -105,9 +105,9 @@
         "subject": "Vacation Pictures",
         "body": "Hi Cody, here are our vacation pictures as requested.",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "attachment_file_paths": {
           "$from": "file_system.show_directory",

@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-username-4886643554 phone-password amazon-token)",
+      "pddl": "(phone-login phone-username-4886643554 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "4886643554",
@@ -40,7 +40,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login venmo-username-matthew-blac-at-gmail-com venmo-password amazon-token)",
+      "pddl": "(venmo-login venmo-username-matthew-blac-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "matthew.blac@gmail.com",
@@ -53,26 +53,26 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts amazon-token relationship-roommate roommate roommate-phone-number roommate-email)",
+      "pddl": "(phone-search-contacts phone-token relationship-roommate roommate roommate-phone-number roommate-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 7,
-      "pddl": "(phone-search-text-messages amazon-token roommate-phone-number return-request-message roommate)",
+      "pddl": "(phone-search-text-messages phone-token roommate-phone-number return-request-message roommate)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "phone_number": {
           "$from": "phone.search_contacts",
@@ -149,7 +149,7 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-transaction roommate-email amount-order-cost amazon-token roommate roommate-order)",
+      "pddl": "(venmo-create-transaction roommate-email amount-order-cost venmo-token roommate roommate-order)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -163,9 +163,9 @@
           "object": "amount-order-cost"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         }
       }
     },

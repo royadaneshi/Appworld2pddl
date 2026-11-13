@@ -6,7 +6,7 @@
   (:constants
     spotify - app
     classical - genre
-    artist-zoe-mitchell artist-mia-sullivan artist-oceanic-odyssey artist-evelyn-rose artist-felix-blackwood - artist
+    classical-artist-1 classical-artist-2 classical-artist-3 classical-artist-4 classical-artist-5 - artist
   )
   (:predicates
     (passwords-known)
@@ -97,11 +97,11 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (following artist-zoe-mitchell)
-      (following artist-mia-sullivan)
-      (following artist-oceanic-odyssey)
-      (following artist-evelyn-rose)
-      (following artist-felix-blackwood)
+      (following classical-artist-1)
+      (following classical-artist-2)
+      (following classical-artist-3)
+      (following classical-artist-4)
+      (following classical-artist-5)
       (not (task-completed)))
     :effect (and (task-completed))
   )

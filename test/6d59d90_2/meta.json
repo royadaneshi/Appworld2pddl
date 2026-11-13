@@ -34,7 +34,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'address', 'card', 'flag', 'app', 'username', 'sort-key', 'amount', 'product', 'product-type', 'token', 'quantity', 'day-limit', 'entity', 'person', 'password'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -47,17 +49,17 @@
       "(supervisor-show-account-passwords)",
       "(amazon-login jes-mill-at-gmail-com amazon-password amazon-token)",
       "(amazon-add-product-to-cart cheapest-safety-goggles amazon-token quantity-1 true-flag)",
-      "(venmo-login jes-mill-at-gmail-com venmo-password amazon-token)",
+      "(venmo-login jes-mill-at-gmail-com venmo-password venmo-token)",
       "(amazon-show-cart amazon-token cheapest-safety-goggles order-total)",
       "(amazon-show-addresses amazon-token jessica-home-address)",
       "(amazon-show-payment-cards amazon-token amazon-card)",
-      "(venmo-show-payment-cards amazon-token venmo-card)",
-      "(venmo-withdraw-from-venmo-balance order-total venmo-card amazon-token)",
+      "(venmo-show-payment-cards venmo-token venmo-card)",
+      "(venmo-withdraw-from-venmo-balance order-total venmo-card venmo-token)",
       "(amazon-place-order amazon-card jessica-home-address amazon-token cheapest-safety-goggles venmo-card)",
       "(supervisor-complete-task)"
     ],
     "message": "",
-    "seconds": 1.11
+    "seconds": 0.8
   },
   "solution_used": false,
   "has_reference_solution": false,

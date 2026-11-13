@@ -52,73 +52,73 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-album album-10)",
+      "pddl": "(spotify-show-album album-1)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album \"Dreamscape Delights\" (iterate all pages)",
-          "object": "album-10"
+          "field": "album_id of the 1st library item (iterate page_index until the response is empty) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "album-1"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-album album-11)",
+      "pddl": "(spotify-show-album album-2)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album \"Synaptic Serenity\" (iterate all pages)",
-          "object": "album-11"
+          "field": "album_id of the 1st library item (iterate page_index until the response is empty) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "album-2"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-album album-13)",
+      "pddl": "(spotify-show-album album-3)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album \"Starlight Serenades\" (iterate all pages)",
-          "object": "album-13"
+          "field": "album_id of the 1st library item (iterate page_index until the response is empty) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "album-3"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-album album-15)",
+      "pddl": "(spotify-show-album album-4)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album \"Whispers in the Wind\" (iterate all pages)",
-          "object": "album-15"
+          "field": "album_id of the 1st library item (iterate page_index until the response is empty) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "album-4"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-show-album album-16)",
+      "pddl": "(spotify-show-album album-5)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album \"Electric Dreamscape\" (iterate all pages)",
-          "object": "album-16"
+          "field": "album_id of the 1st library item (iterate page_index until the response is empty) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "album-5"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(spotify-show-album album-18)",
+      "pddl": "(spotify-show-album album-6)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album \"Echoes of Eternity\" (iterate all pages)",
-          "object": "album-18"
+          "field": "album_id of the 1st library item (iterate page_index until the response is empty) [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "album-6"
         }
       }
     },
@@ -129,38 +129,38 @@
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album \"Vibrant Visions\" (iterate all pages)",
+          "field": "album_id of the 1st library item (iterate page_index until the response is empty) [item 7 of 8 that match this rule; one object per matching item]",
           "object": "album-7"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-show-album album-9)",
+      "pddl": "(spotify-show-album album-8)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album \"Mystical Crescendo\" (iterate all pages)",
-          "object": "album-9"
+          "field": "album_id of the 1st library item (iterate page_index until the response is empty) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "album-8"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(spotify-show-song song-51 album-10)",
+      "pddl": "(spotify-show-song top-song-album-26 album-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"The Silence Between Us\" (play_count 991 via spotify.show_song); the top song of its album",
-          "object": "song-51"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 26 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-26"
         }
       }
     },
     {
       "step": 15,
-      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs song-51 spotify-token album-10)",
+      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-26 spotify-token album-1)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -169,9 +169,9 @@
           "object": "my-most-played-album-songs"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"The Silence Between Us\" (play_count 991 via spotify.show_song); the top song of its album",
-          "object": "song-51"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 26 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-26"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -182,19 +182,19 @@
     },
     {
       "step": 16,
-      "pddl": "(spotify-show-song song-54 album-11)",
+      "pddl": "(spotify-show-song top-song-album-22 album-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"Heartstrings Symphony\" (play_count 845 via spotify.show_song); the top song of its album",
-          "object": "song-54"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 22 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-22"
         }
       }
     },
     {
       "step": 17,
-      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs song-54 spotify-token album-11)",
+      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-22 spotify-token album-2)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -203,9 +203,9 @@
           "object": "my-most-played-album-songs"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"Heartstrings Symphony\" (play_count 845 via spotify.show_song); the top song of its album",
-          "object": "song-54"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 22 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-22"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -216,19 +216,19 @@
     },
     {
       "step": 18,
-      "pddl": "(spotify-show-song song-66 album-13)",
+      "pddl": "(spotify-show-song top-song-album-30 album-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"Phantom Pain\" (play_count 975 via spotify.show_song); the top song of its album",
-          "object": "song-66"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 30 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-30"
         }
       }
     },
     {
       "step": 19,
-      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs song-66 spotify-token album-13)",
+      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-30 spotify-token album-3)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -237,9 +237,9 @@
           "object": "my-most-played-album-songs"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"Phantom Pain\" (play_count 975 via spotify.show_song); the top song of its album",
-          "object": "song-66"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 30 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-30"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -250,19 +250,19 @@
     },
     {
       "step": 20,
-      "pddl": "(spotify-show-song song-73 album-15)",
+      "pddl": "(spotify-show-song top-song-album-12 album-4)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"When Silence Becomes Deafening\" (play_count 482 via spotify.show_song); the top song of its album",
-          "object": "song-73"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 12 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-12"
         }
       }
     },
     {
       "step": 21,
-      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs song-73 spotify-token album-15)",
+      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-12 spotify-token album-4)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -271,9 +271,9 @@
           "object": "my-most-played-album-songs"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"When Silence Becomes Deafening\" (play_count 482 via spotify.show_song); the top song of its album",
-          "object": "song-73"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 12 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-12"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -284,19 +284,19 @@
     },
     {
       "step": 22,
-      "pddl": "(spotify-show-song song-74 album-16)",
+      "pddl": "(spotify-show-song top-song-album-15 album-5)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"On the Border of Reality\" (play_count 846 via spotify.show_song); the top song of its album",
-          "object": "song-74"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 15 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-15"
         }
       }
     },
     {
       "step": 23,
-      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs song-74 spotify-token album-16)",
+      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-15 spotify-token album-5)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -305,9 +305,9 @@
           "object": "my-most-played-album-songs"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"On the Border of Reality\" (play_count 846 via spotify.show_song); the top song of its album",
-          "object": "song-74"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 15 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-15"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -318,19 +318,19 @@
     },
     {
       "step": 24,
-      "pddl": "(spotify-show-song song-80 album-18)",
+      "pddl": "(spotify-show-song top-song-album-27 album-6)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"Wandering the Streets Alone\" (play_count 863 via spotify.show_song); the top song of its album",
-          "object": "song-80"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 27 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-27"
         }
       }
     },
     {
       "step": 25,
-      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs song-80 spotify-token album-18)",
+      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-27 spotify-token album-6)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -339,9 +339,9 @@
           "object": "my-most-played-album-songs"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"Wandering the Streets Alone\" (play_count 863 via spotify.show_song); the top song of its album",
-          "object": "song-80"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 27 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-27"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -352,19 +352,19 @@
     },
     {
       "step": 26,
-      "pddl": "(spotify-show-song song-36 album-7)",
+      "pddl": "(spotify-show-song top-song-album-6 album-7)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"A Whisper in the Midnight Air\" (play_count 974 via spotify.show_song); the top song of its album",
-          "object": "song-36"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 6 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-6"
         }
       }
     },
     {
       "step": 27,
-      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs song-36 spotify-token album-7)",
+      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-6 spotify-token album-7)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -373,9 +373,9 @@
           "object": "my-most-played-album-songs"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"A Whisper in the Midnight Air\" (play_count 974 via spotify.show_song); the top song of its album",
-          "object": "song-36"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 6 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-6"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -386,19 +386,19 @@
     },
     {
       "step": 28,
-      "pddl": "(spotify-show-song song-45 album-9)",
+      "pddl": "(spotify-show-song top-song-album-4 album-8)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"Eclipsed\" (play_count 713 via spotify.show_song); the top song of its album",
-          "object": "song-45"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 4 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-4"
         }
       }
     },
     {
       "step": 29,
-      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs song-45 spotify-token album-9)",
+      "pddl": "(spotify-add-song-to-playlist my-most-played-album-songs top-song-album-4 spotify-token album-8)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -407,9 +407,9 @@
           "object": "my-most-played-album-songs"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of \"Eclipsed\" (play_count 713 via spotify.show_song); the top song of its album",
-          "object": "song-45"
+          "$from": "spotify.show_song",
+          "field": "id of the song in show_album(album-1).songs whose show_song(...).play_count is maximal (show_song is called on every song of the album) [item 4 of 32 that match this rule; one object per matching item]",
+          "object": "top-song-album-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -420,7 +420,7 @@
     },
     {
       "step": 30,
-      "pddl": "(supervisor-complete-task my-most-played-album-songs title-my-most-played-album-songs song-36 song-45)",
+      "pddl": "(supervisor-complete-task my-most-played-album-songs title-my-most-played-album-songs top-song-album-12 top-song-album-15)",
       "api": "supervisor.complete_task",
       "args": {}
     }

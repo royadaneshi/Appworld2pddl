@@ -38,7 +38,7 @@
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the 1st playlist in the library (iterate all pages)",
+          "field": "playlist_id of the 1st playlist in the library (iterate all pages) [item 1 of 4 that match this rule; one object per matching item]",
           "object": "playlist-1"
         },
         "access_token": {
@@ -55,7 +55,7 @@
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the 2nd playlist in the library (iterate all pages)",
+          "field": "playlist_id of the 1st playlist in the library (iterate all pages) [item 2 of 4 that match this rule; one object per matching item]",
           "object": "playlist-2"
         },
         "access_token": {
@@ -67,12 +67,46 @@
     },
     {
       "step": 6,
+      "pddl": "(spotify-show-playlist playlist-3 spotify-token genre-playlist-3)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the 1st playlist in the library (iterate all pages) [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "playlist-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-playlist playlist-4 spotify-token genre-playlist-4)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the 1st playlist in the library (iterate all pages) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
       "pddl": "(spotify-update-playlist playlist-1 spotify-token new-title-playlist-1 genre-playlist-1)",
       "api": "spotify.update_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the 1st playlist in the library (iterate all pages)",
+          "field": "playlist_id of the 1st playlist in the library (iterate all pages) [item 1 of 4 that match this rule; one object per matching item]",
           "object": "playlist-1"
         },
         "access_token": {
@@ -82,19 +116,19 @@
         },
         "title": {
           "$from": "spotify.show_playlist",
-          "field": "title + \" | \" + most common genre (for playlist-1)",
+          "field": "title + \" | \" + most common genre (for playlist-1) [item 1 of 4 that match this rule; one object per matching item]",
           "object": "new-title-playlist-1"
         }
       }
     },
     {
-      "step": 7,
+      "step": 9,
       "pddl": "(spotify-update-playlist playlist-2 spotify-token new-title-playlist-2 genre-playlist-2)",
       "api": "spotify.update_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the 2nd playlist in the library (iterate all pages)",
+          "field": "playlist_id of the 1st playlist in the library (iterate all pages) [item 2 of 4 that match this rule; one object per matching item]",
           "object": "playlist-2"
         },
         "access_token": {
@@ -104,14 +138,58 @@
         },
         "title": {
           "$from": "spotify.show_playlist",
-          "field": "title + \" | \" + most common genre (for playlist-2)",
+          "field": "title + \" | \" + most common genre (for playlist-1) [item 2 of 4 that match this rule; one object per matching item]",
           "object": "new-title-playlist-2"
         }
       }
     },
     {
-      "step": 8,
-      "pddl": "(supervisor-complete-task playlist-1 new-title-playlist-1 playlist-2 new-title-playlist-2)",
+      "step": 10,
+      "pddl": "(spotify-update-playlist playlist-3 spotify-token new-title-playlist-3 genre-playlist-3)",
+      "api": "spotify.update_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the 1st playlist in the library (iterate all pages) [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "playlist-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "title": {
+          "$from": "spotify.show_playlist",
+          "field": "title + \" | \" + most common genre (for playlist-1) [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "new-title-playlist-3"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-update-playlist playlist-4 spotify-token new-title-playlist-4 genre-playlist-4)",
+      "api": "spotify.update_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the 1st playlist in the library (iterate all pages) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "title": {
+          "$from": "spotify.show_playlist",
+          "field": "title + \" | \" + most common genre (for playlist-1) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "new-title-playlist-4"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task playlist-3 new-title-playlist-3 playlist-4 new-title-playlist-4)",
       "api": "supervisor.complete_task",
       "args": {}
     }

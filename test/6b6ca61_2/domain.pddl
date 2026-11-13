@@ -5,6 +5,7 @@
     debtor - person)
   (:constants supervisor file-system venmo splitwise - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (account-username ?u - username)
@@ -34,19 +35,19 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (account-username ?u) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (credential-of-app file-system ?u) (passwords-known) (account-username ?u) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
     :effect (has-token file-system ?t))
 
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (account-username ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (passwords-known) (account-username ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (has-token venmo ?t))
 
   ; API: splitwise.login
   (:action splitwise-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (account-username ?u) (password-for splitwise ?pw) (not (has-token splitwise ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app splitwise ?t) (credential-of-app splitwise ?pw) (credential-of-app splitwise ?u) (passwords-known) (account-username ?u) (password-for splitwise ?pw) (not (has-token splitwise ?t)) (not (task-completed)))
     :effect (has-token splitwise ?t))
 
   ; API: file_system.show_directory

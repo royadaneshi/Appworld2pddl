@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login user-3798762980 phone-password amazon-token)",
+      "pddl": "(phone-login user-3798762980 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3798762980",
@@ -70,26 +70,26 @@
     },
     {
       "step": 7,
-      "pddl": "(phone-search-contacts amazon-token query-mason mason mason-phone-number)",
+      "pddl": "(phone-search-contacts phone-token query-mason mason mason-phone-number)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "query": "Mason"
       }
     },
     {
       "step": 8,
-      "pddl": "(phone-search-text-messages amazon-token mason-phone-number mason-backpack-message)",
+      "pddl": "(phone-search-text-messages phone-token mason-phone-number mason-backpack-message)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "phone_number": {
           "$from": "phone.search_contacts",

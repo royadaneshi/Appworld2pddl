@@ -62,13 +62,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-update-alarm alarm-pick-up-laundry phone-token time-pick-up-laundry false-value)",
+      "pddl": "(phone-update-alarm alarm-other-1 phone-token time-other-1 false-value)",
       "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
-          "field": "alarm_id of the enabled \"Pick up Laundry\" alarm at 17:30",
-          "object": "alarm-pick-up-laundry"
+          "field": "alarm_id of an alarm that is not the go-to-sleep alarm and has enabled == true (one object per such alarm) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "alarm-other-1"
         },
         "access_token": {
           "$from": "phone.login",
@@ -77,21 +77,21 @@
         },
         "time": {
           "$from": "phone.show_alarms",
-          "field": "time (\"%H:%M\") of that alarm, passed back unchanged",
-          "object": "time-pick-up-laundry"
+          "field": "time (\"%H:%M\") of alarm-other-1 itself (passed back unchanged so that only `enabled` changes) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "time-other-1"
         },
         "enabled": false
       }
     },
     {
       "step": 7,
-      "pddl": "(phone-update-alarm alarm-wake-up-weekdays phone-token time-wake-up-weekdays false-value)",
+      "pddl": "(phone-update-alarm alarm-other-2 phone-token time-other-2 false-value)",
       "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
-          "field": "alarm_id of the enabled \"Wake Up\" alarm at 07:30 repeating monday-friday",
-          "object": "alarm-wake-up-weekdays"
+          "field": "alarm_id of an alarm that is not the go-to-sleep alarm and has enabled == true (one object per such alarm) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "alarm-other-2"
         },
         "access_token": {
           "$from": "phone.login",
@@ -100,21 +100,21 @@
         },
         "time": {
           "$from": "phone.show_alarms",
-          "field": "time (\"%H:%M\") of that alarm, passed back unchanged",
-          "object": "time-wake-up-weekdays"
+          "field": "time (\"%H:%M\") of alarm-other-1 itself (passed back unchanged so that only `enabled` changes) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "time-other-2"
         },
         "enabled": false
       }
     },
     {
       "step": 8,
-      "pddl": "(phone-update-alarm alarm-wake-up-weekend phone-token time-wake-up-weekend false-value)",
+      "pddl": "(phone-update-alarm alarm-other-3 phone-token time-other-3 false-value)",
       "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
-          "field": "alarm_id of the enabled \"Wake Up\" alarm at 08:30 repeating saturday/sunday",
-          "object": "alarm-wake-up-weekend"
+          "field": "alarm_id of an alarm that is not the go-to-sleep alarm and has enabled == true (one object per such alarm) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "alarm-other-3"
         },
         "access_token": {
           "$from": "phone.login",
@@ -123,15 +123,15 @@
         },
         "time": {
           "$from": "phone.show_alarms",
-          "field": "time (\"%H:%M\") of that alarm, passed back unchanged",
-          "object": "time-wake-up-weekend"
+          "field": "time (\"%H:%M\") of alarm-other-1 itself (passed back unchanged so that only `enabled` changes) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "time-other-3"
         },
         "enabled": false
       }
     },
     {
       "step": 9,
-      "pddl": "(supervisor-complete-task alarm-go-to-sleep alarm-pick-up-laundry alarm-wake-up-weekdays)",
+      "pddl": "(supervisor-complete-task alarm-go-to-sleep alarm-other-1 alarm-other-2)",
       "api": "supervisor.complete_task",
       "args": {}
     }

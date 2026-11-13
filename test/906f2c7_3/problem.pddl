@@ -13,6 +13,15 @@
     subject-vacation-pictures - subject
     body-vacation-pictures - body)
   (:init
+    (credential-of-app phone username-7196131136)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app file-system username-ma-smith-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app gmail username-ma-smith-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (username-for phone username-7196131136)
     (username-for file-system username-ma-smith-at-gmail-com)
     (username-for gmail username-ma-smith-at-gmail-com)

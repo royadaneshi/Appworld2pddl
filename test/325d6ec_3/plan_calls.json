@@ -45,7 +45,7 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-next-song spotify-token song-a song-b)",
+      "pddl": "(spotify-next-song spotify-token song-a song-1)",
       "api": "spotify.next_song",
       "args": {
         "access_token": {
@@ -57,7 +57,7 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-next-song spotify-token song-b song-c)",
+      "pddl": "(spotify-next-song spotify-token song-1 song-2)",
       "api": "spotify.next_song",
       "args": {
         "access_token": {
@@ -69,6 +69,30 @@
     },
     {
       "step": 7,
+      "pddl": "(spotify-next-song spotify-token song-2 song-3)",
+      "api": "spotify.next_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-next-song spotify-token song-3 song-c)",
+      "api": "spotify.next_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
       "pddl": "(spotify-show-current-song spotify-token song-c)",
       "api": "spotify.show_current_song",
       "args": {
@@ -80,7 +104,7 @@
       }
     },
     {
-      "step": 8,
+      "step": 10,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

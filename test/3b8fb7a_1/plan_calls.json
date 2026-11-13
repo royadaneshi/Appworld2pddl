@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login brenda-webe-at-gmail-com venmo-password simple-note-token)",
+      "pddl": "(venmo-login brenda-webe-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "brenda.webe@gmail.com",
@@ -52,7 +52,7 @@
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note about the Maui trip money owed/owing",
+          "field": "note_id of the result that is the expense bookkeeping note of the trip (who owes whom); another note about the same city (a checklist) also matches the query and must be ignored",
           "object": "note-maui-trip"
         },
         "access_token": {
@@ -64,40 +64,40 @@
     },
     {
       "step": 6,
-      "pddl": "(venmo-search-friends simple-note-token query-friend-1 friend-1 email-friend-1 note-maui-trip)",
+      "pddl": "(venmo-search-friends venmo-token query-friend-1 friend-1 email-friend-1 note-maui-trip)",
       "api": "venmo.search_friends",
       "args": {
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "venmo-token"
         },
         "query": {
           "$from": "simple_note.show_note",
-          "field": "content: name of 1st friend listed under money I owe",
+          "field": "content: name of 1st friend listed under money I owe [item 1 of 6 that match this rule; one object per matching item]",
           "object": "query-friend-1"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-create-transaction email-friend-1 amount-i-owe-friend-1 simple-note-token desc-for-maui-trip private-true friend-1 note-maui-trip)",
+      "pddl": "(venmo-create-transaction email-friend-1 amount-i-owe-friend-1 venmo-token desc-for-maui-trip private-true friend-1 note-maui-trip)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
           "$from": "venmo.search_friends",
-          "field": "email of the friend matching query-friend-1",
+          "field": "email of the friend matching query-friend-1 [item 1 of 6 that match this rule; one object per matching item]",
           "object": "email-friend-1"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: amount I owe friend-1",
+          "field": "content: amount I owe friend-1 [item 1 of 3 that match this rule; one object per matching item]",
           "object": "amount-i-owe-friend-1"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "venmo-token"
         },
         "description": "For Maui trip",
         "private": true
@@ -105,40 +105,40 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-search-friends simple-note-token query-friend-2 friend-2 email-friend-2 note-maui-trip)",
+      "pddl": "(venmo-search-friends venmo-token query-friend-2 friend-2 email-friend-2 note-maui-trip)",
       "api": "venmo.search_friends",
       "args": {
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "venmo-token"
         },
         "query": {
           "$from": "simple_note.show_note",
-          "field": "content: name of 2nd friend listed under money I owe",
+          "field": "content: name of 1st friend listed under money I owe [item 2 of 6 that match this rule; one object per matching item]",
           "object": "query-friend-2"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-create-transaction email-friend-2 amount-i-owe-friend-2 simple-note-token desc-for-maui-trip private-true friend-2 note-maui-trip)",
+      "pddl": "(venmo-create-transaction email-friend-2 amount-i-owe-friend-2 venmo-token desc-for-maui-trip private-true friend-2 note-maui-trip)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
           "$from": "venmo.search_friends",
-          "field": "email of the friend matching query-friend-2",
+          "field": "email of the friend matching query-friend-1 [item 2 of 6 that match this rule; one object per matching item]",
           "object": "email-friend-2"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: amount I owe friend-2",
+          "field": "content: amount I owe friend-1 [item 2 of 3 that match this rule; one object per matching item]",
           "object": "amount-i-owe-friend-2"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "venmo-token"
         },
         "description": "For Maui trip",
         "private": true
@@ -146,40 +146,40 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-search-friends simple-note-token query-friend-3 friend-3 email-friend-3 note-maui-trip)",
+      "pddl": "(venmo-search-friends venmo-token query-friend-3 friend-3 email-friend-3 note-maui-trip)",
       "api": "venmo.search_friends",
       "args": {
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "venmo-token"
         },
         "query": {
           "$from": "simple_note.show_note",
-          "field": "content: name of 1st friend listed under money owed to me",
+          "field": "content: name of 1st friend listed under money I owe [item 3 of 6 that match this rule; one object per matching item]",
           "object": "query-friend-3"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-payment-request email-friend-3 amount-friend-3-owes-me simple-note-token desc-for-maui-trip private-true friend-3 note-maui-trip)",
-      "api": "venmo.create_payment_request",
+      "pddl": "(venmo-create-transaction email-friend-3 amount-i-owe-friend-3 venmo-token desc-for-maui-trip private-true friend-3 note-maui-trip)",
+      "api": "venmo.create_transaction",
       "args": {
-        "user_email": {
+        "receiver_email": {
           "$from": "venmo.search_friends",
-          "field": "email of the friend matching query-friend-3",
+          "field": "email of the friend matching query-friend-1 [item 3 of 6 that match this rule; one object per matching item]",
           "object": "email-friend-3"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: amount friend-3 owes me",
-          "object": "amount-friend-3-owes-me"
+          "field": "content: amount I owe friend-1 [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "amount-i-owe-friend-3"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "venmo-token"
         },
         "description": "For Maui trip",
         "private": true
@@ -187,40 +187,40 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-search-friends simple-note-token query-friend-4 friend-4 email-friend-4 note-maui-trip)",
+      "pddl": "(venmo-search-friends venmo-token query-friend-4 friend-4 email-friend-4 note-maui-trip)",
       "api": "venmo.search_friends",
       "args": {
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "venmo-token"
         },
         "query": {
           "$from": "simple_note.show_note",
-          "field": "content: name of 2nd friend listed under money owed to me",
+          "field": "content: name of 1st friend listed under money I owe [item 4 of 6 that match this rule; one object per matching item]",
           "object": "query-friend-4"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(venmo-create-payment-request email-friend-4 amount-friend-4-owes-me simple-note-token desc-for-maui-trip private-true friend-4 note-maui-trip)",
+      "pddl": "(venmo-create-payment-request email-friend-4 amount-friend-owes-me-1 venmo-token desc-for-maui-trip private-true friend-4 note-maui-trip)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "venmo.search_friends",
-          "field": "email of the friend matching query-friend-4",
+          "field": "email of the friend matching query-friend-1 [item 4 of 6 that match this rule; one object per matching item]",
           "object": "email-friend-4"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: amount friend-4 owes me",
-          "object": "amount-friend-4-owes-me"
+          "field": "content: amount friend-3 owes me [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "amount-friend-owes-me-1"
         },
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "venmo-token"
         },
         "description": "For Maui trip",
         "private": true
@@ -228,6 +228,88 @@
     },
     {
       "step": 14,
+      "pddl": "(venmo-search-friends venmo-token query-friend-5 friend-5 email-friend-5 note-maui-trip)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: name of 1st friend listed under money I owe [item 5 of 6 that match this rule; one object per matching item]",
+          "object": "query-friend-5"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-create-payment-request email-friend-5 amount-friend-owes-me-2 venmo-token desc-for-maui-trip private-true friend-5 note-maui-trip)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend matching query-friend-1 [item 5 of 6 that match this rule; one object per matching item]",
+          "object": "email-friend-5"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount friend-3 owes me [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "amount-friend-owes-me-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Maui trip",
+        "private": true
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-search-friends venmo-token query-friend-6 friend-6 email-friend-6 note-maui-trip)",
+      "api": "venmo.search_friends",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": {
+          "$from": "simple_note.show_note",
+          "field": "content: name of 1st friend listed under money I owe [item 6 of 6 that match this rule; one object per matching item]",
+          "object": "query-friend-6"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(venmo-create-payment-request email-friend-6 amount-friend-owes-me-3 venmo-token desc-for-maui-trip private-true friend-6 note-maui-trip)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend matching query-friend-1 [item 6 of 6 that match this rule; one object per matching item]",
+          "object": "email-friend-6"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount friend-3 owes me [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "amount-friend-owes-me-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Maui trip",
+        "private": true
+      }
+    },
+    {
+      "step": 18,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

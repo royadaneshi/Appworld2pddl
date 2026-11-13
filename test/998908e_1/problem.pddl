@@ -12,6 +12,10 @@
     total-mastercard-spend - amount
   )
   (:init
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (username-for gmail lindseysimpson-at-gmail-com)
     (username-for file-system lindseysimpson-at-gmail-com)
     (password-for gmail gmail-password)

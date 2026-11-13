@@ -4,7 +4,7 @@
     app person username password token query genre follower-count artist - object)
   (:constants
     spotify - app
-    artist-jasper-skye - artist)
+    artist-1 - artist)
   (:predicates
     (profile-known)
     (passwords-known)
@@ -56,6 +56,6 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (following artist-jasper-skye)
+    :precondition (and (following artist-1)
                        (not (task-completed)))
     :effect (and (task-completed))))

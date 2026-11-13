@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(amazon-show-orders amazon-token query-hm-turtleneck-sweater order-sweaters)",
+      "pddl": "(amazon-show-orders amazon-token query-hm-turtleneck-sweater order-sweaters-1)",
       "api": "amazon.show_orders",
       "args": {
         "access_token": {
@@ -40,13 +40,13 @@
     },
     {
       "step": 5,
-      "pddl": "(amazon-show-order order-sweaters amazon-token)",
+      "pddl": "(amazon-show-order order-sweaters-1 amazon-token)",
       "api": "amazon.show_order",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the order placed this week (on/after 2023-05-15) that contains the H&M Turtleneck Sweater items",
-          "object": "order-sweaters"
+          "field": "order_id of the order placed this week (on/after 2023-05-15) that contains the H&M Turtleneck Sweater items [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "order-sweaters-1"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -57,13 +57,13 @@
     },
     {
       "step": 6,
-      "pddl": "(amazon-initiate-return order-sweaters sweater-other-1 usps quantity-1 amazon-token)",
+      "pddl": "(amazon-initiate-return order-sweaters-1 sweater-other-1 usps quantity-1 amazon-token)",
       "api": "amazon.initiate_return",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the order placed this week (on/after 2023-05-15) that contains the H&M Turtleneck Sweater items",
-          "object": "order-sweaters"
+          "field": "order_id of the order placed this week (on/after 2023-05-15) that contains the H&M Turtleneck Sweater items [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "order-sweaters-1"
         },
         "product_id": {
           "$from": "amazon.show_order",
@@ -85,13 +85,43 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-initiate-return order-sweaters sweater-other-2 usps quantity-1 amazon-token)",
+      "pddl": "(amazon-show-orders amazon-token query-hm-turtleneck-sweater order-sweaters-2)",
+      "api": "amazon.show_orders",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "query": "H&M Turtleneck Sweater"
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-order order-sweaters-2 amazon-token)",
+      "api": "amazon.show_order",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the order placed this week (on/after 2023-05-15) that contains the H&M Turtleneck Sweater items [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "order-sweaters-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-initiate-return order-sweaters-2 sweater-other-2 usps quantity-1 amazon-token)",
       "api": "amazon.initiate_return",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the order placed this week (on/after 2023-05-15) that contains the H&M Turtleneck Sweater items",
-          "object": "order-sweaters"
+          "field": "order_id of the order placed this week (on/after 2023-05-15) that contains the H&M Turtleneck Sweater items [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "order-sweaters-2"
         },
         "product_id": {
           "$from": "amazon.show_order",
@@ -112,8 +142,8 @@
       }
     },
     {
-      "step": 8,
-      "pddl": "(supervisor-complete-task order-sweaters sweater-other-1 order-sweaters sweater-other-2 usps quantity-1)",
+      "step": 10,
+      "pddl": "(supervisor-complete-task order-sweaters-1 sweater-other-1 order-sweaters-2 sweater-other-2 usps quantity-1)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -73,10 +73,11 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?o - order ?p1 - product ?p2 - product)
-    :precondition (and (return-initiated ?o ?p1)
-                       (return-initiated ?o ?p2)
-                       (not (= ?p1 ?p2))
-                       (not (task-completed)))
+    :parameters (?o1 - order ?p1 - product ?o2 - order ?p2 - product)
+    :precondition (and
+      (return-initiated ?o1 ?p1)
+      (return-initiated ?o2 ?p2)
+      (not (= ?p1 ?p2))
+      (not (task-completed)))
     :effect (task-completed))
 )

@@ -14,6 +14,15 @@
     body-driving-license - body
   )
   (:init
+    (credential-of-app phone phone-7826309761)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app file-system cod-smith-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app gmail cod-smith-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (username-for phone phone-7826309761)
     (username-for file-system cod-smith-at-gmail-com)
     (username-for gmail cod-smith-at-gmail-com)

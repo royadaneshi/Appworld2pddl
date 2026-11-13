@@ -49,7 +49,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login jes-mill-at-gmail-com venmo-password amazon-token)",
+      "pddl": "(venmo-login jes-mill-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "jes.mill@gmail.com",
@@ -98,19 +98,19 @@
     },
     {
       "step": 9,
-      "pddl": "(venmo-show-payment-cards amazon-token venmo-card)",
+      "pddl": "(venmo-show-payment-cards venmo-token venmo-card)",
       "api": "venmo.show_payment_cards",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(venmo-withdraw-from-venmo-balance order-total venmo-card amazon-token)",
+      "pddl": "(venmo-withdraw-from-venmo-balance order-total venmo-card venmo-token)",
       "api": "venmo.withdraw_from_venmo_balance",
       "args": {
         "amount": {
@@ -124,9 +124,9 @@
           "object": "venmo-card"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         }
       }
     },

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(splitwise-login username-paul-mill-at-gmail-com splitwise-password file-system-token)",
+      "pddl": "(splitwise-login username-paul-mill-at-gmail-com splitwise-password splitwise-token)",
       "api": "splitwise.login",
       "args": {
         "username": "paul_mill@gmail.com",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login username-paul-mill-at-gmail-com venmo-password file-system-token)",
+      "pddl": "(venmo-login username-paul-mill-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "paul_mill@gmail.com",
@@ -47,25 +47,25 @@
     },
     {
       "step": 5,
-      "pddl": "(splitwise-show-activity file-system-token)",
+      "pddl": "(splitwise-show-activity splitwise-token)",
       "api": "splitwise.show_activity",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "splitwise.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "splitwise-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(venmo-show-transactions file-system-token dt-2023-05-20t00-00-00 sent)",
+      "pddl": "(venmo-show-transactions venmo-token dt-2023-05-20t00-00-00 sent)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "min_created_at": "2023-05-20T00:00:00",
         "direction": "sent"
@@ -73,7 +73,7 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-download-transaction-receipt txn-1 file-system-token receipt-path-1 file-system-token)",
+      "pddl": "(venmo-download-transaction-receipt txn-1 venmo-token receipt-path-1 file-system-token)",
       "api": "venmo.download_transaction_receipt",
       "args": {
         "transaction_id": {
@@ -82,9 +82,9 @@
           "object": "txn-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "download_to_file_path": {
           "$from": null,
@@ -100,7 +100,7 @@
     },
     {
       "step": 8,
-      "pddl": "(splitwise-record-payment paul-mill-at-gmail-com payee-1-email amount-1 file-system-token group-1 note-paid-via-venmo-see-attached-receipt receipt-path-1 file-system-token txn-1 payee-1)",
+      "pddl": "(splitwise-record-payment paul-mill-at-gmail-com payee-1-email amount-1 splitwise-token group-1 note-paid-via-venmo-see-attached-receipt receipt-path-1 file-system-token txn-1 payee-1)",
       "api": "splitwise.record_payment",
       "args": {
         "payer_email": "paul_mill@gmail.com",
@@ -115,9 +115,9 @@
           "object": "amount-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "splitwise.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "splitwise-token"
         },
         "group_id": {
           "$from": "splitwise.show_activity",
@@ -139,7 +139,7 @@
     },
     {
       "step": 9,
-      "pddl": "(venmo-download-transaction-receipt txn-2 file-system-token receipt-path-2 file-system-token)",
+      "pddl": "(venmo-download-transaction-receipt txn-2 venmo-token receipt-path-2 file-system-token)",
       "api": "venmo.download_transaction_receipt",
       "args": {
         "transaction_id": {
@@ -148,9 +148,9 @@
           "object": "txn-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "download_to_file_path": {
           "$from": null,
@@ -166,7 +166,7 @@
     },
     {
       "step": 10,
-      "pddl": "(splitwise-record-payment paul-mill-at-gmail-com payee-2-email amount-2 file-system-token group-2 note-paid-via-venmo-see-attached-receipt receipt-path-2 file-system-token txn-2 payee-2)",
+      "pddl": "(splitwise-record-payment paul-mill-at-gmail-com payee-2-email amount-2 splitwise-token group-2 note-paid-via-venmo-see-attached-receipt receipt-path-2 file-system-token txn-2 payee-2)",
       "api": "splitwise.record_payment",
       "args": {
         "payer_email": "paul_mill@gmail.com",
@@ -181,9 +181,9 @@
           "object": "amount-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "splitwise.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "splitwise-token"
         },
         "group_id": {
           "$from": "splitwise.show_activity",

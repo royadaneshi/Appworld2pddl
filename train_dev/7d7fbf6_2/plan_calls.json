@@ -40,77 +40,93 @@
     },
     {
       "step": 5,
-      "pddl": "(file-system-compress-directory dir-bali file-system-token tar-bali flag-true vacations-dir)",
+      "pddl": "(file-system-compress-directory spot-dir-1 file-system-token spot-tar-1 flag-true vacations-dir)",
       "api": "file_system.compress_directory",
       "args": {
         "directory_path": {
           "$from": "file_system.show_directory",
-          "field": "the listed sub-directory \"~/photos/vacations/bali\" (one of 4 vacation-spot sub-directories)",
-          "object": "dir-bali"
+          "field": "1st sub-directory entry of the returned list for directory_path='~/photos/vacations/' (recursive=false), e.g. '~/photos/vacations/<vacation_spot>'",
+          "object": "spot-dir-1"
         },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
           "object": "file-system-token"
         },
-        "compressed_file_path": "~/photos/vacations/bali.tar",
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photos/vacations/' + basename(spot-dir-1) + '.tar'",
+          "object": "spot-tar-1"
+        },
         "delete_directory": true
       }
     },
     {
       "step": 6,
-      "pddl": "(file-system-compress-directory dir-barcelona file-system-token tar-barcelona flag-true vacations-dir)",
+      "pddl": "(file-system-compress-directory spot-dir-2 file-system-token spot-tar-2 flag-true vacations-dir)",
       "api": "file_system.compress_directory",
       "args": {
         "directory_path": {
           "$from": "file_system.show_directory",
-          "field": "the listed sub-directory \"~/photos/vacations/barcelona\" (one of 4 vacation-spot sub-directories)",
-          "object": "dir-barcelona"
+          "field": "2nd sub-directory entry of the returned list",
+          "object": "spot-dir-2"
         },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
           "object": "file-system-token"
         },
-        "compressed_file_path": "~/photos/vacations/barcelona.tar",
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photos/vacations/' + basename(spot-dir-2) + '.tar'",
+          "object": "spot-tar-2"
+        },
         "delete_directory": true
       }
     },
     {
       "step": 7,
-      "pddl": "(file-system-compress-directory dir-kyoto file-system-token tar-kyoto flag-true vacations-dir)",
+      "pddl": "(file-system-compress-directory spot-dir-3 file-system-token spot-tar-3 flag-true vacations-dir)",
       "api": "file_system.compress_directory",
       "args": {
         "directory_path": {
           "$from": "file_system.show_directory",
-          "field": "the listed sub-directory \"~/photos/vacations/kyoto\" (one of 4 vacation-spot sub-directories)",
-          "object": "dir-kyoto"
+          "field": "3rd sub-directory entry of the returned list",
+          "object": "spot-dir-3"
         },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
           "object": "file-system-token"
         },
-        "compressed_file_path": "~/photos/vacations/kyoto.tar",
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photos/vacations/' + basename(spot-dir-3) + '.tar'",
+          "object": "spot-tar-3"
+        },
         "delete_directory": true
       }
     },
     {
       "step": 8,
-      "pddl": "(file-system-compress-directory dir-maldives file-system-token tar-maldives flag-true vacations-dir)",
+      "pddl": "(file-system-compress-directory spot-dir-4 file-system-token spot-tar-4 flag-true vacations-dir)",
       "api": "file_system.compress_directory",
       "args": {
         "directory_path": {
           "$from": "file_system.show_directory",
-          "field": "the listed sub-directory \"~/photos/vacations/maldives\" (one of 4 vacation-spot sub-directories)",
-          "object": "dir-maldives"
+          "field": "1st sub-directory entry of the returned list for directory_path='~/photos/vacations/' (recursive=false), e.g. '~/photos/vacations/<vacation_spot>'",
+          "object": "spot-dir-4"
         },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
           "object": "file-system-token"
         },
-        "compressed_file_path": "~/photos/vacations/maldives.tar",
+        "compressed_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "'~/photos/vacations/' + basename(spot-dir-1) + '.tar'",
+          "object": "spot-tar-4"
+        },
         "delete_directory": true
       }
     },

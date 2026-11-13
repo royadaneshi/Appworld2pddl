@@ -5,23 +5,23 @@
     carbrown-at-gmail-com - username
     spotify-password - password
     spotify-token - token
-    song-40 song-71 song-50 song-66 - song
+    song-upcoming-1 song-upcoming-2 song-upcoming-3 song-upcoming-4 - song
   )
   (:init
     (supervisor-username carbrown-at-gmail-com)
     (password-for spotify spotify-password)
-    (played-so-far song-55)
-    (played-so-far song-30)
-    (played-so-far song-242)
-    (played-so-far song-179)
-    (played-so-far song-111)
-    (played-so-far song-322))
+    (played-so-far song-queue-1)
+    (played-so-far song-queue-2)
+    (played-so-far song-queue-3)
+    (played-so-far song-queue-4)
+    (played-so-far song-queue-5)
+    (played-so-far song-queue-6))
   (:goal (and
-    (liked song-55)
-    (liked song-30)
-    (liked song-242)
-    (liked song-179)
-    (liked song-111)
-    (liked song-322)
+    (liked song-queue-1)
+    (liked song-queue-2)
+    (liked song-queue-3)
+    (liked song-queue-4)
+    (liked song-queue-5)
+    (liked song-queue-6)
     (task-completed)))
 )

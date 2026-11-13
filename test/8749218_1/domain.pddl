@@ -5,7 +5,7 @@
   )
   (:constants
     supervisor spotify - app
-    rec-song-1 rec-song-2 rec-song-3 - song
+    rec-song-1 rec-song-2 rec-song-3 rec-song-4 rec-song-5 rec-song-6 rec-song-7 rec-song-8 rec-song-9 rec-song-10 rec-song-11 rec-song-12 rec-song-13 rec-song-14 rec-song-15 rec-song-16 rec-song-17 rec-song-18 rec-song-19 rec-song-20 rec-song-21 rec-song-22 rec-song-23 - song
   )
   (:predicates
     (passwords-known)
@@ -73,7 +73,33 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (in-queue rec-song-1) (in-queue rec-song-2) (in-queue rec-song-3) (queue-shuffled) (is-playing) (not (task-completed)))
+    :precondition (and
+      (in-queue rec-song-1)
+      (in-queue rec-song-2)
+      (in-queue rec-song-3)
+      (in-queue rec-song-4)
+      (in-queue rec-song-5)
+      (in-queue rec-song-6)
+      (in-queue rec-song-7)
+      (in-queue rec-song-8)
+      (in-queue rec-song-9)
+      (in-queue rec-song-10)
+      (in-queue rec-song-11)
+      (in-queue rec-song-12)
+      (in-queue rec-song-13)
+      (in-queue rec-song-14)
+      (in-queue rec-song-15)
+      (in-queue rec-song-16)
+      (in-queue rec-song-17)
+      (in-queue rec-song-18)
+      (in-queue rec-song-19)
+      (in-queue rec-song-20)
+      (in-queue rec-song-21)
+      (in-queue rec-song-22)
+      (in-queue rec-song-23)
+      (queue-shuffled)
+      (is-playing)
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

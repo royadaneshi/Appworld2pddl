@@ -6,7 +6,7 @@
   (:constants
     phone venmo - app
     coworker - relationship
-    tx-8219 tx-7334 tx-8026 tx-1749 tx-2699 tx-8226 tx-5326 tx-3156 tx-4751 tx-8218 tx-8229 tx-8225 tx-484 tx-3299 tx-8015 - transaction
+    txn-recent-coworker-1 txn-recent-coworker-2 txn-recent-coworker-3 txn-recent-coworker-4 txn-recent-coworker-5 txn-recent-coworker-6 txn-recent-coworker-7 txn-recent-coworker-8 txn-recent-coworker-9 txn-recent-coworker-10 txn-recent-coworker-11 txn-recent-coworker-12 txn-recent-coworker-13 txn-recent-coworker-14 txn-recent-coworker-15 - transaction
   )
   (:predicates
     (credential-of-app ?a - app ?c - object)
@@ -78,21 +78,21 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (liked tx-8219)
-      (liked tx-7334)
-      (liked tx-8026)
-      (liked tx-1749)
-      (liked tx-2699)
-      (liked tx-8226)
-      (liked tx-5326)
-      (liked tx-3156)
-      (liked tx-4751)
-      (liked tx-8218)
-      (liked tx-8229)
-      (liked tx-8225)
-      (liked tx-484)
-      (liked tx-3299)
-      (liked tx-8015)
+      (liked txn-recent-coworker-1)
+      (liked txn-recent-coworker-2)
+      (liked txn-recent-coworker-3)
+      (liked txn-recent-coworker-4)
+      (liked txn-recent-coworker-5)
+      (liked txn-recent-coworker-6)
+      (liked txn-recent-coworker-7)
+      (liked txn-recent-coworker-8)
+      (liked txn-recent-coworker-9)
+      (liked txn-recent-coworker-10)
+      (liked txn-recent-coworker-11)
+      (liked txn-recent-coworker-12)
+      (liked txn-recent-coworker-13)
+      (liked txn-recent-coworker-14)
+      (liked txn-recent-coworker-15)
       (not (task-completed)))
     :effect (and (task-completed))
   )

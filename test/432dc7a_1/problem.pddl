@@ -11,6 +11,12 @@
     card-1 - payment-card
     order-1 - order)
   (:init
+    (credential-of-app amazon joseharr-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app gmail joseharr-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (password-for amazon amazon-password)
     (password-for gmail gmail-password)
     (promo-applied promo-current)

@@ -3,7 +3,7 @@
   (:types app person username password token product - object)
   (:constants
     amazon supervisor - app
-    product-1 product-2 product-3 product-4 product-5 - product)
+    product-1 product-2 product-4 product-3 product-5 product-6 - product)
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -42,10 +42,15 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (in-wish-list product-1) (not (in-cart product-1))
-      (in-wish-list product-2) (not (in-cart product-2))
-      (in-wish-list product-3) (not (in-cart product-3))
-      (in-cart product-4) (in-cart product-5)
+      (in-wish-list product-1)
+      (not (in-cart product-1))
+      (in-wish-list product-2)
+      (not (in-cart product-2))
+      (in-wish-list product-3)
+      (not (in-cart product-3))
+      (in-cart product-4)
+      (in-cart product-5)
+      (in-cart product-6)
       (not (task-completed)))
     :effect (task-completed))
 )

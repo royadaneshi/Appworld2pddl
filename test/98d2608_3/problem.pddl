@@ -14,6 +14,15 @@
     body-birth-certificate - body
     email-to-husband - email-message)
   (:init
+    (credential-of-app phone phone-number-6017026518)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app file-system kri-powe-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app gmail kri-powe-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (username-for phone phone-number-6017026518)
     (username-for file-system kri-powe-at-gmail-com)
     (username-for gmail kri-powe-at-gmail-com)

@@ -13,6 +13,12 @@
     cart-order - order
   )
   (:init
+    (credential-of-app gmail jar-calhoun-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon jar-calhoun-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for gmail jar-calhoun-at-gmail-com)
     (username-for amazon jar-calhoun-at-gmail-com)
     (password-for gmail gmail-password)

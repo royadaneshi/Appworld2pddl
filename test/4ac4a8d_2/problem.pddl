@@ -14,6 +14,15 @@
     flag-true - flag
     datetime-2023-05-17 - datetime)
   (:init
+    (credential-of-app phone phone-3767193416)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app gmail allison-calhoun-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system allison-calhoun-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (username-for gmail allison-calhoun-at-gmail-com)
     (username-for file-system allison-calhoun-at-gmail-com)
     (username-for phone phone-3767193416)

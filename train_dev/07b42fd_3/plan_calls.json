@@ -37,13 +37,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-follow-artist artist-luna-starlight spotify-token)",
+      "pddl": "(spotify-follow-artist reggae-artist-1 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.search_artists",
-          "field": "artist_id of the only result with genre == \"reggae\" and follower_count >= 21 across all pages (Luna Starlight)",
-          "object": "artist-luna-starlight"
+          "field": "artist_id of 1st result (iterate all page_index values, keep results with genre == \"reggae\" and follower_count >= 21)",
+          "object": "reggae-artist-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -54,7 +54,7 @@
     },
     {
       "step": 6,
-      "pddl": "(supervisor-complete-task artist-luna-starlight)",
+      "pddl": "(supervisor-complete-task reggae-artist-1)",
       "api": "supervisor.complete_task",
       "args": {}
     }

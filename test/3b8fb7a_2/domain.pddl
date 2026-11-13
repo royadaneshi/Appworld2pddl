@@ -5,10 +5,11 @@
   (:constants
     supervisor simple-note venmo - app
     athens-trip-note - note
-    friend-i-owe-1 friend-i-owe-2 friend-owes-me-1 friend-owes-me-2 - person
-    amount-i-owe-1 amount-i-owe-2 amount-owes-me-1 amount-owes-me-2 - amount
+    friend-i-owe-1 friend-i-owe-2 friend-i-owe-3 friend-i-owe-4 friend-owes-me-1 friend-owes-me-2 friend-owes-me-3 - person
+    amount-i-owe-1 amount-i-owe-2 amount-i-owe-3 amount-i-owe-4 amount-owes-me-1 amount-owes-me-2 amount-owes-me-3 - amount
     note-for-athens-trip - description
-    private-true - privacy)
+    private-true - privacy
+  )
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -79,8 +80,11 @@
     :precondition (and
       (paid friend-i-owe-1 amount-i-owe-1 note-for-athens-trip private-true)
       (paid friend-i-owe-2 amount-i-owe-2 note-for-athens-trip private-true)
+      (paid friend-i-owe-3 amount-i-owe-3 note-for-athens-trip private-true)
+      (paid friend-i-owe-4 amount-i-owe-4 note-for-athens-trip private-true)
       (requested friend-owes-me-1 amount-owes-me-1 note-for-athens-trip private-true)
       (requested friend-owes-me-2 amount-owes-me-2 note-for-athens-trip private-true)
+      (requested friend-owes-me-3 amount-owes-me-3 note-for-athens-trip private-true)
       (not (task-completed)))
     :effect (and (task-completed)))
 )

@@ -16,6 +16,12 @@
     new-order - order
   )
   (:init
+    (credential-of-app phone username-3808719492)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app amazon username-jes-mill-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for phone username-3808719492)
     (username-for amazon username-jes-mill-at-gmail-com)
     (password-for phone phone-password)

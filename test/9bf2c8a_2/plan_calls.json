@@ -38,7 +38,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the 1st wish-list entry whose product_type == \"watch\"",
+          "field": "product_id of the 1st wish-list entry whose product_type == \"watch\" [item 1 of 4 that match this rule; one object per matching item]",
           "object": "watch-1"
         },
         "access_token": {
@@ -55,7 +55,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the 2nd wish-list entry whose product_type == \"watch\"",
+          "field": "product_id of the 1st wish-list entry whose product_type == \"watch\" [item 2 of 4 that match this rule; one object per matching item]",
           "object": "watch-2"
         },
         "access_token": {
@@ -72,7 +72,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the 3rd wish-list entry whose product_type == \"watch\"",
+          "field": "product_id of the 1st wish-list entry whose product_type == \"watch\" [item 3 of 4 that match this rule; one object per matching item]",
           "object": "watch-3"
         },
         "access_token": {
@@ -84,7 +84,24 @@
     },
     {
       "step": 7,
-      "pddl": "(supervisor-complete-task watch-1 watch-2 watch-3)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart watch-4 amazon-token)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 1st wish-list entry whose product_type == \"watch\" [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "watch-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(supervisor-complete-task watch-2 watch-3 watch-4)",
       "api": "supervisor.complete_task",
       "args": {}
     }

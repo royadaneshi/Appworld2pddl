@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login venmo-user-andrew-brow-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login venmo-user-andrew-brow-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "andrew_brow@gmail.com",
@@ -47,122 +47,64 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-search-users phone-token parent-1-email parent-1 parents)",
+      "pddl": "(venmo-search-users venmo-token parent-email-1 parent-1 parents)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "query": {
           "$from": "phone.search_contacts",
-          "field": "email of first contact returned with relationship parents",
-          "object": "parent-1-email"
+          "field": "email of first contact returned with relationship parents [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "parent-email-1"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(venmo-search-users phone-token parent-2-email parent-2 parents)",
-      "api": "venmo.search_users",
+      "pddl": "(venmo-signup parent-first-name-1 parent-last-name-1 parent-email-1 new-password-a-2gm4r parent-1)",
+      "api": "venmo.signup",
       "args": {
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        },
-        "query": {
+        "first_name": {
           "$from": "phone.search_contacts",
-          "field": "email of second contact returned with relationship parents",
-          "object": "parent-2-email"
-        }
+          "field": "first_name of first parent contact [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "parent-first-name-1"
+        },
+        "last_name": {
+          "$from": "phone.search_contacts",
+          "field": "last_name of first parent contact [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "parent-last-name-1"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of first contact returned with relationship parents [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "parent-email-1"
+        },
+        "password": "A}2Gm4r"
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-signup parent-1-first-name parent-1-last-name parent-1-email new-password-a-2gm4r parent-1)",
-      "api": "venmo.signup",
+      "pddl": "(phone-send-text-message parent-phone-1 venmo-account-message phone-token parent-1)",
+      "api": "phone.send_text_message",
       "args": {
-        "first_name": {
+        "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "first_name of first parent contact",
-          "object": "parent-1-first-name"
+          "field": "phone_number of first parent contact [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "parent-phone-1"
         },
-        "last_name": {
-          "$from": "phone.search_contacts",
-          "field": "last_name of first parent contact",
-          "object": "parent-1-last-name"
-        },
-        "email": {
-          "$from": "phone.search_contacts",
-          "field": "email of first contact returned with relationship parents",
-          "object": "parent-1-email"
-        },
-        "password": "A}2Gm4r"
+        "message": "I have created a venmo account for you. Please activate it, you should have received an email for it. I've set your password to be A}2Gm4r. Change it soon too.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
       }
     },
     {
       "step": 8,
-      "pddl": "(phone-send-text-message parent-1-phone venmo-account-message phone-token parent-1)",
-      "api": "phone.send_text_message",
-      "args": {
-        "phone_number": {
-          "$from": "phone.search_contacts",
-          "field": "phone_number of first parent contact",
-          "object": "parent-1-phone"
-        },
-        "message": "I have created a venmo account for you. Please activate it, you should have received an email for it. I've set your password to be A}2Gm4r. Change it soon too.",
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
-      "step": 9,
-      "pddl": "(venmo-signup parent-2-first-name parent-2-last-name parent-2-email new-password-a-2gm4r parent-2)",
-      "api": "venmo.signup",
-      "args": {
-        "first_name": {
-          "$from": "phone.search_contacts",
-          "field": "first_name of second parent contact",
-          "object": "parent-2-first-name"
-        },
-        "last_name": {
-          "$from": "phone.search_contacts",
-          "field": "last_name of second parent contact",
-          "object": "parent-2-last-name"
-        },
-        "email": {
-          "$from": "phone.search_contacts",
-          "field": "email of second contact returned with relationship parents",
-          "object": "parent-2-email"
-        },
-        "password": "A}2Gm4r"
-      }
-    },
-    {
-      "step": 10,
-      "pddl": "(phone-send-text-message parent-2-phone venmo-account-message phone-token parent-2)",
-      "api": "phone.send_text_message",
-      "args": {
-        "phone_number": {
-          "$from": "phone.search_contacts",
-          "field": "phone_number of second parent contact",
-          "object": "parent-2-phone"
-        },
-        "message": "I have created a venmo account for you. Please activate it, you should have received an email for it. I've set your password to be A}2Gm4r. Change it soon too.",
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
-      "step": 11,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

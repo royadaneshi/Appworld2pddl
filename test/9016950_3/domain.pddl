@@ -76,7 +76,11 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p1 - person ?p2 - person)
-    :precondition (and (is-parent ?p1) (is-parent ?p2) (not (= ?p1 ?p2)) (venmo-account-created ?p1) (venmo-account-created ?p2) (text-sent ?p1) (text-sent ?p2) (not (task-completed)))
+    :parameters (?p1 - person)
+    :precondition (and
+      (is-parent ?p1)
+      (venmo-account-created ?p1)
+      (text-sent ?p1)
+      (not (task-completed)))
     :effect (task-completed))
 )

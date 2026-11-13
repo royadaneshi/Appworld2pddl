@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(simple-note-login gl-moore-at-gmail-com simple-note-password fs-token)",
+      "pddl": "(simple-note-login gl-moore-at-gmail-com simple-note-password sn-token)",
       "api": "simple_note.login",
       "args": {
         "username": "gl.moore@gmail.com",
@@ -47,13 +47,13 @@
     },
     {
       "step": 5,
-      "pddl": "(file-system-show-file md-file-1-path fs-token md-file-1 dir-documents-personal-simple-note)",
+      "pddl": "(file-system-show-file md-file-path-1 fs-token md-file-1 dir-documents-personal-simple-note)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "path of the 1st listed file entry whose name ends with .md",
-          "object": "md-file-1-path"
+          "field": "path of the 1st listed file entry whose name ends with .md [item 1 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-1"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -64,13 +64,13 @@
     },
     {
       "step": 6,
-      "pddl": "(file-system-show-file md-file-2-path fs-token md-file-2 dir-documents-personal-simple-note)",
+      "pddl": "(file-system-show-file md-file-path-10 fs-token md-file-10 dir-documents-personal-simple-note)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "path of the 2nd listed file entry whose name ends with .md",
-          "object": "md-file-2-path"
+          "field": "path of the 1st listed file entry whose name ends with .md [item 10 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-10"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -81,13 +81,13 @@
     },
     {
       "step": 7,
-      "pddl": "(file-system-show-file md-file-3-path fs-token md-file-3 dir-documents-personal-simple-note)",
+      "pddl": "(file-system-show-file md-file-path-11 fs-token md-file-11 dir-documents-personal-simple-note)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "path of the 3rd listed file entry whose name ends with .md",
-          "object": "md-file-3-path"
+          "field": "path of the 1st listed file entry whose name ends with .md [item 11 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-11"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -98,18 +98,13 @@
     },
     {
       "step": 8,
-      "pddl": "(simple-note-create-note title-1 content-1 fs-token md-file-1)",
-      "api": "simple_note.create_note",
+      "pddl": "(file-system-show-file md-file-path-12 fs-token md-file-12 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
       "args": {
-        "title": {
+        "file_path": {
           "$from": "file_system.show_directory",
-          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' '",
-          "object": "title-1"
-        },
-        "content": {
-          "$from": "file_system.show_file",
-          "field": "content (call with file_path = md-file-1-path)",
-          "object": "content-1"
+          "field": "path of the 1st listed file entry whose name ends with .md [item 12 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-12"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -120,18 +115,13 @@
     },
     {
       "step": 9,
-      "pddl": "(simple-note-create-note title-2 content-2 fs-token md-file-2)",
-      "api": "simple_note.create_note",
+      "pddl": "(file-system-show-file md-file-path-13 fs-token md-file-13 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
       "args": {
-        "title": {
+        "file_path": {
           "$from": "file_system.show_directory",
-          "field": "basename of md-file-2-path without directory and .md extension, with '_' replaced by ' '",
-          "object": "title-2"
-        },
-        "content": {
-          "$from": "file_system.show_file",
-          "field": "content (call with file_path = md-file-2-path)",
-          "object": "content-2"
+          "field": "path of the 1st listed file entry whose name ends with .md [item 13 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-13"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -142,18 +132,13 @@
     },
     {
       "step": 10,
-      "pddl": "(simple-note-create-note title-3 content-3 fs-token md-file-3)",
-      "api": "simple_note.create_note",
+      "pddl": "(file-system-show-file md-file-path-14 fs-token md-file-14 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
       "args": {
-        "title": {
+        "file_path": {
           "$from": "file_system.show_directory",
-          "field": "basename of md-file-3-path without directory and .md extension, with '_' replaced by ' '",
-          "object": "title-3"
-        },
-        "content": {
-          "$from": "file_system.show_file",
-          "field": "content (call with file_path = md-file-3-path)",
-          "object": "content-3"
+          "field": "path of the 1st listed file entry whose name ends with .md [item 14 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-14"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -164,7 +149,958 @@
     },
     {
       "step": 11,
-      "pddl": "(supervisor-complete-task md-file-1 md-file-2 md-file-3)",
+      "pddl": "(file-system-show-file md-file-path-15 fs-token md-file-15 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 15 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-15"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(file-system-show-file md-file-path-16 fs-token md-file-16 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 16 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-16"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-show-file md-file-path-17 fs-token md-file-17 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 17 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-17"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(file-system-show-file md-file-path-18 fs-token md-file-18 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 18 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-18"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(file-system-show-file md-file-path-19 fs-token md-file-19 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 19 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-19"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(file-system-show-file md-file-path-2 fs-token md-file-2 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 2 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-2"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(file-system-show-file md-file-path-20 fs-token md-file-20 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 20 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-20"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(file-system-show-file md-file-path-21 fs-token md-file-21 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 21 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-21"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(file-system-show-file md-file-path-22 fs-token md-file-22 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 22 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-22"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(file-system-show-file md-file-path-23 fs-token md-file-23 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 23 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-23"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(file-system-show-file md-file-path-24 fs-token md-file-24 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 24 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-24"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(file-system-show-file md-file-path-25 fs-token md-file-25 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 25 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-25"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(file-system-show-file md-file-path-26 fs-token md-file-26 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 26 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-26"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(file-system-show-file md-file-path-27 fs-token md-file-27 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 27 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-27"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(file-system-show-file md-file-path-3 fs-token md-file-3 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 3 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(file-system-show-file md-file-path-4 fs-token md-file-4 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 4 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-4"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(file-system-show-file md-file-path-5 fs-token md-file-5 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 5 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-5"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(file-system-show-file md-file-path-6 fs-token md-file-6 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 6 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-6"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(file-system-show-file md-file-path-7 fs-token md-file-7 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 7 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-7"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(file-system-show-file md-file-path-8 fs-token md-file-8 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 8 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-8"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(file-system-show-file md-file-path-9 fs-token md-file-9 dir-documents-personal-simple-note)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the 1st listed file entry whose name ends with .md [item 9 of 27 that match this rule; one object per matching item]",
+          "object": "md-file-path-9"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "fs-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(simple-note-create-note title-1 content-1 sn-token md-file-1)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 1 of 27 that match this rule; one object per matching item]",
+          "object": "title-1"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 1 of 27 that match this rule; one object per matching item]",
+          "object": "content-1"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(simple-note-create-note title-10 content-10 sn-token md-file-10)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 10 of 27 that match this rule; one object per matching item]",
+          "object": "title-10"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 10 of 27 that match this rule; one object per matching item]",
+          "object": "content-10"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(simple-note-create-note title-11 content-11 sn-token md-file-11)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 11 of 27 that match this rule; one object per matching item]",
+          "object": "title-11"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 11 of 27 that match this rule; one object per matching item]",
+          "object": "content-11"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(simple-note-create-note title-12 content-12 sn-token md-file-12)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 12 of 27 that match this rule; one object per matching item]",
+          "object": "title-12"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 12 of 27 that match this rule; one object per matching item]",
+          "object": "content-12"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(simple-note-create-note title-13 content-13 sn-token md-file-13)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 13 of 27 that match this rule; one object per matching item]",
+          "object": "title-13"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 13 of 27 that match this rule; one object per matching item]",
+          "object": "content-13"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(simple-note-create-note title-14 content-14 sn-token md-file-14)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 14 of 27 that match this rule; one object per matching item]",
+          "object": "title-14"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 14 of 27 that match this rule; one object per matching item]",
+          "object": "content-14"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(simple-note-create-note title-15 content-15 sn-token md-file-15)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 15 of 27 that match this rule; one object per matching item]",
+          "object": "title-15"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 15 of 27 that match this rule; one object per matching item]",
+          "object": "content-15"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(simple-note-create-note title-16 content-16 sn-token md-file-16)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 16 of 27 that match this rule; one object per matching item]",
+          "object": "title-16"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 16 of 27 that match this rule; one object per matching item]",
+          "object": "content-16"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(simple-note-create-note title-17 content-17 sn-token md-file-17)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 17 of 27 that match this rule; one object per matching item]",
+          "object": "title-17"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 17 of 27 that match this rule; one object per matching item]",
+          "object": "content-17"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(simple-note-create-note title-18 content-18 sn-token md-file-18)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 18 of 27 that match this rule; one object per matching item]",
+          "object": "title-18"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 18 of 27 that match this rule; one object per matching item]",
+          "object": "content-18"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(simple-note-create-note title-19 content-19 sn-token md-file-19)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 19 of 27 that match this rule; one object per matching item]",
+          "object": "title-19"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 19 of 27 that match this rule; one object per matching item]",
+          "object": "content-19"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(simple-note-create-note title-2 content-2 sn-token md-file-2)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 2 of 27 that match this rule; one object per matching item]",
+          "object": "title-2"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 2 of 27 that match this rule; one object per matching item]",
+          "object": "content-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(simple-note-create-note title-20 content-20 sn-token md-file-20)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 20 of 27 that match this rule; one object per matching item]",
+          "object": "title-20"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 20 of 27 that match this rule; one object per matching item]",
+          "object": "content-20"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(simple-note-create-note title-21 content-21 sn-token md-file-21)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 21 of 27 that match this rule; one object per matching item]",
+          "object": "title-21"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 21 of 27 that match this rule; one object per matching item]",
+          "object": "content-21"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(simple-note-create-note title-22 content-22 sn-token md-file-22)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 22 of 27 that match this rule; one object per matching item]",
+          "object": "title-22"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 22 of 27 that match this rule; one object per matching item]",
+          "object": "content-22"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(simple-note-create-note title-23 content-23 sn-token md-file-23)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 23 of 27 that match this rule; one object per matching item]",
+          "object": "title-23"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 23 of 27 that match this rule; one object per matching item]",
+          "object": "content-23"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(simple-note-create-note title-24 content-24 sn-token md-file-24)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 24 of 27 that match this rule; one object per matching item]",
+          "object": "title-24"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 24 of 27 that match this rule; one object per matching item]",
+          "object": "content-24"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(simple-note-create-note title-25 content-25 sn-token md-file-25)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 25 of 27 that match this rule; one object per matching item]",
+          "object": "title-25"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 25 of 27 that match this rule; one object per matching item]",
+          "object": "content-25"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(simple-note-create-note title-26 content-26 sn-token md-file-26)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 26 of 27 that match this rule; one object per matching item]",
+          "object": "title-26"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 26 of 27 that match this rule; one object per matching item]",
+          "object": "content-26"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(simple-note-create-note title-27 content-27 sn-token md-file-27)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 27 of 27 that match this rule; one object per matching item]",
+          "object": "title-27"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 27 of 27 that match this rule; one object per matching item]",
+          "object": "content-27"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(simple-note-create-note title-3 content-3 sn-token md-file-3)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 3 of 27 that match this rule; one object per matching item]",
+          "object": "title-3"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 3 of 27 that match this rule; one object per matching item]",
+          "object": "content-3"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(simple-note-create-note title-4 content-4 sn-token md-file-4)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 4 of 27 that match this rule; one object per matching item]",
+          "object": "title-4"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 4 of 27 that match this rule; one object per matching item]",
+          "object": "content-4"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(simple-note-create-note title-5 content-5 sn-token md-file-5)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 5 of 27 that match this rule; one object per matching item]",
+          "object": "title-5"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 5 of 27 that match this rule; one object per matching item]",
+          "object": "content-5"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(simple-note-create-note title-6 content-6 sn-token md-file-6)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 6 of 27 that match this rule; one object per matching item]",
+          "object": "title-6"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 6 of 27 that match this rule; one object per matching item]",
+          "object": "content-6"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(simple-note-create-note title-7 content-7 sn-token md-file-7)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 7 of 27 that match this rule; one object per matching item]",
+          "object": "title-7"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 7 of 27 that match this rule; one object per matching item]",
+          "object": "content-7"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 57,
+      "pddl": "(simple-note-create-note title-8 content-8 sn-token md-file-8)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 8 of 27 that match this rule; one object per matching item]",
+          "object": "title-8"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 8 of 27 that match this rule; one object per matching item]",
+          "object": "content-8"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 58,
+      "pddl": "(simple-note-create-note title-9 content-9 sn-token md-file-9)",
+      "api": "simple_note.create_note",
+      "args": {
+        "title": {
+          "$from": "file_system.show_directory",
+          "field": "basename of md-file-1-path without directory and .md extension, with '_' replaced by ' ' [item 9 of 27 that match this rule; one object per matching item]",
+          "object": "title-9"
+        },
+        "content": {
+          "$from": "file_system.show_file",
+          "field": "content (call with file_path = md-file-1-path) [item 9 of 27 that match this rule; one object per matching item]",
+          "object": "content-9"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "sn-token"
+        }
+      }
+    },
+    {
+      "step": 59,
+      "pddl": "(supervisor-complete-task md-file-7 md-file-8 md-file-9)",
       "api": "supervisor.complete_task",
       "args": {}
     }

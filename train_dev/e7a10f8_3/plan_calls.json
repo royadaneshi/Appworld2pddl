@@ -39,13 +39,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-playlist playlist-127 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Harmonic Horizons: Indie & Alternative\" (5 songs, total 1323 s = 22 min)",
-          "object": "playlist-127"
+          "field": "playlist_id of each entry (paginate over page_index until empty) [item 1 of 6 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -56,13 +56,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-128 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Heartbreak Hotel: Songs of Sorrow\" (5 songs, total 1263 s = 21 min)",
-          "object": "playlist-128"
+          "field": "playlist_id of each entry (paginate over page_index until empty) [item 2 of 6 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -73,13 +73,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-129 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-3 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Bollywood Beats: Desi Dance Off\" (5 songs, total 1282 s = 21 min)",
-          "object": "playlist-129"
+          "field": "playlist_id of each entry (paginate over page_index until empty) [item 3 of 6 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -90,13 +90,13 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-playlist playlist-130 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-4 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Lunar Lullabies: Sleep Aid\" (5 songs, total 1206 s = 20 min)",
-          "object": "playlist-130"
+          "field": "playlist_id of each entry (paginate over page_index until empty) [item 4 of 6 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -107,13 +107,13 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-playlist playlist-131 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-5 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Eco Tunes: Songs for Planet Earth\" (8 songs, total 1964 s = 33 min; the longest playlist)",
-          "object": "playlist-131"
+          "field": "playlist_id of each entry (paginate over page_index until empty) [item 5 of 6 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -124,13 +124,13 @@
     },
     {
       "step": 10,
-      "pddl": "(spotify-show-playlist playlist-132 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-6 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Groovy Gardens: Botanical Beats\" (5 songs, total 1079 s = 18 min)",
-          "object": "playlist-132"
+          "field": "playlist_id of each entry (paginate over page_index until empty) [item 6 of 6 that match this rule; one object per matching item]",
+          "object": "playlist-6"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -141,397 +141,397 @@
     },
     {
       "step": 11,
-      "pddl": "(spotify-show-song song-135 playlist-128 song-162)",
+      "pddl": "(spotify-show-song song-1-1 playlist-1 song-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id 135 (duration 208 s via spotify.show_song)",
-          "object": "song-135"
+          "field": "songs[*].id for playlist-1",
+          "object": "song-1-1"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-show-song song-162 playlist-128 song-274)",
+      "pddl": "(spotify-show-song song-1 playlist-1 song-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id 162 (duration 228 s via spotify.show_song)",
-          "object": "song-162"
+          "field": "songs[*].id for playlist-1 [item 1 of 32 that match this rule; one object per matching item]",
+          "object": "song-1"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-show-song song-274 playlist-128 song-293)",
+      "pddl": "(spotify-show-song song-2 playlist-1 song-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id 274 (duration 247 s via spotify.show_song)",
-          "object": "song-274"
-        }
-      }
-    },
-    {
-      "step": 14,
-      "pddl": "(spotify-show-song song-293 playlist-128 song-310)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 293 (duration 291 s via spotify.show_song)",
-          "object": "song-293"
-        }
-      }
-    },
-    {
-      "step": 15,
-      "pddl": "(spotify-show-song song-310 playlist-128 song-42)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 310 (duration 289 s via spotify.show_song)",
-          "object": "song-310"
-        }
-      }
-    },
-    {
-      "step": 16,
-      "pddl": "(spotify-show-song song-42 playlist-129 song-70)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 42 (duration 199 s via spotify.show_song)",
-          "object": "song-42"
-        }
-      }
-    },
-    {
-      "step": 17,
-      "pddl": "(spotify-show-song song-70 playlist-129 song-76)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 70 (duration 265 s via spotify.show_song)",
-          "object": "song-70"
-        }
-      }
-    },
-    {
-      "step": 18,
-      "pddl": "(spotify-show-song song-76 playlist-129 song-156)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 76 (duration 270 s via spotify.show_song)",
-          "object": "song-76"
-        }
-      }
-    },
-    {
-      "step": 19,
-      "pddl": "(spotify-show-song song-156 playlist-129 song-192)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 156 (duration 282 s via spotify.show_song)",
-          "object": "song-156"
-        }
-      }
-    },
-    {
-      "step": 20,
-      "pddl": "(spotify-show-song song-192 playlist-129 song-25)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 192 (duration 266 s via spotify.show_song)",
-          "object": "song-192"
-        }
-      }
-    },
-    {
-      "step": 21,
-      "pddl": "(spotify-show-song song-25 playlist-131 song-64)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 25 (duration 260 s via spotify.show_song)",
-          "object": "song-25"
-        }
-      }
-    },
-    {
-      "step": 22,
-      "pddl": "(spotify-show-song song-64 playlist-131 song-108)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 64 (duration 280 s via spotify.show_song)",
-          "object": "song-64"
-        }
-      }
-    },
-    {
-      "step": 23,
-      "pddl": "(spotify-show-song song-108 playlist-131 song-151)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 108 (duration 262 s via spotify.show_song)",
-          "object": "song-108"
-        }
-      }
-    },
-    {
-      "step": 24,
-      "pddl": "(spotify-show-song song-151 playlist-131 song-155)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 151 (duration 257 s via spotify.show_song)",
-          "object": "song-151"
-        }
-      }
-    },
-    {
-      "step": 25,
-      "pddl": "(spotify-show-song song-155 playlist-131 song-224)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 155 (duration 225 s via spotify.show_song)",
-          "object": "song-155"
-        }
-      }
-    },
-    {
-      "step": 26,
-      "pddl": "(spotify-show-song song-224 playlist-131 song-225)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 224 (duration 230 s via spotify.show_song)",
-          "object": "song-224"
-        }
-      }
-    },
-    {
-      "step": 27,
-      "pddl": "(spotify-show-song song-225 playlist-131 song-230)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 225 (duration 244 s via spotify.show_song)",
-          "object": "song-225"
-        }
-      }
-    },
-    {
-      "step": 28,
-      "pddl": "(spotify-show-song song-230 playlist-131 song-102)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 230 (duration 206 s via spotify.show_song)",
-          "object": "song-230"
-        }
-      }
-    },
-    {
-      "step": 29,
-      "pddl": "(spotify-show-song song-102 playlist-130 song-133)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 102 (duration 292 s via spotify.show_song)",
-          "object": "song-102"
-        }
-      }
-    },
-    {
-      "step": 30,
-      "pddl": "(spotify-show-song song-133 playlist-130 song-149)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 133 (duration 275 s via spotify.show_song)",
-          "object": "song-133"
-        }
-      }
-    },
-    {
-      "step": 31,
-      "pddl": "(spotify-show-song song-149 playlist-130 song-167)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 149 (duration 234 s via spotify.show_song)",
-          "object": "song-149"
-        }
-      }
-    },
-    {
-      "step": 32,
-      "pddl": "(spotify-show-song song-167 playlist-130 song-250)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 167 (duration 190 s via spotify.show_song)",
-          "object": "song-167"
-        }
-      }
-    },
-    {
-      "step": 33,
-      "pddl": "(spotify-show-song song-250 playlist-130 song-150)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 250 (duration 215 s via spotify.show_song)",
-          "object": "song-250"
-        }
-      }
-    },
-    {
-      "step": 34,
-      "pddl": "(spotify-show-song song-150 playlist-127 song-231)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 150 (duration 248 s via spotify.show_song)",
-          "object": "song-150"
-        }
-      }
-    },
-    {
-      "step": 35,
-      "pddl": "(spotify-show-song song-231 playlist-127 song-248)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 231 (duration 278 s via spotify.show_song)",
-          "object": "song-231"
-        }
-      }
-    },
-    {
-      "step": 36,
-      "pddl": "(spotify-show-song song-248 playlist-127 song-270)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 248 (duration 288 s via spotify.show_song)",
-          "object": "song-248"
-        }
-      }
-    },
-    {
-      "step": 37,
-      "pddl": "(spotify-show-song song-270 playlist-127 song-317)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 270 (duration 284 s via spotify.show_song)",
-          "object": "song-270"
-        }
-      }
-    },
-    {
-      "step": 38,
-      "pddl": "(spotify-show-song song-317 playlist-127 song-2)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 317 (duration 225 s via spotify.show_song)",
-          "object": "song-317"
-        }
-      }
-    },
-    {
-      "step": 39,
-      "pddl": "(spotify-show-song song-2 playlist-132 song-84)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id 2 (duration 224 s via spotify.show_song)",
+          "field": "songs[*].id for playlist-1 [item 2 of 32 that match this rule; one object per matching item]",
           "object": "song-2"
         }
       }
     },
     {
-      "step": 40,
-      "pddl": "(spotify-show-song song-84 playlist-132 song-122)",
+      "step": 14,
+      "pddl": "(spotify-show-song song-3 playlist-1 song-4)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id 84 (duration 217 s via spotify.show_song)",
-          "object": "song-84"
+          "field": "songs[*].id for playlist-1 [item 3 of 32 that match this rule; one object per matching item]",
+          "object": "song-3"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-show-song song-4 playlist-1 song-5)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 4 of 32 that match this rule; one object per matching item]",
+          "object": "song-4"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-show-song song-5 playlist-2 song-6)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 5 of 32 that match this rule; one object per matching item]",
+          "object": "song-5"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-show-song song-6 playlist-2 song-7)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 6 of 32 that match this rule; one object per matching item]",
+          "object": "song-6"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-show-song song-7 playlist-2 song-8)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 7 of 32 that match this rule; one object per matching item]",
+          "object": "song-7"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-show-song song-8 playlist-2 song-9)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 8 of 32 that match this rule; one object per matching item]",
+          "object": "song-8"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-show-song song-9 playlist-2 song-10)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 9 of 32 that match this rule; one object per matching item]",
+          "object": "song-9"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-show-song song-10 playlist-3 song-11)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 10 of 32 that match this rule; one object per matching item]",
+          "object": "song-10"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-show-song song-11 playlist-3 song-12)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 11 of 32 that match this rule; one object per matching item]",
+          "object": "song-11"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-show-song song-12 playlist-3 song-13)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 12 of 32 that match this rule; one object per matching item]",
+          "object": "song-12"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-show-song song-13 playlist-3 song-14)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 13 of 32 that match this rule; one object per matching item]",
+          "object": "song-13"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-show-song song-14 playlist-3 song-15)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 14 of 32 that match this rule; one object per matching item]",
+          "object": "song-14"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-show-song song-15 playlist-3 song-16)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 15 of 32 that match this rule; one object per matching item]",
+          "object": "song-15"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-show-song song-16 playlist-3 song-17)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 16 of 32 that match this rule; one object per matching item]",
+          "object": "song-16"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-show-song song-17 playlist-3 song-18)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 17 of 32 that match this rule; one object per matching item]",
+          "object": "song-17"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(spotify-show-song song-18 playlist-4 song-19)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 18 of 32 that match this rule; one object per matching item]",
+          "object": "song-18"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-show-song song-19 playlist-4 song-20)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 19 of 32 that match this rule; one object per matching item]",
+          "object": "song-19"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-show-song song-20 playlist-4 song-21)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 20 of 32 that match this rule; one object per matching item]",
+          "object": "song-20"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-show-song song-21 playlist-4 song-22)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 21 of 32 that match this rule; one object per matching item]",
+          "object": "song-21"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(spotify-show-song song-22 playlist-4 song-23)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 22 of 32 that match this rule; one object per matching item]",
+          "object": "song-22"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(spotify-show-song song-23 playlist-5 song-24)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 23 of 32 that match this rule; one object per matching item]",
+          "object": "song-23"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(spotify-show-song song-24 playlist-5 song-25)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 24 of 32 that match this rule; one object per matching item]",
+          "object": "song-24"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(spotify-show-song song-25 playlist-5 song-26)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 25 of 32 that match this rule; one object per matching item]",
+          "object": "song-25"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(spotify-show-song song-26 playlist-5 song-27)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 26 of 32 that match this rule; one object per matching item]",
+          "object": "song-26"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(spotify-show-song song-27 playlist-5 song-28)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 27 of 32 that match this rule; one object per matching item]",
+          "object": "song-27"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(spotify-show-song song-28 playlist-6 song-29)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 28 of 32 that match this rule; one object per matching item]",
+          "object": "song-28"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(spotify-show-song song-29 playlist-6 song-30)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[*].id for playlist-1 [item 29 of 32 that match this rule; one object per matching item]",
+          "object": "song-29"
         }
       }
     },
     {
       "step": 41,
-      "pddl": "(spotify-show-song song-122 playlist-132 song-169)",
+      "pddl": "(spotify-show-song song-30 playlist-6 song-31)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id 122 (duration 206 s via spotify.show_song)",
-          "object": "song-122"
+          "field": "songs[*].id for playlist-1 [item 30 of 32 that match this rule; one object per matching item]",
+          "object": "song-30"
         }
       }
     },
     {
       "step": 42,
-      "pddl": "(spotify-show-song song-169 playlist-132 song-207)",
+      "pddl": "(spotify-show-song song-31 playlist-6 song-32)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id 169 (duration 226 s via spotify.show_song)",
-          "object": "song-169"
+          "field": "songs[*].id for playlist-1 [item 31 of 32 that match this rule; one object per matching item]",
+          "object": "song-31"
         }
       }
     },
     {
       "step": 43,
-      "pddl": "(spotify-show-song song-207 playlist-132 minutes-answer)",
+      "pddl": "(spotify-show-song song-32 playlist-6 minutes-answer)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id 207 (duration 206 s via spotify.show_song)",
-          "object": "song-207"
+          "field": "songs[*].id for playlist-1 [item 32 of 32 that match this rule; one object per matching item]",
+          "object": "song-32"
         }
       }
     },

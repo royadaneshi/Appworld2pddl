@@ -12,6 +12,10 @@
     receipt-file-1 receipt-file-2 receipt-file-3 - file-path
     discover-total - amount)
   (:init
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for gmail gmail-password)
     (password-for file-system file-system-password)
     (booking-query query-hotel)

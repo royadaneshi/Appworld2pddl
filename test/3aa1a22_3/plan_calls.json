@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(splitwise-login angelica-wils-at-gmail-com splitwise-password phone-token)",
+      "pddl": "(splitwise-login angelica-wils-at-gmail-com splitwise-password splitwise-token)",
       "api": "splitwise.login",
       "args": {
         "username": "angelica.wils@gmail.com",
@@ -57,13 +57,81 @@
         },
         "query": {
           "$from": "phone.search_text_messages",
-          "field": "phone_number of a Splitwise-invitation message with created_at in the current week (since 2023-05-15) whose number IS returned by phone.search_contacts(query=phone_number)",
+          "field": "phone_number of a Splitwise-invitation message with created_at in the current week (since 2023-05-15) whose number IS returned by phone.search_contacts(query=phone_number) [item 1 of 3 that match this rule; one object per matching item]",
           "object": "contact-number-1"
         }
       }
     },
     {
       "step": 6,
+      "pddl": "(phone-search-contacts phone-token contact-number-2)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "phone_number of a Splitwise-invitation message with created_at in the current week (since 2023-05-15) whose number IS returned by phone.search_contacts(query=phone_number) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "contact-number-2"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token contact-number-3)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "phone_number of a Splitwise-invitation message with created_at in the current week (since 2023-05-15) whose number IS returned by phone.search_contacts(query=phone_number) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "contact-number-3"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(phone-search-contacts phone-token unknown-number-1)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "phone_number of a Splitwise-invitation message with created_at in the current week whose number is NOT returned by phone.search_contacts(query=phone_number) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "unknown-number-1"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(phone-delete-text-message message-4 phone-token unknown-number-1)",
+      "api": "phone.delete_text_message",
+      "args": {
+        "text_message_id": {
+          "$from": "phone.search_text_messages",
+          "field": "text_message_id of the this-week invitation message sent by unknown-number-2 [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "message-4"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
       "pddl": "(phone-search-contacts phone-token unknown-number-2)",
       "api": "phone.search_contacts",
       "args": {
@@ -74,20 +142,20 @@
         },
         "query": {
           "$from": "phone.search_text_messages",
-          "field": "phone_number of a Splitwise-invitation message with created_at in the current week whose number is NOT returned by phone.search_contacts(query=phone_number)",
+          "field": "phone_number of a Splitwise-invitation message with created_at in the current week whose number is NOT returned by phone.search_contacts(query=phone_number) [item 2 of 3 that match this rule; one object per matching item]",
           "object": "unknown-number-2"
         }
       }
     },
     {
-      "step": 7,
-      "pddl": "(phone-delete-text-message message-2 phone-token unknown-number-2)",
+      "step": 11,
+      "pddl": "(phone-delete-text-message message-5 phone-token unknown-number-2)",
       "api": "phone.delete_text_message",
       "args": {
         "text_message_id": {
           "$from": "phone.search_text_messages",
-          "field": "text_message_id of the this-week invitation message sent by unknown-number-2",
-          "object": "message-2"
+          "field": "text_message_id of the this-week invitation message sent by unknown-number-2 [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "message-5"
         },
         "access_token": {
           "$from": "phone.login",
@@ -97,25 +165,93 @@
       }
     },
     {
-      "step": 8,
-      "pddl": "(splitwise-accept-group-invitation invite-code-1 phone-token message-1 contact-number-1)",
+      "step": 12,
+      "pddl": "(phone-search-contacts phone-token unknown-number-3)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "phone_number of a Splitwise-invitation message with created_at in the current week whose number is NOT returned by phone.search_contacts(query=phone_number) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "unknown-number-3"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(phone-delete-text-message message-6 phone-token unknown-number-3)",
+      "api": "phone.delete_text_message",
+      "args": {
+        "text_message_id": {
+          "$from": "phone.search_text_messages",
+          "field": "text_message_id of the this-week invitation message sent by unknown-number-2 [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "message-6"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(splitwise-accept-group-invitation invite-code-1 splitwise-token message-1 contact-number-1)",
       "api": "splitwise.accept_group_invitation",
       "args": {
         "invitation_code": {
           "$from": "phone.search_text_messages",
-          "field": "invitation code parsed from the message text of the this-week invitation message sent by contact-number-1",
+          "field": "invitation code parsed from the message text of the this-week invitation message sent by contact-number-1 [item 1 of 3 that match this rule; one object per matching item]",
           "object": "invite-code-1"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "splitwise.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "splitwise-token"
         }
       }
     },
     {
-      "step": 9,
-      "pddl": "(supervisor-complete-task invite-code-1 message-2)",
+      "step": 15,
+      "pddl": "(splitwise-accept-group-invitation invite-code-2 splitwise-token message-2 contact-number-2)",
+      "api": "splitwise.accept_group_invitation",
+      "args": {
+        "invitation_code": {
+          "$from": "phone.search_text_messages",
+          "field": "invitation code parsed from the message text of the this-week invitation message sent by contact-number-1 [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "invite-code-2"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(splitwise-accept-group-invitation invite-code-3 splitwise-token message-3 contact-number-3)",
+      "api": "splitwise.accept_group_invitation",
+      "args": {
+        "invitation_code": {
+          "$from": "phone.search_text_messages",
+          "field": "invitation code parsed from the message text of the this-week invitation message sent by contact-number-1 [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "invite-code-3"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(supervisor-complete-task invite-code-3 message-4)",
       "api": "supervisor.complete_task",
       "args": {}
     }

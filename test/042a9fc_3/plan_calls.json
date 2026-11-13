@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(spotify-login lindseysimpson-at-gmail-com spotify-password phone-token)",
+      "pddl": "(spotify-login lindseysimpson-at-gmail-com spotify-password spotify-token)",
       "api": "spotify.login",
       "args": {
         "username": "lindseysimpson@gmail.com",
@@ -57,7 +57,7 @@
         },
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the first contact returned for relationship \"roommates\"",
+          "field": "phone_number of the first contact returned for relationship \"roommates\" [item 1 of 3 that match this rule; one object per matching item]",
           "object": "phone-roommate-1"
         }
       }
@@ -74,81 +74,81 @@
         },
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the second contact returned for relationship \"roommates\"",
+          "field": "phone_number of the first contact returned for relationship \"roommates\" [item 2 of 3 that match this rule; one object per matching item]",
           "object": "phone-roommate-2"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist-library phone-token roadtrip-playlist)",
+      "pddl": "(spotify-show-playlist-library spotify-token roadtrip-playlist)",
       "api": "spotify.show_playlist_library",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-playlist roadtrip-playlist phone-token)",
+      "pddl": "(spotify-show-playlist roadtrip-playlist spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the roadtrip playlist that was shared in the text messages",
+          "field": "playlist_id taken from the playlist link in the supervisor's own text message to them (https://spotify.com/playlists/<playlist_id>)",
           "object": "roadtrip-playlist"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-remove-song-from-playlist roadtrip-playlist song-remove-1 phone-token roommate-1)",
+      "pddl": "(spotify-remove-song-from-playlist roadtrip-playlist song-remove-1 spotify-token roommate-1)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the roadtrip playlist that was shared in the text messages",
+          "field": "playlist_id taken from the playlist link in the supervisor's own text message to them (https://spotify.com/playlists/<playlist_id>)",
           "object": "roadtrip-playlist"
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].song_id whose title matches roommate-1's removal suggestion",
+          "field": "songs[].song_id whose title matches roommate-1's removal suggestion [item 1 of 2 that match this rule; one object per matching item]",
           "object": "song-remove-1"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-remove-song-from-playlist roadtrip-playlist song-remove-2 phone-token roommate-2)",
+      "pddl": "(spotify-remove-song-from-playlist roadtrip-playlist song-remove-2 spotify-token roommate-2)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the roadtrip playlist that was shared in the text messages",
+          "field": "playlist_id taken from the playlist link in the supervisor's own text message to them (https://spotify.com/playlists/<playlist_id>)",
           "object": "roadtrip-playlist"
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].song_id whose title matches roommate-2's removal suggestion",
+          "field": "songs[].song_id whose title matches roommate-1's removal suggestion [item 2 of 2 that match this rule; one object per matching item]",
           "object": "song-remove-2"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "spotify-token"
         }
       }
     },
@@ -159,30 +159,30 @@
       "args": {
         "query": {
           "$from": "phone.search_text_messages",
-          "field": "song title (and artist) parsed from roommate-1's reply message asking to add a song",
+          "field": "song title (and artist) parsed from roommate-1's reply message asking to add a song [item 1 of 2 that match this rule; one object per matching item]",
           "object": "query-song-add-1"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-add-song-to-playlist roadtrip-playlist song-add-1 phone-token roommate-1)",
+      "pddl": "(spotify-add-song-to-playlist roadtrip-playlist song-add-1 spotify-token roommate-1)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the roadtrip playlist that was shared in the text messages",
+          "field": "playlist_id taken from the playlist link in the supervisor's own text message to them (https://spotify.com/playlists/<playlist_id>)",
           "object": "roadtrip-playlist"
         },
         "song_id": {
           "$from": "spotify.search_songs",
-          "field": "song_id of the result whose title/artist match roommate-1's add suggestion",
+          "field": "song_id of the result whose title/artist match roommate-1's add suggestion [item 1 of 2 that match this rule; one object per matching item]",
           "object": "song-add-1"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "spotify-token"
         }
       }
     },
@@ -193,30 +193,30 @@
       "args": {
         "query": {
           "$from": "phone.search_text_messages",
-          "field": "song title (and artist) parsed from roommate-2's reply message asking to add a song",
+          "field": "song title (and artist) parsed from roommate-1's reply message asking to add a song [item 2 of 2 that match this rule; one object per matching item]",
           "object": "query-song-add-2"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(spotify-add-song-to-playlist roadtrip-playlist song-add-2 phone-token roommate-2)",
+      "pddl": "(spotify-add-song-to-playlist roadtrip-playlist song-add-2 spotify-token roommate-2)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the roadtrip playlist that was shared in the text messages",
+          "field": "playlist_id taken from the playlist link in the supervisor's own text message to them (https://spotify.com/playlists/<playlist_id>)",
           "object": "roadtrip-playlist"
         },
         "song_id": {
           "$from": "spotify.search_songs",
-          "field": "song_id of the result whose title/artist match roommate-2's add suggestion",
+          "field": "song_id of the result whose title/artist match roommate-1's add suggestion [item 2 of 2 that match this rule; one object per matching item]",
           "object": "song-add-2"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "spotify-token"
         }
       }
     },

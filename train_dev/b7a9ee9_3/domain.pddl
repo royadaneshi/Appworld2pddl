@@ -5,7 +5,7 @@
   (:constants
     spotify - app
     indie - genre
-    artist-ethan-wallace artist-nova-harmony artist-noah-bennett - artist)
+    indie-artist-1 indie-artist-2 indie-artist-3 - artist)
   (:predicates
     (passwords-known)
     (profile-known)
@@ -67,9 +67,9 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (following artist-ethan-wallace)
-      (following artist-nova-harmony)
-      (following artist-noah-bennett)
+      (following indie-artist-1)
+      (following indie-artist-2)
+      (following indie-artist-3)
       (not (task-completed)))
     :effect (task-completed))
 )

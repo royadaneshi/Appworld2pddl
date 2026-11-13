@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(file-system-login jack-maldonado-at-gmail-com file-system-password token-spotify)",
+      "pddl": "(file-system-login jack-maldonado-at-gmail-com file-system-password token-file-system)",
       "api": "file_system.login",
       "args": {
         "username": "jack-maldonado@gmail.com",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(spotify-login jack-maldonado-at-gmail-com spotify-password token-file-system)",
+      "pddl": "(spotify-login jack-maldonado-at-gmail-com spotify-password token-spotify)",
       "api": "spotify.login",
       "args": {
         "username": "jack-maldonado@gmail.com",
@@ -34,10 +34,23 @@
     },
     {
       "step": 4,
-      "pddl": "(file-system-show-file documents-personal-list-of-old-songs-txt token-spotify)",
+      "pddl": "(file-system-show-file documents-personal-list-of-old-songs-txt token-file-system)",
       "api": "file_system.show_file",
       "args": {
         "file_path": "~/documents/personal/list_of_old_songs.txt",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-create-playlist title-archived-playlist-songs token-spotify archived-playlist-songs)",
+      "api": "spotify.create_playlist",
+      "args": {
+        "title": "Archived Playlist Songs",
         "access_token": {
           "$from": "spotify.login",
           "field": "access_token",
@@ -46,155 +59,447 @@
       }
     },
     {
-      "step": 5,
-      "pddl": "(spotify-create-playlist title-archived-playlist-songs token-file-system archived-playlist-songs)",
-      "api": "spotify.create_playlist",
-      "args": {
-        "title": "Archived Playlist Songs",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "token-file-system"
-        }
-      }
-    },
-    {
       "step": 6,
-      "pddl": "(spotify-show-playlist-library token-file-system)",
+      "pddl": "(spotify-show-playlist-library token-spotify)",
       "api": "spotify.show_playlist_library",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-spotify"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-1 token-file-system)",
+      "pddl": "(spotify-show-playlist playlist-1 token-spotify)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 1 of 7 that match this rule; one object per matching item]",
           "object": "playlist-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-spotify"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-remove-song-from-playlist playlist-1 old-song-1 token-file-system)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 old-song-9 token-spotify)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 1 of 7 that match this rule; one object per matching item]",
           "object": "playlist-1"
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
-          "object": "old-song-1"
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 9 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-9"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-spotify"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-remove-song-from-playlist playlist-1 old-song-2 token-file-system)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-playlist playlist-2 token-spotify)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
-          "object": "playlist-1"
-        },
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
-          "object": "old-song-2"
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 2 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-spotify"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-show-playlist playlist-2 token-file-system)",
-      "api": "spotify.show_playlist",
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 old-song-13 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 2 of 7 that match this rule; one object per matching item]",
           "object": "playlist-2"
         },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 13 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-13"
+        },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-spotify"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(spotify-remove-song-from-playlist playlist-2 old-song-2 token-file-system)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 old-song-2 token-spotify)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library; iterate over all pages)",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 2 of 7 that match this rule; one object per matching item]",
           "object": "playlist-2"
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 2 of 13 that match this rule; one object per matching item]",
           "object": "old-song-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-spotify"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-1 token-file-system)",
-      "api": "spotify.add_song_to_playlist",
+      "pddl": "(spotify-show-playlist playlist-3 token-spotify)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
-          "$from": "spotify.create_playlist",
-          "field": "playlist_id",
-          "object": "archived-playlist-songs"
-        },
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
-          "object": "old-song-1"
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-spotify"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-2 token-file-system)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-3 old-song-6 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-3"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 6 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-show-playlist playlist-4 token-spotify)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 old-song-11 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 11 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-11"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 old-song-12 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 12 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-12"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 old-song-4 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 4 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-show-playlist playlist-5 token-spotify)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 old-song-1 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-5"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 1 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-show-playlist playlist-6 token-spotify)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-remove-song-from-playlist playlist-6 old-song-3 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-6"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 3 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-remove-song-from-playlist playlist-6 old-song-5 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-6"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 5 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-remove-song-from-playlist playlist-6 old-song-8 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-6"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 8 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-show-playlist playlist-7 token-spotify)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 old-song-10 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-7"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 10 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 old-song-2 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-7"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 2 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 old-song-7 token-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library; iterate over all pages) [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-7"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 7 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-9 token-spotify)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -204,18 +509,282 @@
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file",
-          "object": "old-song-2"
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 9 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-9"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-spotify"
         }
       }
     },
     {
-      "step": 14,
+      "step": 29,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-13 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 13 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-13"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-6 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 6 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-11 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 11 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-11"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-12 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 12 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-12"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-4 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 4 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-1 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 1 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-3 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 3 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-5 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 5 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-8 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 8 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-10 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 10 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-7 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 7 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(spotify-add-song-to-playlist archived-playlist-songs old-song-2 token-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "archived-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].song_id where the song title (and artist) matches an entry in the content returned by file_system.show_file [item 2 of 13 that match this rule; one object per matching item]",
+          "object": "old-song-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "token-spotify"
+        }
+      }
+    },
+    {
+      "step": 41,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

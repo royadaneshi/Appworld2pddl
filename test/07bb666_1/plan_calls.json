@@ -33,37 +33,61 @@
     },
     {
       "step": 4,
-      "pddl": "(amazon-show-product product-b)",
+      "pddl": "(amazon-show-product product-6)",
       "api": "amazon.show_product",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of each cart entry whose amazon.show_product rating is >= 4.2 (placeholder; stays in cart)",
-          "object": "product-b"
+          "field": "product_id of each cart entry whose amazon.show_product rating is >= 4.2 (placeholder; stays in cart) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "product-6"
         }
       }
     },
     {
       "step": 5,
-      "pddl": "(amazon-show-product product-a)",
+      "pddl": "(amazon-show-product product-7)",
       "api": "amazon.show_product",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product)",
-          "object": "product-a"
+          "field": "product_id of each cart entry whose amazon.show_product rating is >= 4.2 (placeholder; stays in cart) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "product-7"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(amazon-move-product-from-cart-to-wish-list product-a amazon-token)",
+      "pddl": "(amazon-show-product product-8)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is >= 4.2 (placeholder; stays in cart) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "product-8"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(amazon-show-product product-5)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "product-5"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list product-5 amazon-token)",
       "api": "amazon.move_product_from_cart_to_wish_list",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product)",
-          "object": "product-a"
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "product-5"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -73,7 +97,123 @@
       }
     },
     {
-      "step": 7,
+      "step": 9,
+      "pddl": "(amazon-show-product product-4)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "product-4"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list product-4 amazon-token)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-product product-3)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "product-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list product-3 amazon-token)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "product-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-show-product product-2)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "product-2"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list product-2 amazon-token)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-show-product product-1)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "product-1"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list product-1 amazon-token)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of each cart entry whose amazon.show_product rating is < 4.2 (placeholder for every such product) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "product-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 17,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

@@ -15,6 +15,10 @@
     privacy-private - privacy
     message-happy-birthday-son - message)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-6639773608)
     (username-for venmo sab-brown-at-gmail-com)
     (password-for phone phone-password)

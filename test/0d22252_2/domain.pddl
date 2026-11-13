@@ -7,7 +7,7 @@
   (:constants
     amazon supervisor - app
     mouse-pad - product-type
-    mouse-pad-1 mouse-pad-2 other-product - product
+    other-product-1 other-product-2 mouse-pad-1 mouse-pad-2 mouse-pad-3 mouse-pad-4 mouse-pad-5 other-product-3 other-product-4 other-product-5 other-product-6 other-product-7 other-product-8 other-product-9 other-product-10 other-product-11 - product
   )
   (:predicates
     (passwords-known)
@@ -91,7 +91,36 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (order-placed) (in-cart mouse-pad-1) (in-cart mouse-pad-2) (in-wish-list other-product) (not (in-cart other-product)) (not (task-completed)))
+    :precondition (and
+      (order-placed)
+      (in-cart mouse-pad-1)
+      (in-cart mouse-pad-2)
+      (in-cart mouse-pad-3)
+      (in-cart mouse-pad-4)
+      (in-cart mouse-pad-5)
+      (in-wish-list other-product-1)
+      (not (in-cart other-product-1))
+      (in-wish-list other-product-2)
+      (not (in-cart other-product-2))
+      (in-wish-list other-product-3)
+      (not (in-cart other-product-3))
+      (in-wish-list other-product-4)
+      (not (in-cart other-product-4))
+      (in-wish-list other-product-5)
+      (not (in-cart other-product-5))
+      (in-wish-list other-product-6)
+      (not (in-cart other-product-6))
+      (in-wish-list other-product-7)
+      (not (in-cart other-product-7))
+      (in-wish-list other-product-8)
+      (not (in-cart other-product-8))
+      (in-wish-list other-product-9)
+      (not (in-cart other-product-9))
+      (in-wish-list other-product-10)
+      (not (in-cart other-product-10))
+      (in-wish-list other-product-11)
+      (not (in-cart other-product-11))
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

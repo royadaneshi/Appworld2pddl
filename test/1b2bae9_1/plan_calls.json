@@ -48,7 +48,7 @@
     },
     {
       "step": 5,
-      "pddl": "(file-system-login robertmartinez-at-gmail-com file-system-password amazon-token)",
+      "pddl": "(file-system-login robertmartinez-at-gmail-com file-system-password file-system-token)",
       "api": "file_system.login",
       "args": {
         "username": "robertmartinez@gmail.com",
@@ -107,13 +107,13 @@
     },
     {
       "step": 9,
-      "pddl": "(file-system-show-directory amazon-token dir-bills flag-true)",
+      "pddl": "(file-system-show-directory file-system-token dir-bills flag-true)",
       "api": "file_system.show_directory",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "file-system-token"
         },
         "directory_path": "~/bills/",
         "recursive": true
@@ -121,7 +121,7 @@
     },
     {
       "step": 10,
-      "pddl": "(amazon-download-order-receipt order-new amazon-token receipt-file-path amazon-token dir-bills)",
+      "pddl": "(amazon-download-order-receipt order-new amazon-token receipt-file-path file-system-token dir-bills)",
       "api": "amazon.download_order_receipt",
       "args": {
         "order_id": {
@@ -140,9 +140,9 @@
           "object": "receipt-file-path"
         },
         "file_system_access_token": {
-          "$from": "amazon.login",
+          "$from": "file_system.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "file-system-token"
         }
       }
     },

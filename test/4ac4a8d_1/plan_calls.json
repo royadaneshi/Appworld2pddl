@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login ja-solomon-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login ja-solomon-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "ja-solomon@gmail.com",
@@ -34,10 +34,10 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login ja-solomon-at-gmail-com phone-password file-system-token)",
+      "pddl": "(phone-login phone-8683971586 phone-password phone-token)",
       "api": "phone.login",
       "args": {
-        "username": "ja-solomon@gmail.com",
+        "username": "8683971586",
         "password": {
           "$from": "supervisor.show_account_passwords",
           "field": "password where account_name == \"phone\"",
@@ -47,26 +47,26 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts file-system-token query-denise denise denise-email)",
+      "pddl": "(phone-search-contacts phone-token query-denise denise denise-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "phone-token"
         },
         "query": "Denise"
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-show-inbox-threads file-system-token denise-email denise denise-expenses-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token denise-email denise denise-expenses-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "from_email": {
           "$from": "phone.search_contacts",
@@ -77,7 +77,7 @@
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-thread denise-expenses-thread file-system-token)",
+      "pddl": "(gmail-show-thread denise-expenses-thread gmail-token)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -86,28 +86,28 @@
           "object": "denise-expenses-thread"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(phone-search-contacts file-system-token query-glenn glenn glenn-email)",
+      "pddl": "(phone-search-contacts phone-token query-glenn glenn glenn-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "phone-token"
         },
         "query": "Glenn"
       }
     },
     {
       "step": 9,
-      "pddl": "(gmail-forward-email-thread denise-expenses-thread glenn-email file-system-token true forward-draft glenn)",
+      "pddl": "(gmail-forward-email-thread denise-expenses-thread glenn-email gmail-token true forward-draft glenn)",
       "api": "gmail.forward_email_thread",
       "args": {
         "email_thread_id": {
@@ -121,16 +121,16 @@
           "object": "glenn-email"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "draft_not_send": true
       }
     },
     {
       "step": 10,
-      "pddl": "(gmail-upload-attachments-to-draft forward-draft expenses-james-pdf file-system-token file-system-token)",
+      "pddl": "(gmail-upload-attachments-to-draft forward-draft expenses-james-pdf file-system-token gmail-token)",
       "api": "gmail.upload_attachments_to_draft",
       "args": {
         "draft_id": {
@@ -145,15 +145,15 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(gmail-show-draft forward-draft file-system-token)",
+      "pddl": "(gmail-show-draft forward-draft gmail-token)",
       "api": "gmail.show_draft",
       "args": {
         "draft_id": {
@@ -162,15 +162,15 @@
           "object": "forward-draft"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(gmail-update-draft forward-draft file-system-token body-with-note)",
+      "pddl": "(gmail-update-draft forward-draft gmail-token body-with-note)",
       "api": "gmail.update_draft",
       "args": {
         "draft_id": {
@@ -179,9 +179,9 @@
           "object": "forward-draft"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "body": {
           "$from": "gmail.show_draft",
@@ -192,7 +192,7 @@
     },
     {
       "step": 13,
-      "pddl": "(gmail-send-email-from-draft forward-draft file-system-token denise-expenses-thread glenn-email)",
+      "pddl": "(gmail-send-email-from-draft forward-draft gmail-token denise-expenses-thread glenn-email)",
       "api": "gmail.send_email_from_draft",
       "args": {
         "draft_id": {
@@ -201,9 +201,9 @@
           "object": "forward-draft"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },

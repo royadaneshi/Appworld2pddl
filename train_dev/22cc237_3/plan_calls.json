@@ -105,7 +105,7 @@
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the result titled \"... Expense Shares ...\" created yesterday (2023-05-19); the search also returns an older \"Dinner Dinner at ...\" note that must be ignored",
+          "field": "note_id of the result whose title contains \"Dinner with Colleagues\" and created_at >= start of yesterday (2023-05-19)",
           "object": "note-dinner-with-colleagues"
         },
         "access_token": {
@@ -117,18 +117,18 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-payment-request email-anita share-anita venmo-token description-dinner-with-colleagues coworker-anita note-dinner-with-colleagues)",
+      "pddl": "(venmo-create-payment-request email-coworker-1 amount-share-1 venmo-token description-dinner-with-colleagues coworker-1 note-dinner-with-colleagues)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name == \"Anita\" (Anita Burch; pending: no such received transaction)",
-          "object": "email-anita"
+          "field": "email of the coworker contact whose first_name matches a name listed in the note and who has NOT sent a received venmo transaction described \"Dinner with Colleagues\" since yesterday (1st such person) [item 1 of 9 that match this rule; one object per matching item]",
+          "object": "email-coworker-1"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: integer after '=> $' on the line '- Anita => $32'",
-          "object": "share-anita"
+          "field": "content line \"- <name> => $<share>\" for coworker-1 (integer share) [item 1 of 9 that match this rule; one object per matching item]",
+          "object": "amount-share-1"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -140,18 +140,18 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-create-payment-request email-jamie share-jamie venmo-token description-dinner-with-colleagues coworker-jamie note-dinner-with-colleagues)",
+      "pddl": "(venmo-create-payment-request email-coworker-2 amount-share-2 venmo-token description-dinner-with-colleagues coworker-2 note-dinner-with-colleagues)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name == \"Jamie\" (Jamie Solomon; pending: no such received transaction)",
-          "object": "email-jamie"
+          "field": "email of the coworker contact whose first_name matches a name listed in the note and who has NOT sent a received venmo transaction described \"Dinner with Colleagues\" since yesterday (1st such person) [item 2 of 9 that match this rule; one object per matching item]",
+          "object": "email-coworker-2"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: integer after '=> $' on the line '- Jamie => $31'",
-          "object": "share-jamie"
+          "field": "content line \"- <name> => $<share>\" for coworker-1 (integer share) [item 2 of 9 that match this rule; one object per matching item]",
+          "object": "amount-share-2"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -163,18 +163,18 @@
     },
     {
       "step": 13,
-      "pddl": "(venmo-create-payment-request email-sabrina share-sabrina venmo-token description-dinner-with-colleagues coworker-sabrina note-dinner-with-colleagues)",
+      "pddl": "(venmo-create-payment-request email-coworker-3 amount-share-3 venmo-token description-dinner-with-colleagues coworker-3 note-dinner-with-colleagues)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name == \"Sabrina\" (Sabrina Brown; pending: no such received transaction)",
-          "object": "email-sabrina"
+          "field": "email of the coworker contact whose first_name matches a name listed in the note and who has NOT sent a received venmo transaction described \"Dinner with Colleagues\" since yesterday (1st such person) [item 3 of 9 that match this rule; one object per matching item]",
+          "object": "email-coworker-3"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: integer after '=> $' on the line '- Sabrina => $32'",
-          "object": "share-sabrina"
+          "field": "content line \"- <name> => $<share>\" for coworker-1 (integer share) [item 3 of 9 that match this rule; one object per matching item]",
+          "object": "amount-share-3"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -186,18 +186,18 @@
     },
     {
       "step": 14,
-      "pddl": "(venmo-create-payment-request email-stephen share-stephen venmo-token description-dinner-with-colleagues coworker-stephen note-dinner-with-colleagues)",
+      "pddl": "(venmo-create-payment-request email-coworker-8 amount-share-8 venmo-token description-dinner-with-colleagues coworker-4 note-dinner-with-colleagues)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name == \"Stephen\" (Stephen Mccoy; pending: no such received transaction)",
-          "object": "email-stephen"
+          "field": "email of the coworker contact whose first_name matches a name listed in the note and who has NOT sent a received venmo transaction described \"Dinner with Colleagues\" since yesterday (1st such person) [item 8 of 9 that match this rule; one object per matching item]",
+          "object": "email-coworker-8"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: integer after '=> $' on the line '- Stephen => $33'",
-          "object": "share-stephen"
+          "field": "content line \"- <name> => $<share>\" for coworker-1 (integer share) [item 8 of 9 that match this rule; one object per matching item]",
+          "object": "amount-share-8"
         },
         "access_token": {
           "$from": "venmo.login",

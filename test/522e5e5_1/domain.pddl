@@ -1,7 +1,10 @@
 (define (domain appworld-522e5e5-1)
   (:requirements :strips :typing :negative-preconditions :equality)
   (:types app person username password token email datetime - object)
-  (:constants venmo - app counterparty-1 counterparty-2 - person)
+  (:constants
+    venmo - app
+    counterparty-1 counterparty-2 counterparty-3 counterparty-4 counterparty-5 counterparty-6 counterparty-7 counterparty-8 counterparty-9 counterparty-10 - person
+  )
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -40,6 +43,17 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (friend counterparty-1) (friend counterparty-2) (not (task-completed)))
+    :precondition (and
+      (friend counterparty-1)
+      (friend counterparty-2)
+      (friend counterparty-3)
+      (friend counterparty-4)
+      (friend counterparty-5)
+      (friend counterparty-6)
+      (friend counterparty-7)
+      (friend counterparty-8)
+      (friend counterparty-9)
+      (friend counterparty-10)
+      (not (task-completed)))
     :effect (task-completed))
 )

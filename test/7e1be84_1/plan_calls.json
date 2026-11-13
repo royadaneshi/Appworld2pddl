@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-3808719492 phone-password amazon-token)",
+      "pddl": "(phone-login username-3808719492 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3808719492",
@@ -58,26 +58,26 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts amazon-token query-david david david-phone-number)",
+      "pddl": "(phone-search-contacts phone-token query-david david david-phone-number)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "query": "David"
       }
     },
     {
       "step": 7,
-      "pddl": "(phone-search-text-messages amazon-token query-food-scale david-phone-number david david-food-scale-message)",
+      "pddl": "(phone-search-text-messages phone-token query-food-scale david-phone-number david david-food-scale-message)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "query": "food scale",
         "phone_number": {

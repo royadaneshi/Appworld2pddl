@@ -69,7 +69,43 @@
     },
     {
       "step": 7,
-      "pddl": "(supervisor-complete-task song-previous-2)",
+      "pddl": "(spotify-previous-song spotify-token song-previous-2 song-previous-3)",
+      "api": "spotify.previous_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-previous-song spotify-token song-previous-3 song-previous-4)",
+      "api": "spotify.previous_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-previous-song spotify-token song-previous-4 song-previous-5)",
+      "api": "spotify.previous_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(supervisor-complete-task song-previous-5)",
       "api": "supervisor.complete_task",
       "args": {}
     }

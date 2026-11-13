@@ -5,6 +5,7 @@
     email-thread attachment file-path amount - object)
   (:constants supervisor gmail file-system - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -32,14 +33,14 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for gmail ?u) (password-for gmail ?pw)
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw)
                        (not (has-token gmail ?t)) (not (task-completed)))
     :effect (has-token gmail ?t))
 
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for file-system ?u) (password-for file-system ?pw)
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (passwords-known) (username-for file-system ?u) (password-for file-system ?pw)
                        (not (has-token file-system ?t)) (not (task-completed)))
     :effect (has-token file-system ?t))
 

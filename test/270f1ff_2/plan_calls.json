@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login venmo-username-vicpowe-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login venmo-username-vicpowe-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "vicpowe@gmail.com",
@@ -47,13 +47,13 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-show-transactions phone-token daughter-email daughter amount-last-birthday)",
+      "pddl": "(venmo-show-transactions venmo-token daughter-email daughter amount-last-birthday)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "user_email": {
           "$from": "phone.search_contacts",
@@ -64,7 +64,7 @@
     },
     {
       "step": 6,
-      "pddl": "(venmo-create-transaction daughter-email amount-thrice-last-birthday phone-token note-many-happy-returns-of-the-day private-true daughter amount-last-birthday birthday-transaction)",
+      "pddl": "(venmo-create-transaction daughter-email amount-thrice-last-birthday venmo-token note-many-happy-returns-of-the-day private-true daughter amount-last-birthday birthday-transaction)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -78,9 +78,9 @@
           "object": "amount-thrice-last-birthday"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Many happy returns of the day!",
         "private": true

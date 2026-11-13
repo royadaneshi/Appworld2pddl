@@ -37,13 +37,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-follow-artist artist-grace-harrison spotify-token classical count-22)",
+      "pddl": "(spotify-follow-artist classical-artist-1 spotify-token classical count-22)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.search_artists",
-          "field": "artist_id of the only result with genre == \"classical\" and follower_count >= 22 across all pages (Grace Harrison)",
-          "object": "artist-grace-harrison"
+          "field": "artist_id of 1st result with genre == \"classical\" and follower_count >= 22 (iterate page_index until results are empty)",
+          "object": "classical-artist-1"
         },
         "access_token": {
           "$from": "spotify.login",

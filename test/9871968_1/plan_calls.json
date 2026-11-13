@@ -69,12 +69,12 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-1 amazon-token count-2 count-1)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-1 amazon-token count-5 count-4)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the 1st wish list entry",
+          "field": "product_id of the 1st wish list entry [item 1 of 5 that match this rule; one object per matching item]",
           "object": "wish-product-1"
         },
         "access_token": {
@@ -86,12 +86,12 @@
     },
     {
       "step": 8,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-2 amazon-token count-1 count-0)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-2 amazon-token count-4 count-3)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the 2nd wish list entry (one move call per wish list entry)",
+          "field": "product_id of the 1st wish list entry [item 2 of 5 that match this rule; one object per matching item]",
           "object": "wish-product-2"
         },
         "access_token": {
@@ -103,6 +103,57 @@
     },
     {
       "step": 9,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-3 amazon-token count-3 count-2)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 1st wish list entry [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "wish-product-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-4 amazon-token count-2 count-1)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 1st wish list entry [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "wish-product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wish-product-5 amazon-token count-1 count-0)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the 1st wish list entry [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "wish-product-5"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(amazon-place-order amazon-card-1 work-address amazon-token count-0)",
       "api": "amazon.place_order",
       "args": {
@@ -124,7 +175,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 13,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

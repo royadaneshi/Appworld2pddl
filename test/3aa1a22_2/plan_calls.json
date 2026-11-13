@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(splitwise-login splitwise-username splitwise-password phone-token)",
+      "pddl": "(splitwise-login splitwise-username splitwise-password splitwise-token)",
       "api": "splitwise.login",
       "args": {
         "username": "siwhit@gmail.com",
@@ -57,7 +57,7 @@
         },
         "query": {
           "$from": "phone.search_voice_messages",
-          "field": "sender.phone_number of voice-message-1 (used as search_contacts query)",
+          "field": "sender.phone_number of voice-message-1 (used as search_contacts query) [item 1 of 2 that match this rule; one object per matching item]",
           "object": "sender-number-1"
         }
       }
@@ -74,37 +74,37 @@
         },
         "query": {
           "$from": "phone.search_voice_messages",
-          "field": "sender.phone_number of voice-message-2 (used as search_contacts query)",
+          "field": "sender.phone_number of voice-message-1 (used as search_contacts query) [item 2 of 2 that match this rule; one object per matching item]",
           "object": "sender-number-2"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(phone-delete-voice-message voice-message-2 phone-token sender-number-2)",
-      "api": "phone.delete_voice_message",
+      "pddl": "(phone-search-contacts phone-token sender-number-3)",
+      "api": "phone.search_contacts",
       "args": {
-        "voice_message_id": {
-          "$from": "phone.search_voice_messages",
-          "field": "voice_message_id of a Splitwise-invitation voice message whose created_at date is 2023-05-16 and whose sender phone number is NOT found in the contact book",
-          "object": "voice-message-2"
-        },
         "access_token": {
           "$from": "phone.login",
           "field": "access_token",
           "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_voice_messages",
+          "field": "sender.phone_number of voice-message-2 (used as search_contacts query) [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "sender-number-3"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(splitwise-accept-group-invitation invitation-code-1 phone-token voice-message-1 sender-number-1 group-1)",
-      "api": "splitwise.accept_group_invitation",
+      "pddl": "(phone-delete-voice-message voice-message-3 phone-token sender-number-3)",
+      "api": "phone.delete_voice_message",
       "args": {
-        "invitation_code": {
+        "voice_message_id": {
           "$from": "phone.search_voice_messages",
-          "field": "invitation code parsed from the message text of voice-message-1",
-          "object": "invitation-code-1"
+          "field": "voice_message_id of a Splitwise-invitation voice message whose created_at date is 2023-05-16 and whose sender phone number is NOT found in the contact book [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "voice-message-3"
         },
         "access_token": {
           "$from": "phone.login",
@@ -115,7 +115,75 @@
     },
     {
       "step": 9,
-      "pddl": "(supervisor-complete-task group-1 voice-message-2)",
+      "pddl": "(phone-search-contacts phone-token sender-number-4)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "query": {
+          "$from": "phone.search_voice_messages",
+          "field": "sender.phone_number of voice-message-2 (used as search_contacts query) [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "sender-number-4"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-delete-voice-message voice-message-4 phone-token sender-number-4)",
+      "api": "phone.delete_voice_message",
+      "args": {
+        "voice_message_id": {
+          "$from": "phone.search_voice_messages",
+          "field": "voice_message_id of a Splitwise-invitation voice message whose created_at date is 2023-05-16 and whose sender phone number is NOT found in the contact book [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "voice-message-4"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(splitwise-accept-group-invitation invitation-code-1 splitwise-token voice-message-1 sender-number-1 group-1)",
+      "api": "splitwise.accept_group_invitation",
+      "args": {
+        "invitation_code": {
+          "$from": "phone.search_voice_messages",
+          "field": "invitation code parsed from the message text of voice-message-1 [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "invitation-code-1"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(splitwise-accept-group-invitation invitation-code-2 splitwise-token voice-message-2 sender-number-2 group-2)",
+      "api": "splitwise.accept_group_invitation",
+      "args": {
+        "invitation_code": {
+          "$from": "phone.search_voice_messages",
+          "field": "invitation code parsed from the message text of voice-message-1 [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "invitation-code-2"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(supervisor-complete-task group-2 voice-message-3)",
       "api": "supervisor.complete_task",
       "args": {}
     }

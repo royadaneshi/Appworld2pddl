@@ -12,6 +12,12 @@
     request-cart-items - payment-request
   )
   (:init
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for amazon mel-bailey-at-gmail-com)
     (username-for phone phone-3383946795)
     (username-for venmo mel-bailey-at-gmail-com)

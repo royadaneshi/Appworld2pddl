@@ -69,12 +69,12 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart wrench-set-2 amazon-token wish-qty-2)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wrench-set-2 amazon-token wish-qty-1)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of a wish-list entry whose product_type == \"wrench set\" (second such entry; one move call per matching entry)",
+          "field": "product_id of a wish-list entry whose product_type == \"wrench set\" (first such entry; inspect with amazon.show_product if product_type is not listed) [item 2 of 2 that match this rule; one object per matching item]",
           "object": "wrench-set-2"
         },
         "access_token": {
@@ -84,8 +84,8 @@
         },
         "quantity": {
           "$from": "amazon.show_wish_list",
-          "field": "quantity of the wish-list entry for wrench-set-2",
-          "object": "wish-qty-2"
+          "field": "quantity of the wish-list entry for wrench-set-1",
+          "object": "wish-qty-1"
         }
       }
     },
@@ -96,7 +96,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of a wish-list entry whose product_type == \"wrench set\" (first such entry; inspect with amazon.show_product if product_type is not listed)",
+          "field": "product_id of a wish-list entry whose product_type == \"wrench set\" (first such entry; inspect with amazon.show_product if product_type is not listed) [item 1 of 2 that match this rule; one object per matching item]",
           "object": "wrench-set-1"
         },
         "access_token": {

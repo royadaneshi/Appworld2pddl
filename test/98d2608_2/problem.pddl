@@ -13,6 +13,15 @@
     subject-headshot - subject
     body-headshot - body)
   (:init
+    (credential-of-app phone phone-username-8506051563)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app file-system ed-wilson-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app gmail ed-wilson-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
     (username-for phone phone-username-8506051563)
     (username-for file-system ed-wilson-at-gmail-com)
     (username-for gmail ed-wilson-at-gmail-com)

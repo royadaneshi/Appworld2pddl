@@ -47,7 +47,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-search-users venmo-token roommate-1-email roommate-1)",
+      "pddl": "(venmo-search-users venmo-token roommate-email-1 roommate-1)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
@@ -57,14 +57,14 @@
         },
         "query": {
           "$from": "phone.search_contacts",
-          "field": "contacts[0].email",
-          "object": "roommate-1-email"
+          "field": "contacts[0].email [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-1"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(venmo-search-users venmo-token roommate-2-email roommate-2)",
+      "pddl": "(venmo-search-users venmo-token roommate-email-2 roommate-2)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
@@ -74,84 +74,60 @@
         },
         "query": {
           "$from": "phone.search_contacts",
-          "field": "contacts[1].email",
-          "object": "roommate-2-email"
+          "field": "contacts[0].email [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-2"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-signup roommate-1-first-name roommate-1-last-name roommate-1-email temp-password-ko6a roommate-1)",
-      "api": "venmo.signup",
+      "pddl": "(venmo-search-users venmo-token roommate-email-3 roommate-3)",
+      "api": "venmo.search_users",
       "args": {
-        "first_name": {
-          "$from": "phone.search_contacts",
-          "field": "contacts[0].first_name (relationship == roommate)",
-          "object": "roommate-1-first-name"
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
         },
-        "last_name": {
+        "query": {
           "$from": "phone.search_contacts",
-          "field": "contacts[0].last_name",
-          "object": "roommate-1-last-name"
-        },
-        "email": {
-          "$from": "phone.search_contacts",
-          "field": "contacts[0].email",
-          "object": "roommate-1-email"
-        },
-        "password": "-kO6&A"
+          "field": "contacts[0].email [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-3"
+        }
       }
     },
     {
       "step": 8,
-      "pddl": "(phone-send-text-message roommate-1-phone message-venmo-account-made phone-token roommate-1)",
-      "api": "phone.send_text_message",
-      "args": {
-        "phone_number": {
-          "$from": "phone.search_contacts",
-          "field": "contacts[0].phone_number",
-          "object": "roommate-1-phone"
-        },
-        "message": "I made an account on venmo for you. You should have received an email for activation. Please do it soon. The temporary password is -kO6&A. Change it too.",
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
-      "step": 9,
-      "pddl": "(venmo-signup roommate-2-first-name roommate-2-last-name roommate-2-email temp-password-ko6a roommate-2)",
+      "pddl": "(venmo-signup roommate-first-name-1 roommate-last-name-1 roommate-email-1 temp-password-ko6a roommate-1)",
       "api": "venmo.signup",
       "args": {
         "first_name": {
           "$from": "phone.search_contacts",
-          "field": "contacts[1].first_name (relationship == roommate)",
-          "object": "roommate-2-first-name"
+          "field": "contacts[0].first_name (relationship == roommate) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-first-name-1"
         },
         "last_name": {
           "$from": "phone.search_contacts",
-          "field": "contacts[1].last_name",
-          "object": "roommate-2-last-name"
+          "field": "contacts[0].last_name [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-last-name-1"
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "contacts[1].email",
-          "object": "roommate-2-email"
+          "field": "contacts[0].email [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-1"
         },
         "password": "-kO6&A"
       }
     },
     {
-      "step": 10,
-      "pddl": "(phone-send-text-message roommate-2-phone message-venmo-account-made phone-token roommate-2)",
+      "step": 9,
+      "pddl": "(phone-send-text-message roommate-phone-1 message-venmo-account-made phone-token roommate-1)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "contacts[1].phone_number",
-          "object": "roommate-2-phone"
+          "field": "contacts[0].phone_number [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-phone-1"
         },
         "message": "I made an account on venmo for you. You should have received an email for activation. Please do it soon. The temporary password is -kO6&A. Change it too.",
         "access_token": {
@@ -162,8 +138,49 @@
       }
     },
     {
+      "step": 10,
+      "pddl": "(venmo-signup roommate-first-name-3 roommate-last-name-3 roommate-email-3 temp-password-ko6a roommate-3)",
+      "api": "venmo.signup",
+      "args": {
+        "first_name": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].first_name (relationship == roommate) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-first-name-3"
+        },
+        "last_name": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].last_name [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-last-name-3"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].email [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-3"
+        },
+        "password": "-kO6&A"
+      }
+    },
+    {
       "step": 11,
-      "pddl": "(supervisor-complete-task roommate-1 roommate-2)",
+      "pddl": "(phone-send-text-message roommate-phone-3 message-venmo-account-made phone-token roommate-3)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "contacts[0].phone_number [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-phone-3"
+        },
+        "message": "I made an account on venmo for you. You should have received an email for activation. Please do it soon. The temporary password is -kO6&A. Change it too.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task roommate-1 roommate-3)",
       "api": "supervisor.complete_task",
       "args": {}
     }

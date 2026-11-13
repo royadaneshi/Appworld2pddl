@@ -39,13 +39,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-playlist playlist-368 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-3 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Celtic Mysteries: Folk & Fantasy\" (contains classical songs)",
-          "object": "playlist-368"
+          "field": "playlist_id (each entry, iterate all pages) [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -56,13 +56,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-370 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-4 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Quarantine Quirks: Pandemic Playlist\" (contains classical songs)",
-          "object": "playlist-370"
+          "field": "playlist_id (each entry, iterate all pages) [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -73,13 +73,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-371 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-7 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Midweek Motivation: Hump Day Hits\" (contains classical songs)",
-          "object": "playlist-371"
+          "field": "playlist_id (each entry, iterate all pages) [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "playlist-7"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -90,158 +90,141 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-playlist playlist-372 spotify-token)",
-      "api": "spotify.show_playlist",
+      "pddl": "(spotify-show-song song-2 playlist-3)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Mystic Moods: New Age Relaxation\" (contains classical songs)",
-          "object": "playlist-372"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id [item 2 of 7 that match this rule; one object per matching item]",
+          "object": "song-2"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-song song-152 playlist-368)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-follow-artist classical-artist-1 spotify-token song-2)",
+      "api": "spotify.follow_artist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"The Enigma of Love\" (genre classical via spotify.show_song)",
-          "object": "song-152"
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id where genre == \"classical\" (deduplicated across songs) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "classical-artist-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-follow-artist artist-mia-sullivan spotify-token song-152)",
-      "api": "spotify.follow_artist",
+      "pddl": "(spotify-show-song song-7 playlist-3)",
+      "api": "spotify.show_song",
       "args": {
-        "artist_id": {
-          "$from": "spotify.show_song",
-          "field": "artists[].id of \"Mia Sullivan\" (artist of a classical playlist song, not yet followed)",
-          "object": "artist-mia-sullivan"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "song-7"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(spotify-show-song song-266 playlist-368)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-follow-artist classical-artist-4 spotify-token song-7)",
+      "api": "spotify.follow_artist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Within the Walls of Solitude\" (genre classical via spotify.show_song)",
-          "object": "song-266"
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id where genre == \"classical\" (deduplicated across songs) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "classical-artist-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-follow-artist artist-evelyn-rose spotify-token song-266)",
-      "api": "spotify.follow_artist",
+      "pddl": "(spotify-show-song song-3 playlist-4)",
+      "api": "spotify.show_song",
       "args": {
-        "artist_id": {
-          "$from": "spotify.show_song",
-          "field": "artists[].id of \"Evelyn Rose\" (artist of a classical playlist song, not yet followed)",
-          "object": "artist-evelyn-rose"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "song-3"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-show-song song-216 playlist-370)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-follow-artist classical-artist-2 spotify-token song-3)",
+      "api": "spotify.follow_artist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"The Paradox of Our Love\" (genre classical via spotify.show_song)",
-          "object": "song-216"
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id where genre == \"classical\" (deduplicated across songs) [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "classical-artist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(spotify-follow-artist artist-oceanic-odyssey spotify-token song-216)",
-      "api": "spotify.follow_artist",
+      "pddl": "(spotify-show-song song-5 playlist-4)",
+      "api": "spotify.show_song",
       "args": {
-        "artist_id": {
-          "$from": "spotify.show_song",
-          "field": "artists[].id of \"Oceanic Odyssey\" (artist of a classical playlist song, not yet followed)",
-          "object": "artist-oceanic-odyssey"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "song-5"
         }
       }
     },
     {
       "step": 15,
-      "pddl": "(spotify-show-song song-139 playlist-371)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-follow-artist classical-artist-3 spotify-token song-5)",
+      "api": "spotify.follow_artist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Momentary Bliss\" (genre classical via spotify.show_song)",
-          "object": "song-139"
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id where genre == \"classical\" (deduplicated across songs) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "classical-artist-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(spotify-follow-artist artist-zoe-mitchell spotify-token song-139)",
-      "api": "spotify.follow_artist",
+      "pddl": "(spotify-show-song song-1 playlist-7)",
+      "api": "spotify.show_song",
       "args": {
-        "artist_id": {
-          "$from": "spotify.show_song",
-          "field": "artists[].id of \"Zoe Mitchell\" (artist of a classical playlist song, not yet followed)",
-          "object": "artist-zoe-mitchell"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id [item 1 of 7 that match this rule; one object per matching item]",
+          "object": "song-1"
         }
       }
     },
     {
       "step": 17,
-      "pddl": "(spotify-show-song song-82 playlist-372)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of \"Lost in the Twilight of Hope\" (genre classical via spotify.show_song)",
-          "object": "song-82"
-        }
-      }
-    },
-    {
-      "step": 18,
-      "pddl": "(spotify-follow-artist artist-felix-blackwood spotify-token song-82)",
+      "pddl": "(spotify-follow-artist classical-artist-5 spotify-token song-1)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Felix Blackwood\" (artist of a classical playlist song, not yet followed)",
-          "object": "artist-felix-blackwood"
+          "field": "artists[].id where genre == \"classical\" (deduplicated across songs) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "classical-artist-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -251,7 +234,7 @@
       }
     },
     {
-      "step": 19,
+      "step": 18,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

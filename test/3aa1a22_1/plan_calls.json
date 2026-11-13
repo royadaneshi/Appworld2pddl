@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(splitwise-login carbrown-at-gmail-com splitwise-password phone-token)",
+      "pddl": "(splitwise-login carbrown-at-gmail-com splitwise-password splitwise-token)",
       "api": "splitwise.login",
       "args": {
         "username": "carbrown@gmail.com",
@@ -98,7 +98,7 @@
     },
     {
       "step": 8,
-      "pddl": "(splitwise-accept-group-invitation invitation-code-1 phone-token invitation-message-1 sender-number-1 splitwise-group-1)",
+      "pddl": "(splitwise-accept-group-invitation invitation-code-1 splitwise-token invitation-message-1 sender-number-1 splitwise-group-1)",
       "api": "splitwise.accept_group_invitation",
       "args": {
         "invitation_code": {
@@ -107,9 +107,9 @@
           "object": "invitation-code-1"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "splitwise.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "splitwise-token"
         }
       }
     },

@@ -38,19 +38,19 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry)",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry) [item 1 of 4 that match this rule; one object per matching item]",
           "object": "wl-product-1"
         }
       }
     },
     {
       "step": 5,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart wl-product-1 amazon-token qty-wl-1)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wl-product-1 amazon-token qty-wl-2)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry)",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry) [item 1 of 4 that match this rule; one object per matching item]",
           "object": "wl-product-1"
         },
         "access_token": {
@@ -60,8 +60,8 @@
         },
         "quantity": {
           "$from": "amazon.show_wish_list",
-          "field": "quantity of the wish-list entry bound to wl-product-1",
-          "object": "qty-wl-1"
+          "field": "quantity of the wish-list entry bound to wl-product-1 [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "qty-wl-2"
         }
       }
     },
@@ -72,7 +72,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (second qualifying entry)",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry) [item 2 of 4 that match this rule; one object per matching item]",
           "object": "wl-product-2"
         }
       }
@@ -84,7 +84,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (second qualifying entry)",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry) [item 2 of 4 that match this rule; one object per matching item]",
           "object": "wl-product-2"
         },
         "access_token": {
@@ -94,7 +94,7 @@
         },
         "quantity": {
           "$from": "amazon.show_wish_list",
-          "field": "quantity of the wish-list entry bound to wl-product-2",
+          "field": "quantity of the wish-list entry bound to wl-product-1 [item 2 of 2 that match this rule; one object per matching item]",
           "object": "qty-wl-2"
         }
       }
@@ -106,19 +106,19 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (third qualifying entry)",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry) [item 3 of 4 that match this rule; one object per matching item]",
           "object": "wl-product-3"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart wl-product-3 amazon-token qty-wl-3)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wl-product-3 amazon-token qty-wl-2)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (third qualifying entry)",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry) [item 3 of 4 that match this rule; one object per matching item]",
           "object": "wl-product-3"
         },
         "access_token": {
@@ -128,13 +128,47 @@
         },
         "quantity": {
           "$from": "amazon.show_wish_list",
-          "field": "quantity of the wish-list entry bound to wl-product-3",
-          "object": "qty-wl-3"
+          "field": "quantity of the wish-list entry bound to wl-product-1 [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "qty-wl-2"
         }
       }
     },
     {
       "step": 10,
+      "pddl": "(amazon-show-product wl-product-4)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "wl-product-4"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart wl-product-4 amazon-token qty-wl-1)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of a wish-list entry whose product rating (amazon.show_product field rating) is > 3.7 (first qualifying entry) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "wl-product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the wish-list entry bound to wl-product-1 [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "qty-wl-1"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

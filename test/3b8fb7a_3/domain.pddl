@@ -5,12 +5,13 @@
   )
   (:constants
     supervisor simple-note venmo - app
-    friend-i-owe-1 friend-i-owe-2 friend-owes-me-1 friend-owes-me-2 friend-owes-me-3 - person
-    amount-i-owe-1 amount-i-owe-2 amount-owed-to-me-1 amount-owed-to-me-2 amount-owed-to-me-3 - amount
+    friend-i-owe-1 friend-i-owe-2 friend-i-owe-3 friend-i-owe-4 friend-owes-me-1 friend-owes-me-2 friend-owes-me-3 friend-owes-me-4 - person
+    amount-i-owe-1 amount-i-owe-2 amount-i-owe-3 amount-i-owe-4 amount-owed-to-me-1 amount-owed-to-me-2 amount-owed-to-me-3 amount-owed-to-me-4 - amount
     desc-for-miami-trip - description
     private-true - privacy
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -38,7 +39,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u)
       (passwords-known)
       (username-for simple-note ?u)
       (password-for simple-note ?pw)
@@ -73,7 +74,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u)
       (passwords-known)
       (username-for venmo ?u)
       (password-for venmo ?pw)
@@ -121,11 +122,13 @@
     :precondition (and
       (paid friend-i-owe-1 amount-i-owe-1 desc-for-miami-trip private-true)
       (paid friend-i-owe-2 amount-i-owe-2 desc-for-miami-trip private-true)
+      (paid friend-i-owe-3 amount-i-owe-3 desc-for-miami-trip private-true)
+      (paid friend-i-owe-4 amount-i-owe-4 desc-for-miami-trip private-true)
       (requested friend-owes-me-1 amount-owed-to-me-1 desc-for-miami-trip private-true)
       (requested friend-owes-me-2 amount-owed-to-me-2 desc-for-miami-trip private-true)
       (requested friend-owes-me-3 amount-owed-to-me-3 desc-for-miami-trip private-true)
-      (not (task-completed))
-    )
+      (requested friend-owes-me-4 amount-owed-to-me-4 desc-for-miami-trip private-true)
+      (not (task-completed)))
     :effect (task-completed)
   )
 )

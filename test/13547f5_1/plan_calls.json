@@ -34,13 +34,13 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-send-voice-message roommate-1-number msg-i-have-taken-out-the-trash phone-token roommate-1 roommate)",
+      "pddl": "(phone-send-voice-message roommate-number-1 msg-i-have-taken-out-the-trash phone-token roommate-1 roommate)",
       "api": "phone.send_voice_message",
       "args": {
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the 1st contact returned with relationship \"roommate\"",
-          "object": "roommate-1-number"
+          "field": "phone_number of the 1st contact returned with relationship \"roommate\" [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-number-1"
         },
         "message": "I have taken out the trash.",
         "access_token": {
@@ -52,13 +52,13 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-send-voice-message roommate-2-number msg-i-have-taken-out-the-trash phone-token roommate-2 roommate)",
+      "pddl": "(phone-send-voice-message roommate-number-2 msg-i-have-taken-out-the-trash phone-token roommate-2 roommate)",
       "api": "phone.send_voice_message",
       "args": {
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the 2nd contact returned with relationship \"roommate\"",
-          "object": "roommate-2-number"
+          "field": "phone_number of the 1st contact returned with relationship \"roommate\" [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-number-2"
         },
         "message": "I have taken out the trash.",
         "access_token": {
@@ -70,6 +70,24 @@
     },
     {
       "step": 6,
+      "pddl": "(phone-send-voice-message roommate-number-3 msg-i-have-taken-out-the-trash phone-token roommate-3 roommate)",
+      "api": "phone.send_voice_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the 1st contact returned with relationship \"roommate\" [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-number-3"
+        },
+        "message": "I have taken out the trash.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 7,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

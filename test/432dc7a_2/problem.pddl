@@ -11,6 +11,12 @@
     address-workplace - address
     payment-card-default - payment-card)
   (:init
+    (credential-of-app gmail an-harrison-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon an-harrison-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for gmail an-harrison-at-gmail-com)
     (username-for amazon an-harrison-at-gmail-com)
     (password-for gmail gmail-password)

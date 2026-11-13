@@ -74,7 +74,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product)",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 1 of 5 that match this rule; one object per matching item]",
           "object": "mouse-pad-1"
         }
       }
@@ -86,7 +86,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product)",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 1 of 5 that match this rule; one object per matching item]",
           "object": "mouse-pad-1"
         },
         "access_token": {
@@ -96,7 +96,7 @@
         },
         "quantity": {
           "$from": "amazon.show_wish_list",
-          "field": "quantity of the entry for mouse-pad-1",
+          "field": "quantity of the entry for mouse-pad-1 [item 1 of 2 that match this rule; one object per matching item]",
           "object": "quantity-of-mouse-pad-1"
         }
       }
@@ -108,19 +108,19 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the next wish-list entry whose product_type is \"mouse pad\" (repeat for every such entry)",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 2 of 5 that match this rule; one object per matching item]",
           "object": "mouse-pad-2"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(amazon-move-product-from-wish-list-to-cart mouse-pad-2 amazon-token quantity-of-mouse-pad-2)",
+      "pddl": "(amazon-move-product-from-wish-list-to-cart mouse-pad-2 amazon-token quantity-of-mouse-pad-1)",
       "api": "amazon.move_product_from_wish_list_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_wish_list",
-          "field": "product_id of the next wish-list entry whose product_type is \"mouse pad\" (repeat for every such entry)",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 2 of 5 that match this rule; one object per matching item]",
           "object": "mouse-pad-2"
         },
         "access_token": {
@@ -130,13 +130,115 @@
         },
         "quantity": {
           "$from": "amazon.show_wish_list",
-          "field": "quantity of the entry for mouse-pad-2",
-          "object": "quantity-of-mouse-pad-2"
+          "field": "quantity of the entry for mouse-pad-1 [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "quantity-of-mouse-pad-1"
         }
       }
     },
     {
       "step": 11,
+      "pddl": "(amazon-show-product mouse-pad-3)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "mouse-pad-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart mouse-pad-3 amazon-token quantity-of-mouse-pad-1)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "mouse-pad-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the entry for mouse-pad-1 [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "quantity-of-mouse-pad-1"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-show-product mouse-pad-4)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "mouse-pad-4"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart mouse-pad-4 amazon-token quantity-of-mouse-pad-2)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "mouse-pad-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the entry for mouse-pad-1 [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "quantity-of-mouse-pad-2"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-show-product mouse-pad-5)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "mouse-pad-5"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-move-product-from-wish-list-to-cart mouse-pad-5 amazon-token quantity-of-mouse-pad-1)",
+      "api": "amazon.move_product_from_wish_list_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_wish_list",
+          "field": "product_id of the first wish-list entry whose product_type is \"mouse pad\" (confirmed via amazon.show_product) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "mouse-pad-5"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "amazon.show_wish_list",
+          "field": "quantity of the entry for mouse-pad-1 [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "quantity-of-mouse-pad-1"
+        }
+      }
+    },
+    {
+      "step": 17,
       "pddl": "(amazon-place-order primary-card home-address amazon-token)",
       "api": "amazon.place_order",
       "args": {
@@ -158,7 +260,7 @@
       }
     },
     {
-      "step": 12,
+      "step": 18,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

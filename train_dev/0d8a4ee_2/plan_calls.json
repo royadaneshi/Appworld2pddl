@@ -40,7 +40,7 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts token-phone roommates roommate-carl phone-roommate-carl email-roommate-carl)",
+      "pddl": "(phone-search-contacts token-phone roommates person-2 phone-roommate-1 email-roommate-1)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
@@ -53,7 +53,7 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts token-phone roommates roommate-jeremy phone-roommate-jeremy email-roommate-jeremy)",
+      "pddl": "(phone-search-contacts token-phone roommates roommate-1 phone-roommate-2 email-roommate-2)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
@@ -66,7 +66,7 @@
     },
     {
       "step": 7,
-      "pddl": "(phone-search-contacts token-phone siblings sibling-kevin phone-sibling-kevin email-sibling-kevin)",
+      "pddl": "(phone-search-contacts token-phone siblings person-1 phone-sibling-2 email-sibling-2)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
@@ -79,7 +79,7 @@
     },
     {
       "step": 8,
-      "pddl": "(phone-search-contacts token-phone siblings sibling-martin phone-sibling-martin email-sibling-martin)",
+      "pddl": "(phone-search-contacts token-phone siblings sibling-1 phone-sibling-1 email-sibling-1)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
@@ -92,7 +92,7 @@
     },
     {
       "step": 9,
-      "pddl": "(phone-search-contacts token-phone siblings sibling-matthew phone-sibling-matthew email-sibling-matthew)",
+      "pddl": "(phone-search-contacts token-phone siblings sibling-2 phone-sibling-3 email-sibling-3)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
@@ -105,7 +105,7 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-show-profile token-venmo email-roommate-carl roommate-carl)",
+      "pddl": "(venmo-show-profile token-venmo email-sibling-2 person-1)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -115,49 +115,49 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"roommates\" named Carl Brown",
-          "object": "email-roommate-carl"
+          "field": "email of the same contact as phone-sibling-2",
+          "object": "email-sibling-2"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(venmo-show-profile token-venmo email-roommate-jeremy roommate-jeremy)",
-      "api": "venmo.show_profile",
+      "pddl": "(phone-send-text-message phone-sibling-2 msg-get-on-venmo-please token-phone person-1)",
+      "api": "phone.send_text_message",
       "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "token-venmo"
-        },
-        "email": {
+        "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"roommates\" named Jeremy Calhoun",
-          "object": "email-roommate-jeremy"
+          "field": "phone_number of another contact returned for relationship == \"siblings\"",
+          "object": "phone-sibling-2"
+        },
+        "message": "Get on venmo please!",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "token-phone"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(phone-send-text-message phone-roommate-jeremy msg-get-on-venmo-please token-phone roommate-jeremy)",
-      "api": "phone.send_text_message",
+      "pddl": "(venmo-show-profile token-venmo email-roommate-1 person-2)",
+      "api": "venmo.show_profile",
       "args": {
-        "phone_number": {
-          "$from": "phone.search_contacts",
-          "field": "phone_number of the contact with relationship == \"roommates\" named Jeremy Calhoun (iterate all pages)",
-          "object": "phone-roommate-jeremy"
-        },
-        "message": "Get on venmo please!",
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "token-phone"
+          "object": "token-venmo"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the same contact as phone-roommate-1",
+          "object": "email-roommate-1"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(venmo-show-profile token-venmo email-sibling-kevin sibling-kevin)",
+      "pddl": "(venmo-show-profile token-venmo email-roommate-2 roommate-1)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -167,37 +167,20 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"siblings\" named Kevin Blackburn",
-          "object": "email-sibling-kevin"
+          "field": "email of the same contact as phone-roommate-1",
+          "object": "email-roommate-2"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(venmo-show-profile token-venmo email-sibling-martin sibling-martin)",
-      "api": "venmo.show_profile",
-      "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "token-venmo"
-        },
-        "email": {
-          "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"siblings\" named Martin Blackburn",
-          "object": "email-sibling-martin"
-        }
-      }
-    },
-    {
-      "step": 15,
-      "pddl": "(phone-send-text-message phone-sibling-martin msg-get-on-venmo-please token-phone sibling-martin)",
+      "pddl": "(phone-send-text-message phone-roommate-2 msg-get-on-venmo-please token-phone roommate-1)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
           "$from": "phone.search_contacts",
-          "field": "phone_number of the contact with relationship == \"siblings\" named Martin Blackburn (iterate all pages)",
-          "object": "phone-sibling-martin"
+          "field": "phone_number of a contact returned for relationship == \"roommates\"",
+          "object": "phone-roommate-2"
         },
         "message": "Get on venmo please!",
         "access_token": {
@@ -208,8 +191,8 @@
       }
     },
     {
-      "step": 16,
-      "pddl": "(venmo-show-profile token-venmo email-sibling-matthew sibling-matthew)",
+      "step": 15,
+      "pddl": "(venmo-show-profile token-venmo email-sibling-1 sibling-1)",
       "api": "venmo.show_profile",
       "args": {
         "access_token": {
@@ -219,8 +202,25 @@
         },
         "email": {
           "$from": "phone.search_contacts",
-          "field": "email of the contact with relationship == \"siblings\" named Matthew Blackburn",
-          "object": "email-sibling-matthew"
+          "field": "email of the same contact as phone-sibling-1",
+          "object": "email-sibling-1"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-show-profile token-venmo email-sibling-3 sibling-2)",
+      "api": "venmo.show_profile",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the same contact as phone-sibling-1",
+          "object": "email-sibling-3"
         }
       }
     },

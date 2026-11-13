@@ -5,9 +5,10 @@
   )
   (:constants
     supervisor phone venmo - app
-    contact-friend-1 contact-friend-2 venmo-only-friend-1 mutual-friend-1 - person
+    contact-friend-1 contact-friend-2 contact-friend-3 contact-friend-4 contact-friend-5 contact-friend-6 contact-friend-7 venmo-only-friend-1 venmo-only-friend-2 venmo-only-friend-3 venmo-only-friend-4 venmo-only-friend-5 - person
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -28,7 +29,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t)
   )
   ; API: phone.search_contacts
@@ -40,7 +41,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (has-token venmo ?t)
   )
   ; API: venmo.search_friends
@@ -64,7 +65,20 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (venmo-friend contact-friend-1) (venmo-friend contact-friend-2) (venmo-friend mutual-friend-1) (not (venmo-friend venmo-only-friend-1)) (not (task-completed)))
+    :precondition (and
+      (venmo-friend contact-friend-1)
+      (venmo-friend contact-friend-2)
+      (venmo-friend contact-friend-3)
+      (venmo-friend contact-friend-4)
+      (venmo-friend contact-friend-5)
+      (venmo-friend contact-friend-6)
+      (venmo-friend contact-friend-7)
+      (not (venmo-friend venmo-only-friend-1))
+      (not (venmo-friend venmo-only-friend-2))
+      (not (venmo-friend venmo-only-friend-3))
+      (not (venmo-friend venmo-only-friend-4))
+      (not (venmo-friend venmo-only-friend-5))
+      (not (task-completed)))
     :effect (task-completed)
   )
 )

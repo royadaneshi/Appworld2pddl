@@ -7,8 +7,8 @@
     query-roommate - query
     rel-roommate - relationship
     date-2023-01-01 - date
-    anita-burch roommate-anthony-harrison roommate-melissa-bailey roommate-nicholas-weber - person
-    email-anthony-harrison email-melissa-bailey email-nicholas-weber - email
+    anita-burch roommate-1 roommate-2 roommate-3 - person
+    roommate-email-1 roommate-email-2 roommate-email-3 - email
   )
   (:init
     (credential-of-app phone phone-password)
@@ -22,26 +22,26 @@
     (target-relationship rel-roommate)
     (relationship-query query-roommate rel-roommate)
     (year-start date-2023-01-01)
-    (has-relationship roommate-anthony-harrison rel-roommate)
-    (has-relationship roommate-melissa-bailey rel-roommate)
-    (has-relationship roommate-nicholas-weber rel-roommate)
-    (email-of roommate-anthony-harrison email-anthony-harrison)
-    (email-of roommate-melissa-bailey email-melissa-bailey)
-    (email-of roommate-nicholas-weber email-nicholas-weber)
-    (transaction-with tx-1245 email-anthony-harrison)
-    (transaction-with tx-3809 email-nicholas-weber)
-    (transaction-with tx-3813 email-nicholas-weber)
-    (transaction-with tx-6221 email-melissa-bailey)
-    (transaction-with tx-6224 email-melissa-bailey)
-    (created-on-or-after tx-1245 date-2023-01-01)
-    (created-on-or-after tx-3809 date-2023-01-01)
-    (created-on-or-after tx-3813 date-2023-01-01)
-    (created-on-or-after tx-6221 date-2023-01-01)
-    (created-on-or-after tx-6224 date-2023-01-01))
+    (has-relationship roommate-1 rel-roommate)
+    (has-relationship roommate-2 rel-roommate)
+    (has-relationship roommate-3 rel-roommate)
+    (email-of roommate-1 roommate-email-1)
+    (email-of roommate-2 roommate-email-2)
+    (email-of roommate-3 roommate-email-3)
+    (transaction-with tx-roommate-1 roommate-email-1)
+    (transaction-with tx-roommate-2 roommate-email-3)
+    (transaction-with tx-roommate-3 roommate-email-3)
+    (transaction-with tx-roommate-4 roommate-email-2)
+    (transaction-with tx-roommate-5 roommate-email-2)
+    (created-on-or-after tx-roommate-1 date-2023-01-01)
+    (created-on-or-after tx-roommate-2 date-2023-01-01)
+    (created-on-or-after tx-roommate-3 date-2023-01-01)
+    (created-on-or-after tx-roommate-4 date-2023-01-01)
+    (created-on-or-after tx-roommate-5 date-2023-01-01))
   (:goal (and
-    (liked tx-1245)
-    (liked tx-3809)
-    (liked tx-3813)
-    (liked tx-6221)
-    (liked tx-6224)
+    (liked tx-roommate-1)
+    (liked tx-roommate-2)
+    (liked tx-roommate-3)
+    (liked tx-roommate-4)
+    (liked tx-roommate-5)
     (task-completed))))

@@ -5,11 +5,16 @@
     an-harrison-at-gmail-com - username
     spotify-password - password
     spotify-token - token
-    song-a song-b song-c - song)
+    song-a song-1 song-2 song-3 song-c - song
+  )
   (:init
     (password-for spotify spotify-password)
     (current-song song-a)
-    (next-in-queue song-a song-b)
-    (next-in-queue song-b song-c)
+    (next-in-queue song-a song-1)
+    (next-in-queue song-1 song-2)
+    (next-in-queue song-2 song-3)
+    (next-in-queue song-3 song-c)
     (liked song-c))
-  (:goal (and (reached-liked-song) (task-completed))))
+  (:goal (and
+    (reached-liked-song)
+    (task-completed))))

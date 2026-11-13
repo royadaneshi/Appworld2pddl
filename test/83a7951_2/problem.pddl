@@ -15,6 +15,18 @@
     dt-2023-05-20t00-00-00 - datetime
   )
   (:init
+    (credential-of-app venmo username-paul-mill-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
+    (credential-of-app venmo paul-mill-at-gmail-com)
+    (credential-of-app file-system username-paul-mill-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
+    (credential-of-app file-system paul-mill-at-gmail-com)
+    (credential-of-app splitwise username-paul-mill-at-gmail-com)
+    (credential-of-app splitwise splitwise-password)
+    (credential-of-app splitwise splitwise-token)
+    (credential-of-app splitwise paul-mill-at-gmail-com)
     (username-for venmo username-paul-mill-at-gmail-com)
     (username-for file-system username-paul-mill-at-gmail-com)
     (username-for splitwise username-paul-mill-at-gmail-com)

@@ -39,13 +39,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-playlist playlist-402 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Urban Jazz Fusion\"",
-          "object": "playlist-402"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -56,13 +56,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-403 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Groove Galaxy: Funk & Soul\"",
-          "object": "playlist-403"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -73,13 +73,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-405 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-3 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
-          "object": "playlist-405"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -90,13 +90,13 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-playlist playlist-406 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-4 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
-          "object": "playlist-406"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -107,13 +107,13 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-playlist playlist-407 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-5 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
-          "object": "playlist-407"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -124,13 +124,13 @@
     },
     {
       "step": 10,
-      "pddl": "(spotify-show-playlist playlist-408 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-7 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
-          "object": "playlist-408"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -141,13 +141,13 @@
     },
     {
       "step": 11,
-      "pddl": "(spotify-show-playlist playlist-409 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-8 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
-          "object": "playlist-409"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-8"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -170,25 +170,25 @@
     },
     {
       "step": 13,
-      "pddl": "(spotify-show-song song-124 my-song-library)",
+      "pddl": "(spotify-show-song song-released-11 my-song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Drowning Sorrows\" (release_date 2022-07-16 via spotify.show_song; to remove)",
-          "object": "song-124"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 11 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-11"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(spotify-remove-song-from-library song-124 spotify-token my-song-library n34 n33)",
+      "pddl": "(spotify-remove-song-from-library song-released-11 spotify-token my-song-library count-31 count-30)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Drowning Sorrows\" (release_date 2022-07-16 via spotify.show_song; to remove)",
-          "object": "song-124"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 11 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-11"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -199,25 +199,25 @@
     },
     {
       "step": 15,
-      "pddl": "(spotify-show-song song-157 my-song-library)",
+      "pddl": "(spotify-show-song song-released-17 my-song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Chasing the Elusive Horizon\" (release_date 2023-02-02 via spotify.show_song; to remove)",
-          "object": "song-157"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 17 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-17"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(spotify-remove-song-from-library song-157 spotify-token my-song-library n33 n32)",
+      "pddl": "(spotify-remove-song-from-library song-released-17 spotify-token my-song-library count-30 count-29)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Chasing the Elusive Horizon\" (release_date 2023-02-02 via spotify.show_song; to remove)",
-          "object": "song-157"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 17 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-17"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -228,25 +228,25 @@
     },
     {
       "step": 17,
-      "pddl": "(spotify-show-song song-182 my-song-library)",
+      "pddl": "(spotify-show-song song-released-21 my-song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Melodies of the Forgotten Past\" (release_date 2022-03-16 via spotify.show_song; to remove)",
-          "object": "song-182"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 21 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-21"
         }
       }
     },
     {
       "step": 18,
-      "pddl": "(spotify-remove-song-from-library song-182 spotify-token my-song-library n32 n31)",
+      "pddl": "(spotify-remove-song-from-library song-released-21 spotify-token my-song-library count-29 count-28)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Melodies of the Forgotten Past\" (release_date 2022-03-16 via spotify.show_song; to remove)",
-          "object": "song-182"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 21 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-21"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -257,25 +257,25 @@
     },
     {
       "step": 19,
-      "pddl": "(spotify-show-song song-236 my-song-library)",
+      "pddl": "(spotify-show-song song-released-23 my-song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"A Portrait of Love Unrequited\" (release_date 2022-08-20 via spotify.show_song; to remove)",
-          "object": "song-236"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 23 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-23"
         }
       }
     },
     {
       "step": 20,
-      "pddl": "(spotify-remove-song-from-library song-236 spotify-token my-song-library n31 n30)",
+      "pddl": "(spotify-remove-song-from-library song-released-23 spotify-token my-song-library count-28 count-27)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"A Portrait of Love Unrequited\" (release_date 2022-08-20 via spotify.show_song; to remove)",
-          "object": "song-236"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 23 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-23"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -286,25 +286,25 @@
     },
     {
       "step": 21,
-      "pddl": "(spotify-show-song song-28 my-song-library)",
+      "pddl": "(spotify-show-song song-released-26 my-song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Invisible Lines\" (release_date 2022-07-15 via spotify.show_song; to remove)",
-          "object": "song-28"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 26 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-26"
         }
       }
     },
     {
       "step": 22,
-      "pddl": "(spotify-remove-song-from-library song-28 spotify-token my-song-library n30 n29)",
+      "pddl": "(spotify-remove-song-from-library song-released-26 spotify-token my-song-library count-27 count-26)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Invisible Lines\" (release_date 2022-07-15 via spotify.show_song; to remove)",
-          "object": "song-28"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 26 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-26"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -315,25 +315,25 @@
     },
     {
       "step": 23,
-      "pddl": "(spotify-show-song song-53 my-song-library)",
+      "pddl": "(spotify-show-song song-released-5 my-song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Unearthed Secrets\" (release_date 2022-11-11 via spotify.show_song; to remove)",
-          "object": "song-53"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 5 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-5"
         }
       }
     },
     {
       "step": 24,
-      "pddl": "(spotify-remove-song-from-library song-53 spotify-token my-song-library n29 n28)",
+      "pddl": "(spotify-remove-song-from-library song-released-5 spotify-token my-song-library count-26 count-25)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Unearthed Secrets\" (release_date 2022-11-11 via spotify.show_song; to remove)",
-          "object": "song-53"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 5 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -344,25 +344,25 @@
     },
     {
       "step": 25,
-      "pddl": "(spotify-show-song song-81 my-song-library)",
+      "pddl": "(spotify-show-song song-released-7 my-song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Echoes of the Whispering Wind\" (release_date 2022-07-06 via spotify.show_song; to remove)",
-          "object": "song-81"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 7 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-7"
         }
       }
     },
     {
       "step": 26,
-      "pddl": "(spotify-remove-song-from-library song-81 spotify-token my-song-library n28 n27)",
+      "pddl": "(spotify-remove-song-from-library song-released-7 spotify-token my-song-library count-25 count-24)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Echoes of the Whispering Wind\" (release_date 2022-07-06 via spotify.show_song; to remove)",
-          "object": "song-81"
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 7 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-7"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -373,30 +373,30 @@
     },
     {
       "step": 27,
-      "pddl": "(spotify-show-song song-153 playlist-402)",
+      "pddl": "(spotify-show-song song-released-15 playlist-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Love's Aftermath\" (release_date 2022-08-08 via spotify.show_song; to remove)",
-          "object": "song-153"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 15 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-15"
         }
       }
     },
     {
       "step": 28,
-      "pddl": "(spotify-remove-song-from-playlist playlist-402 song-153 spotify-token n27 n26)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-released-15 spotify-token count-24 count-23)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Urban Jazz Fusion\"",
-          "object": "playlist-402"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Love's Aftermath\" (release_date 2022-08-08 via spotify.show_song; to remove)",
-          "object": "song-153"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 15 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-15"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -407,30 +407,30 @@
     },
     {
       "step": 29,
-      "pddl": "(spotify-show-song song-271 playlist-402)",
+      "pddl": "(spotify-show-song song-released-2 playlist-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Hidden Language of Love\" (release_date 2022-11-04 via spotify.show_song; to remove)",
-          "object": "song-271"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 2 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-2"
         }
       }
     },
     {
       "step": 30,
-      "pddl": "(spotify-remove-song-from-playlist playlist-402 song-271 spotify-token n26 n25)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-released-2 spotify-token count-23 count-22)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Urban Jazz Fusion\"",
-          "object": "playlist-402"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Hidden Language of Love\" (release_date 2022-11-04 via spotify.show_song; to remove)",
-          "object": "song-271"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 2 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -441,30 +441,30 @@
     },
     {
       "step": 31,
-      "pddl": "(spotify-show-song song-56 playlist-402)",
+      "pddl": "(spotify-show-song song-released-22 playlist-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Distant Love\" (release_date 2022-12-11 via spotify.show_song; to remove)",
-          "object": "song-56"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 22 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-22"
         }
       }
     },
     {
       "step": 32,
-      "pddl": "(spotify-remove-song-from-playlist playlist-402 song-56 spotify-token n25 n24)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-released-22 spotify-token count-22 count-21)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Urban Jazz Fusion\"",
-          "object": "playlist-402"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Distant Love\" (release_date 2022-12-11 via spotify.show_song; to remove)",
-          "object": "song-56"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 22 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-22"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -475,30 +475,30 @@
     },
     {
       "step": 33,
-      "pddl": "(spotify-show-song song-152 playlist-403)",
+      "pddl": "(spotify-show-song song-released-19 playlist-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Enigma of Love\" (release_date 2022-05-12 via spotify.show_song; to remove)",
-          "object": "song-152"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 19 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-19"
         }
       }
     },
     {
       "step": 34,
-      "pddl": "(spotify-remove-song-from-playlist playlist-403 song-152 spotify-token n24 n23)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 song-released-19 spotify-token count-21 count-20)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Groove Galaxy: Funk & Soul\"",
-          "object": "playlist-403"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Enigma of Love\" (release_date 2022-05-12 via spotify.show_song; to remove)",
-          "object": "song-152"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 19 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-19"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -509,30 +509,30 @@
     },
     {
       "step": 35,
-      "pddl": "(spotify-show-song song-322 playlist-403)",
+      "pddl": "(spotify-show-song song-released-33 playlist-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Lost in the Labyrinth of Love\" (release_date 2022-09-24 via spotify.show_song; to remove)",
-          "object": "song-322"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 33 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-33"
         }
       }
     },
     {
       "step": 36,
-      "pddl": "(spotify-remove-song-from-playlist playlist-403 song-322 spotify-token n23 n22)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 song-released-33 spotify-token count-20 count-19)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Groove Galaxy: Funk & Soul\"",
-          "object": "playlist-403"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Lost in the Labyrinth of Love\" (release_date 2022-09-24 via spotify.show_song; to remove)",
-          "object": "song-322"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 33 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-33"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -543,30 +543,30 @@
     },
     {
       "step": 37,
-      "pddl": "(spotify-show-song song-57 playlist-403)",
+      "pddl": "(spotify-show-song song-released-9 playlist-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Silver Lining\" (release_date 2022-12-11 via spotify.show_song; to remove)",
-          "object": "song-57"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 9 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-9"
         }
       }
     },
     {
       "step": 38,
-      "pddl": "(spotify-remove-song-from-playlist playlist-403 song-57 spotify-token n22 n21)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 song-released-9 spotify-token count-19 count-18)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Groove Galaxy: Funk & Soul\"",
-          "object": "playlist-403"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Silver Lining\" (release_date 2022-12-11 via spotify.show_song; to remove)",
-          "object": "song-57"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 9 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-9"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -577,30 +577,30 @@
     },
     {
       "step": 39,
-      "pddl": "(spotify-show-song song-10 playlist-405)",
+      "pddl": "(spotify-show-song song-released-16 playlist-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Curse of Loving You\" (release_date 2022-05-21 via spotify.show_song; to remove)",
-          "object": "song-10"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 16 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-16"
         }
       }
     },
     {
       "step": 40,
-      "pddl": "(spotify-remove-song-from-playlist playlist-405 song-10 spotify-token n21 n20)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-3 song-released-16 spotify-token count-18 count-17)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
-          "object": "playlist-405"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Curse of Loving You\" (release_date 2022-05-21 via spotify.show_song; to remove)",
-          "object": "song-10"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 16 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-16"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -611,30 +611,30 @@
     },
     {
       "step": 41,
-      "pddl": "(spotify-show-song song-207 playlist-405)",
+      "pddl": "(spotify-show-song song-released-18 playlist-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"A Tale of Unspoken Longing\" (release_date 2022-02-27 via spotify.show_song; to remove)",
-          "object": "song-207"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 18 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-18"
         }
       }
     },
     {
       "step": 42,
-      "pddl": "(spotify-remove-song-from-playlist playlist-405 song-207 spotify-token n20 n19)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-3 song-released-18 spotify-token count-17 count-16)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
-          "object": "playlist-405"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"A Tale of Unspoken Longing\" (release_date 2022-02-27 via spotify.show_song; to remove)",
-          "object": "song-207"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 18 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-18"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -645,30 +645,30 @@
     },
     {
       "step": 43,
-      "pddl": "(spotify-show-song song-306 playlist-405)",
+      "pddl": "(spotify-show-song song-released-27 playlist-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Wilted Grace\" (release_date 2022-01-05 via spotify.show_song; to remove)",
-          "object": "song-306"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 27 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-27"
         }
       }
     },
     {
       "step": 44,
-      "pddl": "(spotify-remove-song-from-playlist playlist-405 song-306 spotify-token n19 n18)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-3 song-released-27 spotify-token count-16 count-15)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
-          "object": "playlist-405"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Wilted Grace\" (release_date 2022-01-05 via spotify.show_song; to remove)",
-          "object": "song-306"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 27 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-27"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -679,30 +679,30 @@
     },
     {
       "step": 45,
-      "pddl": "(spotify-show-song song-88 playlist-405)",
+      "pddl": "(spotify-show-song song-released-1 playlist-4)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Crimson Skies of Longing\" (release_date 2022-11-09 via spotify.show_song; to remove)",
-          "object": "song-88"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 1 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-1"
         }
       }
     },
     {
       "step": 46,
-      "pddl": "(spotify-remove-song-from-playlist playlist-405 song-88 spotify-token n18 n17)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-released-1 spotify-token count-15 count-14)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
-          "object": "playlist-405"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Crimson Skies of Longing\" (release_date 2022-11-09 via spotify.show_song; to remove)",
-          "object": "song-88"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 1 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -713,290 +713,268 @@
     },
     {
       "step": 47,
-      "pddl": "(spotify-remove-song-from-playlist playlist-409 song-88 spotify-token n17 n16)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-song song-released-10 playlist-4)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
-          "object": "playlist-409"
-        },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Crimson Skies of Longing\" (release_date 2022-11-09 via spotify.show_song; to remove)",
-          "object": "song-88"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 10 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-10"
         }
       }
     },
     {
       "step": 48,
-      "pddl": "(spotify-show-song song-111 playlist-406)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-released-10 spotify-token count-14 count-13)",
+      "api": "spotify.remove_song_from_playlist",
       "args": {
-        "song_id": {
+        "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Lonesome Road\" (release_date 2022-06-30 via spotify.show_song; to remove)",
-          "object": "song-111"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 10 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 49,
-      "pddl": "(spotify-remove-song-from-playlist playlist-406 song-111 spotify-token n16 n15)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-song song-released-12 playlist-4)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
-          "object": "playlist-406"
-        },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Lonesome Road\" (release_date 2022-06-30 via spotify.show_song; to remove)",
-          "object": "song-111"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 12 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-12"
         }
       }
     },
     {
       "step": 50,
-      "pddl": "(spotify-show-song song-144 playlist-406)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-released-12 spotify-token count-13 count-12)",
+      "api": "spotify.remove_song_from_playlist",
       "args": {
-        "song_id": {
+        "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Longing for a Touch Unfelt\" (release_date 2022-01-06 via spotify.show_song; to remove)",
-          "object": "song-144"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 12 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-12"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 51,
-      "pddl": "(spotify-remove-song-from-playlist playlist-406 song-144 spotify-token n15 n14)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-song song-released-25 playlist-4)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
-          "object": "playlist-406"
-        },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Longing for a Touch Unfelt\" (release_date 2022-01-06 via spotify.show_song; to remove)",
-          "object": "song-144"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 25 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-25"
         }
       }
     },
     {
       "step": 52,
-      "pddl": "(spotify-show-song song-267 playlist-406)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-released-25 spotify-token count-12 count-11)",
+      "api": "spotify.remove_song_from_playlist",
       "args": {
-        "song_id": {
+        "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Maze of Forgotten Whispers\" (release_date 2022-12-12 via spotify.show_song; to remove)",
-          "object": "song-267"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 25 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-25"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 53,
-      "pddl": "(spotify-remove-song-from-playlist playlist-406 song-267 spotify-token n14 n13)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-song song-released-30 playlist-4)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
-          "object": "playlist-406"
-        },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Maze of Forgotten Whispers\" (release_date 2022-12-12 via spotify.show_song; to remove)",
-          "object": "song-267"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 30 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-30"
         }
       }
     },
     {
       "step": 54,
-      "pddl": "(spotify-show-song song-221 playlist-407)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-released-30 spotify-token count-11 count-10)",
+      "api": "spotify.remove_song_from_playlist",
       "args": {
-        "song_id": {
+        "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Sailing on the Sea of Dreams\" (release_date 2023-04-11 via spotify.show_song; to remove)",
-          "object": "song-221"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 30 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-30"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 55,
-      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-221 spotify-token n13 n12)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-song song-released-31 playlist-4)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
-          "object": "playlist-407"
-        },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Sailing on the Sea of Dreams\" (release_date 2023-04-11 via spotify.show_song; to remove)",
-          "object": "song-221"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 31 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-31"
         }
       }
     },
     {
       "step": 56,
-      "pddl": "(spotify-show-song song-292 playlist-407)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-released-31 spotify-token count-10 count-9)",
+      "api": "spotify.remove_song_from_playlist",
       "args": {
-        "song_id": {
+        "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Final Echo\" (release_date 2022-07-16 via spotify.show_song; to remove)",
-          "object": "song-292"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 31 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-31"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 57,
-      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-292 spotify-token n12 n11)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-song song-released-20 playlist-5)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
-          "object": "playlist-407"
-        },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Final Echo\" (release_date 2022-07-16 via spotify.show_song; to remove)",
-          "object": "song-292"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 20 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-20"
         }
       }
     },
     {
       "step": 58,
-      "pddl": "(spotify-show-song song-299 playlist-407)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-released-20 spotify-token count-9 count-8)",
+      "api": "spotify.remove_song_from_playlist",
       "args": {
-        "song_id": {
+        "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"In the Wake of Goodbye\" (release_date 2022-01-08 via spotify.show_song; to remove)",
-          "object": "song-299"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-5"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 20 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-20"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 59,
-      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-299 spotify-token n11 n10)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-song song-released-28 playlist-5)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
-          "object": "playlist-407"
-        },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"In the Wake of Goodbye\" (release_date 2022-01-08 via spotify.show_song; to remove)",
-          "object": "song-299"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 28 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-28"
         }
       }
     },
     {
       "step": 60,
-      "pddl": "(spotify-show-song song-4 playlist-407)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-released-28 spotify-token count-8 count-7)",
+      "api": "spotify.remove_song_from_playlist",
       "args": {
-        "song_id": {
+        "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Puzzle of My Heart\" (release_date 2022-10-29 via spotify.show_song; to remove)",
-          "object": "song-4"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-5"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 28 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-28"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 61,
-      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-4 spotify-token n10 n9)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-song song-released-8 playlist-5)",
+      "api": "spotify.show_song",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
-          "object": "playlist-407"
-        },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Puzzle of My Heart\" (release_date 2022-10-29 via spotify.show_song; to remove)",
-          "object": "song-4"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 8 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-8"
         }
       }
     },
     {
       "step": 62,
-      "pddl": "(spotify-show-song song-67 playlist-407)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Echoes of a Silent Heart\" (release_date 2022-02-21 via spotify.show_song; to remove)",
-          "object": "song-67"
-        }
-      }
-    },
-    {
-      "step": 63,
-      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-67 spotify-token n9 n8)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-released-8 spotify-token count-7 count-6)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
-          "object": "playlist-407"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Echoes of a Silent Heart\" (release_date 2022-02-21 via spotify.show_song; to remove)",
-          "object": "song-67"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 8 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-8"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -1006,31 +984,53 @@
       }
     },
     {
-      "step": 64,
-      "pddl": "(spotify-show-song song-84 playlist-407)",
+      "step": 63,
+      "pddl": "(spotify-show-song song-released-14 playlist-7)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 14 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-14"
+        }
+      }
+    },
+    {
+      "step": 64,
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-released-14 spotify-token count-6 count-5)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Wilted Petals\" (release_date 2022-06-06 via spotify.show_song; to remove)",
-          "object": "song-84"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-1"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 14 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-14"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 65,
-      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-84 spotify-token n8 n7)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 song-released-14 spotify-token count-5 count-4)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
-          "object": "playlist-407"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Wilted Petals\" (release_date 2022-06-06 via spotify.show_song; to remove)",
-          "object": "song-84"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 14 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-14"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -1041,30 +1041,30 @@
     },
     {
       "step": 66,
-      "pddl": "(spotify-show-song song-288 playlist-408)",
+      "pddl": "(spotify-show-song song-released-24 playlist-7)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Love's Mirage\" (release_date 2022-08-08 via spotify.show_song; to remove)",
-          "object": "song-288"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 24 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-24"
         }
       }
     },
     {
       "step": 67,
-      "pddl": "(spotify-remove-song-from-playlist playlist-408 song-288 spotify-token n7 n6)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 song-released-24 spotify-token count-4 count-3)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
-          "object": "playlist-408"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Love's Mirage\" (release_date 2022-08-08 via spotify.show_song; to remove)",
-          "object": "song-288"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 24 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-24"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -1075,30 +1075,30 @@
     },
     {
       "step": 68,
-      "pddl": "(spotify-show-song song-51 playlist-408)",
+      "pddl": "(spotify-show-song song-released-32 playlist-7)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Silence Between Us\" (release_date 2022-11-11 via spotify.show_song; to remove)",
-          "object": "song-51"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 32 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-32"
         }
       }
     },
     {
       "step": 69,
-      "pddl": "(spotify-remove-song-from-playlist playlist-408 song-51 spotify-token n6 n5)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 song-released-32 spotify-token count-3 count-2)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
-          "object": "playlist-408"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Silence Between Us\" (release_date 2022-11-11 via spotify.show_song; to remove)",
-          "object": "song-51"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 32 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-32"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -1109,30 +1109,30 @@
     },
     {
       "step": 70,
-      "pddl": "(spotify-show-song song-87 playlist-408)",
+      "pddl": "(spotify-show-song song-released-4 playlist-7)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Eternal Melancholy\" (release_date 2023-04-26 via spotify.show_song; to remove)",
-          "object": "song-87"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 4 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-4"
         }
       }
     },
     {
       "step": 71,
-      "pddl": "(spotify-remove-song-from-playlist playlist-408 song-87 spotify-token n5 n4)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 song-released-4 spotify-token count-2 count-1)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
-          "object": "playlist-408"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Eternal Melancholy\" (release_date 2023-04-26 via spotify.show_song; to remove)",
-          "object": "song-87"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 4 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -1143,30 +1143,30 @@
     },
     {
       "step": 72,
-      "pddl": "(spotify-show-song song-9 playlist-408)",
+      "pddl": "(spotify-show-song song-released-13 playlist-8)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"When Fate Becomes a Foe\" (release_date 2022-05-21 via spotify.show_song; to remove)",
-          "object": "song-9"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 13 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-13"
         }
       }
     },
     {
       "step": 73,
-      "pddl": "(spotify-remove-song-from-playlist playlist-408 song-9 spotify-token n4 n3)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-released-13 spotify-token count-1 n3)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
-          "object": "playlist-408"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-8"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"When Fate Becomes a Foe\" (release_date 2022-05-21 via spotify.show_song; to remove)",
-          "object": "song-9"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 13 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-13"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -1177,30 +1177,30 @@
     },
     {
       "step": 74,
-      "pddl": "(spotify-show-song song-106 playlist-409)",
+      "pddl": "(spotify-show-song song-released-29 playlist-8)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Irony of a Perfect Moment\" (release_date 2022-11-01 via spotify.show_song; to remove)",
-          "object": "song-106"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 29 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-29"
         }
       }
     },
     {
       "step": 75,
-      "pddl": "(spotify-remove-song-from-playlist playlist-409 song-106 spotify-token n3 n2)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-released-29 spotify-token n3 n2)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
-          "object": "playlist-409"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-8"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Irony of a Perfect Moment\" (release_date 2022-11-01 via spotify.show_song; to remove)",
-          "object": "song-106"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 29 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-29"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -1211,30 +1211,30 @@
     },
     {
       "step": 76,
-      "pddl": "(spotify-show-song song-174 playlist-409)",
+      "pddl": "(spotify-show-song song-released-3 playlist-8)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Fading Light of Memory\" (release_date 2023-02-26 via spotify.show_song; to remove)",
-          "object": "song-174"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 3 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-3"
         }
       }
     },
     {
       "step": 77,
-      "pddl": "(spotify-remove-song-from-playlist playlist-409 song-174 spotify-token n2 n1)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-released-3 spotify-token n2 n1)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
-          "object": "playlist-409"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-8"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Fading Light of Memory\" (release_date 2023-02-26 via spotify.show_song; to remove)",
-          "object": "song-174"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 3 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -1245,30 +1245,30 @@
     },
     {
       "step": 78,
-      "pddl": "(spotify-show-song song-8 playlist-409)",
+      "pddl": "(spotify-show-song song-released-6 playlist-8)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Shadows of the Past\" (release_date 2022-05-21 via spotify.show_song; to remove)",
-          "object": "song-8"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 6 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-6"
         }
       }
     },
     {
       "step": 79,
-      "pddl": "(spotify-remove-song-from-playlist playlist-409 song-8 spotify-token n1 n0)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-released-6 spotify-token n1 n0)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
-          "object": "playlist-409"
+          "field": "playlist_id (each playlist in the paginated library listing) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-8"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Shadows of the Past\" (release_date 2022-05-21 via spotify.show_song; to remove)",
-          "object": "song-8"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021 [item 6 of 33 that match this rule; one object per matching item]",
+          "object": "song-released-6"
         },
         "access_token": {
           "$from": "spotify.login",

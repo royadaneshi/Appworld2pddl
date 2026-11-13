@@ -53,7 +53,7 @@
       "args": {
         "email_thread_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread)",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 1 of 11 that match this rule; one object per matching item]",
           "object": "thread-1"
         },
         "access_token": {
@@ -70,7 +70,7 @@
       "args": {
         "attachment_id": {
           "$from": "gmail.show_thread",
-          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment)",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 1 of 27 that match this rule; one object per matching item]",
           "object": "attachment-1"
         },
         "file_system_access_token": {
@@ -85,13 +85,40 @@
         },
         "download_to_file_path": {
           "$from": "gmail.show_thread",
-          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 1 of 27 that match this rule; one object per matching item]",
           "object": "path-attachment-1"
         }
       }
     },
     {
       "step": 7,
+      "pddl": "(gmail-download-attachment attachment-2 file-system-token gmail-token path-attachment-2 thread-1)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 2 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 2 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-2"
+        }
+      }
+    },
+    {
+      "step": 8,
       "pddl": "(file-system-create-file path-applications-list-csv file-system-token csv-content applicant-1)",
       "api": "file_system.create_file",
       "args": {
@@ -109,8 +136,853 @@
       }
     },
     {
-      "step": 8,
-      "pddl": "(supervisor-complete-task path-applications-list-csv csv-content attachment-1 path-attachment-1)",
+      "step": 9,
+      "pddl": "(gmail-show-thread thread-10 gmail-token applicant-10)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 10 of 11 that match this rule; one object per matching item]",
+          "object": "thread-10"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-download-attachment attachment-23 file-system-token gmail-token path-attachment-23 thread-10)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 23 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-23"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 23 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-23"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-download-attachment attachment-24 file-system-token gmail-token path-attachment-24 thread-10)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 24 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-24"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 24 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-24"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-download-attachment attachment-25 file-system-token gmail-token path-attachment-25 thread-10)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 25 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-25"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 25 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-25"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-show-thread thread-11 gmail-token applicant-11)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 11 of 11 that match this rule; one object per matching item]",
+          "object": "thread-11"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(gmail-download-attachment attachment-26 file-system-token gmail-token path-attachment-26 thread-11)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 26 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-26"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 26 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-26"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-download-attachment attachment-27 file-system-token gmail-token path-attachment-27 thread-11)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 27 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-27"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 27 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-27"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(gmail-show-thread thread-2 gmail-token applicant-2)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 2 of 11 that match this rule; one object per matching item]",
+          "object": "thread-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(gmail-download-attachment attachment-3 file-system-token gmail-token path-attachment-3 thread-2)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 3 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 3 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-3"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(gmail-download-attachment attachment-4 file-system-token gmail-token path-attachment-4 thread-2)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 4 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-4"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 4 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-4"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(gmail-download-attachment attachment-5 file-system-token gmail-token path-attachment-5 thread-2)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 5 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-5"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 5 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-5"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(gmail-show-thread thread-3 gmail-token applicant-3)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 3 of 11 that match this rule; one object per matching item]",
+          "object": "thread-3"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(gmail-download-attachment attachment-6 file-system-token gmail-token path-attachment-6 thread-3)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 6 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-6"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 6 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-6"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(gmail-download-attachment attachment-7 file-system-token gmail-token path-attachment-7 thread-3)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 7 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-7"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 7 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-7"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(gmail-download-attachment attachment-8 file-system-token gmail-token path-attachment-8 thread-3)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 8 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-8"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 8 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-8"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(gmail-show-thread thread-4 gmail-token applicant-4)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 4 of 11 that match this rule; one object per matching item]",
+          "object": "thread-4"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(gmail-download-attachment attachment-10 file-system-token gmail-token path-attachment-10 thread-4)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 10 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-10"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 10 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-10"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(gmail-download-attachment attachment-11 file-system-token gmail-token path-attachment-11 thread-4)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 11 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-11"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 11 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-11"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(gmail-download-attachment attachment-9 file-system-token gmail-token path-attachment-9 thread-4)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 9 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-9"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 9 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-9"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(gmail-show-thread thread-5 gmail-token applicant-5)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 5 of 11 that match this rule; one object per matching item]",
+          "object": "thread-5"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(gmail-download-attachment attachment-12 file-system-token gmail-token path-attachment-12 thread-5)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 12 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-12"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 12 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-12"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(gmail-download-attachment attachment-13 file-system-token gmail-token path-attachment-13 thread-5)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 13 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-13"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 13 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-13"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(gmail-show-thread thread-6 gmail-token applicant-6)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 6 of 11 that match this rule; one object per matching item]",
+          "object": "thread-6"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(gmail-download-attachment attachment-14 file-system-token gmail-token path-attachment-14 thread-6)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 14 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-14"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 14 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-14"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(gmail-download-attachment attachment-15 file-system-token gmail-token path-attachment-15 thread-6)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 15 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-15"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 15 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-15"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(gmail-show-thread thread-7 gmail-token applicant-7)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 7 of 11 that match this rule; one object per matching item]",
+          "object": "thread-7"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(gmail-download-attachment attachment-16 file-system-token gmail-token path-attachment-16 thread-7)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 16 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-16"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 16 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-16"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(gmail-download-attachment attachment-17 file-system-token gmail-token path-attachment-17 thread-7)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 17 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-17"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 17 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-17"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(gmail-show-thread thread-8 gmail-token applicant-8)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 8 of 11 that match this rule; one object per matching item]",
+          "object": "thread-8"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(gmail-download-attachment attachment-18 file-system-token gmail-token path-attachment-18 thread-8)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 18 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-18"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 18 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-18"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(gmail-download-attachment attachment-19 file-system-token gmail-token path-attachment-19 thread-8)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 19 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-19"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 19 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-19"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(gmail-download-attachment attachment-20 file-system-token gmail-token path-attachment-20 thread-8)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 20 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-20"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 20 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-20"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(gmail-show-thread thread-9 gmail-token applicant-9)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each returned thread that is a Customer Support job application (repeat show_thread per thread) [item 9 of 11 that match this rule; one object per matching item]",
+          "object": "thread-9"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(gmail-download-attachment attachment-21 file-system-token gmail-token path-attachment-21 thread-9)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 21 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-21"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 21 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-21"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(gmail-download-attachment attachment-22 file-system-token gmail-token path-attachment-22 thread-9)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id (repeat download_attachment per attachment) [item 22 of 27 that match this rule; one object per matching item]",
+          "object": "attachment-22"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/recruiting_process/attachments/\" + first_name.lower() + \"__\" + last_name.lower() + \"/\" + emails[].attachments[].file_name [item 22 of 27 that match this rule; one object per matching item]",
+          "object": "path-attachment-22"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(supervisor-complete-task path-applications-list-csv csv-content attachment-22 path-attachment-22)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -5,7 +5,7 @@
   )
   (:constants
     supervisor simple-note splitwise - app
-    entry-1 entry-2 entry-3 entry-4 - expense-entry
+    entry-1 entry-2 entry-3 entry-4 entry-5 entry-6 entry-7 entry-8 entry-9 entry-10 entry-11 entry-12 - expense-entry
   )
   (:predicates
     (passwords-known)
@@ -93,9 +93,20 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed))
-                       (expense-recorded entry-1) (expense-recorded entry-2)
-                       (expense-recorded entry-3) (expense-recorded entry-4))
+    :precondition (and
+      (expense-recorded entry-1)
+      (expense-recorded entry-2)
+      (expense-recorded entry-3)
+      (expense-recorded entry-4)
+      (expense-recorded entry-5)
+      (expense-recorded entry-6)
+      (expense-recorded entry-7)
+      (expense-recorded entry-8)
+      (expense-recorded entry-9)
+      (expense-recorded entry-10)
+      (expense-recorded entry-11)
+      (expense-recorded entry-12)
+      (not (task-completed)))
     :effect (task-completed)
   )
 )

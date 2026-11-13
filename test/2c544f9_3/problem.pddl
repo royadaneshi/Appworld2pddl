@@ -9,6 +9,10 @@
     query-jack - query
     amount-234 - amount)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-7295077363)
     (username-for venmo siwhit-at-gmail-com)
     (password-for phone phone-password)

@@ -7,23 +7,30 @@
     simple-note-token amazon-token - token
     query-amazon-shopping-list - query
     amazon-shopping-list-note - note
-    list-product-1 list-product-2 list-product-3 - product
-    qty-of-item-1 qty-of-item-2 qty-of-item-3 - quantity
     delivery-address - address
-    payment-card-1 - payment-card)
+    payment-card-1 - payment-card
+    list-product-1 list-product-2 list-product-3 list-product-4 - product
+    qty-of-item-1 qty-of-item-2 - quantity
+  )
   (:init
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for simple-note simple-note-password)
     (password-for amazon amazon-password)
     (query-matches query-amazon-shopping-list amazon-shopping-list-note)
     (shopping-list-note amazon-shopping-list-note)
+    (ships-to delivery-address)
     (on-shopping-list list-product-1 qty-of-item-1)
     (on-shopping-list list-product-2 qty-of-item-2)
-    (on-shopping-list list-product-3 qty-of-item-3)
-    (ships-to delivery-address))
+    (on-shopping-list list-product-3 qty-of-item-1)
+    (on-shopping-list list-product-4 qty-of-item-2))
   (:goal (and
     (in-cart list-product-1 qty-of-item-1)
     (in-cart list-product-2 qty-of-item-2)
-    (in-cart list-product-3 qty-of-item-3)
+    (in-cart list-product-3 qty-of-item-1)
+    (in-cart list-product-4 qty-of-item-2)
     (order-placed)
     (task-completed)))
 )

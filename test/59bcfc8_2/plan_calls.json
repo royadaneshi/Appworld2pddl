@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login phone-username-4885870260 phone-password amazon-token)",
+      "pddl": "(phone-login phone-username-4885870260 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "4885870260",
@@ -58,13 +58,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts amazon-token query-jennifer jennifer jennifer-phone-number jennifer-home-address)",
+      "pddl": "(phone-search-contacts phone-token query-jennifer jennifer jennifer-phone-number jennifer-home-address)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "query": "Jennifer"
       }
@@ -113,13 +113,13 @@
     },
     {
       "step": 8,
-      "pddl": "(phone-search-voice-messages amazon-token jennifer-phone-number jennifer jennifer-favorite-color)",
+      "pddl": "(phone-search-voice-messages phone-token jennifer-phone-number jennifer jennifer-favorite-color)",
       "api": "phone.search_voice_messages",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "phone_number": {
           "$from": "phone.search_contacts",

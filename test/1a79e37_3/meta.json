@@ -37,7 +37,7 @@
     "ok": true,
     "errors": [],
     "warnings": [
-      "domain: pddl-lib parser: types ['object'] of term Variable(x) are not in available types {'flag', 'state', 'city', 'zipcode', 'relationship', 'address', 'street', 'product-type', 'addr-name', 'payment-card', 'token', 'date', 'price', 'person', 'app', 'username', 'email', 'order', 'sort-key', 'quantity', 'country', 'password"
+      "domain: pddl-lib parser: types ['object'] of term Variable(x) are not in available types {'person', 'sort-key', 'quantity', 'product-type', 'price', 'payment-card', 'country', 'email', 'thread', 'app', 'flag', 'state', 'city', 'order', 'product', 'addr-name', 'address', 'zipcode', 'username', 'street', 'date', 'relationship"
     ],
     "parser": "pddl",
     "api_issues": [],
@@ -49,12 +49,12 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(amazon-login ka-ball-at-gmail-com amazon-password amazon-token)",
-      "(gmail-login ka-ball-at-gmail-com gmail-password amazon-token)",
+      "(gmail-login ka-ball-at-gmail-com gmail-password gmail-token)",
       "(phone-login phone-number-7863159797 phone-password phone-token)",
       "(amazon-show-payment-cards amazon-token amazon-card)",
       "(phone-search-contacts phone-token rel-partner partner partner-email partner-work-address)",
-      "(gmail-show-inbox-threads amazon-token partner-email date-2023-05-18 partner partner-thread-today)",
-      "(gmail-show-thread partner-thread-today amazon-token requested-product-type requested-max-price partner-work-address)",
+      "(gmail-show-inbox-threads gmail-token partner-email date-2023-05-18 partner partner-thread-today)",
+      "(gmail-show-thread partner-thread-today gmail-token requested-product-type requested-max-price partner-work-address)",
       "(amazon-add-address partner-address-name partner-street partner-city partner-state partner-country partner-zip amazon-token partner partner-work-address)",
       "(amazon-search-products requested-product-type requested-max-price sort-rating-desc best-product)",
       "(amazon-add-product-to-cart best-product amazon-token qty-1 flag-true)",
@@ -62,7 +62,7 @@
       "(supervisor-complete-task new-order best-product partner-work-address)"
     ],
     "message": "",
-    "seconds": 1.14
+    "seconds": 0.85
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(phone-login phone-number-9503658964 phone-password venmo-token)",
+      "pddl": "(phone-login phone-number-9503658964 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "9503658964",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login nicholas-weber-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login nicholas-weber-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "nicholas.weber@gmail.com",
@@ -34,32 +34,32 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-search-contacts venmo-token rel-roommate roommate roommate-email)",
+      "pddl": "(phone-search-contacts phone-token rel-roommate roommate roommate-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 5,
-      "pddl": "(venmo-show-received-payment-requests phone-token housing-request roommate)",
+      "pddl": "(venmo-show-received-payment-requests venmo-token housing-request roommate)",
       "api": "venmo.show_received_payment_requests",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(venmo-create-transaction roommate-email amount-corrected phone-token note-correcting-for-15-percent-rent-increase roommate housing-request)",
+      "pddl": "(venmo-create-transaction roommate-email amount-corrected venmo-token note-correcting-for-15-percent-rent-increase roommate housing-request)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -73,16 +73,16 @@
           "object": "amount-corrected"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Correcting for 15% rent increase."
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-deny-payment-request housing-request phone-token)",
+      "pddl": "(venmo-deny-payment-request housing-request venmo-token)",
       "api": "venmo.deny_payment_request",
       "args": {
         "payment_request_id": {
@@ -91,9 +91,9 @@
           "object": "housing-request"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },

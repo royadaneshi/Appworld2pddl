@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login kri-powe-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login kri-powe-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "kri-powe@gmail.com",
@@ -73,7 +73,7 @@
     },
     {
       "step": 7,
-      "pddl": "(gmail-send-email husband-email subject-birth-certificate body-birth-certificate file-system-token birth-certificate-path file-system-token husband birth-certificate email-to-husband)",
+      "pddl": "(gmail-send-email husband-email subject-birth-certificate body-birth-certificate gmail-token birth-certificate-path file-system-token husband birth-certificate email-to-husband)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
@@ -84,9 +84,9 @@
         "subject": "Birth Certificate",
         "body": "Hi, please find my birth certificate attached.",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "attachment_file_paths": {
           "$from": "file_system.show_directory",

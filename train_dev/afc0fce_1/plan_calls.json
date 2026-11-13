@@ -60,7 +60,7 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-transactions venmo-token email-alexander-riddle date-2023-05-31 dir-received coworker-alexander-riddle relationship-coworker)",
+      "pddl": "(venmo-show-transactions venmo-token email-coworker-1 date-2023-05-31 dir-received coworker-1 relationship-coworker)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -70,8 +70,8 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact Alexander Riddle (alexander-ridd@gmail.com)",
-          "object": "email-alexander-riddle"
+          "field": "email of each contact returned (relationship coworker), all pages; placeholder for 1st coworker [item 1 of 6 that match this rule; one object per matching item]",
+          "object": "email-coworker-1"
         },
         "min_created_at": "2023-05-31",
         "direction": "received"
@@ -79,7 +79,7 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-show-transactions venmo-token email-brenda-smith date-2023-05-31 dir-received coworker-brenda-smith relationship-coworker)",
+      "pddl": "(venmo-show-transactions venmo-token email-coworker-2 date-2023-05-31 dir-received coworker-2 relationship-coworker)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -89,8 +89,8 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact Brenda Smith (brenda.webe@gmail.com)",
-          "object": "email-brenda-smith"
+          "field": "email of each contact returned (relationship coworker), all pages; placeholder for 1st coworker [item 2 of 6 that match this rule; one object per matching item]",
+          "object": "email-coworker-2"
         },
         "min_created_at": "2023-05-31",
         "direction": "received"
@@ -98,7 +98,7 @@
     },
     {
       "step": 9,
-      "pddl": "(venmo-show-transactions venmo-token email-jack-maldonado date-2023-05-31 dir-received coworker-jack-maldonado relationship-coworker)",
+      "pddl": "(venmo-show-transactions venmo-token email-coworker-3 date-2023-05-31 dir-received coworker-3 relationship-coworker)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -108,8 +108,8 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact Jack Maldonado (jack-maldonado@gmail.com)",
-          "object": "email-jack-maldonado"
+          "field": "email of each contact returned (relationship coworker), all pages; placeholder for 1st coworker [item 3 of 6 that match this rule; one object per matching item]",
+          "object": "email-coworker-3"
         },
         "min_created_at": "2023-05-31",
         "direction": "received"
@@ -117,7 +117,7 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-show-transactions venmo-token email-jared-calhoun date-2023-05-31 dir-received coworker-jared-calhoun relationship-coworker)",
+      "pddl": "(venmo-show-transactions venmo-token email-coworker-5 date-2023-05-31 dir-received coworker-5 relationship-coworker)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -127,8 +127,8 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact Jared Calhoun (jar_calhoun@gmail.com)",
-          "object": "email-jared-calhoun"
+          "field": "email of each contact returned (relationship coworker), all pages; placeholder for 1st coworker [item 5 of 6 that match this rule; one object per matching item]",
+          "object": "email-coworker-5"
         },
         "min_created_at": "2023-05-31",
         "direction": "received"
@@ -136,7 +136,7 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-show-transactions venmo-token email-sherry-smith date-2023-05-31 dir-received coworker-sherry-smith relationship-coworker)",
+      "pddl": "(venmo-show-transactions venmo-token email-coworker-6 date-2023-05-31 dir-received coworker-6 relationship-coworker)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -146,8 +146,8 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact Sherry Smith (she_bailey@gmail.com)",
-          "object": "email-sherry-smith"
+          "field": "email of each contact returned (relationship coworker), all pages; placeholder for 1st coworker [item 6 of 6 that match this rule; one object per matching item]",
+          "object": "email-coworker-6"
         },
         "min_created_at": "2023-05-31",
         "direction": "received"
@@ -155,13 +155,13 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-like-transaction tx-8267 venmo-token email-sherry-smith)",
+      "pddl": "(venmo-like-transaction tx-7 venmo-token email-coworker-6)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $33.0 received from Sherry Smith at 2023-06-02T23:24:45 (on or after 2023-05-31)",
-          "object": "tx-8267"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 7 of 9 that match this rule; one object per matching item]",
+          "object": "tx-7"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -172,13 +172,13 @@
     },
     {
       "step": 13,
-      "pddl": "(venmo-like-transaction tx-8263 venmo-token email-sherry-smith)",
+      "pddl": "(venmo-like-transaction tx-4 venmo-token email-coworker-6)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $20.0 received from Sherry Smith at 2023-06-01T04:50:15 (on or after 2023-05-31)",
-          "object": "tx-8263"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 4 of 9 that match this rule; one object per matching item]",
+          "object": "tx-4"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -189,14 +189,15 @@
     },
     {
       "step": 14,
-      "pddl": "(venmo-like-transaction tx-8247 venmo-token email-sherry-smith)",
-      "api": "venmo.like_transaction",
+      "pddl": "(venmo-create-transaction-comment tx-7 comment-thank-you venmo-token email-coworker-6)",
+      "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $15.0 received from Sherry Smith at 2023-05-31T08:13:07 (on or after 2023-05-31)",
-          "object": "tx-8247"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 7 of 9 that match this rule; one object per matching item]",
+          "object": "tx-7"
         },
+        "comment": "Thank you!",
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
@@ -206,13 +207,13 @@
     },
     {
       "step": 15,
-      "pddl": "(venmo-create-transaction-comment tx-8267 comment-thank-you venmo-token email-sherry-smith)",
+      "pddl": "(venmo-create-transaction-comment tx-4 comment-thank-you venmo-token email-coworker-6)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $33.0 received from Sherry Smith at 2023-06-02T23:24:45 (on or after 2023-05-31)",
-          "object": "tx-8267"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 4 of 9 that match this rule; one object per matching item]",
+          "object": "tx-4"
         },
         "comment": "Thank you!",
         "access_token": {
@@ -224,15 +225,14 @@
     },
     {
       "step": 16,
-      "pddl": "(venmo-create-transaction-comment tx-8263 comment-thank-you venmo-token email-sherry-smith)",
-      "api": "venmo.create_transaction_comment",
+      "pddl": "(venmo-like-transaction tx-9 venmo-token email-coworker-5)",
+      "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $20.0 received from Sherry Smith at 2023-06-01T04:50:15 (on or after 2023-05-31)",
-          "object": "tx-8263"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 9 of 9 that match this rule; one object per matching item]",
+          "object": "tx-9"
         },
-        "comment": "Thank you!",
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
@@ -242,15 +242,14 @@
     },
     {
       "step": 17,
-      "pddl": "(venmo-create-transaction-comment tx-8247 comment-thank-you venmo-token email-sherry-smith)",
-      "api": "venmo.create_transaction_comment",
+      "pddl": "(venmo-like-transaction tx-6 venmo-token email-coworker-5)",
+      "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $15.0 received from Sherry Smith at 2023-05-31T08:13:07 (on or after 2023-05-31)",
-          "object": "tx-8247"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 6 of 9 that match this rule; one object per matching item]",
+          "object": "tx-6"
         },
-        "comment": "Thank you!",
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
@@ -260,13 +259,13 @@
     },
     {
       "step": 18,
-      "pddl": "(venmo-like-transaction tx-8248 venmo-token email-jared-calhoun)",
+      "pddl": "(venmo-like-transaction tx-2 venmo-token email-coworker-5)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $75.0 received from Jared Calhoun at 2023-05-31T08:13:07 (on or after 2023-05-31)",
-          "object": "tx-8248"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 2 of 9 that match this rule; one object per matching item]",
+          "object": "tx-2"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -277,13 +276,13 @@
     },
     {
       "step": 19,
-      "pddl": "(venmo-create-transaction-comment tx-8248 comment-thank-you venmo-token email-jared-calhoun)",
+      "pddl": "(venmo-create-transaction-comment tx-9 comment-thank-you venmo-token email-coworker-5)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $75.0 received from Jared Calhoun at 2023-05-31T08:13:07 (on or after 2023-05-31)",
-          "object": "tx-8248"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 9 of 9 that match this rule; one object per matching item]",
+          "object": "tx-9"
         },
         "comment": "Thank you!",
         "access_token": {
@@ -295,47 +294,13 @@
     },
     {
       "step": 20,
-      "pddl": "(venmo-like-transaction tx-8264 venmo-token email-jack-maldonado)",
-      "api": "venmo.like_transaction",
-      "args": {
-        "transaction_id": {
-          "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $98.0 received from Jack Maldonado at 2023-05-31T22:21:02 (on or after 2023-05-31)",
-          "object": "tx-8264"
-        },
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "venmo-token"
-        }
-      }
-    },
-    {
-      "step": 21,
-      "pddl": "(venmo-like-transaction tx-8251 venmo-token email-jack-maldonado)",
-      "api": "venmo.like_transaction",
-      "args": {
-        "transaction_id": {
-          "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $5.0 received from Jack Maldonado at 2023-06-02T15:35:34 (on or after 2023-05-31)",
-          "object": "tx-8251"
-        },
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "venmo-token"
-        }
-      }
-    },
-    {
-      "step": 22,
-      "pddl": "(venmo-create-transaction-comment tx-8264 comment-thank-you venmo-token email-jack-maldonado)",
+      "pddl": "(venmo-create-transaction-comment tx-6 comment-thank-you venmo-token email-coworker-5)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $98.0 received from Jack Maldonado at 2023-05-31T22:21:02 (on or after 2023-05-31)",
-          "object": "tx-8264"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 6 of 9 that match this rule; one object per matching item]",
+          "object": "tx-6"
         },
         "comment": "Thank you!",
         "access_token": {
@@ -346,14 +311,49 @@
       }
     },
     {
-      "step": 23,
-      "pddl": "(venmo-create-transaction-comment tx-8251 comment-thank-you venmo-token email-jack-maldonado)",
+      "step": 21,
+      "pddl": "(venmo-create-transaction-comment tx-2 comment-thank-you venmo-token email-coworker-5)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $5.0 received from Jack Maldonado at 2023-06-02T15:35:34 (on or after 2023-05-31)",
-          "object": "tx-8251"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 2 of 9 that match this rule; one object per matching item]",
+          "object": "tx-2"
+        },
+        "comment": "Thank you!",
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(venmo-like-transaction tx-5 venmo-token email-coworker-3)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 5 of 9 that match this rule; one object per matching item]",
+          "object": "tx-5"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(venmo-create-transaction-comment tx-5 comment-thank-you venmo-token email-coworker-3)",
+      "api": "venmo.create_transaction_comment",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 5 of 9 that match this rule; one object per matching item]",
+          "object": "tx-5"
         },
         "comment": "Thank you!",
         "access_token": {
@@ -365,13 +365,13 @@
     },
     {
       "step": 24,
-      "pddl": "(venmo-like-transaction tx-8252 venmo-token email-brenda-smith)",
+      "pddl": "(venmo-like-transaction tx-3 venmo-token email-coworker-2)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $52.0 received from Brenda Smith at 2023-06-02T15:35:34 (on or after 2023-05-31)",
-          "object": "tx-8252"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 3 of 9 that match this rule; one object per matching item]",
+          "object": "tx-3"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -382,13 +382,13 @@
     },
     {
       "step": 25,
-      "pddl": "(venmo-create-transaction-comment tx-8252 comment-thank-you venmo-token email-brenda-smith)",
+      "pddl": "(venmo-create-transaction-comment tx-3 comment-thank-you venmo-token email-coworker-2)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $52.0 received from Brenda Smith at 2023-06-02T15:35:34 (on or after 2023-05-31)",
-          "object": "tx-8252"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 3 of 9 that match this rule; one object per matching item]",
+          "object": "tx-3"
         },
         "comment": "Thank you!",
         "access_token": {
@@ -400,13 +400,13 @@
     },
     {
       "step": 26,
-      "pddl": "(venmo-like-transaction tx-8266 venmo-token email-alexander-riddle)",
+      "pddl": "(venmo-like-transaction tx-8 venmo-token email-coworker-1)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $26.0 received from Alexander Riddle at 2023-06-02T18:27:14 (on or after 2023-05-31)",
-          "object": "tx-8266"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 8 of 9 that match this rule; one object per matching item]",
+          "object": "tx-8"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -417,13 +417,13 @@
     },
     {
       "step": 27,
-      "pddl": "(venmo-like-transaction tx-8246 venmo-token email-alexander-riddle)",
+      "pddl": "(venmo-like-transaction tx-1 venmo-token email-coworker-1)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $27.0 received from Alexander Riddle at 2023-05-31T08:13:07 (on or after 2023-05-31)",
-          "object": "tx-8246"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 1 of 9 that match this rule; one object per matching item]",
+          "object": "tx-1"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -434,13 +434,13 @@
     },
     {
       "step": 28,
-      "pddl": "(venmo-create-transaction-comment tx-8266 comment-thank-you venmo-token email-alexander-riddle)",
+      "pddl": "(venmo-create-transaction-comment tx-8 comment-thank-you venmo-token email-coworker-1)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $26.0 received from Alexander Riddle at 2023-06-02T18:27:14 (on or after 2023-05-31)",
-          "object": "tx-8266"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 8 of 9 that match this rule; one object per matching item]",
+          "object": "tx-8"
         },
         "comment": "Thank you!",
         "access_token": {
@@ -452,13 +452,13 @@
     },
     {
       "step": 29,
-      "pddl": "(venmo-create-transaction-comment tx-8246 comment-thank-you venmo-token email-alexander-riddle)",
+      "pddl": "(venmo-create-transaction-comment tx-1 comment-thank-you venmo-token email-coworker-1)",
       "api": "venmo.create_transaction_comment",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the payment of $27.0 received from Alexander Riddle at 2023-05-31T08:13:07 (on or after 2023-05-31)",
-          "object": "tx-8246"
+          "field": "transaction_id of each returned transaction (user_email = coworker email, direction = received, min_created_at = threshold), all pages [item 1 of 9 that match this rule; one object per matching item]",
+          "object": "tx-1"
         },
         "comment": "Thank you!",
         "access_token": {

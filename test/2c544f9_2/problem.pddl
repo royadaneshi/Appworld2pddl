@@ -9,6 +9,10 @@
     query-anita - query
     amount-427 - amount)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-2466064078)
     (username-for venmo an-harrison-at-gmail-com)
     (password-for phone phone-password)

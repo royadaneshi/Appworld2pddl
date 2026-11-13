@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(splitwise-login user-kathrynmaldonado-at-gmail-com pw-splitwise token-file-system)",
+      "pddl": "(splitwise-login user-kathrynmaldonado-at-gmail-com pw-splitwise token-splitwise)",
       "api": "splitwise.login",
       "args": {
         "username": "kathrynmaldonado@gmail.com",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login user-kathrynmaldonado-at-gmail-com pw-venmo token-file-system)",
+      "pddl": "(venmo-login user-kathrynmaldonado-at-gmail-com pw-venmo token-venmo)",
       "api": "venmo.login",
       "args": {
         "username": "kathrynmaldonado@gmail.com",
@@ -77,85 +77,102 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-search-users token-file-system query-debtor-1 debtor-1)",
+      "pddl": "(venmo-search-users token-venmo query-debtor-1 debtor-1)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-venmo"
         },
         "query": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 1, email (used as venmo search query)",
+          "field": "content: CSV row 1, email (used as venmo search query) [item 1 of 7 that match this rule; one object per matching item]",
           "object": "query-debtor-1"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-search-users token-file-system query-debtor-2 debtor-2)",
+      "pddl": "(venmo-search-users token-venmo query-debtor-2 debtor-2)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-venmo"
         },
         "query": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 2, email (used as venmo search query)",
+          "field": "content: CSV row 1, email (used as venmo search query) [item 2 of 7 that match this rule; one object per matching item]",
           "object": "query-debtor-2"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-search-users token-file-system query-debtor-3 debtor-3)",
+      "pddl": "(venmo-search-users token-venmo query-debtor-3 debtor-3)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-venmo"
         },
         "query": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 3, email (used as venmo search query)",
+          "field": "content: CSV row 1, email (used as venmo search query) [item 3 of 7 that match this rule; one object per matching item]",
           "object": "query-debtor-3"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(splitwise-record-expense description-debtor-3 amount-debtor-3 email-debtor-3 kathrynmaldonado-at-gmail-com token-file-system receipt-debtor-3-pdf token-file-system debtor-3)",
+      "pddl": "(venmo-search-users token-venmo query-debtor-4 debtor-4)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email (used as venmo search query) [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "query-debtor-4"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(splitwise-record-expense description-debtor-4 amount-debtor-4 email-debtor-4 kathrynmaldonado-at-gmail-com token-splitwise receipt-debtor-pdf-1 token-file-system debtor-4)",
       "api": "splitwise.record_expense",
       "args": {
         "description": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 3, description column",
-          "object": "description-debtor-3"
+          "field": "content: CSV row 1, description column [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "description-debtor-4"
         },
         "paid_amount": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 3, amount column",
-          "object": "amount-debtor-3"
+          "field": "content: CSV row 1, amount column [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "amount-debtor-4"
         },
         "payer_email": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 3, email column",
-          "object": "email-debtor-3"
+          "field": "content: CSV row 1, email column [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "email-debtor-4"
         },
         "debtor_emails": "kathrynmaldonado@gmail.com",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "splitwise.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-splitwise"
         },
         "receipt_file_path": {
           "$from": "file_system.show_directory",
-          "field": "path of the .pdf receipt for debtor 3 located in the same folder as debt_list.csv",
-          "object": "receipt-debtor-3-pdf"
+          "field": "path of the .pdf receipt for debtor 1 located in the same folder as debt_list.csv [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "receipt-debtor-pdf-1"
         },
         "file_system_access_token": {
           "$from": "file_system.login",
@@ -165,64 +182,257 @@
       }
     },
     {
-      "step": 11,
-      "pddl": "(venmo-create-transaction email-debtor-1 amount-debtor-1 token-file-system description-debtor-1 private-false debtor-1)",
+      "step": 12,
+      "pddl": "(venmo-search-users token-venmo query-debtor-5 debtor-5)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email (used as venmo search query) [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "query-debtor-5"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(splitwise-record-expense description-debtor-5 amount-debtor-5 email-debtor-5 kathrynmaldonado-at-gmail-com token-splitwise receipt-debtor-pdf-2 token-file-system debtor-5)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, description column [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "description-debtor-5"
+        },
+        "paid_amount": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, amount column [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "amount-debtor-5"
+        },
+        "payer_email": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email column [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "email-debtor-5"
+        },
+        "debtor_emails": "kathrynmaldonado@gmail.com",
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "token-splitwise"
+        },
+        "receipt_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the .pdf receipt for debtor 1 located in the same folder as debt_list.csv [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "receipt-debtor-pdf-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-search-users token-venmo query-debtor-6 debtor-6)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email (used as venmo search query) [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "query-debtor-6"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(splitwise-record-expense description-debtor-6 amount-debtor-6 email-debtor-6 kathrynmaldonado-at-gmail-com token-splitwise receipt-debtor-pdf-3 token-file-system debtor-6)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, description column [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "description-debtor-6"
+        },
+        "paid_amount": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, amount column [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "amount-debtor-6"
+        },
+        "payer_email": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email column [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "email-debtor-6"
+        },
+        "debtor_emails": "kathrynmaldonado@gmail.com",
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "token-splitwise"
+        },
+        "receipt_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the .pdf receipt for debtor 1 located in the same folder as debt_list.csv [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "receipt-debtor-pdf-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-search-users token-venmo query-debtor-7 debtor-7)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email (used as venmo search query) [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "query-debtor-7"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(splitwise-record-expense description-debtor-7 amount-debtor-7 email-debtor-7 kathrynmaldonado-at-gmail-com token-splitwise receipt-debtor-pdf-4 token-file-system debtor-7)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, description column [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "description-debtor-7"
+        },
+        "paid_amount": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, amount column [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "amount-debtor-7"
+        },
+        "payer_email": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email column [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "email-debtor-7"
+        },
+        "debtor_emails": "kathrynmaldonado@gmail.com",
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "token-splitwise"
+        },
+        "receipt_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the .pdf receipt for debtor 1 located in the same folder as debt_list.csv [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "receipt-debtor-pdf-4"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "token-file-system"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(venmo-create-transaction email-debtor-1 amount-debtor-1 token-venmo description-debtor-1 private-false debtor-1)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 1, email column",
+          "field": "content: CSV row 1, email column [item 1 of 7 that match this rule; one object per matching item]",
           "object": "email-debtor-1"
         },
         "amount": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 1, amount column",
+          "field": "content: CSV row 1, amount column [item 1 of 7 that match this rule; one object per matching item]",
           "object": "amount-debtor-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-venmo"
         },
         "description": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 1, description column",
+          "field": "content: CSV row 1, description column [item 1 of 7 that match this rule; one object per matching item]",
           "object": "description-debtor-1"
         },
         "private": false
       }
     },
     {
-      "step": 12,
-      "pddl": "(venmo-create-transaction email-debtor-2 amount-debtor-2 token-file-system description-debtor-2 private-false debtor-2)",
+      "step": 19,
+      "pddl": "(venmo-create-transaction email-debtor-2 amount-debtor-2 token-venmo description-debtor-2 private-false debtor-2)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 2, email column",
+          "field": "content: CSV row 1, email column [item 2 of 7 that match this rule; one object per matching item]",
           "object": "email-debtor-2"
         },
         "amount": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 2, amount column",
+          "field": "content: CSV row 1, amount column [item 2 of 7 that match this rule; one object per matching item]",
           "object": "amount-debtor-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "token-file-system"
+          "object": "token-venmo"
         },
         "description": {
           "$from": "file_system.show_file",
-          "field": "content: CSV row 2, description column",
+          "field": "content: CSV row 1, description column [item 2 of 7 that match this rule; one object per matching item]",
           "object": "description-debtor-2"
         },
         "private": false
       }
     },
     {
-      "step": 13,
-      "pddl": "(supervisor-complete-task debtor-1 debtor-2 debtor-3)",
+      "step": 20,
+      "pddl": "(venmo-create-transaction email-debtor-3 amount-debtor-3 token-venmo description-debtor-3 private-false debtor-3)",
+      "api": "venmo.create_transaction",
+      "args": {
+        "receiver_email": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, email column [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "email-debtor-3"
+        },
+        "amount": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, amount column [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "amount-debtor-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: CSV row 1, description column [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "description-debtor-3"
+        },
+        "private": false
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(supervisor-complete-task debtor-5 debtor-6 debtor-7)",
       "api": "supervisor.complete_task",
       "args": {}
     }

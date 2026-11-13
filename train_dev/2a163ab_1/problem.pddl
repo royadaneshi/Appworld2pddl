@@ -6,8 +6,8 @@
     phone-token venmo-token - token
     query-roommate - query
     roommate - relationship
-    melissa-bailey roommate-anita-burch roommate-anthony-harrison roommate-nicholas-weber - person
-    tx-8230 tx-8219 tx-1245 tx-7294 - transaction
+    melissa-bailey roommate-1 roommate-2 friend-1 - person
+    tx-today-roommate-1 tx-today-roommate-2 tx-yesterday-roommate-1 tx-yesterday-roommate-2 - transaction
     today - date
   )
   (:init
@@ -21,25 +21,25 @@
     (password-for venmo venmo-password)
     (current-date today)
     (query-for query-roommate roommate)
-    (has-relationship roommate-anita-burch roommate)
-    (has-relationship roommate-anthony-harrison roommate)
-    (has-relationship roommate-nicholas-weber roommate)
-    (on-feed tx-8230)
-    (on-feed tx-8219)
-    (on-feed tx-1245)
-    (on-feed tx-7294)
-    (transaction-involves tx-8230 roommate-anita-burch)
-    (transaction-involves tx-8219 roommate-nicholas-weber)
-    (transaction-involves tx-1245 roommate-anita-burch)
-    (transaction-involves tx-7294 roommate-nicholas-weber)
-    (transaction-on tx-8230 today)
-    (transaction-on tx-8219 today)
-    (transaction-on tx-1245 today)
-    (transaction-on tx-7294 today))
+    (has-relationship roommate-1 roommate)
+    (has-relationship roommate-2 roommate)
+    (has-relationship friend-1 roommate)
+    (on-feed tx-today-roommate-1)
+    (on-feed tx-today-roommate-2)
+    (on-feed tx-yesterday-roommate-1)
+    (on-feed tx-yesterday-roommate-2)
+    (transaction-involves tx-today-roommate-1 roommate-1)
+    (transaction-involves tx-today-roommate-2 friend-1)
+    (transaction-involves tx-yesterday-roommate-1 roommate-1)
+    (transaction-involves tx-yesterday-roommate-2 friend-1)
+    (transaction-on tx-today-roommate-1 today)
+    (transaction-on tx-today-roommate-2 today)
+    (transaction-on tx-yesterday-roommate-1 today)
+    (transaction-on tx-yesterday-roommate-2 today))
   (:goal (and
-    (liked tx-8230)
-    (liked tx-8219)
-    (liked tx-1245)
-    (liked tx-7294)
+    (liked tx-today-roommate-1)
+    (liked tx-today-roommate-2)
+    (liked tx-yesterday-roommate-1)
+    (liked tx-yesterday-roommate-2)
     (task-completed)))
 )

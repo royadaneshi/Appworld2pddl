@@ -5,7 +5,8 @@
     path draft - record)
   (:constants
     supervisor file-system gmail - app
-    invitee-1 invitee-2 invitee-3 - person)
+    invitee-1 invitee-2 invitee-3 invitee-4 invitee-5 invitee-6 invitee-7 invitee-8 - person
+  )
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -75,5 +76,14 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (invited invitee-1) (invited invitee-2) (invited invitee-3) (not (task-completed)))
+    :precondition (and
+      (invited invitee-1)
+      (invited invitee-2)
+      (invited invitee-3)
+      (invited invitee-4)
+      (invited invitee-5)
+      (invited invitee-6)
+      (invited invitee-7)
+      (invited invitee-8)
+      (not (task-completed)))
     :effect (task-completed)))

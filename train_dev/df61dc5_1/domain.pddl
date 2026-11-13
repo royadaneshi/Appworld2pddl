@@ -4,7 +4,7 @@
     app person username password token query relationship email date transaction - object)
   (:constants
     supervisor phone venmo - app
-    tx-1245 tx-3809 tx-3813 tx-6221 tx-6224 - transaction)
+    tx-roommate-1 tx-roommate-2 tx-roommate-3 tx-roommate-4 tx-roommate-5 - transaction)
   (:predicates
     (credential-of-app ?a - app ?c - object)
     (passwords-known)
@@ -86,11 +86,11 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (liked tx-1245)
-      (liked tx-3809)
-      (liked tx-3813)
-      (liked tx-6221)
-      (liked tx-6224)
+      (liked tx-roommate-1)
+      (liked tx-roommate-2)
+      (liked tx-roommate-3)
+      (liked tx-roommate-4)
+      (liked tx-roommate-5)
       (not (task-completed)))
     :effect (and (task-completed)))
 )

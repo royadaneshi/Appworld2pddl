@@ -4,7 +4,7 @@
     app person username password token artist - object)
   (:constants
     spotify - app
-    artist-ava-morgan artist-eliana-harper artist-mia-sullivan artist-grace-harrison artist-ethan-wallace artist-emily-rivers artist-marcus-lane artist-lily-moon artist-nova-harmony - artist)
+    artist-with-liked-1 artist-with-liked-2 artist-with-liked-3 artist-with-liked-4 artist-no-liked-1 artist-no-liked-2 artist-no-liked-3 artist-no-liked-4 artist-no-liked-5 - artist)
   (:predicates
     (passwords-known)
     (profile-known)
@@ -72,15 +72,15 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (unfollowed artist-ethan-wallace)
-      (unfollowed artist-emily-rivers)
-      (unfollowed artist-marcus-lane)
-      (unfollowed artist-lily-moon)
-      (unfollowed artist-nova-harmony)
-      (followed artist-ava-morgan)
-      (followed artist-eliana-harper)
-      (followed artist-mia-sullivan)
-      (followed artist-grace-harrison)
+      (unfollowed artist-no-liked-1)
+      (unfollowed artist-no-liked-2)
+      (unfollowed artist-no-liked-3)
+      (unfollowed artist-no-liked-4)
+      (unfollowed artist-no-liked-5)
+      (followed artist-with-liked-1)
+      (followed artist-with-liked-2)
+      (followed artist-with-liked-3)
+      (followed artist-with-liked-4)
       (not (task-completed)))
     :effect (and (task-completed)))
 )

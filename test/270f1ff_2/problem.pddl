@@ -14,6 +14,10 @@
     message-happy-birthday-daughter - message
     birthday-transaction - transaction)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-username-8924356613)
     (username-for venmo venmo-username-vicpowe-at-gmail-com)
     (password-for phone phone-password)

@@ -19,6 +19,12 @@
     duration-monthly - duration
   )
   (:init
+    (credential-of-app phone username-7863159797)
+    (credential-of-app phone password-phone)
+    (credential-of-app phone token-phone)
+    (credential-of-app amazon username-ka-ball-at-gmail-com)
+    (credential-of-app amazon password-amazon)
+    (credential-of-app amazon token-amazon)
     (username-for phone username-7863159797)
     (username-for amazon username-ka-ball-at-gmail-com)
     (password-for phone password-phone)

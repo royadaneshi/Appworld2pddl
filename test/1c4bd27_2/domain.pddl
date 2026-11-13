@@ -5,7 +5,7 @@
   (:constants
     amazon - app
     order-1 order-2 order-3 - order
-    product-1a product-1b product-2a product-3a product-3b - product
+    product-1a-1 product-1a-2 product-1a-3 product-1a-4 product-1a-5 product-1a-6 - product
     fedex - deliverer)
   (:predicates
     (passwords-known)
@@ -31,7 +31,7 @@
     :precondition (and (passwords-known) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
     :effect (has-token amazon ?t))
 
-  ; API: amazon.show_orders  (lists past orders; the three most recent ones are order-1, order-2, order-3)
+  ; API: amazon.show_orders  (lists past orders; the three most recent ones are order-3146, order-3147, order-3)
   (:action amazon-show-orders
     :parameters (?t - token)
     :precondition (and (has-token amazon ?t) (not (task-completed)))
@@ -58,6 +58,13 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (return-initiated order-1 product-1a fedex) (return-initiated order-1 product-1b fedex) (return-initiated order-2 product-2a fedex) (return-initiated order-3 product-3a fedex) (return-initiated order-3 product-3b fedex) (not (task-completed)))
+    :precondition (and
+      (return-initiated order-1 product-1a-1 fedex)
+      (return-initiated order-1 product-1a-2 fedex)
+      (return-initiated order-2 product-1a-3 fedex)
+      (return-initiated order-2 product-1a-4 fedex)
+      (return-initiated order-3 product-1a-5 fedex)
+      (return-initiated order-3 product-1a-6 fedex)
+      (not (task-completed)))
     :effect (task-completed))
 )

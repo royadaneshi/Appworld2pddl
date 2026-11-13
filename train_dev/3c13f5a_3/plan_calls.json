@@ -105,13 +105,13 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-create-payment-request roommate-connor-email amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-connor c0 c1)",
+      "pddl": "(venmo-create-payment-request roommate-email-1 amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-1 c0 c1)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Connor Brown (connorbrow@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
-          "object": "roommate-connor-email"
+          "field": "email of 1st contact with relationship roommate [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-1"
         },
         "amount": {
           "$from": "file_system.show_file",
@@ -128,13 +128,13 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-payment-request roommate-ed-email amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-ed c1 c2)",
+      "pddl": "(venmo-create-payment-request roommate-email-2 amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-2 c1 count-1)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Ed Wilson (ed_wilson@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
-          "object": "roommate-ed-email"
+          "field": "email of 1st contact with relationship roommate [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-2"
         },
         "amount": {
           "$from": "file_system.show_file",
@@ -151,13 +151,13 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-create-payment-request roommate-martin-email amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-martin c2 c-all)",
+      "pddl": "(venmo-create-payment-request roommate-email-3 amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-3 count-1 c-all)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Martin Blackburn (mar_blac@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
-          "object": "roommate-martin-email"
+          "field": "email of 1st contact with relationship roommate [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-3"
         },
         "amount": {
           "$from": "file_system.show_file",

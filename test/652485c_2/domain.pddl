@@ -6,9 +6,10 @@
   (:constants
     spotify phone supervisor - app
     new-playlist - playlist
-    song-a song-b song-c - song
+    song-1 song-2 song-3 song-4 song-5 song-6 song-7 song-8 song-9 song-10 song-11 - song
     wife-contact - person
-    playlist-url-message - message)
+    playlist-url-message - message
+  )
   (:predicates
     (passwords-known)
     (username-for ?a - app ?u - username)
@@ -117,6 +118,21 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (playlist-created new-playlist) (playlist-public new-playlist) (added-to-playlist new-playlist song-a) (added-to-playlist new-playlist song-b) (added-to-playlist new-playlist song-c) (text-sent wife-contact playlist-url-message) (not (task-completed)))
+    :precondition (and
+      (playlist-created new-playlist)
+      (playlist-public new-playlist)
+      (added-to-playlist new-playlist song-1)
+      (added-to-playlist new-playlist song-2)
+      (added-to-playlist new-playlist song-3)
+      (added-to-playlist new-playlist song-4)
+      (added-to-playlist new-playlist song-5)
+      (added-to-playlist new-playlist song-6)
+      (added-to-playlist new-playlist song-7)
+      (added-to-playlist new-playlist song-8)
+      (added-to-playlist new-playlist song-9)
+      (added-to-playlist new-playlist song-10)
+      (added-to-playlist new-playlist song-11)
+      (text-sent wife-contact playlist-url-message)
+      (not (task-completed)))
     :effect (task-completed))
 )

@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(phone-login phone-number-7934818191 phone-password venmo-token)",
+      "pddl": "(phone-login phone-number-7934818191 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "7934818191",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login carbrown-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login carbrown-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "carbrown@gmail.com",
@@ -34,65 +34,201 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-search-contacts venmo-token relationship-friend)",
+      "pddl": "(phone-search-contacts phone-token relationship-friend)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "relationship": "friend"
       }
     },
     {
       "step": 5,
-      "pddl": "(venmo-search-friends phone-token)",
+      "pddl": "(venmo-search-friends venmo-token)",
       "api": "venmo.search_friends",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(venmo-add-friend email-friend-to-add-1 phone-token friend-to-add-1 n1 n0)",
-      "api": "venmo.add_friend",
+      "pddl": "(venmo-remove-friend email-friend-to-add-11 venmo-token friend-to-remove-1 count-4 count-3)",
+      "api": "venmo.remove_friend",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends",
-          "object": "email-friend-to-add-1"
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 11 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-11"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-remove-friend email-friend-to-remove-1 phone-token friend-to-remove-1 n1 n0)",
+      "pddl": "(venmo-remove-friend email-friend-to-add-12 venmo-token friend-to-remove-2 count-3 count-2)",
       "api": "venmo.remove_friend",
       "args": {
         "user_email": {
-          "$from": "venmo.search_friends",
-          "field": "email of each current Venmo friend whose email is NOT among the phone friend contacts' emails",
-          "object": "email-friend-to-remove-1"
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 12 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-12"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 8,
+      "pddl": "(venmo-remove-friend email-friend-to-add-13 venmo-token friend-to-remove-3 count-2 count-1)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 13 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-13"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-remove-friend email-friend-to-add-14 venmo-token friend-to-remove-4 count-1 n1)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 14 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-14"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-remove-friend email-friend-to-add-15 venmo-token friend-to-remove-5 n1 n0)",
+      "api": "venmo.remove_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 15 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-15"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-add-friend email-friend-to-add-1 venmo-token mutual-friend-1 count-4 count-3)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 1 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-add-friend email-friend-to-add-2 venmo-token mutual-friend-2 count-3 count-2)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 2 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-add-friend email-friend-to-add-3 venmo-token mutual-friend-3 count-2 count-1)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 3 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-add-friend email-friend-to-add-4 venmo-token mutual-friend-4 count-1 n1)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 4 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-4"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-add-friend email-friend-to-add-5 venmo-token mutual-friend-5 n1 n0)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of each contact (relationship == friend) whose email is NOT among the emails returned by venmo.search_friends [item 5 of 15 that match this rule; one object per matching item]",
+          "object": "email-friend-to-add-5"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 16,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

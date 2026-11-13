@@ -3,7 +3,7 @@
   (:types app person username password token song - object)
   (:constants
     spotify - app
-    song-31 song-32 song-48 song-49 song-50 song-51 song-52 song-57 - song)
+    song-lib-liked-1 song-lib-liked-2 song-lib-liked-3 song-lib-liked-4 song-lib-liked-5 song-lib-liked-6 song-lib-liked-7 song-lib-liked-8 - song)
   (:predicates
     (profile-known)
     (passwords-known)
@@ -64,13 +64,13 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (downloaded song-31)
-      (downloaded song-32)
-      (downloaded song-48)
-      (downloaded song-49)
-      (downloaded song-50)
-      (downloaded song-51)
-      (downloaded song-52)
-      (downloaded song-57)
+      (downloaded song-lib-liked-1)
+      (downloaded song-lib-liked-2)
+      (downloaded song-lib-liked-3)
+      (downloaded song-lib-liked-4)
+      (downloaded song-lib-liked-5)
+      (downloaded song-lib-liked-6)
+      (downloaded song-lib-liked-7)
+      (downloaded song-lib-liked-8)
       (not (task-completed)))
     :effect (and (task-completed))))

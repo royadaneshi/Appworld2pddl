@@ -31,7 +31,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'password', 'phone-number', 'query', 'invitation-code', 'token', 'text-message', 'username', 'app', 'person'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -42,16 +44,24 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(phone-login phone-6759633882 phone-password phone-token)",
-      "(splitwise-login angelica-wils-at-gmail-com splitwise-password phone-token)",
+      "(splitwise-login angelica-wils-at-gmail-com splitwise-password splitwise-token)",
       "(phone-search-text-messages phone-token query-splitwise)",
       "(phone-search-contacts phone-token contact-number-1)",
+      "(phone-search-contacts phone-token contact-number-2)",
+      "(phone-search-contacts phone-token contact-number-3)",
+      "(phone-search-contacts phone-token unknown-number-1)",
+      "(phone-delete-text-message message-4 phone-token unknown-number-1)",
       "(phone-search-contacts phone-token unknown-number-2)",
-      "(phone-delete-text-message message-2 phone-token unknown-number-2)",
-      "(splitwise-accept-group-invitation invite-code-1 phone-token message-1 contact-number-1)",
-      "(supervisor-complete-task invite-code-1 message-2)"
+      "(phone-delete-text-message message-5 phone-token unknown-number-2)",
+      "(phone-search-contacts phone-token unknown-number-3)",
+      "(phone-delete-text-message message-6 phone-token unknown-number-3)",
+      "(splitwise-accept-group-invitation invite-code-1 splitwise-token message-1 contact-number-1)",
+      "(splitwise-accept-group-invitation invite-code-2 splitwise-token message-2 contact-number-2)",
+      "(splitwise-accept-group-invitation invite-code-3 splitwise-token message-3 contact-number-3)",
+      "(supervisor-complete-task invite-code-3 message-4)"
     ],
     "message": "",
-    "seconds": 0.98
+    "seconds": 0.81
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -8,13 +8,13 @@
     query-reggae - query
     reggae - genre
     followers-21 - follower-count
-    artist-luna-starlight - artist)
+    reggae-artist-1 - artist)
   (:init
     (username-for spotify morgan-harrison-at-gmail-com)
     (password-for spotify spotify-password)
     (target-genre reggae)
     (target-min-followers followers-21)
     (query-for-genre query-reggae reggae)
-    (matching-artist artist-luna-starlight))
-  (:goal (and (followed artist-luna-starlight) (task-completed)))
+    (matching-artist reggae-artist-1))
+  (:goal (and (followed reggae-artist-1) (task-completed)))
 )

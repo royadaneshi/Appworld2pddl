@@ -36,7 +36,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'person', 'city', 'token', 'address-name', 'price', 'zipcode', 'state', 'flag', 'product', 'country', 'email-thread', 'payment-card', 'username', 'sort-key', 'password', 'app', 'datetime', 'relationship', 'quantity', 'email', 'product-"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -47,20 +49,20 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(amazon-login kat-simp-at-gmail-com amazon-password amazon-token)",
-      "(gmail-login kat-simp-at-gmail-com gmail-password amazon-token)",
+      "(gmail-login kat-simp-at-gmail-com gmail-password gmail-token)",
       "(phone-login phone-number-6727300099 phone-password phone-token)",
       "(amazon-show-payment-cards amazon-token payment-card-1)",
       "(phone-search-contacts phone-token relationship-husband husband husband-email husband-work-address)",
       "(amazon-add-address husband-name husband-street husband-city husband-state husband-country husband-zip amazon-token husband husband-work-address husband-work-amazon-address)",
-      "(gmail-show-inbox-threads amazon-token husband-email datetime-2023-05-18 husband-email-thread husband)",
-      "(gmail-show-thread husband-email-thread amazon-token requested-product-type requested-max-price)",
+      "(gmail-show-inbox-threads gmail-token husband-email datetime-2023-05-18 husband-email-thread husband)",
+      "(gmail-show-thread husband-email-thread gmail-token requested-product-type requested-max-price)",
       "(amazon-search-products requested-product-type requested-max-price sort-key-rating-desc top-rated-product)",
       "(amazon-add-product-to-cart top-rated-product amazon-token quantity-1 flag-true)",
       "(amazon-place-order payment-card-1 husband-work-amazon-address amazon-token top-rated-product quantity-1 husband-work-address new-order)",
       "(supervisor-complete-task new-order top-rated-product quantity-1 husband-work-amazon-address husband-work-address)"
     ],
     "message": "",
-    "seconds": 2.38
+    "seconds": 0.86
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -5,6 +5,7 @@
   )
   (:constants supervisor simple-note splitwise - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -32,7 +33,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (has-token simple-note ?t)
   )
 
@@ -53,7 +54,7 @@
   ; API: splitwise.login
   (:action splitwise-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for splitwise ?pw) (not (has-token splitwise ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app splitwise ?t) (credential-of-app splitwise ?pw) (credential-of-app splitwise ?u) (passwords-known) (password-for splitwise ?pw) (not (has-token splitwise ?t)) (not (task-completed)))
     :effect (has-token splitwise ?t)
   )
 

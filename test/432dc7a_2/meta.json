@@ -35,7 +35,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'entity', 'promo-code', 'payment-card', 'app', 'token', 'password', 'email-thread', 'query', 'address', 'username', 'person'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -46,12 +48,12 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(amazon-login an-harrison-at-gmail-com amazon-password amazon-token)",
-      "(gmail-login an-harrison-at-gmail-com gmail-password amazon-token)",
+      "(gmail-login an-harrison-at-gmail-com gmail-password gmail-token)",
       "(amazon-show-cart amazon-token promo-old promo-old)",
       "(amazon-show-addresses amazon-token address-workplace)",
       "(amazon-show-payment-cards amazon-token payment-card-default)",
-      "(gmail-show-inbox-threads amazon-token query-amazon-promo thread-amazon-promo)",
-      "(gmail-show-thread thread-amazon-promo amazon-token promo-new)",
+      "(gmail-show-inbox-threads gmail-token query-amazon-promo thread-amazon-promo)",
+      "(gmail-show-thread thread-amazon-promo gmail-token promo-new)",
       "(amazon-apply-promo-code-to-cart promo-new amazon-token promo-old)",
       "(amazon-show-cart amazon-token promo-new promo-best)",
       "(amazon-apply-promo-code-to-cart promo-best amazon-token promo-new)",
@@ -59,7 +61,7 @@
       "(supervisor-complete-task)"
     ],
     "message": "",
-    "seconds": 1.16
+    "seconds": 0.82
   },
   "solution_used": false,
   "has_reference_solution": false,

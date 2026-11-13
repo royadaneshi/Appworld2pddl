@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login kat-simp-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login kat-simp-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "kat_simp@gmail.com",
@@ -114,13 +114,13 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-inbox-threads amazon-token husband-email datetime-2023-05-18 husband-email-thread husband)",
+      "pddl": "(gmail-show-inbox-threads gmail-token husband-email datetime-2023-05-18 husband-email-thread husband)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "from_email": {
           "$from": "phone.search_contacts",
@@ -132,7 +132,7 @@
     },
     {
       "step": 9,
-      "pddl": "(gmail-show-thread husband-email-thread amazon-token requested-product-type requested-max-price)",
+      "pddl": "(gmail-show-thread husband-email-thread gmail-token requested-product-type requested-max-price)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -141,9 +141,9 @@
           "object": "husband-email-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },

@@ -7,8 +7,8 @@
     spotify-token - token
     query-silent-thunder - query
     silent-thunder other-artist - artist
-    song-current song-prev-1 song-prev-2 song-prev-3 song-silent-thunder - song
-    pos-current pos-prev-1 pos-prev-2 pos-prev-3 pos-prev-4 - position
+    song-current song-prev-1 song-silent-thunder-1 song-silent-thunder-2 song-silent-thunder - song
+    pos-current pos-prev-1 pos-prev-2 position-1 position-2 - position
   )
   (:init
     (supervisor sherry)
@@ -19,15 +19,15 @@
     (cursor-at pos-current)
     (may-go-previous)
     (prev-position pos-current pos-prev-1)
-    (prev-position pos-prev-1 pos-prev-2) (prev-position pos-prev-2 pos-prev-3) (prev-position pos-prev-3 pos-prev-4)
+    (prev-position pos-prev-1 pos-prev-2) (prev-position pos-prev-2 position-1) (prev-position position-1 position-2)
     (song-at pos-current song-current)
     (song-at pos-prev-1 song-prev-1)
-    (song-at pos-prev-2 song-prev-2) (song-at pos-prev-3 song-prev-3) (song-at pos-prev-4 song-silent-thunder)
+    (song-at pos-prev-2 song-silent-thunder-1) (song-at position-1 song-silent-thunder-2) (song-at position-2 song-silent-thunder)
     (by-artist song-current other-artist)
-    (by-artist song-prev-1 other-artist) (by-artist song-prev-2 other-artist) (by-artist song-prev-3 other-artist)
+    (by-artist song-prev-1 other-artist) (by-artist song-silent-thunder-1 other-artist) (by-artist song-silent-thunder-2 other-artist)
     (by-artist song-silent-thunder silent-thunder))
   (:goal (and
-    (cursor-at pos-prev-4)
+    (cursor-at position-2)
     (checked song-silent-thunder silent-thunder)
     (task-completed)))
 )

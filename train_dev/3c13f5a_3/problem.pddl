@@ -12,9 +12,9 @@
     file-cable-bill-last-month - file-path
     amount-bill-share - amount
     note-i-paid-for-cable-bill - description
-    jennifer-powell roommate-connor roommate-martin roommate-ed - person
-    roommate-connor-email roommate-martin-email roommate-ed-email - email
-    c0 c1 c2 - count
+    jennifer-powell roommate-1 roommate-2 roommate-3 - person
+    roommate-email-1 roommate-email-2 roommate-email-3 - email
+    c0 c1 count-1 - count
   )
   (:init
     (credential-of-app phone phone-password)
@@ -38,13 +38,13 @@
     (share-of file-cable-bill-last-month amount-bill-share)
     (note-text note-i-paid-for-cable-bill)
     (requests-sent-count c0)
-    (is-roommate roommate-connor)
-    (is-roommate roommate-martin)
-    (is-roommate roommate-ed)
-    (roommate-email roommate-connor roommate-connor-email)
-    (roommate-email roommate-martin roommate-martin-email)
-    (roommate-email roommate-ed roommate-ed-email)
+    (is-roommate roommate-1)
+    (is-roommate roommate-2)
+    (is-roommate roommate-3)
+    (roommate-email roommate-1 roommate-email-1)
+    (roommate-email roommate-2 roommate-email-2)
+    (roommate-email roommate-3 roommate-email-3)
     (succ c0 c1)
-    (succ c1 c2)
-    (succ c2 c-all))
+    (succ c1 count-1)
+    (succ count-1 c-all))
   (:goal (and (requests-sent-count c-all) (task-completed))))

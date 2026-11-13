@@ -3,7 +3,7 @@
   (:types app person username password token phone-number message relationship - object)
   (:constants
     phone - app
-    roommate-1 roommate-2 - person
+    roommate-1 roommate-2 roommate-3 - person
     msg-i-have-taken-out-the-trash - message)
   (:predicates
     (passwords-known)
@@ -42,5 +42,9 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (voice-message-sent roommate-1 msg-i-have-taken-out-the-trash) (voice-message-sent roommate-2 msg-i-have-taken-out-the-trash) (not (task-completed)))
+    :precondition (and
+      (voice-message-sent roommate-1 msg-i-have-taken-out-the-trash)
+      (voice-message-sent roommate-2 msg-i-have-taken-out-the-trash)
+      (voice-message-sent roommate-3 msg-i-have-taken-out-the-trash)
+      (not (task-completed)))
     :effect (task-completed)))

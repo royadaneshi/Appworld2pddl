@@ -10,6 +10,15 @@
     edwin-email - email
     query-edwin - query)
   (:init
+    (credential-of-app amazon normansmit-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app phone phone-5708520672)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo normansmit-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for amazon normansmit-at-gmail-com)
     (username-for phone phone-5708520672)
     (username-for venmo normansmit-at-gmail-com)

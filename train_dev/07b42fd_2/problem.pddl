@@ -14,6 +14,6 @@
     (query-for-genre query-edm edm)
     (target-genre edm)
     (target-min-followers followers-23)
-    (matches-criteria artist-jasper-skye))
-  (:goal (and (following artist-jasper-skye)
+    (matches-criteria artist-1))
+  (:goal (and (following artist-1)
               (task-completed))))

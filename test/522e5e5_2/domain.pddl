@@ -4,7 +4,8 @@
     app person username password token email direction datetime - object)
   (:constants
     venmo supervisor - app
-    recipient-1 recipient-2 - person)
+    recipient-1 recipient-2 recipient-3 recipient-4 recipient-5 recipient-6 recipient-7 recipient-8 recipient-9 - person
+  )
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -57,8 +58,16 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (friend recipient-1)
-                       (friend recipient-2)
-                       (not (task-completed)))
+    :precondition (and
+      (friend recipient-1)
+      (friend recipient-2)
+      (friend recipient-3)
+      (friend recipient-4)
+      (friend recipient-5)
+      (friend recipient-6)
+      (friend recipient-7)
+      (friend recipient-8)
+      (friend recipient-9)
+      (not (task-completed)))
     :effect (task-completed))
 )

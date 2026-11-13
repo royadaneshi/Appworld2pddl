@@ -5,11 +5,13 @@
   (:constants
     supervisor simple-note venmo - app
     note-maui-trip - note
-    friend-1 friend-2 friend-3 friend-4 - person
-    amount-i-owe-friend-1 amount-i-owe-friend-2 amount-friend-3-owes-me amount-friend-4-owes-me - amount
+    friend-1 friend-2 friend-3 friend-4 friend-5 friend-6 - person
+    amount-i-owe-friend-1 amount-i-owe-friend-2 amount-i-owe-friend-3 amount-friend-owes-me-1 amount-friend-owes-me-2 amount-friend-owes-me-3 - amount
     desc-for-maui-trip - description
-    private-true - privacy)
+    private-true - privacy
+  )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -35,7 +37,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (credential-of-app simple-note ?u) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (and (has-token simple-note ?t)))
 
   ; API: simple_note.search_notes
@@ -53,7 +55,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (passwords-known) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (and (has-token venmo ?t)))
 
   ; API: venmo.search_friends
@@ -80,8 +82,10 @@
     :precondition (and
       (paid friend-1 amount-i-owe-friend-1 desc-for-maui-trip private-true)
       (paid friend-2 amount-i-owe-friend-2 desc-for-maui-trip private-true)
-      (requested friend-3 amount-friend-3-owes-me desc-for-maui-trip private-true)
-      (requested friend-4 amount-friend-4-owes-me desc-for-maui-trip private-true)
+      (paid friend-3 amount-i-owe-friend-3 desc-for-maui-trip private-true)
+      (requested friend-4 amount-friend-owes-me-1 desc-for-maui-trip private-true)
+      (requested friend-5 amount-friend-owes-me-2 desc-for-maui-trip private-true)
+      (requested friend-6 amount-friend-owes-me-3 desc-for-maui-trip private-true)
       (not (task-completed)))
     :effect (and (task-completed)))
 )

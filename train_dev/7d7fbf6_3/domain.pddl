@@ -3,8 +3,8 @@
   (:types app username password token directory zipfile flag - object)
   (:constants
     file-system - app
-    dir-bali dir-maui dir-santorini dir-seoul - directory
-    zip-bali zip-maui zip-santorini zip-seoul - zipfile)
+    vacation-dir-1 vacation-dir-2 vacation-dir-3 vacation-dir-4 - directory
+    vacation-zip-1 vacation-zip-2 vacation-zip-3 vacation-zip-4 - zipfile)
   (:predicates
     (passwords-known)
     (profile-known)
@@ -69,14 +69,14 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (compressed dir-bali zip-bali)
-      (directory-deleted dir-bali)
-      (compressed dir-maui zip-maui)
-      (directory-deleted dir-maui)
-      (compressed dir-santorini zip-santorini)
-      (directory-deleted dir-santorini)
-      (compressed dir-seoul zip-seoul)
-      (directory-deleted dir-seoul)
+      (compressed vacation-dir-1 vacation-zip-1)
+      (directory-deleted vacation-dir-1)
+      (compressed vacation-dir-2 vacation-zip-2)
+      (directory-deleted vacation-dir-2)
+      (compressed vacation-dir-3 vacation-zip-3)
+      (directory-deleted vacation-dir-3)
+      (compressed vacation-dir-4 vacation-zip-4)
+      (directory-deleted vacation-dir-4)
       (not (task-completed)))
     :effect (and (task-completed)))
 )

@@ -14,6 +14,10 @@
     dir-bills - directory
     receipt-file-path - file-path)
   (:init
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for amazon amazon-password)
     (password-for file-system file-system-password)
     (matches-query query-ikea-lerhamn-dining-table ikea-lerhamn-dining-table)

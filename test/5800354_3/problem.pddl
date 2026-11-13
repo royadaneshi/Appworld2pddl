@@ -16,6 +16,17 @@
     return-quantity - quantity
     amount-order-cost - amount)
   (:init
+    (credential-of-app phone phone-username-4886643554)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app amazon amazon-username-matthew-blac-at-gmail-com)
+    (credential-of-app amazon venmo-username-matthew-blac-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app venmo amazon-username-matthew-blac-at-gmail-com)
+    (credential-of-app venmo venmo-username-matthew-blac-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-username-4886643554)
     (username-for amazon amazon-username-matthew-blac-at-gmail-com)
     (username-for venmo venmo-username-matthew-blac-at-gmail-com)

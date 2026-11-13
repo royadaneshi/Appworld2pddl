@@ -52,7 +52,7 @@
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note whose title/content refers to the Athens trip",
+          "field": "note_id of the result that is the expense bookkeeping note of the trip (who owes whom); another note about the same city (a checklist) also matches the query and must be ignored",
           "object": "athens-trip-note"
         },
         "access_token": {
@@ -81,12 +81,12 @@
       "args": {
         "receiver_email": {
           "$from": "venmo.search_friends",
-          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note",
+          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note [item 1 of 7 that match this rule; one object per matching item]",
           "object": "email-i-owe-1"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: amount next to the 1st friend listed under money I owe",
+          "field": "content: amount next to the 1st friend listed under money I owe [item 1 of 4 that match this rule; one object per matching item]",
           "object": "amount-i-owe-1"
         },
         "access_token": {
@@ -105,12 +105,12 @@
       "args": {
         "receiver_email": {
           "$from": "venmo.search_friends",
-          "field": "email of the friend whose name matches the 2nd 'I owe' entry of the note",
+          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note [item 2 of 7 that match this rule; one object per matching item]",
           "object": "email-i-owe-2"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: amount next to the 2nd friend listed under money I owe",
+          "field": "content: amount next to the 1st friend listed under money I owe [item 2 of 4 that match this rule; one object per matching item]",
           "object": "amount-i-owe-2"
         },
         "access_token": {
@@ -124,18 +124,18 @@
     },
     {
       "step": 9,
-      "pddl": "(venmo-create-payment-request email-owes-me-1 amount-owes-me-1 venmo-token note-for-athens-trip private-true friend-owes-me-1 athens-trip-note)",
-      "api": "venmo.create_payment_request",
+      "pddl": "(venmo-create-transaction email-i-owe-3 amount-i-owe-3 venmo-token note-for-athens-trip private-true friend-i-owe-3 athens-trip-note)",
+      "api": "venmo.create_transaction",
       "args": {
-        "user_email": {
+        "receiver_email": {
           "$from": "venmo.search_friends",
-          "field": "email of the friend whose name matches the 1st 'owes me' entry of the note",
-          "object": "email-owes-me-1"
+          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "email-i-owe-3"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: amount next to the 1st friend listed under money owed to me",
-          "object": "amount-owes-me-1"
+          "field": "content: amount next to the 1st friend listed under money I owe [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "amount-i-owe-3"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -148,18 +148,18 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-create-payment-request email-owes-me-2 amount-owes-me-2 venmo-token note-for-athens-trip private-true friend-owes-me-2 athens-trip-note)",
-      "api": "venmo.create_payment_request",
+      "pddl": "(venmo-create-transaction email-i-owe-4 amount-i-owe-4 venmo-token note-for-athens-trip private-true friend-i-owe-4 athens-trip-note)",
+      "api": "venmo.create_transaction",
       "args": {
-        "user_email": {
+        "receiver_email": {
           "$from": "venmo.search_friends",
-          "field": "email of the friend whose name matches the 2nd 'owes me' entry of the note",
-          "object": "email-owes-me-2"
+          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "email-i-owe-4"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: amount next to the 2nd friend listed under money owed to me",
-          "object": "amount-owes-me-2"
+          "field": "content: amount next to the 1st friend listed under money I owe [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "amount-i-owe-4"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -172,6 +172,78 @@
     },
     {
       "step": 11,
+      "pddl": "(venmo-create-payment-request email-i-owe-5 amount-owes-me-1 venmo-token note-for-athens-trip private-true friend-owes-me-1 athens-trip-note)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "email-i-owe-5"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount next to the 1st friend listed under money owed to me [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "amount-owes-me-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Athens trip",
+        "private": true
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-create-payment-request email-i-owe-6 amount-owes-me-2 venmo-token note-for-athens-trip private-true friend-owes-me-2 athens-trip-note)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "email-i-owe-6"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount next to the 1st friend listed under money owed to me [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "amount-owes-me-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Athens trip",
+        "private": true
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-create-payment-request email-i-owe-7 amount-owes-me-3 venmo-token note-for-athens-trip private-true friend-owes-me-3 athens-trip-note)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.search_friends",
+          "field": "email of the friend whose name matches the 1st 'I owe' entry of the note [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "email-i-owe-7"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount next to the 1st friend listed under money owed to me [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "amount-owes-me-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "For Athens trip",
+        "private": true
+      }
+    },
+    {
+      "step": 14,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

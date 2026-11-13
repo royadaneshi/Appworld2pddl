@@ -94,13 +94,13 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-send-email invitee-1-email invitation-subject body-invitee-1 gmail-token invitee-1 baby-shower-template-draft invitee-list-file)",
+      "pddl": "(gmail-send-email invitee-email-1 invitation-subject body-invitee-1 gmail-token invitee-1 baby-shower-template-draft invitee-list-file)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
           "$from": "file_system.show_file",
-          "field": "content -> email address of the 1st invitee",
-          "object": "invitee-1-email"
+          "field": "content -> email address of the 1st invitee [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "invitee-email-1"
         },
         "subject": {
           "$from": "gmail.show_draft",
@@ -109,7 +109,7 @@
         },
         "body": {
           "$from": "gmail.show_draft",
-          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file [item 1 of 8 that match this rule; one object per matching item]",
           "object": "body-invitee-1"
         },
         "access_token": {
@@ -121,13 +121,13 @@
     },
     {
       "step": 9,
-      "pddl": "(gmail-send-email invitee-2-email invitation-subject body-invitee-2 gmail-token invitee-2 baby-shower-template-draft invitee-list-file)",
+      "pddl": "(gmail-send-email invitee-email-2 invitation-subject body-invitee-2 gmail-token invitee-2 baby-shower-template-draft invitee-list-file)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
           "$from": "file_system.show_file",
-          "field": "content -> email address of the 2nd invitee",
-          "object": "invitee-2-email"
+          "field": "content -> email address of the 1st invitee [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "invitee-email-2"
         },
         "subject": {
           "$from": "gmail.show_draft",
@@ -136,7 +136,7 @@
         },
         "body": {
           "$from": "gmail.show_draft",
-          "field": "body with every {placeholder} replaced by the 2nd invitee's details from the invitee list file",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file [item 2 of 8 that match this rule; one object per matching item]",
           "object": "body-invitee-2"
         },
         "access_token": {
@@ -148,13 +148,13 @@
     },
     {
       "step": 10,
-      "pddl": "(gmail-send-email invitee-3-email invitation-subject body-invitee-3 gmail-token invitee-3 baby-shower-template-draft invitee-list-file)",
+      "pddl": "(gmail-send-email invitee-email-3 invitation-subject body-invitee-3 gmail-token invitee-3 baby-shower-template-draft invitee-list-file)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
           "$from": "file_system.show_file",
-          "field": "content -> email address of the 3rd invitee",
-          "object": "invitee-3-email"
+          "field": "content -> email address of the 1st invitee [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "invitee-email-3"
         },
         "subject": {
           "$from": "gmail.show_draft",
@@ -163,7 +163,7 @@
         },
         "body": {
           "$from": "gmail.show_draft",
-          "field": "body with every {placeholder} replaced by the 3rd invitee's details from the invitee list file",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file [item 3 of 8 that match this rule; one object per matching item]",
           "object": "body-invitee-3"
         },
         "access_token": {
@@ -175,6 +175,141 @@
     },
     {
       "step": 11,
+      "pddl": "(gmail-send-email invitee-email-4 invitation-subject body-invitee-4 gmail-token invitee-4 baby-shower-template-draft invitee-list-file)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of the 1st invitee [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "invitee-email-4"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "invitation-subject"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "body-invitee-4"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(gmail-send-email invitee-email-5 invitation-subject body-invitee-5 gmail-token invitee-5 baby-shower-template-draft invitee-list-file)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of the 1st invitee [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "invitee-email-5"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "invitation-subject"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "body-invitee-5"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(gmail-send-email invitee-email-6 invitation-subject body-invitee-6 gmail-token invitee-6 baby-shower-template-draft invitee-list-file)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of the 1st invitee [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "invitee-email-6"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "invitation-subject"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "body-invitee-6"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(gmail-send-email invitee-email-7 invitation-subject body-invitee-7 gmail-token invitee-7 baby-shower-template-draft invitee-list-file)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of the 1st invitee [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "invitee-email-7"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "invitation-subject"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "body-invitee-7"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-send-email invitee-email-8 invitation-subject body-invitee-8 gmail-token invitee-8 baby-shower-template-draft invitee-list-file)",
+      "api": "gmail.send_email",
+      "args": {
+        "email_addresses": {
+          "$from": "file_system.show_file",
+          "field": "content -> email address of the 1st invitee [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "invitee-email-8"
+        },
+        "subject": {
+          "$from": "gmail.show_draft",
+          "field": "subject",
+          "object": "invitation-subject"
+        },
+        "body": {
+          "$from": "gmail.show_draft",
+          "field": "body with every {placeholder} replaced by the 1st invitee's details from the invitee list file [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "body-invitee-8"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 16,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

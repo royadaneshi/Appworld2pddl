@@ -4,9 +4,11 @@
     app person username password token file-path playlist-title playlist song - object)
   (:constants
     supervisor file-system spotify - app
-    playlist-1 playlist-2 archived-playlist-songs - playlist
-    old-song-1 old-song-2 - song)
+    playlist-1 playlist-2 playlist-3 playlist-4 playlist-5 playlist-6 playlist-7 archived-playlist-songs - playlist
+    old-song-1 old-song-2 old-song-3 old-song-4 old-song-5 old-song-6 old-song-7 old-song-8 old-song-9 old-song-10 old-song-11 old-song-12 old-song-13 - song
+  )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -32,7 +34,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known)
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (credential-of-app file-system ?u) (not (task-completed)) (passwords-known)
                        (username-for file-system ?u) (password-for file-system ?pw)
                        (not (has-token file-system ?t)))
     :effect (and (has-token file-system ?t)))
@@ -46,7 +48,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known)
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw) (credential-of-app spotify ?u) (not (task-completed)) (passwords-known)
                        (username-for spotify ?u) (password-for spotify ?pw)
                        (not (has-token spotify ?t)))
     :effect (and (has-token spotify ?t)))
@@ -89,12 +91,35 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed))
-                       (created-playlist archived-playlist-songs)
-                       (not (song-in-playlist old-song-1 playlist-1))
-                       (not (song-in-playlist old-song-2 playlist-1))
-                       (not (song-in-playlist old-song-2 playlist-2))
-                       (song-in-playlist old-song-1 archived-playlist-songs)
-                       (song-in-playlist old-song-2 archived-playlist-songs))
+    :precondition (and
+      (created-playlist archived-playlist-songs)
+      (not (song-in-playlist old-song-9 playlist-1))
+      (not (song-in-playlist old-song-13 playlist-2))
+      (not (song-in-playlist old-song-2 playlist-2))
+      (not (song-in-playlist old-song-6 playlist-3))
+      (not (song-in-playlist old-song-12 playlist-4))
+      (not (song-in-playlist old-song-4 playlist-4))
+      (not (song-in-playlist old-song-11 playlist-4))
+      (not (song-in-playlist old-song-1 playlist-5))
+      (not (song-in-playlist old-song-8 playlist-6))
+      (not (song-in-playlist old-song-3 playlist-6))
+      (not (song-in-playlist old-song-5 playlist-6))
+      (not (song-in-playlist old-song-2 playlist-7))
+      (not (song-in-playlist old-song-10 playlist-7))
+      (not (song-in-playlist old-song-7 playlist-7))
+      (song-in-playlist old-song-1 archived-playlist-songs)
+      (song-in-playlist old-song-2 archived-playlist-songs)
+      (song-in-playlist old-song-3 archived-playlist-songs)
+      (song-in-playlist old-song-4 archived-playlist-songs)
+      (song-in-playlist old-song-5 archived-playlist-songs)
+      (song-in-playlist old-song-6 archived-playlist-songs)
+      (song-in-playlist old-song-7 archived-playlist-songs)
+      (song-in-playlist old-song-8 archived-playlist-songs)
+      (song-in-playlist old-song-9 archived-playlist-songs)
+      (song-in-playlist old-song-10 archived-playlist-songs)
+      (song-in-playlist old-song-11 archived-playlist-songs)
+      (song-in-playlist old-song-12 archived-playlist-songs)
+      (song-in-playlist old-song-13 archived-playlist-songs)
+      (not (task-completed)))
     :effect (and (task-completed)))
 )

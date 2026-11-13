@@ -45,12 +45,12 @@
     },
     {
       "step": 5,
-      "pddl": "(amazon-delete-product-from-cart other-product-1 amazon-token three two)",
+      "pddl": "(amazon-delete-product-from-cart other-product-1 amazon-token three one-8)",
       "api": "amazon.delete_product_from_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st)",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 1 of 9 that match this rule; one object per matching item]",
           "object": "other-product-1"
         },
         "access_token": {
@@ -62,12 +62,12 @@
     },
     {
       "step": 6,
-      "pddl": "(amazon-delete-product-from-cart other-product-2 amazon-token two one)",
+      "pddl": "(amazon-delete-product-from-cart other-product-2 amazon-token one-8 one-7)",
       "api": "amazon.delete_product_from_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (2nd)",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 2 of 9 that match this rule; one object per matching item]",
           "object": "other-product-2"
         },
         "access_token": {
@@ -79,12 +79,12 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-delete-product-from-cart other-product-3 amazon-token one zero)",
+      "pddl": "(amazon-delete-product-from-cart other-product-3 amazon-token one-7 one-6)",
       "api": "amazon.delete_product_from_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (3rd)",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 3 of 9 that match this rule; one object per matching item]",
           "object": "other-product-3"
         },
         "access_token": {
@@ -96,6 +96,108 @@
     },
     {
       "step": 8,
+      "pddl": "(amazon-delete-product-from-cart other-product-4 amazon-token one-6 one-5)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 4 of 9 that match this rule; one object per matching item]",
+          "object": "other-product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-delete-product-from-cart other-product-5 amazon-token one-5 one-4)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 5 of 9 that match this rule; one object per matching item]",
+          "object": "other-product-5"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-delete-product-from-cart other-product-6 amazon-token one-4 one-3)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 6 of 9 that match this rule; one object per matching item]",
+          "object": "other-product-6"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-delete-product-from-cart other-product-7 amazon-token one-3 one-2)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 7 of 9 that match this rule; one object per matching item]",
+          "object": "other-product-7"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-delete-product-from-cart other-product-8 amazon-token one-2 one-1)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 8 of 9 that match this rule; one object per matching item]",
+          "object": "other-product-8"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-delete-product-from-cart other-product-9 amazon-token one-1 zero)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose product_type != \"weightlifting bench\" (1st) [item 9 of 9 that match this rule; one object per matching item]",
+          "object": "other-product-9"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
       "pddl": "(amazon-show-payment-cards amazon-token)",
       "api": "amazon.show_payment_cards",
       "args": {
@@ -107,7 +209,7 @@
       }
     },
     {
-      "step": 9,
+      "step": 15,
       "pddl": "(amazon-place-order amazon-payment-card-1 amazon-address-1 amazon-token bench-order)",
       "api": "amazon.place_order",
       "args": {
@@ -129,7 +231,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 16,
       "pddl": "(supervisor-complete-task bench-order)",
       "api": "supervisor.complete_task",
       "args": {}

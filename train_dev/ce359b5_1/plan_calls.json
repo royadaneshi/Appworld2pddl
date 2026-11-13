@@ -39,13 +39,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-playlist playlist-192 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Cocktail Hour: Lounge Classics\"",
-          "object": "playlist-192"
+          "field": "playlist_id (paginate over page_index) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -56,13 +56,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-193 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Evergreen Emotions: Timeless Tracks\"",
-          "object": "playlist-193"
+          "field": "playlist_id (paginate over page_index) [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -73,13 +73,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-194 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-3 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Teen Spirit: Gen Z Hits\"",
-          "object": "playlist-194"
+          "field": "playlist_id (paginate over page_index) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -90,13 +90,13 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-playlist playlist-195 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-4 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Yesteryear Yule: Vintage Christmas\"",
-          "object": "playlist-195"
+          "field": "playlist_id (paginate over page_index) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -107,13 +107,13 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-playlist playlist-196 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-5 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Cosplay Cadence: Fandom Anthems\"",
-          "object": "playlist-196"
+          "field": "playlist_id (paginate over page_index) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -136,25 +136,25 @@
     },
     {
       "step": 11,
-      "pddl": "(spotify-show-song song-110 song-library)",
+      "pddl": "(spotify-show-song song-38 song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"A Love Written in the Stars\" (release_date 2019-06-20 via spotify.show_song; to remove)",
-          "object": "song-110"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 2 of 14 that match this rule; one object per matching item]",
+          "object": "song-38"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-remove-song-from-library song-110 spotify-token n14 n13)",
+      "pddl": "(spotify-remove-song-from-library song-38 spotify-token count-10 count-9)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"A Love Written in the Stars\" (release_date 2019-06-20 via spotify.show_song; to remove)",
-          "object": "song-110"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 2 of 14 that match this rule; one object per matching item]",
+          "object": "song-38"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -165,25 +165,25 @@
     },
     {
       "step": 13,
-      "pddl": "(spotify-show-song song-199 song-library)",
+      "pddl": "(spotify-show-song song-43 song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Midnight Train\" (release_date 2019-08-24 via spotify.show_song; to remove)",
-          "object": "song-199"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 7 of 14 that match this rule; one object per matching item]",
+          "object": "song-43"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(spotify-remove-song-from-library song-199 spotify-token n13 n12)",
+      "pddl": "(spotify-remove-song-from-library song-43 spotify-token count-9 count-8)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Midnight Train\" (release_date 2019-08-24 via spotify.show_song; to remove)",
-          "object": "song-199"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 7 of 14 that match this rule; one object per matching item]",
+          "object": "song-43"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -194,25 +194,25 @@
     },
     {
       "step": 15,
-      "pddl": "(spotify-show-song song-208 song-library)",
+      "pddl": "(spotify-show-song song-44 song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Fading Hopes in the Night\" (release_date 2020-06-15 via spotify.show_song; to remove)",
-          "object": "song-208"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 8 of 14 that match this rule; one object per matching item]",
+          "object": "song-44"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(spotify-remove-song-from-library song-208 spotify-token n12 n11)",
+      "pddl": "(spotify-remove-song-from-library song-44 spotify-token count-8 count-7)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Fading Hopes in the Night\" (release_date 2020-06-15 via spotify.show_song; to remove)",
-          "object": "song-208"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 8 of 14 that match this rule; one object per matching item]",
+          "object": "song-44"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -223,25 +223,25 @@
     },
     {
       "step": 17,
-      "pddl": "(spotify-show-song song-294 song-library)",
+      "pddl": "(spotify-show-song song-49 song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Eternal Reverie\" (release_date 2019-11-13 via spotify.show_song; to remove)",
-          "object": "song-294"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 13 of 14 that match this rule; one object per matching item]",
+          "object": "song-49"
         }
       }
     },
     {
       "step": 18,
-      "pddl": "(spotify-remove-song-from-library song-294 spotify-token n11 n10)",
+      "pddl": "(spotify-remove-song-from-library song-49 spotify-token count-7 count-6)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"Eternal Reverie\" (release_date 2019-11-13 via spotify.show_song; to remove)",
-          "object": "song-294"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 13 of 14 that match this rule; one object per matching item]",
+          "object": "song-49"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -252,25 +252,25 @@
     },
     {
       "step": 19,
-      "pddl": "(spotify-show-song song-301 song-library)",
+      "pddl": "(spotify-show-song song-50 song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"A Fading Reflection in Water\" (release_date 2020-07-04 via spotify.show_song; to remove)",
-          "object": "song-301"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 14 of 14 that match this rule; one object per matching item]",
+          "object": "song-50"
         }
       }
     },
     {
       "step": 20,
-      "pddl": "(spotify-remove-song-from-library song-301 spotify-token n10 n9)",
+      "pddl": "(spotify-remove-song-from-library song-50 spotify-token count-6 count-5)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of \"A Fading Reflection in Water\" (release_date 2020-07-04 via spotify.show_song; to remove)",
-          "object": "song-301"
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 14 of 14 that match this rule; one object per matching item]",
+          "object": "song-50"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -281,30 +281,30 @@
     },
     {
       "step": 21,
-      "pddl": "(spotify-show-song song-223 playlist-192)",
+      "pddl": "(spotify-show-song song-37 playlist-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Lost in the Crowd\" (release_date 2020-10-09 via spotify.show_song; to remove)",
-          "object": "song-223"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 1 of 14 that match this rule; one object per matching item]",
+          "object": "song-37"
         }
       }
     },
     {
       "step": 22,
-      "pddl": "(spotify-remove-song-from-playlist playlist-192 song-223 spotify-token n9 n8)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-37 spotify-token count-5 count-4)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Cocktail Hour: Lounge Classics\"",
-          "object": "playlist-192"
+          "field": "playlist_id (paginate over page_index) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Lost in the Crowd\" (release_date 2020-10-09 via spotify.show_song; to remove)",
-          "object": "song-223"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 1 of 14 that match this rule; one object per matching item]",
+          "object": "song-37"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -315,30 +315,30 @@
     },
     {
       "step": 23,
-      "pddl": "(spotify-show-song song-290 playlist-192)",
+      "pddl": "(spotify-show-song song-41 playlist-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Whispers in the Wind\" (release_date 2020-07-08 via spotify.show_song; to remove)",
-          "object": "song-290"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 5 of 14 that match this rule; one object per matching item]",
+          "object": "song-41"
         }
       }
     },
     {
       "step": 24,
-      "pddl": "(spotify-remove-song-from-playlist playlist-192 song-290 spotify-token n8 n7)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-41 spotify-token count-4 count-3)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Cocktail Hour: Lounge Classics\"",
-          "object": "playlist-192"
+          "field": "playlist_id (paginate over page_index) [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-1"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Whispers in the Wind\" (release_date 2020-07-08 via spotify.show_song; to remove)",
-          "object": "song-290"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 5 of 14 that match this rule; one object per matching item]",
+          "object": "song-41"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -349,30 +349,30 @@
     },
     {
       "step": 25,
-      "pddl": "(spotify-show-song song-112 playlist-193)",
+      "pddl": "(spotify-show-song song-40 playlist-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Silent Tears\" (release_date 2020-01-17 via spotify.show_song; to remove)",
-          "object": "song-112"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 4 of 14 that match this rule; one object per matching item]",
+          "object": "song-40"
         }
       }
     },
     {
       "step": 26,
-      "pddl": "(spotify-remove-song-from-playlist playlist-193 song-112 spotify-token n7 n6)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 song-40 spotify-token count-3 count-2)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Evergreen Emotions: Timeless Tracks\"",
-          "object": "playlist-193"
+          "field": "playlist_id (paginate over page_index) [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-2"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Silent Tears\" (release_date 2020-01-17 via spotify.show_song; to remove)",
-          "object": "song-112"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 4 of 14 that match this rule; one object per matching item]",
+          "object": "song-40"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -383,30 +383,30 @@
     },
     {
       "step": 27,
-      "pddl": "(spotify-show-song song-143 playlist-194)",
+      "pddl": "(spotify-show-song song-39 playlist-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Chasing Ghosts\" (release_date 2020-03-05 via spotify.show_song; to remove)",
-          "object": "song-143"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 3 of 14 that match this rule; one object per matching item]",
+          "object": "song-39"
         }
       }
     },
     {
       "step": 28,
-      "pddl": "(spotify-remove-song-from-playlist playlist-194 song-143 spotify-token n6 n5)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-3 song-39 spotify-token count-2 count-1)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Teen Spirit: Gen Z Hits\"",
-          "object": "playlist-194"
+          "field": "playlist_id (paginate over page_index) [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Chasing Ghosts\" (release_date 2020-03-05 via spotify.show_song; to remove)",
-          "object": "song-143"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 3 of 14 that match this rule; one object per matching item]",
+          "object": "song-39"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -417,30 +417,30 @@
     },
     {
       "step": 29,
-      "pddl": "(spotify-show-song song-159 playlist-195)",
+      "pddl": "(spotify-show-song song-45 playlist-4)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Forgotten Pages of Time\" (release_date 2020-09-30 via spotify.show_song; to remove)",
-          "object": "song-159"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 9 of 14 that match this rule; one object per matching item]",
+          "object": "song-45"
         }
       }
     },
     {
       "step": 30,
-      "pddl": "(spotify-remove-song-from-playlist playlist-195 song-159 spotify-token n5 n4)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-45 spotify-token count-1 n4)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Yesteryear Yule: Vintage Christmas\"",
-          "object": "playlist-195"
+          "field": "playlist_id (paginate over page_index) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"The Forgotten Pages of Time\" (release_date 2020-09-30 via spotify.show_song; to remove)",
-          "object": "song-159"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 9 of 14 that match this rule; one object per matching item]",
+          "object": "song-45"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -451,30 +451,30 @@
     },
     {
       "step": 31,
-      "pddl": "(spotify-show-song song-97 playlist-195)",
+      "pddl": "(spotify-show-song song-48 playlist-4)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Holding Onto Threads of Hope\" (release_date 2019-03-07 via spotify.show_song; to remove)",
-          "object": "song-97"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 12 of 14 that match this rule; one object per matching item]",
+          "object": "song-48"
         }
       }
     },
     {
       "step": 32,
-      "pddl": "(spotify-remove-song-from-playlist playlist-195 song-97 spotify-token n4 n3)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-48 spotify-token n4 n3)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Yesteryear Yule: Vintage Christmas\"",
-          "object": "playlist-195"
+          "field": "playlist_id (paginate over page_index) [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Holding Onto Threads of Hope\" (release_date 2019-03-07 via spotify.show_song; to remove)",
-          "object": "song-97"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 12 of 14 that match this rule; one object per matching item]",
+          "object": "song-48"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -485,30 +485,30 @@
     },
     {
       "step": 33,
-      "pddl": "(spotify-show-song song-163 playlist-196)",
+      "pddl": "(spotify-show-song song-42 playlist-5)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Veiled Sorrow\" (release_date 2018-07-18 via spotify.show_song; to remove)",
-          "object": "song-163"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 6 of 14 that match this rule; one object per matching item]",
+          "object": "song-42"
         }
       }
     },
     {
       "step": 34,
-      "pddl": "(spotify-remove-song-from-playlist playlist-196 song-163 spotify-token n3 n2)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-42 spotify-token n3 n2)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Cosplay Cadence: Fandom Anthems\"",
-          "object": "playlist-196"
+          "field": "playlist_id (paginate over page_index) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Veiled Sorrow\" (release_date 2018-07-18 via spotify.show_song; to remove)",
-          "object": "song-163"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 6 of 14 that match this rule; one object per matching item]",
+          "object": "song-42"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -519,30 +519,30 @@
     },
     {
       "step": 35,
-      "pddl": "(spotify-show-song song-225 playlist-196)",
+      "pddl": "(spotify-show-song song-46 playlist-5)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Shadows in the Twilight\" (release_date 2020-12-30 via spotify.show_song; to remove)",
-          "object": "song-225"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 10 of 14 that match this rule; one object per matching item]",
+          "object": "song-46"
         }
       }
     },
     {
       "step": 36,
-      "pddl": "(spotify-remove-song-from-playlist playlist-196 song-225 spotify-token n2 n1)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-46 spotify-token n2 n1)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Cosplay Cadence: Fandom Anthems\"",
-          "object": "playlist-196"
+          "field": "playlist_id (paginate over page_index) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Shadows in the Twilight\" (release_date 2020-12-30 via spotify.show_song; to remove)",
-          "object": "song-225"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 10 of 14 that match this rule; one object per matching item]",
+          "object": "song-46"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -553,30 +553,30 @@
     },
     {
       "step": 37,
-      "pddl": "(spotify-show-song song-248 playlist-196)",
+      "pddl": "(spotify-show-song song-47 playlist-5)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Chasing the Mirage of Happiness\" (release_date 2020-03-07 via spotify.show_song; to remove)",
-          "object": "song-248"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 11 of 14 that match this rule; one object per matching item]",
+          "object": "song-47"
         }
       }
     },
     {
       "step": 38,
-      "pddl": "(spotify-remove-song-from-playlist playlist-196 song-248 spotify-token n1 n0)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-47 spotify-token n1 n0)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of \"Cosplay Cadence: Fandom Anthems\"",
-          "object": "playlist-196"
+          "field": "playlist_id (paginate over page_index) [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_id of \"Chasing the Mirage of Happiness\" (release_date 2020-03-07 via spotify.show_song; to remove)",
-          "object": "song-248"
+          "$from": "spotify.show_song_library",
+          "field": "song_id (paginate over page_index); release_date from spotify.show_song has year < 2021 [item 11 of 14 that match this rule; one object per matching item]",
+          "object": "song-47"
         },
         "access_token": {
           "$from": "spotify.login",

@@ -105,13 +105,13 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-create-payment-request email-roommate-chris amount-bill-share token-venmo note-internet-bill-for-the-last-month request-roommate-chris roommate-chris)",
+      "pddl": "(venmo-create-payment-request email-roommate-1 amount-bill-share token-venmo note-internet-bill-for-the-last-month request-roommate-1 roommate-1)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Chris Mccoy (chris.mcco@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
-          "object": "email-roommate-chris"
+          "field": "email of the first contact with relationship roommate (paginate over all pages) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "email-roommate-1"
         },
         "amount": {
           "$from": "file_system.show_file",
@@ -128,13 +128,13 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-payment-request email-roommate-jose amount-bill-share token-venmo note-internet-bill-for-the-last-month request-roommate-jose roommate-jose)",
+      "pddl": "(venmo-create-payment-request email-roommate-2 amount-bill-share token-venmo note-internet-bill-for-the-last-month request-roommate-2 roommate-2)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Jose Harrison (joseharr@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
-          "object": "email-roommate-jose"
+          "field": "email of the first contact with relationship roommate (paginate over all pages) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "email-roommate-2"
         },
         "amount": {
           "$from": "file_system.show_file",
@@ -151,13 +151,13 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-create-payment-request email-roommate-paul amount-bill-share token-venmo note-internet-bill-for-the-last-month request-roommate-paul roommate-paul)",
+      "pddl": "(venmo-create-payment-request email-roommate-3 amount-bill-share token-venmo note-internet-bill-for-the-last-month request-roommate-3 roommate-3)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Paul Miller (paul_mill@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
-          "object": "email-roommate-paul"
+          "field": "email of the first contact with relationship roommate (paginate over all pages) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "email-roommate-3"
         },
         "amount": {
           "$from": "file_system.show_file",
@@ -174,7 +174,7 @@
     },
     {
       "step": 13,
-      "pddl": "(supervisor-complete-task request-roommate-chris request-roommate-jose amount-bill-share note-internet-bill-for-the-last-month)",
+      "pddl": "(supervisor-complete-task request-roommate-1 request-roommate-2 amount-bill-share note-internet-bill-for-the-last-month)",
       "api": "supervisor.complete_task",
       "args": {}
     }

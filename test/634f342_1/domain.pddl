@@ -4,9 +4,11 @@
     app person username password token path title song playlist - object)
   (:constants
     file-system spotify supervisor - app
-    old-song-1 old-song-2 - song
-    playlist-1 playlist-2 archived-songs - playlist)
+    old-song-1 old-song-2 old-song-3 old-song-4 old-song-5 old-song-6 old-song-7 old-song-8 old-song-9 old-song-10 old-song-11 old-song-12 old-song-13 old-song-14 - song
+    playlist-1 playlist-2 playlist-3 playlist-4 playlist-5 playlist-6 archived-songs - playlist
+  )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -30,7 +32,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (credential-of-app file-system ?u) (passwords-known) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
     :effect (has-token file-system ?t))
 
   ; API: file_system.show_file
@@ -42,7 +44,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for spotify ?pw) (not (has-token spotify ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw) (credential-of-app spotify ?u) (passwords-known) (password-for spotify ?pw) (not (has-token spotify ?t)) (not (task-completed)))
     :effect (has-token spotify ?t))
 
   ; API: spotify.show_playlist_library
@@ -82,10 +84,33 @@
       (created-playlist archived-songs)
       (in-playlist old-song-1 archived-songs)
       (in-playlist old-song-2 archived-songs)
-      (not (in-playlist old-song-1 playlist-1))
+      (in-playlist old-song-3 archived-songs)
+      (in-playlist old-song-4 archived-songs)
+      (in-playlist old-song-5 archived-songs)
+      (in-playlist old-song-6 archived-songs)
+      (in-playlist old-song-7 archived-songs)
+      (in-playlist old-song-8 archived-songs)
+      (in-playlist old-song-9 archived-songs)
+      (in-playlist old-song-10 archived-songs)
+      (in-playlist old-song-11 archived-songs)
+      (in-playlist old-song-12 archived-songs)
+      (in-playlist old-song-13 archived-songs)
+      (in-playlist old-song-14 archived-songs)
+      (not (in-playlist old-song-3 playlist-1))
+      (not (in-playlist old-song-12 playlist-1))
+      (not (in-playlist old-song-11 playlist-2))
+      (not (in-playlist old-song-14 playlist-2))
       (not (in-playlist old-song-1 playlist-2))
-      (not (in-playlist old-song-2 playlist-1))
-      (not (in-playlist old-song-2 playlist-2))
+      (not (in-playlist old-song-2 playlist-3))
+      (not (in-playlist old-song-7 playlist-3))
+      (not (in-playlist old-song-5 playlist-3))
+      (not (in-playlist old-song-9 playlist-4))
+      (not (in-playlist old-song-13 playlist-4))
+      (not (in-playlist old-song-10 playlist-4))
+      (not (in-playlist old-song-8 playlist-5))
+      (not (in-playlist old-song-9 playlist-6))
+      (not (in-playlist old-song-6 playlist-6))
+      (not (in-playlist old-song-4 playlist-6))
       (not (task-completed)))
     :effect (task-completed))
 )

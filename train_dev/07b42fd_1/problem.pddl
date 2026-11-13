@@ -11,10 +11,10 @@
   )
   (:init
     (password-for spotify spotify-password)
-    (artist-matches artist-grace-harrison classical count-22)
+    (artist-matches classical-artist-1 classical count-22)
   )
   (:goal (and
-    (following artist-grace-harrison)
+    (following classical-artist-1)
     (task-completed)
   ))
 )

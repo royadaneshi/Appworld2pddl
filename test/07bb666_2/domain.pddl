@@ -5,7 +5,7 @@
   )
   (:constants
     amazon supervisor - app
-    wl-product-1 wl-product-2 wl-product-3 wl-product-4 - product
+    wl-product-1 wl-product-5 wl-product-2 wl-product-3 wl-product-6 wl-product-7 wl-product-8 wl-product-9 wl-product-4 - product
   )
   (:predicates
     (passwords-known)
@@ -59,10 +59,24 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (in-cart wl-product-1) (not (in-wish-list wl-product-1))
-      (in-cart wl-product-2) (not (in-wish-list wl-product-2))
-      (in-cart wl-product-3) (not (in-wish-list wl-product-3))
-      (in-wish-list wl-product-4) (not (in-cart wl-product-4))
+      (in-cart wl-product-1)
+      (not (in-wish-list wl-product-1))
+      (in-cart wl-product-2)
+      (not (in-wish-list wl-product-2))
+      (in-cart wl-product-3)
+      (not (in-wish-list wl-product-3))
+      (in-cart wl-product-4)
+      (not (in-wish-list wl-product-4))
+      (in-wish-list wl-product-5)
+      (not (in-cart wl-product-5))
+      (in-wish-list wl-product-6)
+      (not (in-cart wl-product-6))
+      (in-wish-list wl-product-7)
+      (not (in-cart wl-product-7))
+      (in-wish-list wl-product-8)
+      (not (in-cart wl-product-8))
+      (in-wish-list wl-product-9)
+      (not (in-cart wl-product-9))
       (not (task-completed)))
     :effect (and (task-completed))
   )

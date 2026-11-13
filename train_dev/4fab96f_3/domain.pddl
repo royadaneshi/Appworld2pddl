@@ -5,7 +5,7 @@
   )
   (:constants
     phone venmo - app
-    request-1608 request-1627 request-1615 request-1613 request-1612 request-1624 - payment-request
+    stale-request-roommate-1 stale-request-roommate-2 stale-request-roommate-3 stale-request-roommate-4 stale-request-roommate-5 stale-request-roommate-6 - payment-request
   )
   (:predicates
     (credential-of-app ?a - app ?c - object)
@@ -88,12 +88,12 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (reminded request-1608)
-      (reminded request-1627)
-      (reminded request-1615)
-      (reminded request-1613)
-      (reminded request-1612)
-      (reminded request-1624)
+      (reminded stale-request-roommate-1)
+      (reminded stale-request-roommate-2)
+      (reminded stale-request-roommate-3)
+      (reminded stale-request-roommate-4)
+      (reminded stale-request-roommate-5)
+      (reminded stale-request-roommate-6)
       (not (task-completed)))
     :effect (and (task-completed))
   )

@@ -12,6 +12,12 @@
     splitwise-group-1 splitwise-group-2 - group
   )
   (:init
+    (credential-of-app phone phone-username-7934818191)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app splitwise carbrown-at-gmail-com)
+    (credential-of-app splitwise splitwise-password)
+    (credential-of-app splitwise splitwise-token)
     (username-for phone phone-username-7934818191)
     (username-for splitwise carbrown-at-gmail-com)
     (password-for phone phone-password)

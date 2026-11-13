@@ -33,7 +33,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'query', 'username', 'description', 'person', 'token', 'expense', 'email', 'amount-list', 'note', 'amount', 'password', 'email-list', 'group', 'app'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -44,18 +46,27 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(simple-note-login roburton-at-gmail-com simple-note-password simple-note-token)",
-      "(splitwise-login roburton-at-gmail-com splitwise-password simple-note-token)",
+      "(splitwise-login roburton-at-gmail-com splitwise-password splitwise-token)",
       "(simple-note-search-notes simple-note-token query-trip)",
       "(simple-note-show-note note-trip-1 simple-note-token)",
       "(simple-note-show-note note-trip-2 simple-note-token)",
-      "(splitwise-show-groups simple-note-token)",
-      "(splitwise-record-expense desc-trip-1-expense-1 amount-trip-1-expense-1 payer-trip-1-expense-1 debtors-trip-1-expense-1 simple-note-token debts-trip-1-expense-1 group-trip-1 trip-1-expense-1 note-trip-1)",
-      "(splitwise-record-expense desc-trip-1-expense-2 amount-trip-1-expense-2 payer-trip-1-expense-2 debtors-trip-1-expense-2 simple-note-token debts-trip-1-expense-2 group-trip-1 trip-1-expense-2 note-trip-1)",
-      "(splitwise-record-expense desc-trip-2-expense-1 amount-trip-2-expense-1 payer-trip-2-expense-1 debtors-trip-2-expense-1 simple-note-token debts-trip-2-expense-1 group-trip-2 trip-2-expense-1 note-trip-2)",
-      "(supervisor-complete-task trip-1-expense-1 trip-1-expense-2 trip-2-expense-1)"
+      "(simple-note-show-note note-trip-3 simple-note-token)",
+      "(splitwise-show-groups splitwise-token)",
+      "(splitwise-record-expense desc-trip-expense-1 amount-trip-expense-1 payer-trip-expense-1 debtors-trip-expense-1 splitwise-token debts-trip-expense-1 group-trip-1 trip-expense-1 note-trip-1)",
+      "(splitwise-record-expense desc-trip-expense-2 amount-trip-expense-2 payer-trip-expense-2 debtors-trip-expense-2 splitwise-token debts-trip-expense-2 group-trip-1 trip-expense-2 note-trip-1)",
+      "(splitwise-record-expense desc-trip-expense-3 amount-trip-expense-3 payer-trip-expense-3 debtors-trip-expense-3 splitwise-token debts-trip-expense-3 group-trip-1 trip-expense-3 note-trip-1)",
+      "(splitwise-record-expense desc-trip-expense-4 amount-trip-expense-4 payer-trip-expense-4 debtors-trip-expense-4 splitwise-token debts-trip-expense-4 group-trip-1 trip-expense-4 note-trip-1)",
+      "(splitwise-record-expense desc-trip-expense-5 amount-trip-expense-5 payer-trip-expense-5 debtors-trip-expense-5 splitwise-token debts-trip-expense-5 group-trip-2 trip-expense-5 note-trip-2)",
+      "(splitwise-record-expense desc-trip-expense-6 amount-trip-expense-6 payer-trip-expense-6 debtors-trip-expense-6 splitwise-token debts-trip-expense-6 group-trip-2 trip-expense-6 note-trip-2)",
+      "(splitwise-record-expense desc-trip-expense-7 amount-trip-expense-7 payer-trip-expense-7 debtors-trip-expense-7 splitwise-token debts-trip-expense-7 group-trip-2 trip-expense-7 note-trip-2)",
+      "(splitwise-record-expense desc-trip-expense-8 amount-trip-expense-8 payer-trip-expense-8 debtors-trip-expense-8 splitwise-token debts-trip-expense-8 group-trip-2 trip-expense-8 note-trip-2)",
+      "(splitwise-record-expense desc-trip-expense-10 amount-trip-expense-10 payer-trip-expense-10 debtors-trip-expense-10 splitwise-token debts-trip-expense-10 group-trip-3 trip-expense-10 note-trip-3)",
+      "(splitwise-record-expense desc-trip-expense-11 amount-trip-expense-11 payer-trip-expense-11 debtors-trip-expense-11 splitwise-token debts-trip-expense-11 group-trip-3 trip-expense-11 note-trip-3)",
+      "(splitwise-record-expense desc-trip-expense-9 amount-trip-expense-9 payer-trip-expense-9 debtors-trip-expense-9 splitwise-token debts-trip-expense-9 group-trip-3 trip-expense-9 note-trip-3)",
+      "(supervisor-complete-task trip-expense-10 trip-expense-11 trip-expense-9)"
     ],
     "message": "",
-    "seconds": 1.19
+    "seconds": 0.91
   },
   "solution_used": false,
   "has_reference_solution": false,

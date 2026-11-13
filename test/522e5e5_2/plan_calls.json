@@ -35,13 +35,13 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-add-friend recipient-1-email venmo-token recipient-1)",
+      "pddl": "(venmo-add-friend recipient-email-1 venmo-token recipient-1)",
       "api": "venmo.add_friend",
       "args": {
         "user_email": {
           "$from": "venmo.show_transactions",
-          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends)",
-          "object": "recipient-1-email"
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 1 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-1"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -52,13 +52,13 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-add-friend recipient-2-email venmo-token recipient-2)",
+      "pddl": "(venmo-add-friend recipient-email-2 venmo-token recipient-2)",
       "api": "venmo.add_friend",
       "args": {
         "user_email": {
           "$from": "venmo.show_transactions",
-          "field": "receiver.email of the 2nd distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends)",
-          "object": "recipient-2-email"
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 2 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-2"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -69,6 +69,125 @@
     },
     {
       "step": 6,
+      "pddl": "(venmo-add-friend recipient-email-3 venmo-token recipient-3)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 3 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-add-friend recipient-email-4 venmo-token recipient-4)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 4 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-4"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-add-friend recipient-email-5 venmo-token recipient-5)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 5 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-5"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(venmo-add-friend recipient-email-6 venmo-token recipient-6)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 6 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-6"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(venmo-add-friend recipient-email-7 venmo-token recipient-7)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 7 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-7"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-add-friend recipient-email-8 venmo-token recipient-8)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 8 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-8"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-add-friend recipient-email-9 venmo-token recipient-9)",
+      "api": "venmo.add_friend",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of the 1st distinct receiver among transactions with direction=sent and created_at >= 2023-05-01 (skip users already friends) [item 9 of 9 that match this rule; one object per matching item]",
+          "object": "recipient-email-9"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

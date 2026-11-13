@@ -44,7 +44,7 @@
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the most recent order (orders sorted by order date, newest first)",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 1 of 3 that match this rule; one object per matching item]",
           "object": "order-1"
         },
         "access_token": {
@@ -56,50 +56,18 @@
     },
     {
       "step": 6,
-      "pddl": "(amazon-initiate-return order-1 product-1a fedex quantity-1 amazon-token)",
+      "pddl": "(amazon-initiate-return order-1 product-1a-1 fedex quantity-2 amazon-token)",
       "api": "amazon.initiate_return",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the most recent order (orders sorted by order date, newest first)",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 1 of 3 that match this rule; one object per matching item]",
           "object": "order-1"
         },
         "product_id": {
           "$from": "amazon.show_order",
-          "field": "order_items[*].product_id (each item of order-1)",
-          "object": "product-1a"
-        },
-        "deliverer_id": {
-          "$from": "amazon.show_return_deliverers",
-          "field": "deliverer_id where name == \"FedEx\"",
-          "object": "fedex"
-        },
-        "quantity": {
-          "$from": "amazon.show_order",
-          "field": "order_items[*].quantity of the corresponding item",
-          "object": "quantity-1"
-        },
-        "access_token": {
-          "$from": "amazon.login",
-          "field": "access_token",
-          "object": "amazon-token"
-        }
-      }
-    },
-    {
-      "step": 7,
-      "pddl": "(amazon-initiate-return order-1 product-1b fedex quantity-2 amazon-token)",
-      "api": "amazon.initiate_return",
-      "args": {
-        "order_id": {
-          "$from": "amazon.show_orders",
-          "field": "order_id of the most recent order (orders sorted by order date, newest first)",
-          "object": "order-1"
-        },
-        "product_id": {
-          "$from": "amazon.show_order",
-          "field": "order_items[*].product_id (each item of order-1)",
-          "object": "product-1b"
+          "field": "order_items[*].product_id (each item of order-1) [item 1 of 6 that match this rule; one object per matching item]",
+          "object": "product-1a-1"
         },
         "deliverer_id": {
           "$from": "amazon.show_return_deliverers",
@@ -119,13 +87,45 @@
       }
     },
     {
+      "step": 7,
+      "pddl": "(amazon-initiate-return order-1 product-1a-2 fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "order-1"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].product_id (each item of order-1) [item 2 of 6 that match this rule; one object per matching item]",
+          "object": "product-1a-2"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].quantity of the corresponding item",
+          "object": "quantity-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
       "step": 8,
       "pddl": "(amazon-show-order order-2 amazon-token)",
       "api": "amazon.show_order",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the 2nd most recent order",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 2 of 3 that match this rule; one object per matching item]",
           "object": "order-2"
         },
         "access_token": {
@@ -137,18 +137,18 @@
     },
     {
       "step": 9,
-      "pddl": "(amazon-initiate-return order-2 product-2a fedex quantity-1 amazon-token)",
+      "pddl": "(amazon-initiate-return order-2 product-1a-3 fedex quantity-2 amazon-token)",
       "api": "amazon.initiate_return",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the 2nd most recent order",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 2 of 3 that match this rule; one object per matching item]",
           "object": "order-2"
         },
         "product_id": {
           "$from": "amazon.show_order",
-          "field": "order_items[*].product_id (each item of order-2)",
-          "object": "product-2a"
+          "field": "order_items[*].product_id (each item of order-1) [item 3 of 6 that match this rule; one object per matching item]",
+          "object": "product-1a-3"
         },
         "deliverer_id": {
           "$from": "amazon.show_return_deliverers",
@@ -158,7 +158,7 @@
         "quantity": {
           "$from": "amazon.show_order",
           "field": "order_items[*].quantity of the corresponding item",
-          "object": "quantity-1"
+          "object": "quantity-2"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -169,13 +169,28 @@
     },
     {
       "step": 10,
-      "pddl": "(amazon-show-order order-3 amazon-token)",
-      "api": "amazon.show_order",
+      "pddl": "(amazon-initiate-return order-2 product-1a-4 fedex quantity-2 amazon-token)",
+      "api": "amazon.initiate_return",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the 3rd most recent order",
-          "object": "order-3"
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "order-2"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].product_id (each item of order-1) [item 4 of 6 that match this rule; one object per matching item]",
+          "object": "product-1a-4"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].quantity of the corresponding item",
+          "object": "quantity-2"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -186,28 +201,13 @@
     },
     {
       "step": 11,
-      "pddl": "(amazon-initiate-return order-3 product-3a fedex quantity-1 amazon-token)",
-      "api": "amazon.initiate_return",
+      "pddl": "(amazon-show-order order-3 amazon-token)",
+      "api": "amazon.show_order",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the 3rd most recent order",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 3 of 3 that match this rule; one object per matching item]",
           "object": "order-3"
-        },
-        "product_id": {
-          "$from": "amazon.show_order",
-          "field": "order_items[*].product_id (each item of order-3)",
-          "object": "product-3a"
-        },
-        "deliverer_id": {
-          "$from": "amazon.show_return_deliverers",
-          "field": "deliverer_id where name == \"FedEx\"",
-          "object": "fedex"
-        },
-        "quantity": {
-          "$from": "amazon.show_order",
-          "field": "order_items[*].quantity of the corresponding item",
-          "object": "quantity-1"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -218,18 +218,18 @@
     },
     {
       "step": 12,
-      "pddl": "(amazon-initiate-return order-3 product-3b fedex quantity-1 amazon-token)",
+      "pddl": "(amazon-initiate-return order-3 product-1a-5 fedex quantity-1 amazon-token)",
       "api": "amazon.initiate_return",
       "args": {
         "order_id": {
           "$from": "amazon.show_orders",
-          "field": "order_id of the 3rd most recent order",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 3 of 3 that match this rule; one object per matching item]",
           "object": "order-3"
         },
         "product_id": {
           "$from": "amazon.show_order",
-          "field": "order_items[*].product_id (each item of order-3)",
-          "object": "product-3b"
+          "field": "order_items[*].product_id (each item of order-1) [item 5 of 6 that match this rule; one object per matching item]",
+          "object": "product-1a-5"
         },
         "deliverer_id": {
           "$from": "amazon.show_return_deliverers",
@@ -250,6 +250,38 @@
     },
     {
       "step": 13,
+      "pddl": "(amazon-initiate-return order-3 product-1a-6 fedex quantity-1 amazon-token)",
+      "api": "amazon.initiate_return",
+      "args": {
+        "order_id": {
+          "$from": "amazon.show_orders",
+          "field": "order_id of the most recent order (orders sorted by order date, newest first) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "order-3"
+        },
+        "product_id": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].product_id (each item of order-1) [item 6 of 6 that match this rule; one object per matching item]",
+          "object": "product-1a-6"
+        },
+        "deliverer_id": {
+          "$from": "amazon.show_return_deliverers",
+          "field": "deliverer_id where name == \"FedEx\"",
+          "object": "fedex"
+        },
+        "quantity": {
+          "$from": "amazon.show_order",
+          "field": "order_items[*].quantity of the corresponding item",
+          "object": "quantity-1"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

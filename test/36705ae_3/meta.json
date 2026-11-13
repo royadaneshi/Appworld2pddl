@@ -37,7 +37,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'password', 'body', 'thread', 'email', 'file-path', 'username', 'dir-path', 'path', 'token', 'query', 'attachment', 'person', 'app'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -48,22 +50,28 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(file-system-login jar-calhoun-at-gmail-com file-system-password token-file-system)",
-      "(gmail-login jar-calhoun-at-gmail-com gmail-password token-file-system)",
+      "(gmail-login jar-calhoun-at-gmail-com gmail-password token-gmail)",
       "(file-system-create-directory bills-cable-dir token-file-system)",
-      "(gmail-show-inbox-threads token-file-system query-cable-bill)",
-      "(gmail-show-thread bill-thread-1 token-file-system query-cable-bill bill-email-1)",
-      "(gmail-download-attachment bill-attachment-1 token-file-system token-file-system bill-pdf-1 bill-email-1 bills-cable-dir)",
-      "(gmail-show-thread bill-thread-2 token-file-system query-cable-bill bill-email-2)",
-      "(gmail-download-attachment bill-attachment-2 token-file-system token-file-system bill-pdf-2 bill-email-2 bill-pdf-1)",
-      "(gmail-show-thread bill-thread-3 token-file-system query-cable-bill bill-email-3)",
-      "(gmail-download-attachment bill-attachment-3 token-file-system token-file-system bill-pdf-3 bill-email-3 bill-pdf-2)",
-      "(file-system-compress-directory bills-cable-dir token-file-system bills-cable-zip bill-pdf-3)",
-      "(gmail-show-thread partner-request-thread token-file-system query-cable-bill partner-request-email)",
-      "(gmail-reply-to-email partner-request-thread partner-request-email body-please-see-attached token-file-system bills-cable-zip token-file-system)",
+      "(gmail-show-inbox-threads token-gmail query-cable-bill)",
+      "(gmail-show-thread bill-thread-1 token-gmail query-cable-bill bill-email-1)",
+      "(gmail-download-attachment bill-attachment-1 token-file-system token-gmail bill-pdf-1 bill-email-1 bills-cable-dir)",
+      "(gmail-show-thread bill-thread-2 token-gmail query-cable-bill bill-email-2)",
+      "(gmail-download-attachment bill-attachment-2 token-file-system token-gmail bill-pdf-2 bill-email-2 bill-pdf-1)",
+      "(gmail-show-thread bill-thread-3 token-gmail query-cable-bill bill-email-3)",
+      "(gmail-download-attachment bill-attachment-3 token-file-system token-gmail bill-pdf-3 bill-email-3 bill-pdf-2)",
+      "(gmail-show-thread bill-thread-4 token-gmail query-cable-bill bill-email-4)",
+      "(gmail-download-attachment bill-attachment-4 token-file-system token-gmail bill-pdf-4 bill-email-4 bill-pdf-3)",
+      "(gmail-show-thread bill-thread-5 token-gmail query-cable-bill bill-email-5)",
+      "(gmail-download-attachment bill-attachment-5 token-file-system token-gmail bill-pdf-5 bill-email-5 bill-pdf-4)",
+      "(gmail-show-thread bill-thread-6 token-gmail query-cable-bill bill-email-6)",
+      "(gmail-download-attachment bill-attachment-6 token-file-system token-gmail bill-pdf-6 bill-email-6 bill-pdf-5)",
+      "(file-system-compress-directory bills-cable-dir token-file-system bills-cable-zip bill-pdf-6)",
+      "(gmail-show-thread partner-request-thread token-gmail query-cable-bill partner-request-email)",
+      "(gmail-reply-to-email partner-request-thread partner-request-email body-please-see-attached token-gmail bills-cable-zip token-file-system)",
       "(supervisor-complete-task partner-request-email body-please-see-attached bills-cable-zip)"
     ],
     "message": "",
-    "seconds": 1.18
+    "seconds": 0.83
   },
   "solution_used": false,
   "has_reference_solution": false,

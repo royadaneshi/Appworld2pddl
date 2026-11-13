@@ -64,7 +64,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5)",
+          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5) [item 1 of 2 that match this rule; one object per matching item]",
           "object": "amazon-expired-card-1"
         },
         "access_token": {
@@ -81,7 +81,7 @@
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id of another card whose (expiry_year, expiry_month) is earlier than (2023, 5)",
+          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5) [item 2 of 2 that match this rule; one object per matching item]",
           "object": "amazon-expired-card-2"
         },
         "access_token": {
@@ -110,7 +110,7 @@
       "args": {
         "payment_card_id": {
           "$from": "spotify.show_payment_cards",
-          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5)",
+          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5) [item 1 of 2 that match this rule; one object per matching item]",
           "object": "spotify-expired-card-1"
         },
         "access_token": {
@@ -122,6 +122,23 @@
     },
     {
       "step": 10,
+      "pddl": "(spotify-delete-payment-card spotify-expired-card-2 spotify-token)",
+      "api": "spotify.delete_payment_card",
+      "args": {
+        "payment_card_id": {
+          "$from": "spotify.show_payment_cards",
+          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5) [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "spotify-expired-card-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
       "pddl": "(venmo-show-payment-cards venmo-token)",
       "api": "venmo.show_payment_cards",
       "args": {
@@ -133,13 +150,13 @@
       }
     },
     {
-      "step": 11,
+      "step": 12,
       "pddl": "(venmo-delete-payment-card venmo-expired-card-1 venmo-token)",
       "api": "venmo.delete_payment_card",
       "args": {
         "payment_card_id": {
           "$from": "venmo.show_payment_cards",
-          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5)",
+          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5) [item 1 of 2 that match this rule; one object per matching item]",
           "object": "venmo-expired-card-1"
         },
         "access_token": {
@@ -150,8 +167,25 @@
       }
     },
     {
-      "step": 12,
-      "pddl": "(supervisor-complete-task amazon-expired-card-1 amazon-expired-card-2 spotify-expired-card-1 venmo-expired-card-1)",
+      "step": 13,
+      "pddl": "(venmo-delete-payment-card venmo-expired-card-2 venmo-token)",
+      "api": "venmo.delete_payment_card",
+      "args": {
+        "payment_card_id": {
+          "$from": "venmo.show_payment_cards",
+          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is earlier than (2023, 5) [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "venmo-expired-card-2"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task spotify-expired-card-1 spotify-expired-card-2 venmo-expired-card-1 venmo-expired-card-2)",
       "api": "supervisor.complete_task",
       "args": {}
     }

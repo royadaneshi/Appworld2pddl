@@ -25,6 +25,12 @@
     amazon-card - payment-card
     new-order - order)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (password-for phone phone-password)
     (password-for gmail gmail-password)
     (password-for amazon amazon-password)

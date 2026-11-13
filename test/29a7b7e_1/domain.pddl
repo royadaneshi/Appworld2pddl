@@ -4,7 +4,7 @@
     app person username password token dirpath filepath mfile - object)
   (:constants
     file-system supervisor - app
-    meeting-file-1 meeting-file-2 meeting-file-3 - mfile)
+    meeting-file-1 meeting-file-2 meeting-file-3 meeting-file-4 meeting-file-5 meeting-file-6 meeting-file-7 meeting-file-8 meeting-file-9 meeting-file-10 meeting-file-11 meeting-file-12 meeting-file-13 meeting-file-14 meeting-file-15 meeting-file-16 meeting-file-17 meeting-file-18 meeting-file-19 meeting-file-20 - mfile)
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -52,5 +52,26 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (reorganized meeting-file-1) (reorganized meeting-file-2) (reorganized meeting-file-3) (not (task-completed)))
+    :precondition (and
+      (reorganized meeting-file-1)
+      (reorganized meeting-file-2)
+      (reorganized meeting-file-3)
+      (reorganized meeting-file-4)
+      (reorganized meeting-file-5)
+      (reorganized meeting-file-6)
+      (reorganized meeting-file-7)
+      (reorganized meeting-file-8)
+      (reorganized meeting-file-9)
+      (reorganized meeting-file-10)
+      (reorganized meeting-file-11)
+      (reorganized meeting-file-12)
+      (reorganized meeting-file-13)
+      (reorganized meeting-file-14)
+      (reorganized meeting-file-15)
+      (reorganized meeting-file-16)
+      (reorganized meeting-file-17)
+      (reorganized meeting-file-18)
+      (reorganized meeting-file-19)
+      (reorganized meeting-file-20)
+      (not (task-completed)))
     :effect (and (task-completed))))

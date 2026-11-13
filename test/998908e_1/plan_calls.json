@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login lindseysimpson-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login lindseysimpson-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "lindseysimpson@gmail.com",
@@ -34,20 +34,20 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-show-inbox-threads file-system-token query-hotel)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-hotel)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "query": "hotel"
       }
     },
     {
       "step": 5,
-      "pddl": "(gmail-show-thread hotel-thread-1 file-system-token query-hotel)",
+      "pddl": "(gmail-show-thread hotel-thread-1 gmail-token query-hotel)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -56,15 +56,15 @@
           "object": "hotel-thread-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-download-attachment confirmation-attachment-1 file-system-token file-system-token hotel-thread-1 receipt-file-1)",
+      "pddl": "(gmail-download-attachment confirmation-attachment-1 file-system-token gmail-token hotel-thread-1 receipt-file-1)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -78,9 +78,9 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
@@ -103,7 +103,7 @@
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-thread hotel-thread-2 file-system-token query-hotel)",
+      "pddl": "(gmail-show-thread hotel-thread-2 gmail-token query-hotel)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -112,15 +112,15 @@
           "object": "hotel-thread-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(gmail-download-attachment confirmation-attachment-2 file-system-token file-system-token hotel-thread-2 receipt-file-2)",
+      "pddl": "(gmail-download-attachment confirmation-attachment-2 file-system-token gmail-token hotel-thread-2 receipt-file-2)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -134,9 +134,9 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
@@ -159,7 +159,7 @@
     },
     {
       "step": 11,
-      "pddl": "(gmail-show-thread hotel-thread-3 file-system-token query-hotel)",
+      "pddl": "(gmail-show-thread hotel-thread-3 gmail-token query-hotel)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -168,15 +168,15 @@
           "object": "hotel-thread-3"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(gmail-download-attachment confirmation-attachment-3 file-system-token file-system-token hotel-thread-3 receipt-file-3)",
+      "pddl": "(gmail-download-attachment confirmation-attachment-3 file-system-token gmail-token hotel-thread-3 receipt-file-3)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -190,9 +190,9 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },

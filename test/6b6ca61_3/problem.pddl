@@ -1,19 +1,31 @@
 (define (problem task-6b6ca61-3)
   (:domain appworld-6b6ca61-3)
   (:objects
-    cesar-maldonado debtor-1 debtor-2 debtor-3 - person
+    cesar-maldonado debtor-1 debtor-2 debtor-3 debtor-4 debtor-5 debtor-6 debtor-7 debtor-8 debtor-9 - person
     user-ce-maldonado-at-gmail-com - username
     password-file-system password-venmo password-splitwise - password
     token-file-system token-venmo token-splitwise - token
-    ce-maldonado-at-gmail-com email-debtor-1 email-debtor-2 email-debtor-3 - email
-    amount-debtor-1 amount-debtor-2 amount-debtor-3 - amount
-    description-debtor-1 description-debtor-2 description-debtor-3 - description
+    ce-maldonado-at-gmail-com email-debtor-1 email-debtor-2 email-debtor-3 email-debtor-4 email-debtor-5 email-debtor-6 email-debtor-7 email-debtor-8 email-debtor-9 - email
+    amount-debtor-1 amount-debtor-2 amount-debtor-3 amount-debtor-4 amount-debtor-5 amount-debtor-6 amount-debtor-7 amount-debtor-8 amount-debtor-9 - amount
+    description-debtor-1 description-debtor-2 description-debtor-3 description-debtor-4 description-debtor-5 description-debtor-6 description-debtor-7 description-debtor-8 description-debtor-9 - description
     private-true - privacy
-    list-of-debts-csv receipt-debtor-1 receipt-debtor-2 receipt-debtor-3 - path
+    list-of-debts-csv receipt-debtor-1 receipt-debtor-2 receipt-debtor-3 receipt-debtor-4 receipt-debtor-5 - path
     home-dir - dirpath
     recursive-true - flag
   )
   (:init
+    (credential-of-app file-system user-ce-maldonado-at-gmail-com)
+    (credential-of-app file-system password-file-system)
+    (credential-of-app file-system token-file-system)
+    (credential-of-app file-system ce-maldonado-at-gmail-com)
+    (credential-of-app venmo user-ce-maldonado-at-gmail-com)
+    (credential-of-app venmo password-venmo)
+    (credential-of-app venmo token-venmo)
+    (credential-of-app venmo ce-maldonado-at-gmail-com)
+    (credential-of-app splitwise user-ce-maldonado-at-gmail-com)
+    (credential-of-app splitwise password-splitwise)
+    (credential-of-app splitwise token-splitwise)
+    (credential-of-app splitwise ce-maldonado-at-gmail-com)
     (username-for file-system user-ce-maldonado-at-gmail-com)
     (username-for venmo user-ce-maldonado-at-gmail-com)
     (username-for splitwise user-ce-maldonado-at-gmail-com)
@@ -29,19 +41,39 @@
     (person-email debtor-1 email-debtor-1)
     (person-email debtor-2 email-debtor-2)
     (person-email debtor-3 email-debtor-3)
+    (person-email debtor-4 email-debtor-4)
+    (person-email debtor-5 email-debtor-5)
+    (person-email debtor-6 email-debtor-6)
+    (person-email debtor-7 email-debtor-7)
+    (person-email debtor-8 email-debtor-8)
+    (person-email debtor-9 email-debtor-9)
     (owes debtor-1 amount-debtor-1 description-debtor-1)
     (owes debtor-2 amount-debtor-2 description-debtor-2)
     (owes debtor-3 amount-debtor-3 description-debtor-3)
-    (receipt-for debtor-1 receipt-debtor-1)
-    (receipt-for debtor-2 receipt-debtor-2)
-    (receipt-for debtor-3 receipt-debtor-3)
+    (owes debtor-4 amount-debtor-4 description-debtor-4)
+    (owes debtor-5 amount-debtor-5 description-debtor-5)
+    (owes debtor-6 amount-debtor-6 description-debtor-6)
+    (owes debtor-7 amount-debtor-7 description-debtor-7)
+    (owes debtor-8 amount-debtor-8 description-debtor-8)
+    (owes debtor-9 amount-debtor-9 description-debtor-9)
+    (receipt-for debtor-5 receipt-debtor-1)
+    (receipt-for debtor-6 receipt-debtor-2)
+    (receipt-for debtor-7 receipt-debtor-3)
+    (receipt-for debtor-8 receipt-debtor-4)
+    (receipt-for debtor-9 receipt-debtor-5)
     (has-venmo-account debtor-1)
     (has-venmo-account debtor-2)
-  )
+    (has-venmo-account debtor-3)
+    (has-venmo-account debtor-4))
   (:goal (and
     (debt-settled debtor-1)
     (debt-settled debtor-2)
     (debt-settled debtor-3)
-    (task-completed)
-  ))
+    (debt-settled debtor-4)
+    (debt-settled debtor-5)
+    (debt-settled debtor-6)
+    (debt-settled debtor-7)
+    (debt-settled debtor-8)
+    (debt-settled debtor-9)
+    (task-completed)))
 )

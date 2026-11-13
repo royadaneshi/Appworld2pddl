@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login joseharr-at-gmail-com gmail-password amazon-token)",
+      "pddl": "(gmail-login joseharr-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "joseharr@gmail.com",
@@ -70,20 +70,20 @@
     },
     {
       "step": 7,
-      "pddl": "(gmail-show-inbox-threads amazon-token query-promo amazon-promo-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-promo amazon-promo-thread)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         },
         "query": "promo"
       }
     },
     {
       "step": 8,
-      "pddl": "(gmail-show-thread amazon-promo-thread amazon-token promo-new)",
+      "pddl": "(gmail-show-thread amazon-promo-thread gmail-token promo-new)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -92,9 +92,9 @@
           "object": "amazon-promo-thread"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "gmail-token"
         }
       }
     },

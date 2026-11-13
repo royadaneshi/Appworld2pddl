@@ -3,9 +3,10 @@
   (:types app username password token email flag project task-item person message - object)
   (:constants
     supervisor todoist - app
-    task-1 task-2 - task-item
-    volunteer-1 volunteer-2 - person
-    thanks-volunteer-1 thanks-volunteer-2 - message)
+    task-1 task-2 task-3 task-4 - task-item
+    volunteer-1 volunteer-2 volunteer-3 volunteer-4 - person
+    thanks-volunteer-1 thanks-volunteer-2 thanks-volunteer-3 thanks-volunteer-4 - message
+  )
   (:predicates
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -69,5 +70,14 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (reassigned task-1 volunteer-1) (comment-posted task-1 thanks-volunteer-1) (reassigned task-2 volunteer-2) (comment-posted task-2 thanks-volunteer-2) (not (task-completed)))
+    :precondition (and
+      (reassigned task-1 volunteer-1)
+      (comment-posted task-1 thanks-volunteer-1)
+      (reassigned task-2 volunteer-2)
+      (comment-posted task-2 thanks-volunteer-2)
+      (reassigned task-3 volunteer-3)
+      (comment-posted task-3 thanks-volunteer-3)
+      (reassigned task-4 volunteer-4)
+      (comment-posted task-4 thanks-volunteer-4)
+      (not (task-completed)))
     :effect (task-completed)))

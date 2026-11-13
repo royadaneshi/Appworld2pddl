@@ -35,7 +35,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'password', 'payment-card', 'text-message', 'token', 'order', 'app', 'phone-number', 'product', 'address', 'query', 'username', 'person'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -46,12 +48,12 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(amazon-login brandon-webe-at-gmail-com amazon-password amazon-token)",
-      "(phone-login user-3798762980 phone-password amazon-token)",
+      "(phone-login user-3798762980 phone-password phone-token)",
       "(amazon-clear-cart amazon-token)",
       "(amazon-show-addresses amazon-token brandon-address)",
       "(amazon-show-payment-cards amazon-token brandon-payment-card)",
-      "(phone-search-contacts amazon-token query-mason mason mason-phone-number)",
-      "(phone-search-text-messages amazon-token mason-phone-number mason-backpack-message)",
+      "(phone-search-contacts phone-token query-mason mason mason-phone-number)",
+      "(phone-search-text-messages phone-token mason-phone-number mason-backpack-message)",
       "(amazon-show-product recommended-backpack-cheaper mason-backpack-message)",
       "(amazon-show-product recommended-backpack-expensive mason-backpack-message)",
       "(amazon-add-product-to-cart recommended-backpack-cheaper amazon-token recommended-backpack-expensive)",
@@ -59,7 +61,7 @@
       "(supervisor-complete-task recommended-backpack-cheaper backpack-order)"
     ],
     "message": "",
-    "seconds": 1.14
+    "seconds": 0.86
   },
   "solution_used": false,
   "has_reference_solution": false,

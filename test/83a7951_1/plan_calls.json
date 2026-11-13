@@ -64,7 +64,7 @@
       "args": {
         "group_id": {
           "$from": "splitwise.show_groups",
-          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor",
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor [item 1 of 2 that match this rule; one object per matching item]",
           "object": "group-1"
         },
         "access_token": {
@@ -81,7 +81,7 @@
       "args": {
         "group_id": {
           "$from": "splitwise.show_groups",
-          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-2 and the supervisor as debtor",
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor [item 2 of 2 that match this rule; one object per matching item]",
           "object": "group-2"
         },
         "access_token": {
@@ -107,12 +107,12 @@
     },
     {
       "step": 9,
-      "pddl": "(venmo-download-transaction-receipt txn-1 venmo-token receipt-path-1 file-system-token)",
+      "pddl": "(venmo-download-transaction-receipt txn-1 venmo-token file-path-1 file-system-token)",
       "api": "venmo.download_transaction_receipt",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the 1st transaction sent today (created_at on 2023-05-20)",
+          "field": "transaction_id of the 1st transaction sent today (created_at on 2023-05-20) [item 1 of 3 that match this rule; one object per matching item]",
           "object": "txn-1"
         },
         "access_token": {
@@ -120,7 +120,11 @@
           "field": "access_token",
           "object": "venmo-token"
         },
-        "download_to_file_path": "~/downloads/venmo_receipt_<txn-1 transaction_id>.pdf",
+        "download_to_file_path": {
+          "$from": null,
+          "field": "agent-chosen unique file path passed as download_to_file_path and reused as receipt_file_path (the value is not given in the task; read it from the tool output at run time) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "file-path-1"
+        },
         "file_system_access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -130,18 +134,18 @@
     },
     {
       "step": 10,
-      "pddl": "(splitwise-record-payment email-jepowell-at-gmail-com email-payee-1 amount-txn-1 splitwise-token group-1 note-sent-on-venmo-see-receipt receipt-path-1 file-system-token payee-1 txn-1)",
+      "pddl": "(splitwise-record-payment email-jepowell-at-gmail-com email-payee-1 amount-txn-1 splitwise-token group-1 note-sent-on-venmo-see-receipt file-path-1 file-system-token payee-1 txn-1)",
       "api": "splitwise.record_payment",
       "args": {
         "payer_email": "jepowell@gmail.com",
         "receiver_email": {
           "$from": "venmo.show_transactions",
-          "field": "receiver.email of txn-1",
+          "field": "receiver.email of txn-1 [item 1 of 3 that match this rule; one object per matching item]",
           "object": "email-payee-1"
         },
         "amount": {
           "$from": "venmo.show_transactions",
-          "field": "amount of txn-1",
+          "field": "amount of txn-1 [item 1 of 3 that match this rule; one object per matching item]",
           "object": "amount-txn-1"
         },
         "access_token": {
@@ -151,11 +155,15 @@
         },
         "group_id": {
           "$from": "splitwise.show_groups",
-          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor",
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor [item 1 of 2 that match this rule; one object per matching item]",
           "object": "group-1"
         },
         "description": "Sent on Venmo, see receipt.",
-        "receipt_file_path": "~/downloads/venmo_receipt_<txn-1 transaction_id>.pdf",
+        "receipt_file_path": {
+          "$from": null,
+          "field": "agent-chosen unique file path passed as download_to_file_path and reused as receipt_file_path (the value is not given in the task; read it from the tool output at run time) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "file-path-1"
+        },
         "file_system_access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -165,12 +173,12 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-download-transaction-receipt txn-2 venmo-token receipt-path-2 file-system-token)",
+      "pddl": "(venmo-download-transaction-receipt txn-2 venmo-token file-path-2 file-system-token)",
       "api": "venmo.download_transaction_receipt",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the 2nd transaction sent today (created_at on 2023-05-20)",
+          "field": "transaction_id of the 1st transaction sent today (created_at on 2023-05-20) [item 2 of 3 that match this rule; one object per matching item]",
           "object": "txn-2"
         },
         "access_token": {
@@ -178,7 +186,11 @@
           "field": "access_token",
           "object": "venmo-token"
         },
-        "download_to_file_path": "~/downloads/venmo_receipt_<txn-2 transaction_id>.pdf",
+        "download_to_file_path": {
+          "$from": null,
+          "field": "agent-chosen unique file path passed as download_to_file_path and reused as receipt_file_path (the value is not given in the task; read it from the tool output at run time) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "file-path-2"
+        },
         "file_system_access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -188,18 +200,18 @@
     },
     {
       "step": 12,
-      "pddl": "(splitwise-record-payment email-jepowell-at-gmail-com email-payee-2 amount-txn-2 splitwise-token group-2 note-sent-on-venmo-see-receipt receipt-path-2 file-system-token payee-2 txn-2)",
+      "pddl": "(splitwise-record-payment email-jepowell-at-gmail-com email-payee-2 amount-txn-2 splitwise-token group-1 note-sent-on-venmo-see-receipt file-path-2 file-system-token payee-2 txn-2)",
       "api": "splitwise.record_payment",
       "args": {
         "payer_email": "jepowell@gmail.com",
         "receiver_email": {
           "$from": "venmo.show_transactions",
-          "field": "receiver.email of txn-2",
+          "field": "receiver.email of txn-1 [item 2 of 3 that match this rule; one object per matching item]",
           "object": "email-payee-2"
         },
         "amount": {
           "$from": "venmo.show_transactions",
-          "field": "amount of txn-2",
+          "field": "amount of txn-1 [item 2 of 3 that match this rule; one object per matching item]",
           "object": "amount-txn-2"
         },
         "access_token": {
@@ -209,11 +221,15 @@
         },
         "group_id": {
           "$from": "splitwise.show_groups",
-          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-2 and the supervisor as debtor",
-          "object": "group-2"
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "group-1"
         },
         "description": "Sent on Venmo, see receipt.",
-        "receipt_file_path": "~/downloads/venmo_receipt_<txn-2 transaction_id>.pdf",
+        "receipt_file_path": {
+          "$from": null,
+          "field": "agent-chosen unique file path passed as download_to_file_path and reused as receipt_file_path (the value is not given in the task; read it from the tool output at run time) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "file-path-2"
+        },
         "file_system_access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -223,6 +239,72 @@
     },
     {
       "step": 13,
+      "pddl": "(venmo-download-transaction-receipt txn-3 venmo-token file-path-3 file-system-token)",
+      "api": "venmo.download_transaction_receipt",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the 1st transaction sent today (created_at on 2023-05-20) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "txn-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "download_to_file_path": {
+          "$from": null,
+          "field": "agent-chosen unique file path passed as download_to_file_path and reused as receipt_file_path (the value is not given in the task; read it from the tool output at run time) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "file-path-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(splitwise-record-payment email-jepowell-at-gmail-com email-payee-3 amount-txn-3 splitwise-token group-2 note-sent-on-venmo-see-receipt file-path-3 file-system-token payee-3 txn-3)",
+      "api": "splitwise.record_payment",
+      "args": {
+        "payer_email": "jepowell@gmail.com",
+        "receiver_email": {
+          "$from": "venmo.show_transactions",
+          "field": "receiver.email of txn-1 [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "email-payee-3"
+        },
+        "amount": {
+          "$from": "venmo.show_transactions",
+          "field": "amount of txn-1 [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "amount-txn-3"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose expenses (splitwise.show_group_expenses) contain an expense created on 2023-05-19 with payer email == email-payee-1 and the supervisor as debtor [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "group-2"
+        },
+        "description": "Sent on Venmo, see receipt.",
+        "receipt_file_path": {
+          "$from": null,
+          "field": "agent-chosen unique file path passed as download_to_file_path and reused as receipt_file_path (the value is not given in the task; read it from the tool output at run time) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "file-path-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 15,
       "pddl": "(supervisor-complete-task txn-1 txn-2)",
       "api": "supervisor.complete_task",
       "args": {}

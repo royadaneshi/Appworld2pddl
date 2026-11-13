@@ -34,7 +34,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'product', 'token', 'password', 'payment-card', 'app', 'username', 'order', 'query', 'entity', 'file-path', 'person', 'dirpath', 'address'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -46,18 +48,18 @@
       "(amazon-search-products query-apple-watch-series-7 apple-watch-series-7)",
       "(supervisor-show-account-passwords)",
       "(amazon-login ka-burt-at-gmail-com amazon-password amazon-token)",
-      "(file-system-login ka-burt-at-gmail-com file-system-password amazon-token)",
+      "(file-system-login ka-burt-at-gmail-com file-system-password file-system-token)",
       "(amazon-clear-cart amazon-token)",
       "(amazon-add-product-to-cart apple-watch-series-7 amazon-token)",
       "(amazon-show-addresses amazon-token kayla-home-address)",
       "(amazon-show-payment-cards amazon-token primary-card)",
       "(amazon-place-order primary-card kayla-home-address amazon-token new-order apple-watch-series-7)",
-      "(file-system-show-directory amazon-token bills-dir)",
-      "(amazon-download-order-receipt new-order amazon-token receipt-file amazon-token)",
+      "(file-system-show-directory file-system-token bills-dir)",
+      "(amazon-download-order-receipt new-order amazon-token receipt-file file-system-token)",
       "(supervisor-complete-task new-order apple-watch-series-7 kayla-home-address receipt-file)"
     ],
     "message": "",
-    "seconds": 2.0
+    "seconds": 0.83
   },
   "solution_used": false,
   "has_reference_solution": false,

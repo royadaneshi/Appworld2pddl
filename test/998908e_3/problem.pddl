@@ -12,6 +12,10 @@
     path-receipt-1 path-receipt-2 path-receipt-3 - file-path
     sum-0 sum-1 sum-2 total-wells-fargo-spend - amount)
   (:init
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (username-for gmail pa-ritter-at-gmail-com)
     (username-for file-system pa-ritter-at-gmail-com)
     (password-for gmail gmail-password)

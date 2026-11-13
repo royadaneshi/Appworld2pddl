@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(splitwise-login lindseysimpson splitwise-password file-system-token)",
+      "pddl": "(splitwise-login lindseysimpson splitwise-password splitwise-token)",
       "api": "splitwise.login",
       "args": {
         "username": "lindseysimpson@gmail.com",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login lindseysimpson venmo-password file-system-token)",
+      "pddl": "(venmo-login lindseysimpson venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "lindseysimpson@gmail.com",
@@ -76,44 +76,44 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-search-users file-system-token email-owee-1 owee-1)",
+      "pddl": "(venmo-search-users venmo-token email-owee-1 owee-1)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "query": {
           "$from": "file_system.show_file",
-          "field": "content: email column of CSV row 1",
+          "field": "content: email column of CSV row 1 [item 1 of 5 that match this rule; one object per matching item]",
           "object": "email-owee-1"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-create-transaction email-owee-1 amount-owee-1 file-system-token description-owee-1 private-true owee-1)",
+      "pddl": "(venmo-create-transaction email-owee-1 amount-owee-1 venmo-token description-owee-1 private-true owee-1)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
           "$from": "file_system.show_file",
-          "field": "content: email column of CSV row 1",
+          "field": "content: email column of CSV row 1 [item 1 of 5 that match this rule; one object per matching item]",
           "object": "email-owee-1"
         },
         "amount": {
           "$from": "file_system.show_file",
-          "field": "content: amount column of CSV row 1",
+          "field": "content: amount column of CSV row 1 [item 1 of 5 that match this rule; one object per matching item]",
           "object": "amount-owee-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "description": {
           "$from": "file_system.show_file",
-          "field": "content: description column of CSV row 1",
+          "field": "content: description column of CSV row 1 [item 1 of 5 that match this rule; one object per matching item]",
           "object": "description-owee-1"
         },
         "private": true
@@ -121,44 +121,44 @@
     },
     {
       "step": 9,
-      "pddl": "(venmo-search-users file-system-token email-owee-2 owee-2)",
+      "pddl": "(venmo-search-users venmo-token email-owee-2 owee-2)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "query": {
           "$from": "file_system.show_file",
-          "field": "content: email column of CSV row 2",
+          "field": "content: email column of CSV row 1 [item 2 of 5 that match this rule; one object per matching item]",
           "object": "email-owee-2"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(venmo-create-transaction email-owee-2 amount-owee-2 file-system-token description-owee-2 private-true owee-2)",
+      "pddl": "(venmo-create-transaction email-owee-2 amount-owee-2 venmo-token description-owee-2 private-true owee-2)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
           "$from": "file_system.show_file",
-          "field": "content: email column of CSV row 2",
+          "field": "content: email column of CSV row 1 [item 2 of 5 that match this rule; one object per matching item]",
           "object": "email-owee-2"
         },
         "amount": {
           "$from": "file_system.show_file",
-          "field": "content: amount column of CSV row 2",
+          "field": "content: amount column of CSV row 1 [item 2 of 5 that match this rule; one object per matching item]",
           "object": "amount-owee-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "description": {
           "$from": "file_system.show_file",
-          "field": "content: description column of CSV row 2",
+          "field": "content: description column of CSV row 1 [item 2 of 5 that match this rule; one object per matching item]",
           "object": "description-owee-2"
         },
         "private": true
@@ -166,51 +166,51 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-search-users file-system-token email-owee-3 owee-3)",
+      "pddl": "(venmo-search-users venmo-token email-owee-3 owee-3)",
       "api": "venmo.search_users",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "query": {
           "$from": "file_system.show_file",
-          "field": "content: email column of CSV row 3",
+          "field": "content: email column of CSV row 1 [item 3 of 5 that match this rule; one object per matching item]",
           "object": "email-owee-3"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(splitwise-record-expense description-owee-3 amount-owee-3 email-owee-3 lindseysimpson-at-gmail-com file-system-token receipt-owee-3-pdf file-system-token owee-3)",
+      "pddl": "(splitwise-record-expense description-owee-3 amount-owee-3 email-owee-3 lindseysimpson-at-gmail-com splitwise-token receipt-owee-pdf-1 file-system-token owee-3)",
       "api": "splitwise.record_expense",
       "args": {
         "description": {
           "$from": "file_system.show_file",
-          "field": "content: description column of CSV row 3",
+          "field": "content: description column of CSV row 1 [item 3 of 5 that match this rule; one object per matching item]",
           "object": "description-owee-3"
         },
         "paid_amount": {
           "$from": "file_system.show_file",
-          "field": "content: amount column of CSV row 3",
+          "field": "content: amount column of CSV row 1 [item 3 of 5 that match this rule; one object per matching item]",
           "object": "amount-owee-3"
         },
         "payer_email": {
           "$from": "file_system.show_file",
-          "field": "content: email column of CSV row 3",
+          "field": "content: email column of CSV row 1 [item 3 of 5 that match this rule; one object per matching item]",
           "object": "email-owee-3"
         },
         "debtor_emails": "lindseysimpson@gmail.com",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "splitwise.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "splitwise-token"
         },
         "receipt_file_path": {
           "$from": "file_system.show_directory",
-          "field": "path of the .pdf receipt for CSV row 3's person, in the same folder as owe_list.csv",
-          "object": "receipt-owee-3-pdf"
+          "field": "path of the .pdf receipt for CSV row 1's person, in the same folder as owe_list.csv [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "receipt-owee-pdf-1"
         },
         "file_system_access_token": {
           "$from": "file_system.login",
@@ -221,6 +221,116 @@
     },
     {
       "step": 13,
+      "pddl": "(venmo-search-users venmo-token email-owee-4 owee-4)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 1 [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "email-owee-4"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(splitwise-record-expense description-owee-4 amount-owee-4 email-owee-4 lindseysimpson-at-gmail-com splitwise-token receipt-owee-pdf-2 file-system-token owee-4)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: description column of CSV row 1 [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "description-owee-4"
+        },
+        "paid_amount": {
+          "$from": "file_system.show_file",
+          "field": "content: amount column of CSV row 1 [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "amount-owee-4"
+        },
+        "payer_email": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 1 [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "email-owee-4"
+        },
+        "debtor_emails": "lindseysimpson@gmail.com",
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "receipt_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the .pdf receipt for CSV row 1's person, in the same folder as owe_list.csv [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "receipt-owee-pdf-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-search-users venmo-token email-owee-5 owee-5)",
+      "api": "venmo.search_users",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 1 [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "email-owee-5"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(splitwise-record-expense description-owee-5 amount-owee-5 email-owee-5 lindseysimpson-at-gmail-com splitwise-token receipt-owee-pdf-3 file-system-token owee-5)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "file_system.show_file",
+          "field": "content: description column of CSV row 1 [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "description-owee-5"
+        },
+        "paid_amount": {
+          "$from": "file_system.show_file",
+          "field": "content: amount column of CSV row 1 [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "amount-owee-5"
+        },
+        "payer_email": {
+          "$from": "file_system.show_file",
+          "field": "content: email column of CSV row 1 [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "email-owee-5"
+        },
+        "debtor_emails": "lindseysimpson@gmail.com",
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "receipt_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "path of the .pdf receipt for CSV row 1's person, in the same folder as owe_list.csv [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "receipt-owee-pdf-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 17,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(venmo-login sab-brown-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login sab-brown-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "sab-brown@gmail.com",
@@ -47,13 +47,13 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-show-transactions phone-token son-email direction-sent datetime-2022-05-18t00-00-00 datetime-2022-05-18t23-59-59 son amount-last-birthday)",
+      "pddl": "(venmo-show-transactions venmo-token son-email direction-sent datetime-2022-05-18t00-00-00 datetime-2022-05-18t23-59-59 son amount-last-birthday)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "user_email": {
           "$from": "phone.search_contacts",
@@ -67,7 +67,7 @@
     },
     {
       "step": 6,
-      "pddl": "(venmo-create-transaction son-email amount-four-times-last-birthday phone-token note-have-a-great-day privacy-private son amount-last-birthday)",
+      "pddl": "(venmo-create-transaction son-email amount-four-times-last-birthday venmo-token note-have-a-great-day privacy-private son amount-last-birthday)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -81,9 +81,9 @@
           "object": "amount-four-times-last-birthday"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Have a great day!",
         "private": true

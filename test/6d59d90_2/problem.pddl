@@ -15,6 +15,12 @@
     amazon-card venmo-card - card
     jessica-home-address - address)
   (:init
+    (credential-of-app amazon jes-mill-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app venmo jes-mill-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for amazon jes-mill-at-gmail-com)
     (username-for venmo jes-mill-at-gmail-com)
     (password-for amazon amazon-password)

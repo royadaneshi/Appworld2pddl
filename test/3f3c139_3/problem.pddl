@@ -5,9 +5,7 @@
     chris-mcco-at-gmail-com - username
     amazon-password spotify-password venmo-password - password
     amazon-token spotify-token venmo-token - token
-    amazon-expired-card-1 amazon-expired-card-2 amazon-valid-card-1
-    spotify-expired-card-1 spotify-valid-card-1
-    venmo-expired-card-1 venmo-valid-card-1 - card
+    amazon-expired-card-1 amazon-valid-card-1 amazon-valid-card-2 amazon-valid-card-3 amazon-expired-card-2 spotify-expired-card-1 spotify-valid-card-1 spotify-valid-card-2 spotify-valid-card-3 spotify-expired-card-2 venmo-expired-card-1 venmo-valid-card-1 venmo-valid-card-2 venmo-valid-card-3 venmo-expired-card-2 - card
   )
   (:init
     (account-username amazon chris-mcco-at-gmail-com)
@@ -20,22 +18,32 @@
     (token-for spotify spotify-token)
     (token-for venmo venmo-token)
     (card-of amazon-expired-card-1 amazon)
-    (card-of amazon-expired-card-2 amazon)
     (card-of amazon-valid-card-1 amazon)
+    (card-of amazon-valid-card-2 amazon)
+    (card-of amazon-valid-card-3 amazon)
+    (card-of amazon-expired-card-2 amazon)
     (card-of spotify-expired-card-1 spotify)
     (card-of spotify-valid-card-1 spotify)
+    (card-of spotify-valid-card-2 spotify)
+    (card-of spotify-valid-card-3 spotify)
+    (card-of spotify-expired-card-2 spotify)
     (card-of venmo-expired-card-1 venmo)
     (card-of venmo-valid-card-1 venmo)
+    (card-of venmo-valid-card-2 venmo)
+    (card-of venmo-valid-card-3 venmo)
+    (card-of venmo-expired-card-2 venmo)
     (expired amazon-expired-card-1)
     (expired amazon-expired-card-2)
     (expired spotify-expired-card-1)
+    (expired spotify-expired-card-2)
     (expired venmo-expired-card-1)
-  )
+    (expired venmo-expired-card-2))
   (:goal (and
     (card-deleted amazon-expired-card-1)
     (card-deleted amazon-expired-card-2)
     (card-deleted spotify-expired-card-1)
+    (card-deleted spotify-expired-card-2)
     (card-deleted venmo-expired-card-1)
-    (task-completed)
-  ))
+    (card-deleted venmo-expired-card-2)
+    (task-completed)))
 )

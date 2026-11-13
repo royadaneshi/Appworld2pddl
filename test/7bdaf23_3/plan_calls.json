@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login deniseburch-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login deniseburch-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "deniseburch@gmail.com",
@@ -34,20 +34,20 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-show-inbox-threads file-system-token query-cairo thread-cairo-flight)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-cairo thread-cairo-flight)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "query": "Cairo"
       }
     },
     {
       "step": 5,
-      "pddl": "(gmail-show-thread thread-cairo-flight file-system-token email-cairo-ticket)",
+      "pddl": "(gmail-show-thread thread-cairo-flight gmail-token email-cairo-ticket)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -56,15 +56,15 @@
           "object": "thread-cairo-flight"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-show-email email-cairo-ticket file-system-token attachment-cairo-ticket)",
+      "pddl": "(gmail-show-email email-cairo-ticket gmail-token attachment-cairo-ticket)",
       "api": "gmail.show_email",
       "args": {
         "email_id": {
@@ -73,15 +73,15 @@
           "object": "email-cairo-ticket"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-download-attachment attachment-cairo-ticket file-system-token file-system-token dir-documents-work)",
+      "pddl": "(gmail-download-attachment attachment-cairo-ticket file-system-token gmail-token dir-documents-work)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -95,9 +95,9 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "download_to_file_path": "~/documents/work"
       }

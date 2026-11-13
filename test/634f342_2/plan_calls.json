@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(file-system-login vicpowe-at-gmail-com pw-file-system tok-spotify)",
+      "pddl": "(file-system-login vicpowe-at-gmail-com pw-file-system tok-file-system)",
       "api": "file_system.login",
       "args": {
         "username": "vicpowe@gmail.com",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(spotify-login vicpowe-at-gmail-com pw-spotify tok-file-system)",
+      "pddl": "(spotify-login vicpowe-at-gmail-com pw-spotify tok-spotify)",
       "api": "spotify.login",
       "args": {
         "username": "vicpowe@gmail.com",
@@ -34,10 +34,23 @@
     },
     {
       "step": 4,
-      "pddl": "(file-system-show-file songs-to-archive-txt tok-spotify)",
+      "pddl": "(file-system-show-file songs-to-archive-txt tok-file-system)",
       "api": "file_system.show_file",
       "args": {
         "file_path": "~/documents/personal/songs_to_archive.txt",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "tok-file-system"
+        }
+      }
+    },
+    {
+      "step": 5,
+      "pddl": "(spotify-create-playlist title-old-songs tok-spotify old-songs)",
+      "api": "spotify.create_playlist",
+      "args": {
+        "title": "Old Songs",
         "access_token": {
           "$from": "spotify.login",
           "field": "access_token",
@@ -46,213 +59,168 @@
       }
     },
     {
-      "step": 5,
-      "pddl": "(spotify-create-playlist title-old-songs tok-file-system old-songs)",
-      "api": "spotify.create_playlist",
-      "args": {
-        "title": "Old Songs",
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "tok-file-system"
-        }
-      }
-    },
-    {
       "step": 6,
-      "pddl": "(spotify-show-playlist-library tok-file-system)",
+      "pddl": "(spotify-show-playlist-library tok-spotify)",
       "api": "spotify.show_playlist_library",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-1 tok-file-system)",
+      "pddl": "(spotify-show-playlist playlist-1 tok-spotify)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library)",
+          "field": "playlist_id (one object per playlist in the library) [item 1 of 8 that match this rule; one object per matching item]",
           "object": "playlist-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-playlist playlist-2 tok-file-system)",
+      "pddl": "(spotify-show-playlist playlist-2 tok-spotify)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library)",
+          "field": "playlist_id (one object per playlist in the library) [item 2 of 8 that match this rule; one object per matching item]",
           "object": "playlist-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-search-songs query-song-1 song-1)",
-      "api": "spotify.search_songs",
+      "pddl": "(spotify-show-playlist playlist-3 tok-spotify)",
+      "api": "spotify.show_playlist",
       "args": {
-        "query": {
-          "$from": "file_system.show_file",
-          "field": "content (1st song entry / title listed in the file)",
-          "object": "query-song-1"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-add-song-to-playlist old-songs song-1 tok-file-system)",
-      "api": "spotify.add_song_to_playlist",
+      "pddl": "(spotify-show-playlist playlist-4 tok-spotify)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
-          "$from": "spotify.create_playlist",
-          "field": "playlist_id",
-          "object": "old-songs"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs)",
-          "object": "song-1"
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-1 tok-file-system)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-playlist playlist-5 tok-spotify)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library)",
-          "object": "playlist-1"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs)",
-          "object": "song-1"
+          "field": "playlist_id (one object per playlist in the library) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-5"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-search-songs query-song-2 song-2)",
-      "api": "spotify.search_songs",
+      "pddl": "(spotify-show-playlist playlist-6 tok-spotify)",
+      "api": "spotify.show_playlist",
       "args": {
-        "query": {
-          "$from": "file_system.show_file",
-          "field": "content (2nd song entry / title listed in the file)",
-          "object": "query-song-2"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-add-song-to-playlist old-songs song-2 tok-file-system)",
-      "api": "spotify.add_song_to_playlist",
+      "pddl": "(spotify-show-playlist playlist-7 tok-spotify)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
-          "$from": "spotify.create_playlist",
-          "field": "playlist_id",
-          "object": "old-songs"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs)",
-          "object": "song-2"
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 14,
-      "pddl": "(spotify-remove-song-from-playlist playlist-2 song-2 tok-file-system)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-show-playlist playlist-8 tok-spotify)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library)",
-          "object": "playlist-2"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs)",
-          "object": "song-2"
+          "field": "playlist_id (one object per playlist in the library) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-8"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 15,
-      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-2 tok-file-system)",
-      "api": "spotify.remove_song_from_playlist",
+      "pddl": "(spotify-search-songs query-song-1 song-1)",
+      "api": "spotify.search_songs",
       "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library)",
-          "object": "playlist-1"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs)",
-          "object": "song-2"
-        },
-        "access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "tok-file-system"
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 1 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-1"
         }
       }
     },
     {
       "step": 16,
-      "pddl": "(spotify-search-songs query-song-3 song-3)",
-      "api": "spotify.search_songs",
-      "args": {
-        "query": {
-          "$from": "file_system.show_file",
-          "field": "content (3rd song entry / title listed in the file)",
-          "object": "query-song-3"
-        }
-      }
-    },
-    {
-      "step": 17,
-      "pddl": "(spotify-add-song-to-playlist old-songs song-3 tok-file-system)",
+      "pddl": "(spotify-add-song-to-playlist old-songs song-1 tok-spotify)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -262,40 +230,1036 @@
         },
         "song_id": {
           "$from": "spotify.search_songs",
-          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs)",
-          "object": "song-3"
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 1 of 18 that match this rule; one object per matching item]",
+          "object": "song-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-1 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-8"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 1 of 18 that match this rule; one object per matching item]",
+          "object": "song-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 18,
-      "pddl": "(spotify-remove-song-from-playlist playlist-2 song-3 tok-file-system)",
+      "pddl": "(spotify-remove-song-from-playlist playlist-3 song-1 tok-spotify)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one object per playlist in the library)",
-          "object": "playlist-2"
+          "field": "playlist_id (one object per playlist in the library) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-3"
         },
         "song_id": {
           "$from": "spotify.search_songs",
-          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs)",
-          "object": "song-3"
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 1 of 18 that match this rule; one object per matching item]",
+          "object": "song-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "tok-file-system"
+          "object": "tok-spotify"
         }
       }
     },
     {
       "step": 19,
+      "pddl": "(spotify-search-songs query-song-10 song-10)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 10 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-10"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-10 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 10 of 18 that match this rule; one object per matching item]",
+          "object": "song-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-remove-song-from-playlist playlist-3 song-10 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-3"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 10 of 18 that match this rule; one object per matching item]",
+          "object": "song-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-search-songs query-song-11 song-11)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 11 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-11"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-11 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 11 of 18 that match this rule; one object per matching item]",
+          "object": "song-11"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 song-11 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-2"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 11 of 18 that match this rule; one object per matching item]",
+          "object": "song-11"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-search-songs query-song-12 song-12)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 12 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-12"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-12 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 12 of 18 that match this rule; one object per matching item]",
+          "object": "song-12"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-12 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-5"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 12 of 18 that match this rule; one object per matching item]",
+          "object": "song-12"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-search-songs query-song-13 song-13)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 13 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-13"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-13 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 13 of 18 that match this rule; one object per matching item]",
+          "object": "song-13"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-remove-song-from-playlist playlist-2 song-13 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 2 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-2"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 13 of 18 that match this rule; one object per matching item]",
+          "object": "song-13"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-search-songs query-song-14 song-14)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 14 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-14"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-14 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 14 of 18 that match this rule; one object per matching item]",
+          "object": "song-14"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-14 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-1"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 14 of 18 that match this rule; one object per matching item]",
+          "object": "song-14"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(spotify-search-songs query-song-15 song-15)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 15 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-15"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-15 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 15 of 18 that match this rule; one object per matching item]",
+          "object": "song-15"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-15 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-5"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 15 of 18 that match this rule; one object per matching item]",
+          "object": "song-15"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(spotify-search-songs query-song-16 song-16)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 16 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-16"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-16 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 16 of 18 that match this rule; one object per matching item]",
+          "object": "song-16"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-16 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-1"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 16 of 18 that match this rule; one object per matching item]",
+          "object": "song-16"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(spotify-search-songs query-song-17 song-17)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 17 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-17"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-17 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 17 of 18 that match this rule; one object per matching item]",
+          "object": "song-17"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 song-17 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 17 of 18 that match this rule; one object per matching item]",
+          "object": "song-17"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(spotify-search-songs query-song-18 song-18)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 18 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-18"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-18 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 18 of 18 that match this rule; one object per matching item]",
+          "object": "song-18"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 song-18 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 18 of 18 that match this rule; one object per matching item]",
+          "object": "song-18"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(spotify-search-songs query-song-2 song-2)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 2 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-2"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-2 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 2 of 18 that match this rule; one object per matching item]",
+          "object": "song-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-2 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 8 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-8"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 2 of 18 that match this rule; one object per matching item]",
+          "object": "song-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(spotify-remove-song-from-playlist playlist-6 song-2 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-6"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 2 of 18 that match this rule; one object per matching item]",
+          "object": "song-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(spotify-search-songs query-song-3 song-3)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 3 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-3"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-3 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 3 of 18 that match this rule; one object per matching item]",
+          "object": "song-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(spotify-remove-song-from-playlist playlist-5 song-3 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 5 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-5"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 3 of 18 that match this rule; one object per matching item]",
+          "object": "song-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(spotify-search-songs query-song-4 song-4)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 4 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-4"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-4 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 4 of 18 that match this rule; one object per matching item]",
+          "object": "song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(spotify-remove-song-from-playlist playlist-6 song-4 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-6"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 4 of 18 that match this rule; one object per matching item]",
+          "object": "song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(spotify-search-songs query-song-5 song-5)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 5 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-5"
+        }
+      }
+    },
+    {
+      "step": 57,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-5 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 5 of 18 that match this rule; one object per matching item]",
+          "object": "song-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 58,
+      "pddl": "(spotify-remove-song-from-playlist playlist-4 song-5 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 4 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-4"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 5 of 18 that match this rule; one object per matching item]",
+          "object": "song-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 59,
+      "pddl": "(spotify-search-songs query-song-6 song-6)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 6 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-6"
+        }
+      }
+    },
+    {
+      "step": 60,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-6 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 6 of 18 that match this rule; one object per matching item]",
+          "object": "song-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 61,
+      "pddl": "(spotify-remove-song-from-playlist playlist-6 song-6 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 6 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-6"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 6 of 18 that match this rule; one object per matching item]",
+          "object": "song-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 62,
+      "pddl": "(spotify-search-songs query-song-7 song-7)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 7 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-7"
+        }
+      }
+    },
+    {
+      "step": 63,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-7 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 7 of 18 that match this rule; one object per matching item]",
+          "object": "song-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 64,
+      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-7 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 1 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-1"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 7 of 18 that match this rule; one object per matching item]",
+          "object": "song-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 65,
+      "pddl": "(spotify-search-songs query-song-8 song-8)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 8 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-8"
+        }
+      }
+    },
+    {
+      "step": 66,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-8 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 8 of 18 that match this rule; one object per matching item]",
+          "object": "song-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 67,
+      "pddl": "(spotify-remove-song-from-playlist playlist-3 song-8 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 3 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-3"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 8 of 18 that match this rule; one object per matching item]",
+          "object": "song-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 68,
+      "pddl": "(spotify-search-songs query-song-9 song-9)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "file_system.show_file",
+          "field": "content (1st song entry / title listed in the file) [item 9 of 18 that match this rule; one object per matching item]",
+          "object": "query-song-9"
+        }
+      }
+    },
+    {
+      "step": 69,
+      "pddl": "(spotify-add-song-to-playlist old-songs song-9 tok-spotify)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "old-songs"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 9 of 18 that match this rule; one object per matching item]",
+          "object": "song-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 70,
+      "pddl": "(spotify-remove-song-from-playlist playlist-7 song-9 tok-spotify)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (one object per playlist in the library) [item 7 of 8 that match this rule; one object per matching item]",
+          "object": "playlist-7"
+        },
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of the result matching the file entry (same id as shown in show_playlist songs) [item 9 of 18 that match this rule; one object per matching item]",
+          "object": "song-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "tok-spotify"
+        }
+      }
+    },
+    {
+      "step": 71,
       "pddl": "(supervisor-complete-task old-songs title-old-songs)",
       "api": "supervisor.complete_task",
       "args": {}

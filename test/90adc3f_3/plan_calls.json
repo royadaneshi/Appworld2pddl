@@ -38,7 +38,7 @@
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_sent_payment_requests",
-          "field": "payment_request_id of the 1st pending request whose created_at falls on the evening of 2023-05-19",
+          "field": "payment_request_id of the 1st pending request whose created_at falls on the evening of 2023-05-19 [item 1 of 5 that match this rule; one object per matching item]",
           "object": "request-friend-1"
         },
         "access_token": {
@@ -55,7 +55,7 @@
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_sent_payment_requests",
-          "field": "payment_request_id of the 2nd pending request whose created_at falls on the evening of 2023-05-19",
+          "field": "payment_request_id of the 1st pending request whose created_at falls on the evening of 2023-05-19 [item 2 of 5 that match this rule; one object per matching item]",
           "object": "request-friend-2"
         },
         "access_token": {
@@ -67,12 +67,63 @@
     },
     {
       "step": 6,
+      "pddl": "(venmo-delete-payment-request request-friend-3 venmo-token)",
+      "api": "venmo.delete_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the 1st pending request whose created_at falls on the evening of 2023-05-19 [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "request-friend-3"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-delete-payment-request request-friend-4 venmo-token)",
+      "api": "venmo.delete_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the 1st pending request whose created_at falls on the evening of 2023-05-19 [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "request-friend-4"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-delete-payment-request request-friend-5 venmo-token)",
+      "api": "venmo.delete_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the 1st pending request whose created_at falls on the evening of 2023-05-19 [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "request-friend-5"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 9,
       "pddl": "(venmo-create-payment-request email-friend-1 amount-requested-minus-15 venmo-token description-yesterday-request privacy-yesterday-request request-friend-1 friend-1 amount-requested)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "venmo.show_sent_payment_requests",
-          "field": "receiver.email of request-friend-1",
+          "field": "receiver.email of request-friend-1 [item 1 of 5 that match this rule; one object per matching item]",
           "object": "email-friend-1"
         },
         "amount": {
@@ -98,13 +149,13 @@
       }
     },
     {
-      "step": 7,
+      "step": 10,
       "pddl": "(venmo-create-payment-request email-friend-2 amount-requested-minus-15 venmo-token description-yesterday-request privacy-yesterday-request request-friend-2 friend-2 amount-requested)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "venmo.show_sent_payment_requests",
-          "field": "receiver.email of request-friend-2",
+          "field": "receiver.email of request-friend-1 [item 2 of 5 that match this rule; one object per matching item]",
           "object": "email-friend-2"
         },
         "amount": {
@@ -130,8 +181,104 @@
       }
     },
     {
-      "step": 8,
-      "pddl": "(supervisor-complete-task request-friend-1 request-friend-2)",
+      "step": 11,
+      "pddl": "(venmo-create-payment-request email-friend-3 amount-requested-minus-15 venmo-token description-yesterday-request privacy-yesterday-request request-friend-3 friend-3 amount-requested)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "receiver.email of request-friend-1 [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "email-friend-3"
+        },
+        "amount": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "amount - 15 (corrected amount computed from the original request's amount)",
+          "object": "amount-requested-minus-15"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "description of the original request (reused verbatim)",
+          "object": "description-yesterday-request"
+        },
+        "private": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "private flag of the original request (reused verbatim)",
+          "object": "privacy-yesterday-request"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-create-payment-request email-friend-4 amount-requested-minus-15 venmo-token description-yesterday-request privacy-yesterday-request request-friend-4 friend-4 amount-requested)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "receiver.email of request-friend-1 [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "email-friend-4"
+        },
+        "amount": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "amount - 15 (corrected amount computed from the original request's amount)",
+          "object": "amount-requested-minus-15"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "description of the original request (reused verbatim)",
+          "object": "description-yesterday-request"
+        },
+        "private": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "private flag of the original request (reused verbatim)",
+          "object": "privacy-yesterday-request"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-create-payment-request email-friend-5 amount-requested-minus-15 venmo-token description-yesterday-request privacy-yesterday-request request-friend-5 friend-5 amount-requested)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "receiver.email of request-friend-1 [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "email-friend-5"
+        },
+        "amount": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "amount - 15 (corrected amount computed from the original request's amount)",
+          "object": "amount-requested-minus-15"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "description of the original request (reused verbatim)",
+          "object": "description-yesterday-request"
+        },
+        "private": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "private flag of the original request (reused verbatim)",
+          "object": "privacy-yesterday-request"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(supervisor-complete-task request-friend-4 request-friend-5)",
       "api": "supervisor.complete_task",
       "args": {}
     }

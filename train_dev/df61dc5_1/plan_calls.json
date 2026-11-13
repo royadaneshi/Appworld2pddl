@@ -60,7 +60,7 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-transactions venmo-token email-anthony-harrison date-2023-01-01 roommate-anthony-harrison rel-roommate)",
+      "pddl": "(venmo-show-transactions venmo-token roommate-email-1 date-2023-01-01 roommate-1 rel-roommate)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -70,15 +70,15 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Anthony Harrison (an-harrison@gmail.com)",
-          "object": "email-anthony-harrison"
+          "field": "email of the 1st contact returned (relationship roommate, all pages) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-1"
         },
         "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-show-transactions venmo-token email-melissa-bailey date-2023-01-01 roommate-melissa-bailey rel-roommate)",
+      "pddl": "(venmo-show-transactions venmo-token roommate-email-2 date-2023-01-01 roommate-2 rel-roommate)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -88,15 +88,15 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Melissa Bailey (mel.bailey@gmail.com)",
-          "object": "email-melissa-bailey"
+          "field": "email of the 1st contact returned (relationship roommate, all pages) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-2"
         },
         "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-show-transactions venmo-token email-nicholas-weber date-2023-01-01 roommate-nicholas-weber rel-roommate)",
+      "pddl": "(venmo-show-transactions venmo-token roommate-email-3 date-2023-01-01 roommate-3 rel-roommate)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
@@ -106,21 +106,21 @@
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the roommate contact Nicholas Weber (nicholas.weber@gmail.com)",
-          "object": "email-nicholas-weber"
+          "field": "email of the 1st contact returned (relationship roommate, all pages) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "roommate-email-3"
         },
         "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 10,
-      "pddl": "(venmo-like-transaction tx-1245 venmo-token email-anthony-harrison date-2023-01-01)",
+      "pddl": "(venmo-like-transaction tx-roommate-1 venmo-token roommate-email-1 date-2023-01-01)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the $72.0 payment sent to Anthony Harrison at 2023-05-18T06:12:19 (on or after 2023-01-01)",
-          "object": "tx-1245"
+          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 1st result [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "tx-roommate-1"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -131,13 +131,13 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-like-transaction tx-6221 venmo-token email-melissa-bailey date-2023-01-01)",
+      "pddl": "(venmo-like-transaction tx-roommate-4 venmo-token roommate-email-2 date-2023-01-01)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the $17.0 payment received from Melissa Bailey at 2023-04-18T11:06:01 (on or after 2023-01-01)",
-          "object": "tx-6221"
+          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 1st result [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "tx-roommate-4"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -148,13 +148,13 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-like-transaction tx-6224 venmo-token email-melissa-bailey date-2023-01-01)",
+      "pddl": "(venmo-like-transaction tx-roommate-5 venmo-token roommate-email-2 date-2023-01-01)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the $44.0 payment received from Melissa Bailey at 2023-01-18T22:37:10 (on or after 2023-01-01)",
-          "object": "tx-6224"
+          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 1st result [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "tx-roommate-5"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -165,13 +165,13 @@
     },
     {
       "step": 13,
-      "pddl": "(venmo-like-transaction tx-3809 venmo-token email-nicholas-weber date-2023-01-01)",
+      "pddl": "(venmo-like-transaction tx-roommate-2 venmo-token roommate-email-3 date-2023-01-01)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the $39.0 payment received from Nicholas Weber at 2023-02-21T04:24:23 (on or after 2023-01-01)",
-          "object": "tx-3809"
+          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 1st result [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "tx-roommate-2"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -182,13 +182,13 @@
     },
     {
       "step": 14,
-      "pddl": "(venmo-like-transaction tx-3813 venmo-token email-nicholas-weber date-2023-01-01)",
+      "pddl": "(venmo-like-transaction tx-roommate-3 venmo-token roommate-email-3 date-2023-01-01)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id of the $86.0 payment received from Nicholas Weber at 2023-04-13T04:32:12 (on or after 2023-01-01)",
-          "object": "tx-3813"
+          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 1st result [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "tx-roommate-3"
         },
         "access_token": {
           "$from": "venmo.login",

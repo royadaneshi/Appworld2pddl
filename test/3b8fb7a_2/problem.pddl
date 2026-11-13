@@ -6,7 +6,8 @@
     simple-note-password venmo-password - password
     simple-note-token venmo-token - token
     query-athens - query
-    email-i-owe-1 email-i-owe-2 email-owes-me-1 email-owes-me-2 - email)
+    email-i-owe-1 email-i-owe-2 email-i-owe-3 email-i-owe-4 email-i-owe-5 email-i-owe-6 email-i-owe-7 - email
+  )
   (:init
     (password-for simple-note simple-note-password)
     (password-for venmo venmo-password)
@@ -15,15 +16,24 @@
     (note-matches athens-trip-note query-athens)
     (i-owe athens-trip-note friend-i-owe-1 amount-i-owe-1)
     (i-owe athens-trip-note friend-i-owe-2 amount-i-owe-2)
+    (i-owe athens-trip-note friend-i-owe-3 amount-i-owe-3)
+    (i-owe athens-trip-note friend-i-owe-4 amount-i-owe-4)
     (they-owe athens-trip-note friend-owes-me-1 amount-owes-me-1)
     (they-owe athens-trip-note friend-owes-me-2 amount-owes-me-2)
+    (they-owe athens-trip-note friend-owes-me-3 amount-owes-me-3)
     (friend-email friend-i-owe-1 email-i-owe-1)
     (friend-email friend-i-owe-2 email-i-owe-2)
-    (friend-email friend-owes-me-1 email-owes-me-1)
-    (friend-email friend-owes-me-2 email-owes-me-2))
+    (friend-email friend-i-owe-3 email-i-owe-3)
+    (friend-email friend-i-owe-4 email-i-owe-4)
+    (friend-email friend-owes-me-1 email-i-owe-5)
+    (friend-email friend-owes-me-2 email-i-owe-6)
+    (friend-email friend-owes-me-3 email-i-owe-7))
   (:goal (and
     (paid friend-i-owe-1 amount-i-owe-1 note-for-athens-trip private-true)
     (paid friend-i-owe-2 amount-i-owe-2 note-for-athens-trip private-true)
+    (paid friend-i-owe-3 amount-i-owe-3 note-for-athens-trip private-true)
+    (paid friend-i-owe-4 amount-i-owe-4 note-for-athens-trip private-true)
     (requested friend-owes-me-1 amount-owes-me-1 note-for-athens-trip private-true)
     (requested friend-owes-me-2 amount-owes-me-2 note-for-athens-trip private-true)
+    (requested friend-owes-me-3 amount-owes-me-3 note-for-athens-trip private-true)
     (task-completed))))

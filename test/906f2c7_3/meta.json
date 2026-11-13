@@ -32,7 +32,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'password', 'subject', 'file-path', 'phone-number', 'person', 'token', 'query', 'username', 'directory', 'body', 'email', 'app'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -43,16 +45,16 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(file-system-login username-ma-smith-at-gmail-com file-system-password file-system-token)",
-      "(gmail-login username-ma-smith-at-gmail-com gmail-password file-system-token)",
-      "(phone-login username-7196131136 phone-password file-system-token)",
-      "(phone-search-contacts file-system-token query-cody cody cody-phone-number)",
-      "(phone-search-text-messages file-system-token cody-phone-number cody cody-email vacation-pictures-directory)",
+      "(gmail-login username-ma-smith-at-gmail-com gmail-password gmail-token)",
+      "(phone-login username-7196131136 phone-password phone-token)",
+      "(phone-search-contacts phone-token query-cody cody cody-phone-number)",
+      "(phone-search-text-messages phone-token cody-phone-number cody cody-email vacation-pictures-directory)",
       "(file-system-show-directory file-system-token vacation-pictures-directory vacation-pictures-file)",
-      "(gmail-send-email cody-email subject-vacation-pictures body-vacation-pictures file-system-token vacation-pictures-file file-system-token cody)",
+      "(gmail-send-email cody-email subject-vacation-pictures body-vacation-pictures gmail-token vacation-pictures-file file-system-token cody)",
       "(supervisor-complete-task cody vacation-pictures-file)"
     ],
     "message": "",
-    "seconds": 1.04
+    "seconds": 0.8
   },
   "solution_used": false,
   "has_reference_solution": false,

@@ -105,7 +105,7 @@
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the result titled \"... Expense Shares ...\" created yesterday (2023-05-19); the search also returns an older \"Work Dinner at ...\" note that must be ignored",
+          "field": "note_id of the result (query \"Work Dinner\") whose created_at >= start of yesterday",
           "object": "work-dinner-note"
         },
         "access_token": {
@@ -117,18 +117,18 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-payment-request email-sandra share-sandra venmo-token work-dinner coworker-sandra)",
+      "pddl": "(venmo-create-payment-request coworker-email-2 share-coworker-5 venmo-token work-dinner coworker-5)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name == \"Sandra\" (Sandra Martinez; pending: no such received transaction)",
-          "object": "email-sandra"
+          "field": "read from the phone.search_contacts response at run time [item 2 of 7 that match this rule; one object per matching item]",
+          "object": "coworker-email-2"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: integer after '=> $' on the line '- Sandra => $19'",
-          "object": "share-sandra"
+          "field": "content: integer after '=>' (strip '$') on the line naming coworker-2 [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "share-coworker-5"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -140,18 +140,18 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-create-payment-request email-stephen share-stephen venmo-token work-dinner coworker-stephen)",
+      "pddl": "(venmo-create-payment-request coworker-email-3 share-coworker-6 venmo-token work-dinner coworker-6)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name == \"Stephen\" (Stephen Mccoy; pending: no such received transaction)",
-          "object": "email-stephen"
+          "field": "read from the phone.search_contacts response at run time [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "coworker-email-3"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: integer after '=> $' on the line '- Stephen => $20'",
-          "object": "share-stephen"
+          "field": "content: integer after '=>' (strip '$') on the line naming coworker-2 [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "share-coworker-6"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -163,18 +163,18 @@
     },
     {
       "step": 13,
-      "pddl": "(venmo-create-payment-request email-travis share-travis venmo-token work-dinner coworker-travis)",
+      "pddl": "(venmo-create-payment-request coworker-email-6 share-coworker-7 venmo-token work-dinner coworker-7)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name == \"Travis\" (Travis Wilson; pending: no such received transaction)",
-          "object": "email-travis"
+          "field": "read from the phone.search_contacts response at run time [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "coworker-email-6"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content: integer after '=> $' on the line '- Travis => $39'",
-          "object": "share-travis"
+          "field": "content: integer after '=>' (strip '$') on the line naming coworker-2 [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "share-coworker-7"
         },
         "access_token": {
           "$from": "venmo.login",

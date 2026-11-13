@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login ma-smith-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login ma-smith-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "ma_smith@gmail.com",
@@ -34,20 +34,20 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-show-inbox-threads file-system-token query-tokyo thread-tokyo-flight)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-tokyo thread-tokyo-flight)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "query": "Tokyo"
       }
     },
     {
       "step": 5,
-      "pddl": "(gmail-show-thread thread-tokyo-flight file-system-token email-tokyo-ticket)",
+      "pddl": "(gmail-show-thread thread-tokyo-flight gmail-token email-tokyo-ticket)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
@@ -56,15 +56,15 @@
           "object": "thread-tokyo-flight"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-show-email email-tokyo-ticket file-system-token tokyo-ticket-attachment tokyo date-this-weekend)",
+      "pddl": "(gmail-show-email email-tokyo-ticket gmail-token tokyo-ticket-attachment tokyo date-this-weekend)",
       "api": "gmail.show_email",
       "args": {
         "email_id": {
@@ -73,15 +73,15 @@
           "object": "email-tokyo-ticket"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-download-attachment tokyo-ticket-attachment file-system-token file-system-token path-downloads-ticket)",
+      "pddl": "(gmail-download-attachment tokyo-ticket-attachment file-system-token gmail-token path-downloads-ticket)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
@@ -95,9 +95,9 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "download_to_file_path": {
           "$from": "gmail.show_email",

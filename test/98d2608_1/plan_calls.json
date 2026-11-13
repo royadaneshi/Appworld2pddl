@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login cod-smith-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login cod-smith-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "cod.smith@gmail.com",
@@ -74,7 +74,7 @@
     },
     {
       "step": 7,
-      "pddl": "(gmail-send-email partner-email subject-driving-license body-driving-license file-system-token driving-license-file file-system-token my-partner)",
+      "pddl": "(gmail-send-email partner-email subject-driving-license body-driving-license gmail-token driving-license-file file-system-token my-partner)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
@@ -85,9 +85,9 @@
         "subject": "Driving License",
         "body": "Hi, please find my driving license attached.",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "attachment_file_paths": {
           "$from": "file_system.show_directory",

@@ -51,25 +51,25 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-album album-2 artist-lucas-grey)",
+      "pddl": "(spotify-show-album liked-album-3 artist-19)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_liked_albums",
-          "field": "album_id of the liked album \"Celestial Harmonies\"",
-          "object": "album-2"
+          "field": "album_id (each liked album; iterate page_index until empty page) [item 3 of 6 that match this rule; one object per matching item]",
+          "object": "liked-album-3"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-follow-artist artist-lucas-grey spotify-token)",
+      "pddl": "(spotify-follow-artist artist-19 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_album",
-          "field": "artists[].id of \"Lucas Grey\" (artist of a liked album, not yet followed)",
-          "object": "artist-lucas-grey"
+          "field": "artists[].id for liked-album-1 [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "artist-19"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -80,25 +80,25 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-album album-4 artist-noah-bennett)",
+      "pddl": "(spotify-show-album liked-album-6 artist-20)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_liked_albums",
-          "field": "album_id of the liked album \"Neon Echoes\"",
-          "object": "album-4"
+          "field": "album_id (each liked album; iterate page_index until empty page) [item 6 of 6 that match this rule; one object per matching item]",
+          "object": "liked-album-6"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-follow-artist artist-noah-bennett spotify-token)",
+      "pddl": "(spotify-follow-artist artist-20 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_album",
-          "field": "artists[].id of \"Noah Bennett\" (artist of a liked album, not yet followed)",
-          "object": "artist-noah-bennett"
+          "field": "artists[].id for liked-album-1 [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "artist-20"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -109,25 +109,25 @@
     },
     {
       "step": 10,
-      "pddl": "(spotify-show-song song-11 artist-apollo-serenade)",
+      "pddl": "(spotify-show-song liked-song-1 artist-14)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Lost in a Moment's Grace\"",
-          "object": "song-11"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 1 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-1"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(spotify-follow-artist artist-apollo-serenade spotify-token)",
+      "pddl": "(spotify-follow-artist artist-14 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Apollo Serenade\" (artist of a liked song, not yet followed)",
-          "object": "artist-apollo-serenade"
+          "field": "artists[].id for liked-song-1 [item 14 of 18 that match this rule; one object per matching item]",
+          "object": "artist-14"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -138,25 +138,25 @@
     },
     {
       "step": 12,
-      "pddl": "(spotify-show-song song-11 artist-phoenix-rivers)",
+      "pddl": "(spotify-show-song liked-song-1 artist-3)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Lost in a Moment's Grace\"",
-          "object": "song-11"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 1 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-1"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-follow-artist artist-phoenix-rivers spotify-token)",
+      "pddl": "(spotify-follow-artist artist-3 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Phoenix Rivers\" (artist of a liked song, not yet followed)",
-          "object": "artist-phoenix-rivers"
+          "field": "artists[].id for liked-song-1 [item 3 of 18 that match this rule; one object per matching item]",
+          "object": "artist-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -167,25 +167,25 @@
     },
     {
       "step": 14,
-      "pddl": "(spotify-show-song song-132 artist-aria-sterling)",
+      "pddl": "(spotify-show-song liked-song-1 artist-5)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Shadow Dance\"",
-          "object": "song-132"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 1 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-1"
         }
       }
     },
     {
       "step": 15,
-      "pddl": "(spotify-follow-artist artist-aria-sterling spotify-token)",
+      "pddl": "(spotify-follow-artist artist-5 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Aria Sterling\" (artist of a liked song, not yet followed)",
-          "object": "artist-aria-sterling"
+          "field": "artists[].id for liked-song-1 [item 5 of 18 that match this rule; one object per matching item]",
+          "object": "artist-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -196,25 +196,25 @@
     },
     {
       "step": 16,
-      "pddl": "(spotify-show-song song-146 artist-eliana-harper)",
+      "pddl": "(spotify-show-song liked-song-10 artist-11)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Drifting Through Eternal Skies\"",
-          "object": "song-146"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 10 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-10"
         }
       }
     },
     {
       "step": 17,
-      "pddl": "(spotify-follow-artist artist-eliana-harper spotify-token)",
+      "pddl": "(spotify-follow-artist artist-11 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Eliana Harper\" (artist of a liked song, not yet followed)",
-          "object": "artist-eliana-harper"
+          "field": "artists[].id for liked-song-1 [item 11 of 18 that match this rule; one object per matching item]",
+          "object": "artist-11"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -225,25 +225,25 @@
     },
     {
       "step": 18,
-      "pddl": "(spotify-show-song song-150 artist-mia-sullivan)",
+      "pddl": "(spotify-show-song liked-song-10 artist-2)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Dream's End\"",
-          "object": "song-150"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 10 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-10"
         }
       }
     },
     {
       "step": 19,
-      "pddl": "(spotify-follow-artist artist-mia-sullivan spotify-token)",
+      "pddl": "(spotify-follow-artist artist-2 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Mia Sullivan\" (artist of a liked song, not yet followed)",
-          "object": "artist-mia-sullivan"
+          "field": "artists[].id for liked-song-1 [item 2 of 18 that match this rule; one object per matching item]",
+          "object": "artist-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -254,25 +254,25 @@
     },
     {
       "step": 20,
-      "pddl": "(spotify-show-song song-172 artist-violet-cascade)",
+      "pddl": "(spotify-show-song liked-song-11 artist-12)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Neon Reverie\"",
-          "object": "song-172"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 11 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-11"
         }
       }
     },
     {
       "step": 21,
-      "pddl": "(spotify-follow-artist artist-violet-cascade spotify-token)",
+      "pddl": "(spotify-follow-artist artist-12 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Violet Cascade\" (artist of a liked song, not yet followed)",
-          "object": "artist-violet-cascade"
+          "field": "artists[].id for liked-song-1 [item 12 of 18 that match this rule; one object per matching item]",
+          "object": "artist-12"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -283,25 +283,25 @@
     },
     {
       "step": 22,
-      "pddl": "(spotify-show-song song-219 artist-oceanic-odyssey)",
+      "pddl": "(spotify-show-song liked-song-12 artist-17)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Strangers Again\"",
-          "object": "song-219"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 12 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-12"
         }
       }
     },
     {
       "step": 23,
-      "pddl": "(spotify-follow-artist artist-oceanic-odyssey spotify-token)",
+      "pddl": "(spotify-follow-artist artist-17 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Oceanic Odyssey\" (artist of a liked song, not yet followed)",
-          "object": "artist-oceanic-odyssey"
+          "field": "artists[].id for liked-song-1 [item 17 of 18 that match this rule; one object per matching item]",
+          "object": "artist-17"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -312,25 +312,25 @@
     },
     {
       "step": 24,
-      "pddl": "(spotify-show-song song-247 artist-velvet-echo)",
+      "pddl": "(spotify-show-song liked-song-13 artist-6)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"A Symphony of Dreams\"",
-          "object": "song-247"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 13 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-13"
         }
       }
     },
     {
       "step": 25,
-      "pddl": "(spotify-follow-artist artist-velvet-echo spotify-token)",
+      "pddl": "(spotify-follow-artist artist-6 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Velvet Echo\" (artist of a liked song, not yet followed)",
-          "object": "artist-velvet-echo"
+          "field": "artists[].id for liked-song-1 [item 6 of 18 that match this rule; one object per matching item]",
+          "object": "artist-6"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -341,25 +341,25 @@
     },
     {
       "step": 26,
-      "pddl": "(spotify-show-song song-264 artist-carter-knight)",
+      "pddl": "(spotify-show-song liked-song-16 artist-15)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Hope's Edge\"",
-          "object": "song-264"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 16 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-16"
         }
       }
     },
     {
       "step": 27,
-      "pddl": "(spotify-follow-artist artist-carter-knight spotify-token)",
+      "pddl": "(spotify-follow-artist artist-15 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Carter Knight\" (artist of a liked song, not yet followed)",
-          "object": "artist-carter-knight"
+          "field": "artists[].id for liked-song-1 [item 15 of 18 that match this rule; one object per matching item]",
+          "object": "artist-15"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -370,25 +370,25 @@
     },
     {
       "step": 28,
-      "pddl": "(spotify-show-song song-305 artist-felix-blackwood)",
+      "pddl": "(spotify-show-song liked-song-17 artist-13)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Electric Pulse\"",
-          "object": "song-305"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 17 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-17"
         }
       }
     },
     {
       "step": 29,
-      "pddl": "(spotify-follow-artist artist-felix-blackwood spotify-token)",
+      "pddl": "(spotify-follow-artist artist-13 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Felix Blackwood\" (artist of a liked song, not yet followed)",
-          "object": "artist-felix-blackwood"
+          "field": "artists[].id for liked-song-1 [item 13 of 18 that match this rule; one object per matching item]",
+          "object": "artist-13"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -399,25 +399,25 @@
     },
     {
       "step": 30,
-      "pddl": "(spotify-show-song song-66 artist-ava-morgan)",
+      "pddl": "(spotify-show-song liked-song-18 artist-9)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Phantom Pain\"",
-          "object": "song-66"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 18 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-18"
         }
       }
     },
     {
       "step": 31,
-      "pddl": "(spotify-follow-artist artist-ava-morgan spotify-token)",
+      "pddl": "(spotify-follow-artist artist-9 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Ava Morgan\" (artist of a liked song, not yet followed)",
-          "object": "artist-ava-morgan"
+          "field": "artists[].id for liked-song-1 [item 9 of 18 that match this rule; one object per matching item]",
+          "object": "artist-9"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -428,25 +428,25 @@
     },
     {
       "step": 32,
-      "pddl": "(spotify-show-song song-66 artist-hazel-winter)",
+      "pddl": "(spotify-show-song liked-song-2 artist-8)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Phantom Pain\"",
-          "object": "song-66"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 2 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-2"
         }
       }
     },
     {
       "step": 33,
-      "pddl": "(spotify-follow-artist artist-hazel-winter spotify-token)",
+      "pddl": "(spotify-follow-artist artist-8 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Hazel Winter\" (artist of a liked song, not yet followed)",
-          "object": "artist-hazel-winter"
+          "field": "artists[].id for liked-song-1 [item 8 of 18 that match this rule; one object per matching item]",
+          "object": "artist-8"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -457,25 +457,25 @@
     },
     {
       "step": 34,
-      "pddl": "(spotify-show-song song-69 artist-lily-moon)",
+      "pddl": "(spotify-show-song liked-song-4 artist-16)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Whispers of a Forgotten Love\"",
-          "object": "song-69"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 4 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-4"
         }
       }
     },
     {
       "step": 35,
-      "pddl": "(spotify-follow-artist artist-lily-moon spotify-token)",
+      "pddl": "(spotify-follow-artist artist-16 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Lily Moon\" (artist of a liked song, not yet followed)",
-          "object": "artist-lily-moon"
+          "field": "artists[].id for liked-song-1 [item 16 of 18 that match this rule; one object per matching item]",
+          "object": "artist-16"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -486,25 +486,25 @@
     },
     {
       "step": 36,
-      "pddl": "(spotify-show-song song-69 artist-zoey-james)",
+      "pddl": "(spotify-show-song liked-song-4 artist-4)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Whispers of a Forgotten Love\"",
-          "object": "song-69"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 4 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-4"
         }
       }
     },
     {
       "step": 37,
-      "pddl": "(spotify-follow-artist artist-zoey-james spotify-token)",
+      "pddl": "(spotify-follow-artist artist-4 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Zoey James\" (artist of a liked song, not yet followed)",
-          "object": "artist-zoey-james"
+          "field": "artists[].id for liked-song-1 [item 4 of 18 that match this rule; one object per matching item]",
+          "object": "artist-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -515,25 +515,25 @@
     },
     {
       "step": 38,
-      "pddl": "(spotify-show-song song-7 artist-isabella-cruz)",
+      "pddl": "(spotify-show-song liked-song-5 artist-18)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Memories Stitched in Time\"",
-          "object": "song-7"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 5 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-5"
         }
       }
     },
     {
       "step": 39,
-      "pddl": "(spotify-follow-artist artist-isabella-cruz spotify-token)",
+      "pddl": "(spotify-follow-artist artist-18 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Isabella Cruz\" (artist of a liked song, not yet followed)",
-          "object": "artist-isabella-cruz"
+          "field": "artists[].id for liked-song-1 [item 18 of 18 that match this rule; one object per matching item]",
+          "object": "artist-18"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -544,25 +544,25 @@
     },
     {
       "step": 40,
-      "pddl": "(spotify-show-song song-7 artist-jasper-skye)",
+      "pddl": "(spotify-show-song liked-song-5 artist-7)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Memories Stitched in Time\"",
-          "object": "song-7"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 5 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-5"
         }
       }
     },
     {
       "step": 41,
-      "pddl": "(spotify-follow-artist artist-jasper-skye spotify-token)",
+      "pddl": "(spotify-follow-artist artist-7 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Jasper Skye\" (artist of a liked song, not yet followed)",
-          "object": "artist-jasper-skye"
+          "field": "artists[].id for liked-song-1 [item 7 of 18 that match this rule; one object per matching item]",
+          "object": "artist-7"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -573,25 +573,25 @@
     },
     {
       "step": 42,
-      "pddl": "(spotify-show-song song-7 artist-seraphina-dawn)",
+      "pddl": "(spotify-show-song liked-song-6 artist-1)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Memories Stitched in Time\"",
-          "object": "song-7"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 6 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-6"
         }
       }
     },
     {
       "step": 43,
-      "pddl": "(spotify-follow-artist artist-seraphina-dawn spotify-token)",
+      "pddl": "(spotify-follow-artist artist-1 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Seraphina Dawn\" (artist of a liked song, not yet followed)",
-          "object": "artist-seraphina-dawn"
+          "field": "artists[].id for liked-song-1 [item 1 of 18 that match this rule; one object per matching item]",
+          "object": "artist-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -602,25 +602,25 @@
     },
     {
       "step": 44,
-      "pddl": "(spotify-show-song song-85 artist-olivia-roberts)",
+      "pddl": "(spotify-show-song liked-song-8 artist-10)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_liked_songs",
-          "field": "song_id of the liked song \"Hidden Agony\"",
-          "object": "song-85"
+          "field": "song_id (first liked song; iterate page_index until empty page) [item 8 of 18 that match this rule; one object per matching item]",
+          "object": "liked-song-8"
         }
       }
     },
     {
       "step": 45,
-      "pddl": "(spotify-follow-artist artist-olivia-roberts spotify-token)",
+      "pddl": "(spotify-follow-artist artist-10 spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id of \"Olivia Roberts\" (artist of a liked song, not yet followed)",
-          "object": "artist-olivia-roberts"
+          "field": "artists[].id for liked-song-1 [item 10 of 18 that match this rule; one object per matching item]",
+          "object": "artist-10"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -631,7 +631,7 @@
     },
     {
       "step": 46,
-      "pddl": "(supervisor-complete-task artist-apollo-serenade artist-ava-morgan artist-phoenix-rivers)",
+      "pddl": "(supervisor-complete-task artist-11 artist-2 artist-4)",
       "api": "supervisor.complete_task",
       "args": {}
     }

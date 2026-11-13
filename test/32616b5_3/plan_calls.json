@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(simple-note-search-notes simple-note-token query-trip note-trips)",
+      "pddl": "(simple-note-search-notes simple-note-token query-trip note-trips-1)",
       "api": "simple_note.search_notes",
       "args": {
         "access_token": {
@@ -47,13 +47,13 @@
     },
     {
       "step": 5,
-      "pddl": "(simple-note-show-note note-trips simple-note-token)",
+      "pddl": "(simple-note-show-note note-trips-1 simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note describing the trips' who-owes-whom information",
-          "object": "note-trips"
+          "field": "note_id of the note describing the trips' who-owes-whom information [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "note-trips-1"
         },
         "access_token": {
           "$from": "simple_note.login",
@@ -64,6 +64,126 @@
     },
     {
       "step": 6,
+      "pddl": "(simple-note-search-notes simple-note-token query-trip note-trips-2)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "trip"
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(simple-note-show-note note-trips-2 simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note describing the trips' who-owes-whom information [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "note-trips-2"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(simple-note-search-notes simple-note-token query-trip note-trips-3)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "trip"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(simple-note-show-note note-trips-3 simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note describing the trips' who-owes-whom information [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "note-trips-3"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(simple-note-search-notes simple-note-token query-trip note-trips-4)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "trip"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(simple-note-show-note note-trips-4 simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note describing the trips' who-owes-whom information [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "note-trips-4"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(simple-note-search-notes simple-note-token query-trip note-trips-5)",
+      "api": "simple_note.search_notes",
+      "args": {
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        },
+        "query": "trip"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(simple-note-show-note note-trips-5 simple-note-token)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note describing the trips' who-owes-whom information [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "note-trips-5"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 14,
       "pddl": "(splitwise-show-groups splitwise-token)",
       "api": "splitwise.show_groups",
       "args": {
@@ -75,29 +195,29 @@
       }
     },
     {
-      "step": 7,
-      "pddl": "(splitwise-record-expense description-a1 amount-a1 payer-a1-email debtors-a1 splitwise-token debt-amounts-a1 group-trip-a expense-a1 note-trips)",
+      "step": 15,
+      "pddl": "(splitwise-record-expense description-a1-1 amount-a1-1 payer-a1-email-1 debtors-a1-1 splitwise-token debt-amounts-a1-1 group-trip-1 expense-a1-1 note-trips-1)",
       "api": "splitwise.record_expense",
       "args": {
         "description": {
           "$from": "simple_note.show_note",
-          "field": "content: description of expense 1 of trip A",
-          "object": "description-a1"
+          "field": "content: description of expense 1 of trip A [item 1 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-1"
         },
         "paid_amount": {
           "$from": "simple_note.show_note",
-          "field": "content: total paid amount of expense 1 of trip A",
-          "object": "amount-a1"
+          "field": "content: total paid amount of expense 1 of trip A [item 1 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-1"
         },
         "payer_email": {
           "$from": "splitwise.show_groups",
-          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid)",
-          "object": "payer-a1-email"
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 1 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-1"
         },
         "debtor_emails": {
           "$from": "splitwise.show_groups",
-          "field": "list of members[].email for each person the note says owes on expense 1 of trip A",
-          "object": "debtors-a1"
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 1 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-1"
         },
         "access_token": {
           "$from": "splitwise.login",
@@ -106,40 +226,40 @@
         },
         "debt_amounts": {
           "$from": "simple_note.show_note",
-          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1",
-          "object": "debt-amounts-a1"
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 1 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-1"
         },
         "group_id": {
           "$from": "splitwise.show_groups",
-          "field": "group_id of the group whose name matches the first trip in the note",
-          "object": "group-trip-a"
+          "field": "group_id of the group whose name matches the first trip in the note [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-1"
         }
       }
     },
     {
-      "step": 8,
-      "pddl": "(splitwise-record-expense description-a2 amount-a2 payer-a2-email debtors-a2 splitwise-token debt-amounts-a2 group-trip-a expense-a2 note-trips)",
+      "step": 16,
+      "pddl": "(splitwise-record-expense description-a1-2 amount-a1-2 payer-a1-email-2 debtors-a1-2 splitwise-token debt-amounts-a1-2 group-trip-1 expense-a1-2 note-trips-1)",
       "api": "splitwise.record_expense",
       "args": {
         "description": {
           "$from": "simple_note.show_note",
-          "field": "content: description of expense 2 of trip A",
-          "object": "description-a2"
+          "field": "content: description of expense 1 of trip A [item 2 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-2"
         },
         "paid_amount": {
           "$from": "simple_note.show_note",
-          "field": "content: total paid amount of expense 2 of trip A",
-          "object": "amount-a2"
+          "field": "content: total paid amount of expense 1 of trip A [item 2 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-2"
         },
         "payer_email": {
           "$from": "splitwise.show_groups",
-          "field": "members[].email of the person the note names as payer of expense 2 of trip A",
-          "object": "payer-a2-email"
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 2 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-2"
         },
         "debtor_emails": {
           "$from": "splitwise.show_groups",
-          "field": "list of members[].email for each person the note says owes on expense 2 of trip A",
-          "object": "debtors-a2"
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 2 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-2"
         },
         "access_token": {
           "$from": "splitwise.login",
@@ -148,40 +268,40 @@
         },
         "debt_amounts": {
           "$from": "simple_note.show_note",
-          "field": "content: amount each debtor owes on expense 2 of trip A, same order as debtors-a2",
-          "object": "debt-amounts-a2"
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 2 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-2"
         },
         "group_id": {
           "$from": "splitwise.show_groups",
-          "field": "group_id of the group whose name matches the first trip in the note",
-          "object": "group-trip-a"
+          "field": "group_id of the group whose name matches the first trip in the note [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-1"
         }
       }
     },
     {
-      "step": 9,
-      "pddl": "(splitwise-record-expense description-b1 amount-b1 payer-b1-email debtors-b1 splitwise-token debt-amounts-b1 group-trip-b expense-b1 note-trips)",
+      "step": 17,
+      "pddl": "(splitwise-record-expense description-a1-3 amount-a1-3 payer-a1-email-3 debtors-a1-3 splitwise-token debt-amounts-a1-3 group-trip-1 expense-a1-3 note-trips-1)",
       "api": "splitwise.record_expense",
       "args": {
         "description": {
           "$from": "simple_note.show_note",
-          "field": "content: description of expense 1 of trip B",
-          "object": "description-b1"
+          "field": "content: description of expense 1 of trip A [item 3 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-3"
         },
         "paid_amount": {
           "$from": "simple_note.show_note",
-          "field": "content: total paid amount of expense 1 of trip B",
-          "object": "amount-b1"
+          "field": "content: total paid amount of expense 1 of trip A [item 3 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-3"
         },
         "payer_email": {
           "$from": "splitwise.show_groups",
-          "field": "members[].email of the person the note names as payer of expense 1 of trip B",
-          "object": "payer-b1-email"
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 3 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-3"
         },
         "debtor_emails": {
           "$from": "splitwise.show_groups",
-          "field": "list of members[].email for each person the note says owes on expense 1 of trip B",
-          "object": "debtors-b1"
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 3 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-3"
         },
         "access_token": {
           "$from": "splitwise.login",
@@ -190,40 +310,40 @@
         },
         "debt_amounts": {
           "$from": "simple_note.show_note",
-          "field": "content: amount each debtor owes on expense 1 of trip B, same order as debtors-b1",
-          "object": "debt-amounts-b1"
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 3 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-3"
         },
         "group_id": {
           "$from": "splitwise.show_groups",
-          "field": "group_id of the group whose name matches the second trip in the note",
-          "object": "group-trip-b"
+          "field": "group_id of the group whose name matches the first trip in the note [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-1"
         }
       }
     },
     {
-      "step": 10,
-      "pddl": "(splitwise-record-expense description-b2 amount-b2 payer-b2-email debtors-b2 splitwise-token debt-amounts-b2 group-trip-b expense-b2 note-trips)",
+      "step": 18,
+      "pddl": "(splitwise-record-expense description-a1-4 amount-a1-4 payer-a1-email-4 debtors-a1-4 splitwise-token debt-amounts-a1-4 group-trip-1 expense-a1-4 note-trips-1)",
       "api": "splitwise.record_expense",
       "args": {
         "description": {
           "$from": "simple_note.show_note",
-          "field": "content: description of expense 2 of trip B",
-          "object": "description-b2"
+          "field": "content: description of expense 1 of trip A [item 4 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-4"
         },
         "paid_amount": {
           "$from": "simple_note.show_note",
-          "field": "content: total paid amount of expense 2 of trip B",
-          "object": "amount-b2"
+          "field": "content: total paid amount of expense 1 of trip A [item 4 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-4"
         },
         "payer_email": {
           "$from": "splitwise.show_groups",
-          "field": "members[].email of the person the note names as payer of expense 2 of trip B",
-          "object": "payer-b2-email"
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 4 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-4"
         },
         "debtor_emails": {
           "$from": "splitwise.show_groups",
-          "field": "list of members[].email for each person the note says owes on expense 2 of trip B",
-          "object": "debtors-b2"
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 4 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-4"
         },
         "access_token": {
           "$from": "splitwise.login",
@@ -232,18 +352,522 @@
         },
         "debt_amounts": {
           "$from": "simple_note.show_note",
-          "field": "content: amount each debtor owes on expense 2 of trip B, same order as debtors-b2",
-          "object": "debt-amounts-b2"
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 4 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-4"
         },
         "group_id": {
           "$from": "splitwise.show_groups",
-          "field": "group_id of the group whose name matches the second trip in the note",
-          "object": "group-trip-b"
+          "field": "group_id of the group whose name matches the first trip in the note [item 1 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-1"
         }
       }
     },
     {
-      "step": 11,
+      "step": 19,
+      "pddl": "(splitwise-record-expense description-a1-5 amount-a1-5 payer-a1-email-5 debtors-a1-5 splitwise-token debt-amounts-a1-5 group-trip-2 expense-a1-5 note-trips-2)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 5 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-5"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 5 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-5"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 5 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-5"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 5 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-5"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 5 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-5"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-2"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(splitwise-record-expense description-a1-6 amount-a1-6 payer-a1-email-6 debtors-a1-6 splitwise-token debt-amounts-a1-6 group-trip-2 expense-a1-6 note-trips-2)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 6 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-6"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 6 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-6"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 6 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-6"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 6 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-6"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 6 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-6"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-2"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(splitwise-record-expense description-a1-7 amount-a1-7 payer-a1-email-7 debtors-a1-7 splitwise-token debt-amounts-a1-7 group-trip-2 expense-a1-7 note-trips-2)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 7 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-7"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 7 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-7"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 7 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-7"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 7 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-7"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 7 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-7"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-2"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(splitwise-record-expense description-a1-8 amount-a1-8 payer-a1-email-8 debtors-a1-8 splitwise-token debt-amounts-a1-8 group-trip-2 expense-a1-8 note-trips-2)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 8 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-8"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 8 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-8"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 8 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-8"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 8 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-8"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 8 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-8"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 2 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-2"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(splitwise-record-expense description-a1-10 amount-a1-10 payer-a1-email-10 debtors-a1-10 splitwise-token debt-amounts-a1-10 group-trip-3 expense-a1-10 note-trips-3)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 10 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-10"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 10 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-10"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 10 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-10"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 10 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-10"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 10 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-10"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-3"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(splitwise-record-expense description-a1-9 amount-a1-9 payer-a1-email-9 debtors-a1-9 splitwise-token debt-amounts-a1-9 group-trip-3 expense-a1-9 note-trips-3)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 9 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-9"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 9 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-9"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 9 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-9"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 9 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-9"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 9 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-9"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 3 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-3"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(splitwise-record-expense description-a1-11 amount-a1-11 payer-a1-email-11 debtors-a1-11 splitwise-token debt-amounts-a1-11 group-trip-4 expense-a1-11 note-trips-4)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 11 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-11"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 11 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-11"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 11 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-11"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 11 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-11"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 11 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-11"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-4"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(splitwise-record-expense description-a1-12 amount-a1-12 payer-a1-email-12 debtors-a1-12 splitwise-token debt-amounts-a1-12 group-trip-4 expense-a1-12 note-trips-4)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 12 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-12"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 12 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-12"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 12 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-12"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 12 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-12"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 12 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-12"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-4"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(splitwise-record-expense description-a1-13 amount-a1-13 payer-a1-email-13 debtors-a1-13 splitwise-token debt-amounts-a1-13 group-trip-4 expense-a1-13 note-trips-4)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 13 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-13"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 13 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-13"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 13 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-13"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 13 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-13"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 13 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-13"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 4 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-4"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(splitwise-record-expense description-a1-14 amount-a1-14 payer-a1-email-14 debtors-a1-14 splitwise-token debt-amounts-a1-14 group-trip-5 expense-a1-14 note-trips-5)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 14 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-14"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 14 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-14"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 14 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-14"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 14 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-14"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 14 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-14"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-5"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(splitwise-record-expense description-a1-15 amount-a1-15 payer-a1-email-15 debtors-a1-15 splitwise-token debt-amounts-a1-15 group-trip-5 expense-a1-15 note-trips-5)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 15 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-15"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 15 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-15"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 15 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-15"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 15 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-15"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 15 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-15"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-5"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(splitwise-record-expense description-a1-16 amount-a1-16 payer-a1-email-16 debtors-a1-16 splitwise-token debt-amounts-a1-16 group-trip-5 expense-a1-16 note-trips-5)",
+      "api": "splitwise.record_expense",
+      "args": {
+        "description": {
+          "$from": "simple_note.show_note",
+          "field": "content: description of expense 1 of trip A [item 16 of 16 that match this rule; one object per matching item]",
+          "object": "description-a1-16"
+        },
+        "paid_amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: total paid amount of expense 1 of trip A [item 16 of 16 that match this rule; one object per matching item]",
+          "object": "amount-a1-16"
+        },
+        "payer_email": {
+          "$from": "splitwise.show_groups",
+          "field": "members[].email of the person the note names as payer of expense 1 of trip A (supervisor's own email if she paid) [item 16 of 16 that match this rule; one object per matching item]",
+          "object": "payer-a1-email-16"
+        },
+        "debtor_emails": {
+          "$from": "splitwise.show_groups",
+          "field": "list of members[].email for each person the note says owes on expense 1 of trip A [item 16 of 16 that match this rule; one object per matching item]",
+          "object": "debtors-a1-16"
+        },
+        "access_token": {
+          "$from": "splitwise.login",
+          "field": "access_token",
+          "object": "splitwise-token"
+        },
+        "debt_amounts": {
+          "$from": "simple_note.show_note",
+          "field": "content: amount each debtor owes on expense 1 of trip A, same order as debtors-a1 [item 16 of 16 that match this rule; one object per matching item]",
+          "object": "debt-amounts-a1-16"
+        },
+        "group_id": {
+          "$from": "splitwise.show_groups",
+          "field": "group_id of the group whose name matches the first trip in the note [item 5 of 5 that match this rule; one object per matching item]",
+          "object": "group-trip-5"
+        }
+      }
+    },
+    {
+      "step": 31,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

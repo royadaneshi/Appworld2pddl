@@ -62,19 +62,19 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item)",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 1 of 10 that match this rule; one object per matching item]",
           "object": "non-stapler-1"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(amazon-delete-product-from-cart non-stapler-1 amazon-token n2 n1)",
+      "pddl": "(amazon-delete-product-from-cart non-stapler-1 amazon-token n2 n1-9)",
       "api": "amazon.delete_product_from_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item)",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 1 of 10 that match this rule; one object per matching item]",
           "object": "non-stapler-1"
         },
         "access_token": {
@@ -86,25 +86,25 @@
     },
     {
       "step": 8,
-      "pddl": "(amazon-show-product non-stapler-2)",
+      "pddl": "(amazon-show-product non-stapler-10)",
       "api": "amazon.show_product",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (second such item)",
-          "object": "non-stapler-2"
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 10 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-10"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(amazon-delete-product-from-cart non-stapler-2 amazon-token n1 zero)",
+      "pddl": "(amazon-delete-product-from-cart non-stapler-10 amazon-token n1-9 n1-8)",
       "api": "amazon.delete_product_from_cart",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (second such item)",
-          "object": "non-stapler-2"
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 10 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-10"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -115,6 +115,238 @@
     },
     {
       "step": 10,
+      "pddl": "(amazon-show-product non-stapler-2)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 2 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-2"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-delete-product-from-cart non-stapler-2 amazon-token n1-8 n1-7)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 2 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-show-product non-stapler-3)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 3 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-3"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-delete-product-from-cart non-stapler-3 amazon-token n1-7 n1-6)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 3 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-show-product non-stapler-4)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 4 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-4"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-delete-product-from-cart non-stapler-4 amazon-token n1-6 n1-5)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 4 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-show-product non-stapler-5)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 5 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-5"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-delete-product-from-cart non-stapler-5 amazon-token n1-5 n1-4)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 5 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-5"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-show-product non-stapler-6)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 6 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-6"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-delete-product-from-cart non-stapler-6 amazon-token n1-4 n1-3)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 6 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-6"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(amazon-show-product non-stapler-7)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 7 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-7"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(amazon-delete-product-from-cart non-stapler-7 amazon-token n1-3 n1-2)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 7 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-7"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(amazon-show-product non-stapler-8)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 8 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-8"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(amazon-delete-product-from-cart non-stapler-8 amazon-token n1-2 n1-1)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 8 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-8"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(amazon-show-product non-stapler-9)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 9 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-9"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(amazon-delete-product-from-cart non-stapler-9 amazon-token n1-1 zero)",
+      "api": "amazon.delete_product_from_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart item whose amazon.show_product product_type != \"stapler\" (first such item) [item 9 of 10 that match this rule; one object per matching item]",
+          "object": "non-stapler-9"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 26,
       "pddl": "(amazon-place-order amazon-card-1 home-address amazon-token)",
       "api": "amazon.place_order",
       "args": {
@@ -136,7 +368,7 @@
       }
     },
     {
-      "step": 11,
+      "step": 27,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

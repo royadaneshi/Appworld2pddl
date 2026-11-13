@@ -12,6 +12,12 @@
     note-rent-decreased-10-percent - note
   )
   (:init
+    (credential-of-app phone phone-2307354647)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo nan-ritt-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for venmo nan-ritt-at-gmail-com)
     (username-for phone phone-2307354647)
     (password-for venmo venmo-password)

@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login ed-wilson-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login ed-wilson-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "ed_wilson@gmail.com",
@@ -74,7 +74,7 @@
     },
     {
       "step": 7,
-      "pddl": "(gmail-send-email manager-email subject-headshot body-headshot file-system-token headshot-file-path file-system-token manager)",
+      "pddl": "(gmail-send-email manager-email subject-headshot body-headshot gmail-token headshot-file-path file-system-token manager)",
       "api": "gmail.send_email",
       "args": {
         "email_addresses": {
@@ -85,9 +85,9 @@
         "subject": "Headshot",
         "body": "Hi, please find my headshot attached.",
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "attachment_file_paths": {
           "$from": "file_system.show_directory",

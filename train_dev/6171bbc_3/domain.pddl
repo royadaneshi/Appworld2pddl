@@ -4,7 +4,7 @@
   ; goal-referenced records are domain constants so supervisor-complete-task can name them
   (:constants spotify - app
               new-playlist - playlist
-              song-12 song-21 song-27 song-53 song-162 song-185 song-304 - song)
+              top-song-1 top-song-2 top-song-3 top-song-4 top-song-5 top-song-6 top-song-7 - song)
   (:predicates
     (profile-known)
     (passwords-known)
@@ -100,13 +100,13 @@
     :parameters ()
     :precondition (and
       (created new-playlist)
-      (added song-12 new-playlist)
-      (added song-21 new-playlist)
-      (added song-27 new-playlist)
-      (added song-53 new-playlist)
-      (added song-162 new-playlist)
-      (added song-185 new-playlist)
-      (added song-304 new-playlist)
+      (added top-song-1 new-playlist)
+      (added top-song-2 new-playlist)
+      (added top-song-3 new-playlist)
+      (added top-song-4 new-playlist)
+      (added top-song-5 new-playlist)
+      (added top-song-6 new-playlist)
+      (added top-song-7 new-playlist)
       (not (task-completed)))
     :effect (and (task-completed)))
 )

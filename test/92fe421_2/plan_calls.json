@@ -8,7 +8,7 @@
     },
     {
       "step": 2,
-      "pddl": "(phone-login username-8683971586 phone-password venmo-token)",
+      "pddl": "(phone-login username-8683971586 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "8683971586",
@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(spotify-login username-ja-solomon-at-gmail-com spotify-password venmo-token)",
+      "pddl": "(spotify-login username-ja-solomon-at-gmail-com spotify-password spotify-token)",
       "api": "spotify.login",
       "args": {
         "username": "ja-solomon@gmail.com",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login username-ja-solomon-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login username-ja-solomon-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "ja-solomon@gmail.com",
@@ -47,50 +47,50 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts venmo-token relationship-roommate)",
+      "pddl": "(phone-search-contacts phone-token relationship-roommate)",
       "api": "phone.search_contacts",
-      "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "venmo-token"
-        },
-        "relationship": "roommate"
-      }
-    },
-    {
-      "step": 6,
-      "pddl": "(spotify-show-premium-subscriptions venmo-token)",
-      "api": "spotify.show_premium_subscriptions",
-      "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "venmo-token"
-        }
-      }
-    },
-    {
-      "step": 7,
-      "pddl": "(venmo-show-transactions phone-token query-spotify)",
-      "api": "venmo.show_transactions",
       "args": {
         "access_token": {
           "$from": "phone.login",
           "field": "access_token",
           "object": "phone-token"
         },
+        "relationship": "roommate"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-premium-subscriptions spotify-token)",
+      "api": "spotify.show_premium_subscriptions",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-transactions venmo-token query-spotify)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
         "query": "spotify"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-create-payment-request email-roommate-1 amount-share phone-token desc-for-spotify-premium roommate-1)",
+      "pddl": "(venmo-create-payment-request email-roommate-1 amount-share venmo-token desc-for-spotify-premium roommate-1)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of roommate-1",
+          "field": "email of roommate-1 [item 1 of 2 that match this rule; one object per matching item]",
           "object": "email-roommate-1"
         },
         "amount": {
@@ -99,39 +99,16 @@
           "object": "amount-share"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "For Spotify Premium"
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-create-payment-request email-roommate-2 amount-share phone-token desc-for-spotify-premium roommate-2)",
-      "api": "venmo.create_payment_request",
-      "args": {
-        "user_email": {
-          "$from": "phone.search_contacts",
-          "field": "email of roommate-2",
-          "object": "email-roommate-2"
-        },
-        "amount": {
-          "$from": "spotify.show_premium_subscriptions",
-          "field": "amount of the premium subscription paid on 2023-05-17 divided by (number of roommates from phone.search_contacts + 1), rounded to 2 decimals",
-          "object": "amount-share"
-        },
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        },
-        "description": "For Spotify Premium"
-      }
-    },
-    {
-      "step": 10,
-      "pddl": "(supervisor-complete-task roommate-1 roommate-2)",
+      "pddl": "(supervisor-complete-task roommate-1)",
       "api": "supervisor.complete_task",
       "args": {}
     }

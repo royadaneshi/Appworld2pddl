@@ -14,6 +14,10 @@
     request-melissa-movie-tickets - payment-request
   )
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-username-9503658964)
     (username-for venmo venmo-username-nicholas-weber-at-gmail-com)
     (password-for phone phone-password)

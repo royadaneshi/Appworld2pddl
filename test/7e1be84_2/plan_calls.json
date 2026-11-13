@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-4288705164 phone-password amazon-token)",
+      "pddl": "(phone-login username-4288705164 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "4288705164",
@@ -58,26 +58,26 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts amazon-token query-connor connor connor-phone-number)",
+      "pddl": "(phone-search-contacts phone-token query-connor connor connor-phone-number)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "query": "Connor"
       }
     },
     {
       "step": 7,
-      "pddl": "(phone-search-text-messages amazon-token query-mixer connor-phone-number connor connor-recommendation-message)",
+      "pddl": "(phone-search-text-messages phone-token query-mixer connor-phone-number connor connor-recommendation-message)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "query": "mixer",
         "phone_number": {

@@ -33,36 +33,24 @@
     },
     {
       "step": 4,
-      "pddl": "(amazon-show-product other-item-1)",
-      "api": "amazon.show_product",
-      "args": {
-        "product_id": {
-          "$from": "amazon.show_cart",
-          "field": "product_id of a cart entry whose amazon.show_product product_type != \"sofa\" (inspected only, must stay in cart)",
-          "object": "other-item-1"
-        }
-      }
-    },
-    {
-      "step": 5,
       "pddl": "(amazon-show-product sofa-item-1)",
       "api": "amazon.show_product",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\"",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 1 of 12 that match this rule; one object per matching item]",
           "object": "sofa-item-1"
         }
       }
     },
     {
-      "step": 6,
+      "step": 5,
       "pddl": "(amazon-move-product-from-cart-to-wish-list sofa-item-1 amazon-token)",
       "api": "amazon.move_product_from_cart_to_wish_list",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\"",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 1 of 12 that match this rule; one object per matching item]",
           "object": "sofa-item-1"
         },
         "access_token": {
@@ -73,7 +61,190 @@
       }
     },
     {
+      "step": 6,
+      "pddl": "(amazon-show-product sofa-item-10)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 10 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-10"
+        }
+      }
+    },
+    {
       "step": 7,
+      "pddl": "(amazon-show-product sofa-item-11)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 11 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-11"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(amazon-show-product sofa-item-12)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 12 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-12"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-show-product sofa-item-2)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 2 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-2"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list sofa-item-2 amazon-token)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 2 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(amazon-show-product sofa-item-3)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 3 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-3"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list sofa-item-3 amazon-token)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 3 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-show-product sofa-item-4)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 4 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-4"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list sofa-item-4 amazon-token)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 4 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-show-product sofa-item-5)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 5 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-5"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-show-product sofa-item-6)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 6 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-6"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-show-product sofa-item-7)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 7 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-7"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-show-product sofa-item-8)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 8 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-8"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(amazon-show-product sofa-item-9)",
+      "api": "amazon.show_product",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a cart entry whose amazon.show_product product_type == \"sofa\" [item 9 of 12 that match this rule; one object per matching item]",
+          "object": "sofa-item-9"
+        }
+      }
+    },
+    {
+      "step": 20,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

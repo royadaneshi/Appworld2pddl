@@ -13,6 +13,12 @@
     brandon-address - address
     backpack-order - order)
   (:init
+    (credential-of-app phone user-3798762980)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app amazon brandon-webe-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
     (username-for phone user-3798762980)
     (username-for amazon brandon-webe-at-gmail-com)
     (password-for phone phone-password)

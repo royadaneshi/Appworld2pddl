@@ -112,6 +112,30 @@
     },
     {
       "step": 9,
+      "pddl": "(spotify-show-album-library spotify-token library-album-2)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-album-library spotify-token library-album-3)",
+      "api": "spotify.show_album_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
       "pddl": "(spotify-show-liked-songs spotify-token)",
       "api": "spotify.show_liked_songs",
       "args": {
@@ -123,7 +147,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 12,
       "pddl": "(spotify-show-playlist-library spotify-token library-playlist-1)",
       "api": "spotify.show_playlist_library",
       "args": {
@@ -135,13 +159,13 @@
       }
     },
     {
-      "step": 11,
-      "pddl": "(spotify-show-playlist library-playlist-1 spotify-token library-playlist-1-url)",
+      "step": 13,
+      "pddl": "(spotify-show-playlist library-playlist-1 spotify-token library-playlist-url-1)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (repeat show_playlist for every playlist in the library)",
+          "field": "playlist_id (repeat show_playlist for every playlist in the library) [item 1 of 3 that match this rule; one object per matching item]",
           "object": "library-playlist-1"
         },
         "access_token": {
@@ -152,8 +176,8 @@
       }
     },
     {
-      "step": 12,
-      "pddl": "(spotify-add-song-to-playlist new-playlist song-c spotify-token library-playlist-1)",
+      "step": 14,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-6 spotify-token library-playlist-1)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -162,9 +186,9 @@
           "object": "new-playlist"
         },
         "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of each library playlist, kept only if it also appears in spotify.show_liked_songs",
-          "object": "song-c"
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 6 of 11 that match this rule; one object per matching item]",
+          "object": "song-6"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -174,7 +198,109 @@
       }
     },
     {
-      "step": 13,
+      "step": 15,
+      "pddl": "(spotify-show-playlist-library spotify-token library-playlist-2)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-show-playlist library-playlist-2 spotify-token library-playlist-url-2)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (repeat show_playlist for every playlist in the library) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "library-playlist-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-7 spotify-token library-playlist-2)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 7 of 11 that match this rule; one object per matching item]",
+          "object": "song-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-show-playlist-library spotify-token library-playlist-3)",
+      "api": "spotify.show_playlist_library",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-show-playlist library-playlist-3 spotify-token library-playlist-url-3)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id (repeat show_playlist for every playlist in the library) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "library-playlist-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-8 spotify-token library-playlist-3)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 8 of 11 that match this rule; one object per matching item]",
+          "object": "song-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 21,
       "pddl": "(spotify-show-song-library spotify-token my-song-library)",
       "api": "spotify.show_song_library",
       "args": {
@@ -186,8 +312,8 @@
       }
     },
     {
-      "step": 14,
-      "pddl": "(spotify-add-song-to-playlist new-playlist song-a spotify-token my-song-library)",
+      "step": 22,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-10 spotify-token my-song-library)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -197,8 +323,8 @@
         },
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id, kept only if it also appears in spotify.show_liked_songs",
-          "object": "song-a"
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 10 of 11 that match this rule; one object per matching item]",
+          "object": "song-10"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -208,20 +334,8 @@
       }
     },
     {
-      "step": 15,
-      "pddl": "(spotify-show-album library-album-1)",
-      "api": "spotify.show_album",
-      "args": {
-        "album_id": {
-          "$from": "spotify.show_album_library",
-          "field": "album_id (repeat show_album for every album in the library)",
-          "object": "library-album-1"
-        }
-      }
-    },
-    {
-      "step": 16,
-      "pddl": "(spotify-add-song-to-playlist new-playlist song-b spotify-token library-album-1)",
+      "step": 23,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-11 spotify-token my-song-library)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -230,9 +344,9 @@
           "object": "new-playlist"
         },
         "song_id": {
-          "$from": "spotify.show_album",
-          "field": "songs[].id of each library album, kept only if it also appears in spotify.show_liked_songs",
-          "object": "song-b"
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 11 of 11 that match this rule; one object per matching item]",
+          "object": "song-11"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -242,7 +356,175 @@
       }
     },
     {
-      "step": 17,
+      "step": 24,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-5 spotify-token my-song-library)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 5 of 11 that match this rule; one object per matching item]",
+          "object": "song-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-9 spotify-token my-song-library)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 9 of 11 that match this rule; one object per matching item]",
+          "object": "song-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-show-album library-album-1)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id (repeat show_album for every album in the library) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "library-album-1"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-4 spotify-token library-album-1)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 4 of 11 that match this rule; one object per matching item]",
+          "object": "song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-show-album library-album-2)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id (repeat show_album for every album in the library) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "library-album-2"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-1 spotify-token library-album-2)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 1 of 11 that match this rule; one object per matching item]",
+          "object": "song-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-2 spotify-token library-album-2)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 2 of 11 that match this rule; one object per matching item]",
+          "object": "song-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-show-album library-album-3)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id (repeat show_album for every album in the library) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "library-album-3"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-3 spotify-token library-album-3)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id, kept only if it also appears in spotify.show_liked_songs [item 3 of 11 that match this rule; one object per matching item]",
+          "object": "song-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 33,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

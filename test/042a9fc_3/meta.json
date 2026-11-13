@@ -37,7 +37,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'entity', 'token', 'app', 'relationship', 'playlist', 'username', 'song', 'person', 'password', 'phone-number', 'query'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": null
@@ -48,22 +50,22 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(phone-login username-3567801924 phone-password phone-token)",
-      "(spotify-login lindseysimpson-at-gmail-com spotify-password phone-token)",
+      "(spotify-login lindseysimpson-at-gmail-com spotify-password spotify-token)",
       "(phone-search-contacts phone-token roommates)",
       "(phone-search-text-messages phone-token phone-roommate-1 roommate-1 roommates)",
       "(phone-search-text-messages phone-token phone-roommate-2 roommate-2 roommates)",
-      "(spotify-show-playlist-library phone-token roadtrip-playlist)",
-      "(spotify-show-playlist roadtrip-playlist phone-token)",
-      "(spotify-remove-song-from-playlist roadtrip-playlist song-remove-1 phone-token roommate-1)",
-      "(spotify-remove-song-from-playlist roadtrip-playlist song-remove-2 phone-token roommate-2)",
+      "(spotify-show-playlist-library spotify-token roadtrip-playlist)",
+      "(spotify-show-playlist roadtrip-playlist spotify-token)",
+      "(spotify-remove-song-from-playlist roadtrip-playlist song-remove-1 spotify-token roommate-1)",
+      "(spotify-remove-song-from-playlist roadtrip-playlist song-remove-2 spotify-token roommate-2)",
       "(spotify-search-songs query-song-add-1 song-add-1 roommate-1)",
-      "(spotify-add-song-to-playlist roadtrip-playlist song-add-1 phone-token roommate-1)",
+      "(spotify-add-song-to-playlist roadtrip-playlist song-add-1 spotify-token roommate-1)",
       "(spotify-search-songs query-song-add-2 song-add-2 roommate-2)",
-      "(spotify-add-song-to-playlist roadtrip-playlist song-add-2 phone-token roommate-2)",
+      "(spotify-add-song-to-playlist roadtrip-playlist song-add-2 spotify-token roommate-2)",
       "(supervisor-complete-task)"
     ],
     "message": "",
-    "seconds": 0.9
+    "seconds": 0.81
   },
   "solution_used": false,
   "has_reference_solution": false,

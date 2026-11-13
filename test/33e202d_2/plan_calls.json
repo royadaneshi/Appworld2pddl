@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login dav-mart-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login dav-mart-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "dav.mart@gmail.com",
@@ -34,13 +34,13 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-show-inbox-threads file-system-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread)",
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-1)",
       "api": "gmail.show_inbox_threads",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "query": "Marketing Manager",
         "min_created_at": "2023-04-27T00:00:00"
@@ -48,30 +48,30 @@
     },
     {
       "step": 5,
-      "pddl": "(gmail-show-thread application-thread file-system-token marketing-manager-applicant)",
+      "pddl": "(gmail-show-thread application-thread-1 gmail-token marketing-manager-applicant-1)",
       "api": "gmail.show_thread",
       "args": {
         "email_thread_id": {
           "$from": "gmail.show_inbox_threads",
-          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread)",
-          "object": "application-thread"
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 1 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-download-attachment application-attachment file-system-token file-system-token path-attachment-download marketing-manager-applicant)",
+      "pddl": "(gmail-download-attachment application-attachment-1 file-system-token gmail-token path-attachment-download-1 marketing-manager-applicant-1)",
       "api": "gmail.download_attachment",
       "args": {
         "attachment_id": {
           "$from": "gmail.show_thread",
-          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant)",
-          "object": "application-attachment"
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 1 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-1"
         },
         "file_system_access_token": {
           "$from": "file_system.login",
@@ -79,20 +79,132 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "download_to_file_path": {
           "$from": "gmail.show_thread",
-          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name",
-          "object": "path-attachment-download"
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 1 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-1"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(file-system-create-file path-applications-csv file-system-token content-applications-csv marketing-manager-applicant)",
+      "pddl": "(gmail-download-attachment application-attachment-2 file-system-token gmail-token path-attachment-download-2 marketing-manager-applicant-1)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 2 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-2"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 2 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-2"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-2)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(gmail-show-thread application-thread-2 gmail-token marketing-manager-applicant-2)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 2 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-2"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-download-attachment application-attachment-3 file-system-token gmail-token path-attachment-download-3 marketing-manager-applicant-2)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 3 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-3"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 3 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-3"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-download-attachment application-attachment-4 file-system-token gmail-token path-attachment-download-4 marketing-manager-applicant-2)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 4 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-4"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 4 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-4"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(file-system-create-file path-applications-csv file-system-token content-applications-csv marketing-manager-applicant-2)",
       "api": "file_system.create_file",
       "args": {
         "file_path": "~/documents/work/hiring_process/applications.csv",
@@ -109,7 +221,737 @@
       }
     },
     {
-      "step": 8,
+      "step": 13,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-3)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(gmail-show-thread application-thread-3 gmail-token marketing-manager-applicant-3)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 3 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-3"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-download-attachment application-attachment-5 file-system-token gmail-token path-attachment-download-5 marketing-manager-applicant-3)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 5 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-5"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 5 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-5"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(gmail-download-attachment application-attachment-6 file-system-token gmail-token path-attachment-download-6 marketing-manager-applicant-3)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 6 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-6"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 6 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-6"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(gmail-download-attachment application-attachment-7 file-system-token gmail-token path-attachment-download-7 marketing-manager-applicant-3)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 7 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-7"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 7 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-7"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-4)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(gmail-show-thread application-thread-4 gmail-token marketing-manager-applicant-4)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 4 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-4"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(gmail-download-attachment application-attachment-10 file-system-token gmail-token path-attachment-download-10 marketing-manager-applicant-4)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 10 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-10"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 10 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-10"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(gmail-download-attachment application-attachment-8 file-system-token gmail-token path-attachment-download-8 marketing-manager-applicant-4)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 8 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-8"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 8 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-8"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(gmail-download-attachment application-attachment-9 file-system-token gmail-token path-attachment-download-9 marketing-manager-applicant-4)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 9 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-9"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 9 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-9"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-5)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(gmail-show-thread application-thread-5 gmail-token marketing-manager-applicant-5)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 5 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-5"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(gmail-download-attachment application-attachment-11 file-system-token gmail-token path-attachment-download-11 marketing-manager-applicant-5)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 11 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-11"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 11 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-11"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(gmail-download-attachment application-attachment-12 file-system-token gmail-token path-attachment-download-12 marketing-manager-applicant-5)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 12 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-12"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 12 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-12"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(gmail-download-attachment application-attachment-13 file-system-token gmail-token path-attachment-download-13 marketing-manager-applicant-5)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 13 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-13"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 13 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-13"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-6)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(gmail-show-thread application-thread-6 gmail-token marketing-manager-applicant-6)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 6 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-6"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(gmail-download-attachment application-attachment-14 file-system-token gmail-token path-attachment-download-14 marketing-manager-applicant-6)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 14 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-14"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 14 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-14"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(gmail-download-attachment application-attachment-15 file-system-token gmail-token path-attachment-download-15 marketing-manager-applicant-6)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 15 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-15"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 15 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-15"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(gmail-download-attachment application-attachment-16 file-system-token gmail-token path-attachment-download-16 marketing-manager-applicant-6)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 16 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-16"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 16 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-16"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-7)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(gmail-show-thread application-thread-7 gmail-token marketing-manager-applicant-7)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 7 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-7"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(gmail-download-attachment application-attachment-17 file-system-token gmail-token path-attachment-download-17 marketing-manager-applicant-7)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 17 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-17"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 17 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-17"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(gmail-download-attachment application-attachment-18 file-system-token gmail-token path-attachment-download-18 marketing-manager-applicant-7)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 18 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-18"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 18 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-18"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(gmail-download-attachment application-attachment-19 file-system-token gmail-token path-attachment-download-19 marketing-manager-applicant-7)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 19 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-19"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 19 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-19"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-8)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(gmail-show-thread application-thread-8 gmail-token marketing-manager-applicant-8)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 8 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-8"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(gmail-download-attachment application-attachment-20 file-system-token gmail-token path-attachment-download-20 marketing-manager-applicant-8)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 20 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-20"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 20 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-20"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(gmail-download-attachment application-attachment-21 file-system-token gmail-token path-attachment-download-21 marketing-manager-applicant-8)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 21 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-21"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 21 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-21"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(gmail-show-inbox-threads gmail-token query-marketing-manager datetime-2023-04-27t00-00-00 application-thread-9)",
+      "api": "gmail.show_inbox_threads",
+      "args": {
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "query": "Marketing Manager",
+        "min_created_at": "2023-04-27T00:00:00"
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(gmail-show-thread application-thread-9 gmail-token marketing-manager-applicant-9)",
+      "api": "gmail.show_thread",
+      "args": {
+        "email_thread_id": {
+          "$from": "gmail.show_inbox_threads",
+          "field": "email_thread_id of each thread that is a Marketing Manager job application (repeat gmail.show_thread for every such thread) [item 9 of 9 that match this rule; one object per matching item]",
+          "object": "application-thread-9"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(gmail-download-attachment application-attachment-22 file-system-token gmail-token path-attachment-download-22 marketing-manager-applicant-9)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 22 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-22"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 22 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-22"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(gmail-download-attachment application-attachment-23 file-system-token gmail-token path-attachment-download-23 marketing-manager-applicant-9)",
+      "api": "gmail.download_attachment",
+      "args": {
+        "attachment_id": {
+          "$from": "gmail.show_thread",
+          "field": "emails[].attachments[].attachment_id of each application email (repeat gmail.download_attachment for every attachment of every applicant) [item 23 of 23 that match this rule; one object per matching item]",
+          "object": "application-attachment-23"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "download_to_file_path": {
+          "$from": "gmail.show_thread",
+          "field": "\"~/documents/work/hiring_process/attachments/<first_name>__<last_name>/<file_name>\" built from the applicant's lower-cased first/last name (sender name / signature) and the attachment's file_name [item 23 of 23 that match this rule; one object per matching item]",
+          "object": "path-attachment-download-23"
+        }
+      }
+    },
+    {
+      "step": 46,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

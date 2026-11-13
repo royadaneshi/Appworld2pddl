@@ -13,6 +13,15 @@
     expenses-james-pdf - filepath
     true - boolean)
   (:init
+    (credential-of-app phone phone-8683971586)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app gmail ja-solomon-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system ja-solomon-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (password-for phone phone-password)
     (password-for gmail gmail-password)
     (password-for file-system file-system-password)

@@ -63,13 +63,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-remove-album-from-library album-electric-dreamscape spotify-token)",
+      "pddl": "(spotify-remove-album-from-library unliked-undownloaded-album-1 spotify-token)",
       "api": "spotify.remove_album_from_library",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album titled \"Electric Dreamscape\" (to remove; liked=False, all songs downloaded=False)",
-          "object": "album-electric-dreamscape"
+          "field": "album_id of every library album (iterate all pages) whose album_id is not in spotify.show_liked_albums and whose song_ids are not all contained in spotify.show_downloaded_songs; call remove_album_from_library once per such album [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-album-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -80,13 +80,13 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-remove-album-from-library album-neon-echoes spotify-token)",
+      "pddl": "(spotify-remove-album-from-library unliked-undownloaded-album-2 spotify-token)",
       "api": "spotify.remove_album_from_library",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album titled \"Neon Echoes\" (to remove; liked=False, all songs downloaded=False)",
-          "object": "album-neon-echoes"
+          "field": "album_id of every library album (iterate all pages) whose album_id is not in spotify.show_liked_albums and whose song_ids are not all contained in spotify.show_downloaded_songs; call remove_album_from_library once per such album [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-album-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -97,13 +97,13 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-remove-album-from-library album-velvet-underground spotify-token)",
+      "pddl": "(spotify-remove-album-from-library unliked-undownloaded-album-3 spotify-token)",
       "api": "spotify.remove_album_from_library",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album titled \"Velvet Underground\" (to remove; liked=False, all songs downloaded=False)",
-          "object": "album-velvet-underground"
+          "field": "album_id of every library album (iterate all pages) whose album_id is not in spotify.show_liked_albums and whose song_ids are not all contained in spotify.show_downloaded_songs; call remove_album_from_library once per such album [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-album-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -114,13 +114,13 @@
     },
     {
       "step": 10,
-      "pddl": "(spotify-remove-album-from-library album-vibrant-visions spotify-token)",
+      "pddl": "(spotify-remove-album-from-library unliked-undownloaded-album-4 spotify-token)",
       "api": "spotify.remove_album_from_library",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of the library album titled \"Vibrant Visions\" (to remove; liked=False, all songs downloaded=False)",
-          "object": "album-vibrant-visions"
+          "field": "album_id of every library album (iterate all pages) whose album_id is not in spotify.show_liked_albums and whose song_ids are not all contained in spotify.show_downloaded_songs; call remove_album_from_library once per such album [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-album-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -155,13 +155,13 @@
     },
     {
       "step": 13,
-      "pddl": "(spotify-remove-song-from-library song-beyond-the-horizon-s-reach spotify-token)",
+      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song-1 spotify-token)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of the library song titled \"Beyond the Horizon's Reach\" (to remove; liked=False, downloaded=False)",
-          "object": "song-beyond-the-horizon-s-reach"
+          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song [item 1 of 7 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-song-1"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -172,13 +172,13 @@
     },
     {
       "step": 14,
-      "pddl": "(spotify-remove-song-from-library song-chasing-ghosts spotify-token)",
+      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song-2 spotify-token)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of the library song titled \"Chasing Ghosts\" (to remove; liked=False, downloaded=False)",
-          "object": "song-chasing-ghosts"
+          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song [item 2 of 7 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-song-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -189,13 +189,13 @@
     },
     {
       "step": 15,
-      "pddl": "(spotify-remove-song-from-library song-harmony-of-the-distant-stars spotify-token)",
+      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song-3 spotify-token)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of the library song titled \"Harmony of the Distant Stars\" (to remove; liked=False, downloaded=False)",
-          "object": "song-harmony-of-the-distant-stars"
+          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song [item 3 of 7 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-song-3"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -206,13 +206,13 @@
     },
     {
       "step": 16,
-      "pddl": "(spotify-remove-song-from-library song-invisible-whispers spotify-token)",
+      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song-4 spotify-token)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of the library song titled \"Invisible Whispers\" (to remove; liked=False, downloaded=False)",
-          "object": "song-invisible-whispers"
+          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song [item 4 of 7 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-song-4"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -223,13 +223,13 @@
     },
     {
       "step": 17,
-      "pddl": "(spotify-remove-song-from-library song-momentary-bliss spotify-token)",
+      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song-5 spotify-token)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of the library song titled \"Momentary Bliss\" (to remove; liked=False, downloaded=False)",
-          "object": "song-momentary-bliss"
+          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song [item 5 of 7 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-song-5"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -240,13 +240,13 @@
     },
     {
       "step": 18,
-      "pddl": "(spotify-remove-song-from-library song-solitude-s-melancholy spotify-token)",
+      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song-6 spotify-token)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of the library song titled \"Solitude's Melancholy\" (to remove; liked=False, downloaded=False)",
-          "object": "song-solitude-s-melancholy"
+          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song [item 6 of 7 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-song-6"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -257,13 +257,13 @@
     },
     {
       "step": 19,
-      "pddl": "(spotify-remove-song-from-library song-the-sweet-pain-of-reminiscence spotify-token)",
+      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song-7 spotify-token)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of the library song titled \"The Sweet Pain of Reminiscence\" (to remove; liked=False, downloaded=False)",
-          "object": "song-the-sweet-pain-of-reminiscence"
+          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song [item 7 of 7 that match this rule; one object per matching item]",
+          "object": "unliked-undownloaded-song-7"
         },
         "access_token": {
           "$from": "spotify.login",

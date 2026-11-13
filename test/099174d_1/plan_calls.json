@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(simple-note-login joseph-webe-at-gmail-com simple-note-password amazon-token)",
+      "pddl": "(simple-note-login joseph-webe-at-gmail-com simple-note-password simple-note-token)",
       "api": "simple_note.login",
       "args": {
         "username": "joseph.webe@gmail.com",
@@ -58,42 +58,64 @@
     },
     {
       "step": 6,
-      "pddl": "(simple-note-search-notes amazon-token query-amazon-shopping-list amazon-shopping-list-note)",
+      "pddl": "(simple-note-search-notes simple-note-token query-amazon-shopping-list amazon-shopping-list-note)",
       "api": "simple_note.search_notes",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "simple-note-token"
         },
         "query": "Amazon shopping list"
       }
     },
     {
       "step": 7,
-      "pddl": "(simple-note-show-note amazon-shopping-list-note amazon-token)",
+      "pddl": "(simple-note-show-note amazon-shopping-list-note simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the note whose title is the Amazon shopping list",
+          "field": "note_id of the search result whose title is about things to buy on Amazon. It is not necessarily the first result: unrelated notes (e.g. other lists) also match the query",
           "object": "amazon-shopping-list-note"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(amazon-add-product-to-cart list-product-3 amazon-token qty-of-item-3)",
+      "pddl": "(amazon-add-product-to-cart list-product-4 amazon-token qty-of-item-2)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
           "$from": "simple_note.show_note",
-          "field": "content: product id of the 3rd list item",
+          "field": "content: product id of the 1st list item [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "list-product-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "simple_note.show_note",
+          "field": "content: quantity of the 1st list item [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "qty-of-item-2"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(amazon-add-product-to-cart list-product-3 amazon-token qty-of-item-1)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "simple_note.show_note",
+          "field": "content: product id of the 1st list item [item 3 of 4 that match this rule; one object per matching item]",
           "object": "list-product-3"
         },
         "access_token": {
@@ -103,19 +125,19 @@
         },
         "quantity": {
           "$from": "simple_note.show_note",
-          "field": "content: quantity of the 3rd list item",
-          "object": "qty-of-item-3"
+          "field": "content: quantity of the 1st list item [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "qty-of-item-1"
         }
       }
     },
     {
-      "step": 9,
+      "step": 10,
       "pddl": "(amazon-add-product-to-cart list-product-2 amazon-token qty-of-item-2)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
           "$from": "simple_note.show_note",
-          "field": "content: product id of the 2nd list item",
+          "field": "content: product id of the 1st list item [item 2 of 4 that match this rule; one object per matching item]",
           "object": "list-product-2"
         },
         "access_token": {
@@ -125,19 +147,19 @@
         },
         "quantity": {
           "$from": "simple_note.show_note",
-          "field": "content: quantity of the 2nd list item",
+          "field": "content: quantity of the 1st list item [item 2 of 2 that match this rule; one object per matching item]",
           "object": "qty-of-item-2"
         }
       }
     },
     {
-      "step": 10,
+      "step": 11,
       "pddl": "(amazon-add-product-to-cart list-product-1 amazon-token qty-of-item-1)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
           "$from": "simple_note.show_note",
-          "field": "content: product id of the 1st list item",
+          "field": "content: product id of the 1st list item [item 1 of 4 that match this rule; one object per matching item]",
           "object": "list-product-1"
         },
         "access_token": {
@@ -147,13 +169,13 @@
         },
         "quantity": {
           "$from": "simple_note.show_note",
-          "field": "content: quantity of the 1st list item",
+          "field": "content: quantity of the 1st list item [item 1 of 2 that match this rule; one object per matching item]",
           "object": "qty-of-item-1"
         }
       }
     },
     {
-      "step": 11,
+      "step": 12,
       "pddl": "(amazon-show-addresses amazon-token delivery-address)",
       "api": "amazon.show_addresses",
       "args": {
@@ -165,7 +187,7 @@
       }
     },
     {
-      "step": 12,
+      "step": 13,
       "pddl": "(amazon-place-order payment-card-1 delivery-address amazon-token)",
       "api": "amazon.place_order",
       "args": {
@@ -187,7 +209,7 @@
       }
     },
     {
-      "step": 13,
+      "step": 14,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

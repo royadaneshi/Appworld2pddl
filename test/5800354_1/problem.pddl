@@ -16,6 +16,15 @@
     order-quantity - quantity
     order-cost - amount)
   (:init
+    (credential-of-app phone username-4288705164)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app amazon jepowell-at-gmail-com)
+    (credential-of-app amazon amazon-password)
+    (credential-of-app amazon amazon-token)
+    (credential-of-app venmo jepowell-at-gmail-com)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone username-4288705164)
     (username-for amazon jepowell-at-gmail-com)
     (username-for venmo jepowell-at-gmail-com)
