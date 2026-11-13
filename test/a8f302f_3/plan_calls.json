@@ -50,7 +50,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of a remaining (non-cheapest) cart item whose product_type == product-type-a",
+          "field": "product_id of a non-cheapest cart item of the first product type in the cart [item 1 of 3; one object per such item]",
           "object": "product-a-other-1"
         },
         "access_token": {
@@ -67,7 +67,7 @@
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of the other remaining (non-cheapest) cart item whose product_type == product-type-a",
+          "field": "product_id of a non-cheapest cart item of the first product type in the cart [item 2 of 3; one object per such item]",
           "object": "product-a-other-2"
         },
         "access_token": {
@@ -79,13 +79,13 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-move-product-from-cart-to-wish-list product-b-other-1 amazon-token count-1 count-0)",
+      "pddl": "(amazon-move-product-from-cart-to-wish-list product-a-other-3 amazon-token count-1 count-0)",
       "api": "amazon.move_product_from_cart_to_wish_list",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "product_id of the remaining (non-cheapest) cart item whose product_type == product-type-b",
-          "object": "product-b-other-1"
+          "field": "product_id of a non-cheapest cart item of the first product type in the cart [item 3 of 3; one object per such item]",
+          "object": "product-a-other-3"
         },
         "access_token": {
           "$from": "amazon.login",

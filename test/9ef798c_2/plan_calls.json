@@ -60,6 +60,52 @@
     },
     {
       "step": 6,
+      "pddl": "(venmo-show-payment-cards venmo-token payment-card-1)",
+      "api": "venmo.show_payment_cards",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(venmo-show-venmo-balance venmo-token)",
+      "api": "venmo.show_venmo_balance",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-add-to-venmo-balance amount-1 payment-card-1 venmo-token william-carpool-request)",
+      "api": "venmo.add_to_venmo_balance",
+      "args": {
+        "amount": {
+          "$from": "venmo.show_venmo_balance",
+          "field": "the carpool request's amount (from venmo.show_received_payment_requests) minus venmo_balance: the shortfall that must be added before approving",
+          "object": "amount-1"
+        },
+        "payment_card_id": {
+          "$from": "venmo.show_payment_cards",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
+          "object": "payment-card-1"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 9,
       "pddl": "(venmo-approve-payment-request william-carpool-request venmo-token)",
       "api": "venmo.approve_payment_request",
       "args": {
@@ -76,7 +122,7 @@
       }
     },
     {
-      "step": 7,
+      "step": 10,
       "pddl": "(supervisor-complete-task william-carpool-request)",
       "api": "supervisor.complete_task",
       "args": {}

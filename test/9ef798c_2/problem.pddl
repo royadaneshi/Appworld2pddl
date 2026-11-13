@@ -7,7 +7,10 @@
     venmo-token phone-token - token
     william-email - email
     query-william query-carpool - query
-    william-carpool-request - payment-request)
+    william-carpool-request - payment-request
+    payment-card-1 - payment-card
+    amount-1 - amount
+  )
   (:init
     (username-for venmo mar-blac-at-gmail-com)
     (username-for phone phone-number-3539110281)
@@ -19,5 +22,8 @@
     (contact-email william william-email)
     (request-from william-carpool-request william)
     (query-for-request query-carpool william-carpool-request)
-    (target-request william-carpool-request))
+    (target-request william-carpool-request)
+    (usable-card payment-card-1)
+    (shortfall william-carpool-request amount-1)
+  )
   (:goal (and (approved william-carpool-request) (task-completed))))

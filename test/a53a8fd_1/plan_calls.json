@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(gmail-login vicpowe-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login vicpowe-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "vicpowe@gmail.com",
@@ -48,20 +48,20 @@
     },
     {
       "step": 5,
-      "pddl": "(gmail-show-drafts file-system-token min-created-2023-05-16)",
+      "pddl": "(gmail-show-drafts gmail-token min-created-2023-05-16)",
       "api": "gmail.show_drafts",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "min_created_at": "2023-05-16T00:00:00"
       }
     },
     {
       "step": 6,
-      "pddl": "(gmail-upload-attachments-to-draft draft-1 resume-pdf file-system-token file-system-token true)",
+      "pddl": "(gmail-upload-attachments-to-draft draft-1 resume-pdf file-system-token gmail-token true)",
       "api": "gmail.upload_attachments_to_draft",
       "args": {
         "draft_id": {
@@ -80,16 +80,16 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "overwrite": true
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-upload-attachments-to-draft draft-2 resume-pdf file-system-token file-system-token true)",
+      "pddl": "(gmail-upload-attachments-to-draft draft-2 resume-pdf file-system-token gmail-token true)",
       "api": "gmail.upload_attachments_to_draft",
       "args": {
         "draft_id": {
@@ -108,16 +108,16 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "overwrite": true
       }
     },
     {
       "step": 8,
-      "pddl": "(gmail-upload-attachments-to-draft draft-3 resume-pdf file-system-token file-system-token true)",
+      "pddl": "(gmail-upload-attachments-to-draft draft-3 resume-pdf file-system-token gmail-token true)",
       "api": "gmail.upload_attachments_to_draft",
       "args": {
         "draft_id": {
@@ -136,16 +136,72 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "overwrite": true
       }
     },
     {
       "step": 9,
-      "pddl": "(gmail-send-email-from-draft draft-1 file-system-token)",
+      "pddl": "(gmail-upload-attachments-to-draft draft-4 resume-pdf file-system-token gmail-token true)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the 4th draft created in the last 2 days addressed to a potential employer (job application draft) [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "draft-4"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry whose file name is resume.pdf (passed as a single-element list for attachment_file_paths)",
+          "object": "resume-pdf"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "overwrite": true
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(gmail-upload-attachments-to-draft draft-5 resume-pdf file-system-token gmail-token true)",
+      "api": "gmail.upload_attachments_to_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the 5th draft created in the last 2 days addressed to a potential employer (job application draft) [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "draft-5"
+        },
+        "attachment_file_paths": {
+          "$from": "file_system.show_directory",
+          "field": "path of the entry whose file name is resume.pdf (passed as a single-element list for attachment_file_paths)",
+          "object": "resume-pdf"
+        },
+        "file_system_access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        },
+        "overwrite": true
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(gmail-send-email-from-draft draft-1 gmail-token)",
       "api": "gmail.send_email_from_draft",
       "args": {
         "draft_id": {
@@ -154,15 +210,15 @@
           "object": "draft-1"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
-      "step": 10,
-      "pddl": "(gmail-send-email-from-draft draft-2 file-system-token)",
+      "step": 12,
+      "pddl": "(gmail-send-email-from-draft draft-2 gmail-token)",
       "api": "gmail.send_email_from_draft",
       "args": {
         "draft_id": {
@@ -171,15 +227,15 @@
           "object": "draft-2"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
-      "step": 11,
-      "pddl": "(gmail-send-email-from-draft draft-3 file-system-token)",
+      "step": 13,
+      "pddl": "(gmail-send-email-from-draft draft-3 gmail-token)",
       "api": "gmail.send_email_from_draft",
       "args": {
         "draft_id": {
@@ -188,14 +244,48 @@
           "object": "draft-3"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
     {
-      "step": 12,
+      "step": 14,
+      "pddl": "(gmail-send-email-from-draft draft-4 gmail-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the 4th draft created in the last 2 days addressed to a potential employer (job application draft) [item 1 of 2 that match this rule; one object per matching item]",
+          "object": "draft-4"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(gmail-send-email-from-draft draft-5 gmail-token)",
+      "api": "gmail.send_email_from_draft",
+      "args": {
+        "draft_id": {
+          "$from": "gmail.show_drafts",
+          "field": "draft_id of the 5th draft created in the last 2 days addressed to a potential employer (job application draft) [item 2 of 2 that match this rule; one object per matching item]",
+          "object": "draft-5"
+        },
+        "access_token": {
+          "$from": "gmail.login",
+          "field": "access_token",
+          "object": "gmail-token"
+        }
+      }
+    },
+    {
+      "step": 16,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

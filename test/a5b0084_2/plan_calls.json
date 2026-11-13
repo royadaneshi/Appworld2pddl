@@ -29,7 +29,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login username-4675246489 phone-password gmail-token)",
+      "pddl": "(phone-login username-4675246489 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "4675246489",
@@ -72,13 +72,13 @@
     },
     {
       "step": 7,
-      "pddl": "(phone-search-contacts gmail-token sibling)",
+      "pddl": "(phone-search-contacts phone-token sibling)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "relationship": "sibling"
       }
@@ -99,7 +99,25 @@
     },
     {
       "step": 9,
-      "pddl": "(phone-send-text-message phone-of-sibling-1 message-new-spotify-password gmail-token sibling-1 sibling new-password-68qunl)",
+      "pddl": "(phone-send-text-message phone-of-sibling-3 message-new-spotify-password phone-token person-1 sibling new-password-68qunl)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of 3rd contact returned with relationship == \"sibling\"",
+          "object": "phone-of-sibling-3"
+        },
+        "message": "Hi! The password of our shared Spotify premium account has been changed to +68qUnL.",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-send-text-message phone-of-sibling-1 message-new-spotify-password phone-token sibling-1 sibling new-password-68qunl)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -109,15 +127,15 @@
         },
         "message": "Hi! The password of our shared Spotify premium account has been changed to +68qUnL.",
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         }
       }
     },
     {
-      "step": 10,
-      "pddl": "(phone-send-text-message phone-of-sibling-2 message-new-spotify-password gmail-token sibling-2 sibling new-password-68qunl)",
+      "step": 11,
+      "pddl": "(phone-send-text-message phone-of-sibling-2 message-new-spotify-password phone-token sibling-2 sibling new-password-68qunl)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -127,15 +145,15 @@
         },
         "message": "Hi! The password of our shared Spotify premium account has been changed to +68qUnL.",
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         }
       }
     },
     {
-      "step": 11,
-      "pddl": "(supervisor-complete-task new-password-68qunl sibling-1 sibling-2 message-new-spotify-password)",
+      "step": 12,
+      "pddl": "(supervisor-complete-task new-password-68qunl message-new-spotify-password)",
       "api": "supervisor.complete_task",
       "args": {}
     }

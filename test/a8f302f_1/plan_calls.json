@@ -45,13 +45,13 @@
     },
     {
       "step": 5,
-      "pddl": "(amazon-move-product-from-cart-to-wish-list type2-other-2 amazon-token)",
+      "pddl": "(amazon-move-product-from-cart-to-wish-list type3-other-2 amazon-token)",
       "api": "amazon.move_product_from_cart_to_wish_list",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "cart_entries[].product_id of another non-cheapest entry of the second product type",
-          "object": "type2-other-2"
+          "field": "product_id of a non-cheapest cart item of the third product type in the cart [item 2 of 2; one object per such item]",
+          "object": "type3-other-2"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -62,13 +62,13 @@
     },
     {
       "step": 6,
-      "pddl": "(amazon-move-product-from-cart-to-wish-list type2-other-1 amazon-token)",
+      "pddl": "(amazon-move-product-from-cart-to-wish-list type3-other-1 amazon-token)",
       "api": "amazon.move_product_from_cart_to_wish_list",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "cart_entries[].product_id of a non-cheapest entry of the second product type",
-          "object": "type2-other-1"
+          "field": "product_id of a non-cheapest cart item of the third product type in the cart [item 1 of 2; one object per such item]",
+          "object": "type3-other-1"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -79,13 +79,13 @@
     },
     {
       "step": 7,
-      "pddl": "(amazon-move-product-from-cart-to-wish-list type1-other-1 amazon-token)",
+      "pddl": "(amazon-move-product-from-cart-to-wish-list type1-other-3 amazon-token)",
       "api": "amazon.move_product_from_cart_to_wish_list",
       "args": {
         "product_id": {
           "$from": "amazon.show_cart",
-          "field": "cart_entries[].product_id of a non-cheapest entry of the first product type",
-          "object": "type1-other-1"
+          "field": "product_id of a non-cheapest cart item of the first product type in the cart [item 3 of 3; one object per such item]",
+          "object": "type1-other-3"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -96,6 +96,23 @@
     },
     {
       "step": 8,
+      "pddl": "(amazon-move-product-from-cart-to-wish-list type1-other-2 amazon-token)",
+      "api": "amazon.move_product_from_cart_to_wish_list",
+      "args": {
+        "product_id": {
+          "$from": "amazon.show_cart",
+          "field": "product_id of a non-cheapest cart item of the first product type in the cart [item 2 of 3; one object per such item]",
+          "object": "type1-other-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 9,
       "pddl": "(amazon-show-payment-cards amazon-token amazon-payment-card-1)",
       "api": "amazon.show_payment_cards",
       "args": {
@@ -107,7 +124,7 @@
       }
     },
     {
-      "step": 9,
+      "step": 10,
       "pddl": "(amazon-place-order amazon-payment-card-1 amazon-address-1 amazon-token)",
       "api": "amazon.place_order",
       "args": {
@@ -129,7 +146,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 11,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

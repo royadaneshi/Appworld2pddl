@@ -29,7 +29,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login username-3383946795 phone-password gmail-token)",
+      "pddl": "(phone-login username-3383946795 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3383946795",
@@ -86,20 +86,38 @@
     },
     {
       "step": 8,
-      "pddl": "(phone-search-contacts gmail-token rel-roommate)",
+      "pddl": "(phone-search-contacts phone-token rel-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 9,
-      "pddl": "(phone-send-text-message phone-roommate-1 message-spotify-password gmail-token roommate-1 pw-at-fm-jb)",
+      "pddl": "(phone-send-text-message phone-roommate-3 message-spotify-password phone-token person-1 pw-at-fm-jb)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the third contact returned for relationship == \"roommate\"",
+          "object": "phone-roommate-3"
+        },
+        "message": "Hi! I changed the password of our shared Spotify premium account. The new password is: @FM[]Jb",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-send-text-message phone-roommate-1 message-spotify-password phone-token roommate-1 pw-at-fm-jb)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -109,15 +127,15 @@
         },
         "message": "Hi! I changed the password of our shared Spotify premium account. The new password is: @FM[]Jb",
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         }
       }
     },
     {
-      "step": 10,
-      "pddl": "(phone-send-text-message phone-roommate-2 message-spotify-password gmail-token roommate-2 pw-at-fm-jb)",
+      "step": 11,
+      "pddl": "(phone-send-text-message phone-roommate-2 message-spotify-password phone-token roommate-2 pw-at-fm-jb)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -127,15 +145,15 @@
         },
         "message": "Hi! I changed the password of our shared Spotify premium account. The new password is: @FM[]Jb",
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         }
       }
     },
     {
-      "step": 11,
-      "pddl": "(supervisor-complete-task pw-at-fm-jb roommate-1 roommate-2)",
+      "step": 12,
+      "pddl": "(supervisor-complete-task pw-at-fm-jb)",
       "api": "supervisor.complete_task",
       "args": {}
     }

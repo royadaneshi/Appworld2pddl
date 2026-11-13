@@ -1,5 +1,5 @@
 (define (domain appworld-a53a8fd-2)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person username password token draft file-path substring flag datetime - object
   )
@@ -71,8 +71,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?d1 - draft ?d2 - draft ?d3 - draft)
-    :precondition (and (employer-draft ?d1) (employer-draft ?d2) (employer-draft ?d3) (not (= ?d1 ?d2)) (not (= ?d1 ?d3)) (not (= ?d2 ?d3)) (resume-attached ?d1) (resume-attached ?d2) (resume-attached ?d3) (sent ?d1) (sent ?d2) (sent ?d3) (not (task-completed)))
-    :effect (and (task-completed))
-  )
+    :parameters ()
+    :precondition (and (forall (?d - draft) (sent ?d)) (not (task-completed)))
+    :effect (and (task-completed)))
+
 )

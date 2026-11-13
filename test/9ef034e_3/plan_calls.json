@@ -21,32 +21,6 @@
     },
     {
       "step": 3,
-      "pddl": "(file-system-login erikabail-at-gmail-com file-system-password file-system-token)",
-      "api": "file_system.login",
-      "args": {
-        "username": "erikabail@gmail.com",
-        "password": {
-          "$from": "supervisor.show_account_passwords",
-          "field": "password where account_name == 'file_system'",
-          "object": "file-system-password"
-        }
-      }
-    },
-    {
-      "step": 4,
-      "pddl": "(gmail-login erikabail-at-gmail-com gmail-password gmail-token)",
-      "api": "gmail.login",
-      "args": {
-        "username": "erikabail@gmail.com",
-        "password": {
-          "$from": "supervisor.show_account_passwords",
-          "field": "password where account_name == 'gmail'",
-          "object": "gmail-password"
-        }
-      }
-    },
-    {
-      "step": 5,
       "pddl": "(phone-login phone-4226809725 phone-password phone-token)",
       "api": "phone.login",
       "args": {
@@ -59,7 +33,7 @@
       }
     },
     {
-      "step": 6,
+      "step": 4,
       "pddl": "(venmo-login erikabail-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
@@ -72,7 +46,19 @@
       }
     },
     {
-      "step": 7,
+      "step": 5,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
       "pddl": "(amazon-show-addresses amazon-token home-address)",
       "api": "amazon.show_addresses",
       "args": {
@@ -84,7 +70,7 @@
       }
     },
     {
-      "step": 8,
+      "step": 7,
       "pddl": "(amazon-show-payment-cards amazon-token payment-card-1)",
       "api": "amazon.show_payment_cards",
       "args": {
@@ -96,7 +82,7 @@
       }
     },
     {
-      "step": 9,
+      "step": 8,
       "pddl": "(phone-search-contacts phone-token query-marcus marcus marcus-phone-number marcus-email)",
       "api": "phone.search_contacts",
       "args": {
@@ -109,8 +95,8 @@
       }
     },
     {
-      "step": 10,
-      "pddl": "(phone-search-text-messages phone-token marcus-phone-number marcus marcus-last-message requested-product requested-quantity)",
+      "step": 9,
+      "pddl": "(phone-search-text-messages phone-token marcus-phone-number marcus marcus-last-message)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
@@ -126,14 +112,26 @@
       }
     },
     {
+      "step": 10,
+      "pddl": "(amazon-search-products query-1 requested-product-1 requested-quantity-1 marcus-last-message marcus)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "product name listed in the most recent message from Marcus [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "query-1"
+        }
+      }
+    },
+    {
       "step": 11,
-      "pddl": "(amazon-add-product-to-cart requested-product amazon-token requested-quantity)",
+      "pddl": "(amazon-add-product-to-cart requested-product-1 amazon-token requested-quantity-1)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
-          "$from": "phone.search_text_messages",
-          "field": "product id stated in the most recent message from Marcus (latest by created_at; if only a product name is given, resolve it via amazon.search_products)",
-          "object": "requested-product"
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name matches the product named in the message [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "requested-product-1"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -142,19 +140,87 @@
         },
         "quantity": {
           "$from": "phone.search_text_messages",
-          "field": "quantity stated in the most recent message from Marcus for that product (default 1)",
-          "object": "requested-quantity"
+          "field": "quantity stated in the most recent message from Marcus for that product (default 1) [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "requested-quantity-1"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token order-1 requested-product requested-quantity)",
+      "pddl": "(amazon-search-products query-2 requested-product-2 requested-quantity-2 marcus-last-message marcus)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "product name listed in the most recent message from Marcus [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "query-2"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-product-to-cart requested-product-2 amazon-token requested-quantity-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name matches the product named in the message [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "requested-product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "quantity stated in the most recent message from Marcus for that product (default 1) [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "requested-quantity-2"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-search-products query-3 requested-product-3 requested-quantity-3 marcus-last-message marcus)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "product name listed in the most recent message from Marcus [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "query-3"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-add-product-to-cart requested-product-3 amazon-token requested-quantity-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result whose name matches the product named in the message [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "requested-product-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "quantity stated in the most recent message from Marcus for that product (default 1) [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "requested-quantity-3"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-place-order payment-card-1 home-address amazon-token order-1)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (first card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "payment-card-1"
         },
         "address_id": {
@@ -170,30 +236,7 @@
       }
     },
     {
-      "step": 13,
-      "pddl": "(amazon-download-order-receipt order-1 amazon-token file-path-receipt file-system-token)",
-      "api": "amazon.download_order_receipt",
-      "args": {
-        "order_id": {
-          "$from": "amazon.place_order",
-          "field": "order_id",
-          "object": "order-1"
-        },
-        "access_token": {
-          "$from": "amazon.login",
-          "field": "access_token",
-          "object": "amazon-token"
-        },
-        "download_to_file_path": "~/downloads/amazon_order_receipt.pdf",
-        "file_system_access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
-        }
-      }
-    },
-    {
-      "step": 14,
+      "step": 17,
       "pddl": "(amazon-show-order order-1 amazon-token amount-order-total)",
       "api": "amazon.show_order",
       "args": {
@@ -210,32 +253,7 @@
       }
     },
     {
-      "step": 15,
-      "pddl": "(gmail-send-email marcus-email subject-amazon-order-receipt body-amazon-order-receipt gmail-token file-path-receipt file-system-token marcus order-1)",
-      "api": "gmail.send_email",
-      "args": {
-        "email_addresses": {
-          "$from": "phone.search_contacts",
-          "field": "email of the contact whose first_name == 'Marcus' (passed as [email] list to gmail.send_email, as user_email to venmo.create_payment_request)",
-          "object": "marcus-email"
-        },
-        "subject": "Amazon order receipt",
-        "body": "Hi Marcus, I placed the Amazon order you asked for and had it shipped to my home address. The receipt is attached. I have sent you a Venmo request for the total.",
-        "access_token": {
-          "$from": "gmail.login",
-          "field": "access_token",
-          "object": "gmail-token"
-        },
-        "attachment_file_paths": "~/downloads/amazon_order_receipt.pdf",
-        "file_system_access_token": {
-          "$from": "file_system.login",
-          "field": "access_token",
-          "object": "file-system-token"
-        }
-      }
-    },
-    {
-      "step": 16,
+      "step": 18,
       "pddl": "(venmo-create-payment-request marcus-email amount-order-total venmo-token marcus order-1)",
       "api": "venmo.create_payment_request",
       "args": {
@@ -246,7 +264,7 @@
         },
         "amount": {
           "$from": "amazon.show_order",
-          "field": "total (final order total incl. delivery/taxes)",
+          "field": "paid_amount of the placed order (the total actually paid)",
           "object": "amount-order-total"
         },
         "access_token": {
@@ -257,8 +275,8 @@
       }
     },
     {
-      "step": 17,
-      "pddl": "(supervisor-complete-task marcus order-1 home-address requested-product requested-quantity amount-order-total)",
+      "step": 19,
+      "pddl": "(supervisor-complete-task marcus order-1 home-address amount-order-total)",
       "api": "supervisor.complete_task",
       "args": {}
     }

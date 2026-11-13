@@ -1,5 +1,5 @@
 (define (domain appworld-a53a8fd-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :universal-preconditions)
   (:types
     app person username password token draft path query datetime flag - object)
   (:constants gmail file-system - app)
@@ -91,13 +91,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?d1 - draft ?d2 - draft ?d3 - draft)
-    :precondition (and (sent ?d1)
-                       (sent ?d2)
-                       (sent ?d3)
-                       (not (= ?d1 ?d2))
-                       (not (= ?d1 ?d3))
-                       (not (= ?d2 ?d3))
-                       (not (task-completed)))
+    :parameters ()
+    :precondition (and (forall (?d - draft) (sent ?d)) (not (task-completed)))
     :effect (and (task-completed)))
+
 )

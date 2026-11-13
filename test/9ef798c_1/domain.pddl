@@ -3,9 +3,10 @@
   (:types
     app person username password token query email record - object
     payment-request payment-card - record
-  )
+    amount - object)
   (:constants supervisor phone venmo - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -16,7 +17,11 @@
     (known-id ?x - record)
     (approved ?r - payment-request)
     (task-completed)
-  )
+    (balance-known)
+    (usable-card ?c - payment-card)
+    (card-known ?c - payment-card)
+    (shortfall ?r - payment-request ?a - amount)
+    (balance-sufficient ?r - payment-request))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -28,7 +33,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t)
   )
 
@@ -42,7 +47,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (passwords-known) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (has-token venmo ?t)
   )
 
@@ -53,17 +58,29 @@
     :effect (known-id ?r)
   )
 
+
+
+  ; API: venmo.show_venmo_balance
+  (:action venmo-show-venmo-balance
+    :parameters (?t - token)
+    :precondition (and (has-token venmo ?t) (not (task-completed)))
+    :effect (balance-known))
+
   ; API: venmo.show_payment_cards
   (:action venmo-show-payment-cards
     :parameters (?t - token ?c - payment-card)
-    :precondition (and (has-token venmo ?t) (not (task-completed)))
-    :effect (known-id ?c)
-  )
+    :precondition (and (has-token venmo ?t) (usable-card ?c) (not (task-completed)))
+    :effect (card-known ?c))
 
+  ; API: venmo.add_to_venmo_balance
+  (:action venmo-add-to-venmo-balance
+    :parameters (?a - amount ?c - payment-card ?t - token ?r - payment-request)
+    :precondition (and (has-token venmo ?t) (balance-known) (card-known ?c) (known-id ?r) (shortfall ?r ?a) (not (balance-sufficient ?r)) (not (task-completed)))
+    :effect (balance-sufficient ?r))
   ; API: venmo.approve_payment_request
   (:action venmo-approve-payment-request
-    :parameters (?r - payment-request ?t - token ?c - payment-card)
-    :precondition (and (has-token venmo ?t) (known-id ?r) (known-id ?c) (not (approved ?r)) (not (task-completed)))
+    :parameters (?r - payment-request ?t - token)
+    :precondition (and (has-token venmo ?t) (known-id ?r) (balance-sufficient ?r) (not (approved ?r)) (not (task-completed)))
     :effect (approved ?r)
   )
 

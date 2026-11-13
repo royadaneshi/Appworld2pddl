@@ -5,7 +5,7 @@
     glenn-burton-at-gmail-com - username
     gmail-password fs-password - password
     gmail-token fs-token - token
-    draft-1 draft-2 draft-3 - draft
+    draft-1 draft-2 draft-3 draft-4 draft-5 - draft
     cv-pdf-path - file-path
     substring-cv-pdf - substring
     flag-true - flag
@@ -21,16 +21,20 @@
     (employer-draft draft-1)
     (employer-draft draft-2)
     (employer-draft draft-3)
+    (employer-draft draft-4)
+    (employer-draft draft-5)
     (resume-file cv-pdf-path)
-    (file-matches substring-cv-pdf cv-pdf-path)
-  )
+    (file-matches substring-cv-pdf cv-pdf-path))
   (:goal (and
     (resume-attached draft-1)
     (resume-attached draft-2)
     (resume-attached draft-3)
+    (resume-attached draft-4)
+    (resume-attached draft-5)
     (sent draft-1)
     (sent draft-2)
     (sent draft-3)
-    (task-completed)
-  ))
+    (sent draft-4)
+    (sent draft-5)
+    (task-completed)))
 )

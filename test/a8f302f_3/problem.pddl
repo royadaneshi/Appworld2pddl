@@ -5,11 +5,11 @@
     ce-maldonado-at-gmail-com - username
     amazon-password - password
     amazon-token - token
-    product-type-a product-type-b - product-type
-    product-a-cheapest product-a-other-1 product-a-other-2 product-b-cheapest product-b-other-1 - product
+    product-type-a product-type-b product-type-c product-type-d product-type-e - product-type
+    product-a-cheapest product-a-other-1 product-a-other-2 product-a-other-3 product-b-cheapest product-b-other-1 product-b-other-2 product-c-cheapest product-c-other-1 product-c-other-2 product-d-cheapest product-d-other-1 product-d-other-2 product-e-cheapest product-e-other-1 product-e-other-2 - product
     address-primary - address
     payment-card-primary - payment-card
-    count-1 count-2 count-3 - count
+    count-1 count-2 count-3 count-4 count-5 count-6 count-7 count-8 count-9 count-10 count-11 - count
   )
   (:init
     (password-for amazon amazon-password)
@@ -29,6 +29,40 @@
     (succ count-1 count-2)
     (succ count-2 count-3)
     (moves-left count-3)
+    (of-type product-a-other-3 product-type-a)
+    (of-type product-b-other-2 product-type-b)
+    (of-type product-c-cheapest product-type-c)
+    (of-type product-c-other-1 product-type-c)
+    (of-type product-c-other-2 product-type-c)
+    (of-type product-d-cheapest product-type-d)
+    (of-type product-d-other-1 product-type-d)
+    (of-type product-d-other-2 product-type-d)
+    (of-type product-e-cheapest product-type-e)
+    (of-type product-e-other-1 product-type-e)
+    (of-type product-e-other-2 product-type-e)
+    (cheapest product-c-cheapest)
+    (cheapest product-d-cheapest)
+    (cheapest product-e-cheapest)
+    (in-cart product-a-other-3)
+    (in-cart product-b-other-2)
+    (in-cart product-c-cheapest)
+    (in-cart product-c-other-1)
+    (in-cart product-c-other-2)
+    (in-cart product-d-cheapest)
+    (in-cart product-d-other-1)
+    (in-cart product-d-other-2)
+    (in-cart product-e-cheapest)
+    (in-cart product-e-other-1)
+    (in-cart product-e-other-2)
+    (succ count-3 count-4)
+    (succ count-4 count-5)
+    (succ count-5 count-6)
+    (succ count-6 count-7)
+    (succ count-7 count-8)
+    (succ count-8 count-9)
+    (succ count-9 count-10)
+    (succ count-10 count-11)
+    (moves-left count-11)
   )
   (:goal (and (order-placed) (task-completed)))
 )

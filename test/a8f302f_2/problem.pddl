@@ -5,8 +5,8 @@
     ashlee-martinez-at-gmail-com - username
     amazon-password - password
     amazon-token - token
-    product-type-a product-type-b - product-type
-    cheapest-of-type-a other-of-type-a-1 other-of-type-a-2 cheapest-of-type-b other-of-type-b-1 - product
+    product-type-a product-type-b product-type-c product-type-d - product-type
+    cheapest-of-type-a other-of-type-a-1 other-of-type-a-2 other-of-type-a-3 cheapest-of-type-b other-of-type-b-1 other-of-type-b-2 cheapest-of-type-c other-of-type-c-1 other-of-type-c-2 other-of-type-c-3 cheapest-of-type-d other-of-type-d-1 other-of-type-d-2 - product
     default-address - address
     payment-card-1 - payment-card
   )
@@ -24,14 +24,37 @@
     (product-type-of other-of-type-b-1 product-type-b)
     (cheapest-in-type cheapest-of-type-a product-type-a)
     (cheapest-in-type cheapest-of-type-b product-type-b)
+    (product-type-of other-of-type-a-3 product-type-a)
+    (product-type-of other-of-type-b-2 product-type-b)
+    (product-type-of cheapest-of-type-c product-type-c)
+    (product-type-of other-of-type-c-1 product-type-c)
+    (product-type-of other-of-type-c-2 product-type-c)
+    (product-type-of other-of-type-c-3 product-type-c)
+    (product-type-of cheapest-of-type-d product-type-d)
+    (product-type-of other-of-type-d-1 product-type-d)
+    (product-type-of other-of-type-d-2 product-type-d)
+    (cheapest-in-type cheapest-of-type-c product-type-c)
+    (cheapest-in-type cheapest-of-type-d product-type-d)
+    (in-cart other-of-type-a-3)
+    (in-cart other-of-type-b-2)
+    (in-cart cheapest-of-type-c)
+    (in-cart other-of-type-c-1)
+    (in-cart other-of-type-c-2)
+    (in-cart other-of-type-c-3)
+    (in-cart cheapest-of-type-d)
+    (in-cart other-of-type-d-1)
+    (in-cart other-of-type-d-2)
   )
   (:goal (and
     (order-placed)
-    (in-cart cheapest-of-type-a)
-    (in-cart cheapest-of-type-b)
-    (in-wish-list other-of-type-a-1)
-    (in-wish-list other-of-type-a-2)
-    (in-wish-list other-of-type-b-1)
     (task-completed)
-  ))
+    (in-cart cheapest-of-type-c)
+    (in-cart cheapest-of-type-d)
+    (in-wish-list other-of-type-a-3)
+    (in-wish-list other-of-type-b-2)
+    (in-wish-list other-of-type-c-1)
+    (in-wish-list other-of-type-c-2)
+    (in-wish-list other-of-type-c-3)
+    (in-wish-list other-of-type-d-1)
+    (in-wish-list other-of-type-d-2)))
 )

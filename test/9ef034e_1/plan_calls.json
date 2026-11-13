@@ -47,6 +47,18 @@
     },
     {
       "step": 5,
+      "pddl": "(amazon-clear-cart amazon-token)",
+      "api": "amazon.clear_cart",
+      "args": {
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        }
+      }
+    },
+    {
+      "step": 6,
       "pddl": "(amazon-show-addresses amazon-token home-address)",
       "api": "amazon.show_addresses",
       "args": {
@@ -58,7 +70,7 @@
       }
     },
     {
-      "step": 6,
+      "step": 7,
       "pddl": "(amazon-show-payment-cards amazon-token card-default)",
       "api": "amazon.show_payment_cards",
       "args": {
@@ -70,7 +82,7 @@
       }
     },
     {
-      "step": 7,
+      "step": 8,
       "pddl": "(phone-search-contacts phone-token query-matthew matthew matthew-phone-number matthew-email)",
       "api": "phone.search_contacts",
       "args": {
@@ -83,7 +95,7 @@
       }
     },
     {
-      "step": 8,
+      "step": 9,
       "pddl": "(phone-search-text-messages phone-token matthew-phone-number matthew msg-from-matthew)",
       "api": "phone.search_text_messages",
       "args": {
@@ -100,26 +112,26 @@
       }
     },
     {
-      "step": 9,
-      "pddl": "(amazon-search-products query-product-from-message msg-from-matthew product-from-message)",
+      "step": 10,
+      "pddl": "(amazon-search-products query-product-from-message-1 msg-from-matthew product-from-message-1)",
       "api": "amazon.search_products",
       "args": {
         "query": {
           "$from": "phone.search_text_messages",
-          "field": "product name mentioned in the latest message from Matthew (message field of the most recent result)",
-          "object": "query-product-from-message"
+          "field": "product name mentioned in the latest message from Matthew (message field of the most recent result) [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "query-product-from-message-1"
         }
       }
     },
     {
-      "step": 10,
-      "pddl": "(amazon-add-product-to-cart product-from-message amazon-token quantity-from-message)",
+      "step": 11,
+      "pddl": "(amazon-add-product-to-cart product-from-message-1 amazon-token quantity-from-message-1)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the product matching the name in Matthew's message",
-          "object": "product-from-message"
+          "field": "product_id of the product matching the name in Matthew's message [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "product-from-message-1"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -128,19 +140,121 @@
         },
         "quantity": {
           "$from": "phone.search_text_messages",
-          "field": "quantity requested for that product in the latest message from Matthew",
-          "object": "quantity-from-message"
+          "field": "quantity requested for that product in the latest message from Matthew [item 1 of 4 that match this rule; one object per matching item]",
+          "object": "quantity-from-message-1"
         }
       }
     },
     {
-      "step": 11,
-      "pddl": "(amazon-place-order card-default home-address amazon-token order-new product-from-message quantity-from-message)",
+      "step": 12,
+      "pddl": "(amazon-search-products query-product-from-message-2 msg-from-matthew product-from-message-2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "product name mentioned in the latest message from Matthew (message field of the most recent result) [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "query-product-from-message-2"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-product-to-cart product-from-message-2 amazon-token quantity-from-message-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product matching the name in Matthew's message [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "product-from-message-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "quantity requested for that product in the latest message from Matthew [item 2 of 4 that match this rule; one object per matching item]",
+          "object": "quantity-from-message-2"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-search-products query-product-from-message-3 msg-from-matthew product-from-message-3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "product name mentioned in the latest message from Matthew (message field of the most recent result) [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "query-product-from-message-3"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-add-product-to-cart product-from-message-3 amazon-token quantity-from-message-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product matching the name in Matthew's message [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "product-from-message-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "quantity requested for that product in the latest message from Matthew [item 3 of 4 that match this rule; one object per matching item]",
+          "object": "quantity-from-message-3"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-search-products query-product-from-message-4 msg-from-matthew product-from-message-4)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "product name mentioned in the latest message from Matthew (message field of the most recent result) [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "query-product-from-message-4"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(amazon-add-product-to-cart product-from-message-4 amazon-token quantity-from-message-4)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the product matching the name in Matthew's message [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "product-from-message-4"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "quantity requested for that product in the latest message from Matthew [item 4 of 4 that match this rule; one object per matching item]",
+          "object": "quantity-from-message-4"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(amazon-place-order card-default home-address amazon-token order-new)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (any card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "card-default"
         },
         "address_id": {
@@ -156,7 +270,7 @@
       }
     },
     {
-      "step": 12,
+      "step": 19,
       "pddl": "(amazon-show-order order-new amazon-token amount-total)",
       "api": "amazon.show_order",
       "args": {
@@ -173,7 +287,7 @@
       }
     },
     {
-      "step": 13,
+      "step": 20,
       "pddl": "(venmo-create-payment-request matthew-email amount-total venmo-token description-amazon-order matthew order-new)",
       "api": "venmo.create_payment_request",
       "args": {
@@ -184,7 +298,7 @@
         },
         "amount": {
           "$from": "amazon.show_order",
-          "field": "total cost of the order (sum of item prices plus delivery fee, as returned by show_order)",
+          "field": "paid_amount of the placed order (the total actually paid)",
           "object": "amount-total"
         },
         "access_token": {
@@ -196,8 +310,8 @@
       }
     },
     {
-      "step": 14,
-      "pddl": "(supervisor-complete-task order-new product-from-message quantity-from-message home-address matthew amount-total)",
+      "step": 21,
+      "pddl": "(supervisor-complete-task order-new home-address matthew amount-total)",
       "api": "supervisor.complete_task",
       "args": {}
     }

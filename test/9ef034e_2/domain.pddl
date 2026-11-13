@@ -1,9 +1,10 @@
 (define (domain appworld-9ef034e-2)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person username password token query phone-number email product quantity address payment-card order amount payment-request - object)
   (:constants phone amazon venmo - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (username-for ?a - app ?u - username)
     (password-for ?a - app ?pw - password)
@@ -39,7 +40,7 @@
   (:action phone-login
     ; API: phone.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t))
 
   (:action phone-search-contacts
@@ -57,7 +58,7 @@
   (:action amazon-login
     ; API: amazon.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for amazon ?u) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app amazon ?t) (credential-of-app amazon ?pw) (credential-of-app amazon ?u) (passwords-known) (username-for amazon ?u) (password-for amazon ?pw) (not (has-token amazon ?t)) (not (task-completed)))
     :effect (has-token amazon ?t))
 
   (:action amazon-search-products
@@ -91,10 +92,14 @@
     :effect (known-id ?c))
 
   (:action amazon-place-order
-    ; API: amazon.place_order
-    :parameters (?c - payment-card ?a - address ?t - token ?o - order ?prod - product ?qty - quantity)
-    :precondition (and (has-token amazon ?t) (known-id ?c) (known-id ?a) (home-address ?a) (in-cart ?prod ?qty) (requested ?prod ?qty) (not (order-placed ?o)) (not (task-completed)))
-    :effect (and (order-placed ?o) (ordered ?o ?prod ?qty) (known-id ?o)))
+    ; API: amazon.place_order  (orders the whole cart: every requested product must be in it)
+    :parameters (?c - payment-card ?a - address ?t - token ?o - order)
+    :precondition (and (has-token amazon ?t) (known-id ?c) (known-id ?a) (home-address ?a)
+                       (forall (?prod - product ?qty - quantity) (imply (requested ?prod ?qty) (in-cart ?prod ?qty)))
+                       (not (order-placed ?o)) (not (task-completed)))
+    :effect (and (order-placed ?o) (known-id ?o)
+                 (forall (?prod - product ?qty - quantity) (when (in-cart ?prod ?qty) (ordered ?o ?prod ?qty)))))
+
 
   (:action amazon-show-order
     ; API: amazon.show_order
@@ -105,7 +110,7 @@
   (:action venmo-login
     ; API: venmo.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (credential-of-app venmo ?u) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (has-token venmo ?t))
 
   (:action venmo-create-payment-request

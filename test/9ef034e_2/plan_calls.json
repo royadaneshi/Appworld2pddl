@@ -21,7 +21,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-8456546003 phone-password amazon-token)",
+      "pddl": "(phone-login username-8456546003 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "8456546003",
@@ -34,7 +34,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login jamie-solomon-at-gmail-com venmo-password amazon-token)",
+      "pddl": "(venmo-login jamie-solomon-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "jamie-solomon@gmail.com",
@@ -83,26 +83,26 @@
     },
     {
       "step": 8,
-      "pddl": "(phone-search-contacts amazon-token query-ronald ronald ronald-phone-number ronald-email)",
+      "pddl": "(phone-search-contacts phone-token query-ronald ronald ronald-phone-number ronald-email)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "query": "Ronald"
       }
     },
     {
       "step": 9,
-      "pddl": "(phone-search-text-messages amazon-token ronald-phone-number ronald)",
+      "pddl": "(phone-search-text-messages phone-token ronald-phone-number ronald)",
       "api": "phone.search_text_messages",
       "args": {
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "phone-token"
         },
         "phone_number": {
           "$from": "phone.search_contacts",
@@ -113,25 +113,25 @@
     },
     {
       "step": 10,
-      "pddl": "(amazon-search-products query-product requested-product)",
+      "pddl": "(amazon-search-products query-product-1 requested-product-1)",
       "api": "amazon.search_products",
       "args": {
         "query": {
           "$from": "phone.search_text_messages",
-          "field": "message of the latest text from Ronald's phone number: the product name requested",
-          "object": "query-product"
+          "field": "message of the latest text from Ronald's phone number: the product name requested [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "query-product-1"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(amazon-add-product-to-cart requested-product amazon-token requested-quantity)",
+      "pddl": "(amazon-add-product-to-cart requested-product-1 amazon-token requested-quantity-1)",
       "api": "amazon.add_product_to_cart",
       "args": {
         "product_id": {
           "$from": "amazon.search_products",
-          "field": "product_id of the result matching the product named in the message",
-          "object": "requested-product"
+          "field": "product_id of the result matching the product named in the message [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "requested-product-1"
         },
         "access_token": {
           "$from": "amazon.login",
@@ -140,19 +140,87 @@
         },
         "quantity": {
           "$from": "phone.search_text_messages",
-          "field": "message of the latest text from Ronald: the quantity requested",
-          "object": "requested-quantity"
+          "field": "message of the latest text from Ronald: the quantity requested [item 1 of 3 that match this rule; one object per matching item]",
+          "object": "requested-quantity-1"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(amazon-place-order amazon-card jamie-home-address amazon-token order-1 requested-product requested-quantity)",
+      "pddl": "(amazon-search-products query-product-2 requested-product-2)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "message of the latest text from Ronald's phone number: the product name requested [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "query-product-2"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(amazon-add-product-to-cart requested-product-2 amazon-token requested-quantity-2)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result matching the product named in the message [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "requested-product-2"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "message of the latest text from Ronald: the quantity requested [item 2 of 3 that match this rule; one object per matching item]",
+          "object": "requested-quantity-2"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(amazon-search-products query-product-3 requested-product-3)",
+      "api": "amazon.search_products",
+      "args": {
+        "query": {
+          "$from": "phone.search_text_messages",
+          "field": "message of the latest text from Ronald's phone number: the product name requested [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "query-product-3"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(amazon-add-product-to-cart requested-product-3 amazon-token requested-quantity-3)",
+      "api": "amazon.add_product_to_cart",
+      "args": {
+        "product_id": {
+          "$from": "amazon.search_products",
+          "field": "product_id of the result matching the product named in the message [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "requested-product-3"
+        },
+        "access_token": {
+          "$from": "amazon.login",
+          "field": "access_token",
+          "object": "amazon-token"
+        },
+        "quantity": {
+          "$from": "phone.search_text_messages",
+          "field": "message of the latest text from Ronald: the quantity requested [item 3 of 3 that match this rule; one object per matching item]",
+          "object": "requested-quantity-3"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(amazon-place-order amazon-card jamie-home-address amazon-token order-1)",
       "api": "amazon.place_order",
       "args": {
         "payment_card_id": {
           "$from": "amazon.show_payment_cards",
-          "field": "payment_card_id (any available card)",
+          "field": "payment_card_id of a card that has not expired (expiry_year / expiry_month not before the current date)",
           "object": "amazon-card"
         },
         "address_id": {
@@ -168,7 +236,7 @@
       }
     },
     {
-      "step": 13,
+      "step": 17,
       "pddl": "(amazon-show-order order-1 amazon-token amount-order-total)",
       "api": "amazon.show_order",
       "args": {
@@ -185,8 +253,8 @@
       }
     },
     {
-      "step": 14,
-      "pddl": "(venmo-create-payment-request ronald-email amount-order-total amazon-token payment-request-1 ronald)",
+      "step": 18,
+      "pddl": "(venmo-create-payment-request ronald-email amount-order-total venmo-token payment-request-1 ronald)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
@@ -196,18 +264,18 @@
         },
         "amount": {
           "$from": "amazon.show_order",
-          "field": "total_paid (grand total of the placed order)",
+          "field": "paid_amount of the placed order (the total actually paid)",
           "object": "amount-order-total"
         },
         "access_token": {
-          "$from": "amazon.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "amazon-token"
+          "object": "venmo-token"
         }
       }
     },
     {
-      "step": 15,
+      "step": 19,
       "pddl": "(supervisor-complete-task order-1 payment-request-1)",
       "api": "supervisor.complete_task",
       "args": {}

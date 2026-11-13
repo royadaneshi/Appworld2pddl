@@ -1,9 +1,10 @@
 (define (domain appworld-a5b0084-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person username password token email code query relationship phone-number message email-thread - object)
   (:constants spotify gmail phone - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -40,7 +41,7 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)))
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (not (task-completed)) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)))
     :effect (has-token gmail ?t))
 
   ; API: gmail.show_inbox_threads
@@ -64,7 +65,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (not (task-completed)) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)))
     :effect (has-token phone ?t))
 
   ; API: phone.search_contacts
@@ -81,7 +82,9 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?pw - password ?p1 - person ?p2 - person)
-    :precondition (and (not (task-completed)) (desired-password spotify ?pw) (password-changed spotify ?pw) (is-roommate ?p1) (is-roommate ?p2) (not (= ?p1 ?p2)) (texted ?p1 ?pw) (texted ?p2 ?pw))
+    :parameters (?pw - password)
+    :precondition (and (not (task-completed)) (desired-password spotify ?pw) (password-changed spotify ?pw)
+                       (forall (?p - person) (imply (is-roommate ?p) (texted ?p ?pw))))
     :effect (task-completed))
+
 )

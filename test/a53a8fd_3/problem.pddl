@@ -5,11 +5,12 @@
     diwils-at-gmail-com - username
     gmail-password file-system-password - password
     gmail-token file-system-token - token
-    employer-draft-1 employer-draft-2 employer-draft-3 - draft
+    employer-draft-1 employer-draft-2 employer-draft-3 employer-draft-4 employer-draft-5 - draft
     resume-pdf-path - path
     query-resume-pdf - query
     datetime-2023-05-14t00-00-00 - datetime
-    flag-true - flag)
+    flag-true - flag
+  )
   (:init
     (username-for gmail diwils-at-gmail-com)
     (username-for file-system diwils-at-gmail-com)
@@ -22,8 +23,13 @@
     (flag-is-true flag-true)
     (recent-employer-draft employer-draft-1)
     (recent-employer-draft employer-draft-2)
-    (recent-employer-draft employer-draft-3))
-  (:goal (and (sent employer-draft-1)
-              (sent employer-draft-2)
-              (sent employer-draft-3)
-              (task-completed))))
+    (recent-employer-draft employer-draft-3)
+    (recent-employer-draft employer-draft-4)
+    (recent-employer-draft employer-draft-5))
+  (:goal (and
+    (sent employer-draft-1)
+    (sent employer-draft-2)
+    (sent employer-draft-3)
+    (sent employer-draft-4)
+    (sent employer-draft-5)
+    (task-completed))))

@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(gmail-login tra-weber-at-gmail-com gmail-password file-system-token)",
+      "pddl": "(gmail-login tra-weber-at-gmail-com gmail-password gmail-token)",
       "api": "gmail.login",
       "args": {
         "username": "tra_weber@gmail.com",
@@ -53,20 +53,20 @@
     },
     {
       "step": 6,
-      "pddl": "(gmail-show-drafts file-system-token query-resignation resignation-draft)",
+      "pddl": "(gmail-show-drafts gmail-token query-resignation resignation-draft)",
       "api": "gmail.show_drafts",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "query": "resignation"
       }
     },
     {
       "step": 7,
-      "pddl": "(gmail-upload-attachments-to-draft resignation-draft resignation-letter-path file-system-token file-system-token)",
+      "pddl": "(gmail-upload-attachments-to-draft resignation-draft resignation-letter-path file-system-token gmail-token)",
       "api": "gmail.upload_attachments_to_draft",
       "args": {
         "draft_id": {
@@ -81,9 +81,9 @@
           "object": "file-system-token"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         }
       }
     },
@@ -102,7 +102,7 @@
     },
     {
       "step": 9,
-      "pddl": "(gmail-update-draft resignation-draft file-system-token manager-email dt-2023-05-30t10-00-00 manager-person)",
+      "pddl": "(gmail-update-draft resignation-draft gmail-token manager-email dt-2023-05-30t10-00-00 manager-person)",
       "api": "gmail.update_draft",
       "args": {
         "draft_id": {
@@ -111,9 +111,9 @@
           "object": "resignation-draft"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "gmail.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "gmail-token"
         },
         "email_addresses": {
           "$from": "phone.search_contacts",

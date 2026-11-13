@@ -5,6 +5,7 @@
     project task-item playlist song - entity)
   (:constants supervisor todoist spotify - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -32,7 +33,7 @@
   ; API: todoist.login
   (:action todoist-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for todoist ?u) (password-for todoist ?pw) (not (has-token todoist ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app todoist ?t) (credential-of-app todoist ?pw) (credential-of-app todoist ?u) (passwords-known) (username-for todoist ?u) (password-for todoist ?pw) (not (has-token todoist ?t)) (not (task-completed)))
     :effect (has-token todoist ?t))
 
   ; API: todoist.show_projects
@@ -56,7 +57,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for spotify ?u) (password-for spotify ?pw) (not (has-token spotify ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw) (credential-of-app spotify ?u) (passwords-known) (username-for spotify ?u) (password-for spotify ?pw) (not (has-token spotify ?t)) (not (task-completed)))
     :effect (has-token spotify ?t))
 
   ; API: spotify.show_playlist_library

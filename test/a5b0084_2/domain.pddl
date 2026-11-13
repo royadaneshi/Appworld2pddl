@@ -1,10 +1,11 @@
 (define (domain appworld-a5b0084-2)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person username password token email query email-thread reset-code
     relationship phone-number message - object)
   (:constants spotify gmail phone - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (username-for ?a - app ?u - username)
@@ -37,7 +38,7 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (passwords-known) (username-for gmail ?u) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
     :effect (has-token gmail ?t))
 
   ; API: gmail.show_inbox_threads
@@ -61,7 +62,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (credential-of-app phone ?u) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t))
 
   ; API: phone.search_contacts
@@ -78,7 +79,9 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?pw - password ?p1 - person ?p2 - person ?m - message)
-    :precondition (and (target-password ?pw) (password-reset spotify ?pw) (text-sent ?p1 ?m) (text-sent ?p2 ?m) (not (= ?p1 ?p2)) (not (task-completed)))
+    :parameters (?pw - password ?m - message)
+    :precondition (and (target-password ?pw) (password-reset spotify ?pw)
+                       (forall (?p - person ?r - relationship) (imply (relationship-of ?p ?r) (text-sent ?p ?m))) (not (task-completed)))
     :effect (task-completed))
+
 )

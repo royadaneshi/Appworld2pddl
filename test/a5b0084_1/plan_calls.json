@@ -29,7 +29,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login username-3643463570 phone-password gmail-token)",
+      "pddl": "(phone-login username-3643463570 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3643463570",
@@ -86,20 +86,38 @@
     },
     {
       "step": 8,
-      "pddl": "(phone-search-contacts gmail-token roommate)",
+      "pddl": "(phone-search-contacts phone-token roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         },
         "relationship": "roommate"
       }
     },
     {
       "step": 9,
-      "pddl": "(phone-send-text-message phone-roommate-1 message-new-amazon-password gmail-token roommate-1 roommate zlp9tir)",
+      "pddl": "(phone-send-text-message phone-roommate-3 message-new-amazon-password phone-token person-1 roommate zlp9tir)",
+      "api": "phone.send_text_message",
+      "args": {
+        "phone_number": {
+          "$from": "phone.search_contacts",
+          "field": "phone_number of the third contact with relationship roommate",
+          "object": "phone-roommate-3"
+        },
+        "message": "Hi! I changed the password of our shared Amazon Prime account. The new password is Zlp9tir",
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(phone-send-text-message phone-roommate-1 message-new-amazon-password phone-token roommate-1 roommate zlp9tir)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -109,15 +127,15 @@
         },
         "message": "Hi! I changed the password of our shared Amazon Prime account. The new password is Zlp9tir",
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         }
       }
     },
     {
-      "step": 10,
-      "pddl": "(phone-send-text-message phone-roommate-2 message-new-amazon-password gmail-token roommate-2 roommate zlp9tir)",
+      "step": 11,
+      "pddl": "(phone-send-text-message phone-roommate-2 message-new-amazon-password phone-token roommate-2 roommate zlp9tir)",
       "api": "phone.send_text_message",
       "args": {
         "phone_number": {
@@ -127,15 +145,15 @@
         },
         "message": "Hi! I changed the password of our shared Amazon Prime account. The new password is Zlp9tir",
         "access_token": {
-          "$from": "gmail.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "gmail-token"
+          "object": "phone-token"
         }
       }
     },
     {
-      "step": 11,
-      "pddl": "(supervisor-complete-task zlp9tir roommate-1 roommate-2)",
+      "step": 12,
+      "pddl": "(supervisor-complete-task zlp9tir)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -1,5 +1,5 @@
 (define (domain appworld-9ef034e-3)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person username password token query phone-number email file-path subject body amount quantity entity - object
     text-message product address payment-card order - entity
@@ -30,7 +30,8 @@
     (receipt-downloaded ?o - order ?f - file-path)
     (receipt-emailed ?p - person ?o - order)
     (payment-requested ?p - person ?o - order ?amt - amount)
-  )
+    (cart-cleared)
+    (product-query ?prod - product ?qr - query))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -55,10 +56,11 @@
 
   ; API: phone.search_text_messages
   (:action phone-search-text-messages
-    :parameters (?t - token ?n - phone-number ?p - person ?m - text-message ?prod - product ?q - quantity)
-    :precondition (and (has-token phone ?t) (known-phone ?p ?n) (message-from ?p ?m) (message-about ?m ?prod ?q) (not (task-completed)))
-    :effect (and (known-id ?m) (message-read ?p ?m) (known-id ?prod) (requested ?prod ?q))
+    :parameters (?t - token ?n - phone-number ?p - person ?m - text-message)
+    :precondition (and (has-token phone ?t) (known-phone ?p ?n) (message-from ?p ?m) (not (task-completed)))
+    :effect (and (known-id ?m) (message-read ?p ?m))
   )
+
 
   ; API: amazon.login
   (:action amazon-login
@@ -67,12 +69,26 @@
     :effect (has-token amazon ?t)
   )
 
+  ; API: amazon.search_products
+  (:action amazon-search-products
+    :parameters (?qr - query ?prod - product ?q - quantity ?m - text-message ?p - person)
+    :precondition (and (message-read ?p ?m) (message-about ?m ?prod ?q) (product-query ?prod ?qr) (not (task-completed)))
+    :effect (and (known-id ?prod) (requested ?prod ?q))
+  )
+
+  ; API: amazon.clear_cart
+  (:action amazon-clear-cart
+    :parameters (?t - token)
+    :precondition (and (has-token amazon ?t) (not (task-completed)))
+    :effect (cart-cleared))
+
   ; API: amazon.add_product_to_cart
   (:action amazon-add-product-to-cart
     :parameters (?prod - product ?t - token ?q - quantity)
-    :precondition (and (has-token amazon ?t) (known-id ?prod) (requested ?prod ?q) (not (task-completed)))
+    :precondition (and (has-token amazon ?t) (cart-cleared) (known-id ?prod) (requested ?prod ?q) (not (task-completed)))
     :effect (in-cart ?prod ?q)
   )
+
 
   ; API: amazon.show_addresses
   (:action amazon-show-addresses
@@ -88,12 +104,16 @@
     :effect (known-id ?c)
   )
 
-  ; API: amazon.place_order
+  ; API: amazon.place_order  (orders the whole cart: every requested product must be in it)
   (:action amazon-place-order
-    :parameters (?c - payment-card ?addr - address ?t - token ?o - order ?prod - product ?q - quantity)
-    :precondition (and (has-token amazon ?t) (known-id ?c) (known-id ?addr) (is-home-address ?addr) (in-cart ?prod ?q) (not (known-id ?o)) (not (task-completed)))
-    :effect (and (known-id ?o) (order-placed ?o ?addr) (order-contains ?o ?prod ?q) (not (in-cart ?prod ?q)))
+    :parameters (?c - payment-card ?addr - address ?t - token ?o - order)
+    :precondition (and (has-token amazon ?t) (known-id ?c) (known-id ?addr) (is-home-address ?addr)
+                       (forall (?m - text-message ?prod - product ?q - quantity) (imply (message-about ?m ?prod ?q) (in-cart ?prod ?q)))
+                       (not (known-id ?o)) (not (task-completed)))
+    :effect (and (known-id ?o) (order-placed ?o ?addr)
+                 (forall (?prod - product ?q - quantity) (when (in-cart ?prod ?q) (order-contains ?o ?prod ?q))))
   )
+
 
   ; API: amazon.show_order
   (:action amazon-show-order
@@ -146,8 +166,9 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p - person ?o - order ?addr - address ?prod - product ?q - quantity ?amt - amount)
-    :precondition (and (order-placed ?o ?addr) (order-contains ?o ?prod ?q) (receipt-emailed ?p ?o) (payment-requested ?p ?o ?amt) (not (task-completed)))
+    :parameters (?p - person ?o - order ?addr - address ?amt - amount)
+    :precondition (and (order-placed ?o ?addr) (payment-requested ?p ?o ?amt) (not (task-completed)))
     :effect (task-completed)
   )
+
 )

@@ -1,5 +1,5 @@
 (define (domain appworld-9ef034e-1)
-  (:requirements :strips :typing :negative-preconditions :equality)
+  (:requirements :strips :typing :negative-preconditions :equality :disjunctive-preconditions :universal-preconditions :conditional-effects)
   (:types
     app person username password token query phone-number message product quantity address payment-card order amount email description - object)
   (:constants supervisor phone amazon venmo - app)
@@ -28,7 +28,8 @@
     (ordered-to ?o - order ?addr - address)
     (total-of ?o - order ?amt - amount)
     (known-total ?o - order ?amt - amount)
-    (payment-request-sent ?p - person ?amt - amount))
+    (payment-request-sent ?p - person ?amt - amount)
+    (cart-cleared))
 
   ; API: supervisor.show_account_passwords
   (:action supervisor-show-account-passwords
@@ -66,11 +67,18 @@
     :precondition (and (message-read ?m) (requested ?m ?prod) (search-query ?prod ?q) (not (task-completed)))
     :effect (known-id ?prod))
 
+  ; API: amazon.clear_cart
+  (:action amazon-clear-cart
+    :parameters (?t - token)
+    :precondition (and (has-token amazon ?t) (not (task-completed)))
+    :effect (cart-cleared))
+
   ; API: amazon.add_product_to_cart
   (:action amazon-add-product-to-cart
     :parameters (?prod - product ?t - token ?qty - quantity)
-    :precondition (and (has-token amazon ?t) (known-id ?prod) (requested-quantity ?prod ?qty) (not (in-cart ?prod ?qty)) (not (task-completed)))
+    :precondition (and (has-token amazon ?t) (cart-cleared) (known-id ?prod) (requested-quantity ?prod ?qty) (not (in-cart ?prod ?qty)) (not (task-completed)))
     :effect (in-cart ?prod ?qty))
+
 
   ; API: amazon.show_addresses
   (:action amazon-show-addresses
@@ -84,11 +92,15 @@
     :precondition (and (has-token amazon ?t) (not (task-completed)))
     :effect (known-id ?card))
 
-  ; API: amazon.place_order
+  ; API: amazon.place_order  (orders the whole cart: every requested product must be in it)
   (:action amazon-place-order
-    :parameters (?card - payment-card ?addr - address ?t - token ?o - order ?prod - product ?qty - quantity)
-    :precondition (and (has-token amazon ?t) (known-id ?card) (known-id ?addr) (in-cart ?prod ?qty) (not (order-placed ?o)) (not (task-completed)))
-    :effect (and (order-placed ?o) (known-id ?o) (ordered ?prod ?qty) (ordered-to ?o ?addr) (not (in-cart ?prod ?qty))))
+    :parameters (?card - payment-card ?addr - address ?t - token ?o - order)
+    :precondition (and (has-token amazon ?t) (known-id ?card) (known-id ?addr) (is-home-address ?addr)
+                       (forall (?prod - product ?qty - quantity) (imply (requested-quantity ?prod ?qty) (in-cart ?prod ?qty)))
+                       (not (order-placed ?o)) (not (task-completed)))
+    :effect (and (order-placed ?o) (known-id ?o) (ordered-to ?o ?addr)
+                 (forall (?prod - product ?qty - quantity) (when (in-cart ?prod ?qty) (ordered ?prod ?qty)))))
+
 
   ; API: amazon.show_order
   (:action amazon-show-order
@@ -110,7 +122,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?o - order ?prod - product ?qty - quantity ?addr - address ?p - person ?amt - amount)
-    :precondition (and (order-placed ?o) (ordered ?prod ?qty) (ordered-to ?o ?addr) (known-total ?o ?amt) (payment-request-sent ?p ?amt) (not (task-completed)))
+    :parameters (?o - order ?addr - address ?p - person ?amt - amount)
+    :precondition (and (order-placed ?o) (ordered-to ?o ?addr) (known-total ?o ?amt) (payment-request-sent ?p ?amt) (not (task-completed)))
     :effect (task-completed))
+
 )

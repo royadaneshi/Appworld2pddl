@@ -38,7 +38,7 @@
     "ok": true,
     "errors": [],
     "warnings": [
-      "domain: pddl-lib parser: types ['object'] of term Variable(x) are not in available types {'address', 'description', 'payment-card', 'token', 'person', 'message', 'app', 'username', 'query', 'email', 'order', 'quantity', 'password', 'product', 'amount', 'phone-number'}"
+      "domain: pddl-lib parser: types ['object'] of term Variable(x) are not in available types {'amount', 'order', 'payment-card', 'description', 'message', 'phone-number', 'product', 'token', 'app', 'address', 'password', 'quantity', 'person', 'username', 'query', 'email'}"
     ],
     "parser": "pddl",
     "api_issues": [],
@@ -52,19 +52,26 @@
       "(amazon-login connorbrow-at-gmail-com amazon-password amazon-token)",
       "(phone-login username-5734599766 phone-password phone-token)",
       "(venmo-login connorbrow-at-gmail-com venmo-password venmo-token)",
+      "(amazon-clear-cart amazon-token)",
       "(amazon-show-addresses amazon-token home-address)",
       "(amazon-show-payment-cards amazon-token card-default)",
       "(phone-search-contacts phone-token query-matthew matthew matthew-phone-number matthew-email)",
       "(phone-search-text-messages phone-token matthew-phone-number matthew msg-from-matthew)",
-      "(amazon-search-products query-product-from-message msg-from-matthew product-from-message)",
-      "(amazon-add-product-to-cart product-from-message amazon-token quantity-from-message)",
-      "(amazon-place-order card-default home-address amazon-token order-new product-from-message quantity-from-message)",
+      "(amazon-search-products query-product-from-message-1 msg-from-matthew product-from-message-1)",
+      "(amazon-add-product-to-cart product-from-message-1 amazon-token quantity-from-message-1)",
+      "(amazon-search-products query-product-from-message-2 msg-from-matthew product-from-message-2)",
+      "(amazon-add-product-to-cart product-from-message-2 amazon-token quantity-from-message-2)",
+      "(amazon-search-products query-product-from-message-3 msg-from-matthew product-from-message-3)",
+      "(amazon-add-product-to-cart product-from-message-3 amazon-token quantity-from-message-3)",
+      "(amazon-search-products query-product-from-message-4 msg-from-matthew product-from-message-4)",
+      "(amazon-add-product-to-cart product-from-message-4 amazon-token quantity-from-message-4)",
+      "(amazon-place-order card-default home-address amazon-token order-new)",
       "(amazon-show-order order-new amazon-token amount-total)",
       "(venmo-create-payment-request matthew-email amount-total venmo-token description-amazon-order matthew order-new)",
-      "(supervisor-complete-task order-new product-from-message quantity-from-message home-address matthew amount-total)"
+      "(supervisor-complete-task order-new home-address matthew amount-total)"
     ],
     "message": "",
-    "seconds": 1.19
+    "seconds": 0.92
   },
   "solution_used": false,
   "has_reference_solution": false,

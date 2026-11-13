@@ -4,8 +4,10 @@
     app person username password token draft file-path query datetime bool - object)
   (:constants
     gmail file-system supervisor - app
-    draft-1 draft-2 draft-3 - draft)
+    draft-1 draft-2 draft-3 draft-4 draft-5 - draft
+  )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (password-for ?a - app ?pw - password)
     (has-token ?a - app ?t - token)
@@ -26,13 +28,13 @@
   ; API: gmail.login
   (:action gmail-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app gmail ?t) (credential-of-app gmail ?pw) (credential-of-app gmail ?u) (passwords-known) (password-for gmail ?pw) (not (has-token gmail ?t)) (not (task-completed)))
     :effect (and (has-token gmail ?t)))
 
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (passwords-known) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (credential-of-app file-system ?u) (passwords-known) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
     :effect (and (has-token file-system ?t)))
 
   ; API: file_system.show_directory
@@ -62,5 +64,11 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (sent draft-1) (sent draft-2) (sent draft-3) (not (task-completed)))
+    :precondition (and
+      (sent draft-1)
+      (sent draft-2)
+      (sent draft-3)
+      (sent draft-4)
+      (sent draft-5)
+      (not (task-completed)))
     :effect (and (task-completed))))

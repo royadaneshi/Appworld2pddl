@@ -13,6 +13,15 @@
     dt-2023-05-30t10-00-00 - datetime
   )
   (:init
+    (credential-of-app phone phone-7487389769)
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app gmail tra-weber-at-gmail-com)
+    (credential-of-app gmail gmail-password)
+    (credential-of-app gmail gmail-token)
+    (credential-of-app file-system tra-weber-at-gmail-com)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (username-for phone phone-7487389769)
     (username-for gmail tra-weber-at-gmail-com)
     (username-for file-system tra-weber-at-gmail-com)
