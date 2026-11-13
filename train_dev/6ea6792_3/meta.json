@@ -32,7 +32,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'username', 'token', 'person', 'payment-request', 'password', 'app', 'status', 'relationship', 'query'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": {
@@ -56,17 +58,33 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(supervisor-show-profile)",
-      "(phone-login phone-username-3379617841 phone-password venmo-token)",
-      "(venmo-login venmo-username-paul-mill-at-gmail-com venmo-password phone-token)",
-      "(phone-search-contacts venmo-token query-coworker coworker)",
-      "(phone-search-contacts venmo-token query-friend friend)",
-      "(venmo-show-received-payment-requests phone-token status-pending)",
-      "(venmo-approve-payment-request pr-from-coworker phone-token contact-coworker coworker)",
-      "(venmo-approve-payment-request pr-from-friend phone-token contact-friend friend)",
-      "(supervisor-complete-task pr-from-coworker pr-from-friend)"
+      "(phone-login phone-username-3379617841 phone-password phone-token)",
+      "(venmo-login venmo-username-paul-mill-at-gmail-com venmo-password venmo-token)",
+      "(phone-search-contacts phone-token query-coworker coworker)",
+      "(phone-search-contacts phone-token query-friend friend)",
+      "(venmo-show-received-payment-requests venmo-token status-pending)",
+      "(venmo-approve-payment-request request-4168 venmo-token coworker-david-martinez coworker)",
+      "(venmo-approve-payment-request request-4169 venmo-token coworker-david-martinez coworker)",
+      "(venmo-approve-payment-request request-4170 venmo-token coworker-david-martinez coworker)",
+      "(venmo-approve-payment-request request-4173 venmo-token coworker-david-martinez coworker)",
+      "(venmo-approve-payment-request request-4174 venmo-token coworker-david-martinez coworker)",
+      "(venmo-approve-payment-request request-4176 venmo-token coworker-david-martinez coworker)",
+      "(venmo-approve-payment-request request-4917 venmo-token coworker-kathryn-maldonado coworker)",
+      "(venmo-approve-payment-request request-5966 venmo-token coworker-sierra-white coworker)",
+      "(venmo-approve-payment-request request-3798 venmo-token friend-jeffrey-smith friend)",
+      "(venmo-approve-payment-request request-3803 venmo-token friend-jeffrey-smith friend)",
+      "(venmo-approve-payment-request request-3804 venmo-token friend-jeffrey-smith friend)",
+      "(venmo-approve-payment-request request-5467 venmo-token friend-gina-burch friend)",
+      "(venmo-approve-payment-request request-5469 venmo-token friend-gina-burch friend)",
+      "(venmo-approve-payment-request request-5764 venmo-token friend-adrian-burton friend)",
+      "(venmo-approve-payment-request request-5767 venmo-token friend-adrian-burton friend)",
+      "(venmo-approve-payment-request request-5768 venmo-token friend-adrian-burton friend)",
+      "(venmo-approve-payment-request request-5771 venmo-token friend-adrian-burton friend)",
+      "(venmo-approve-payment-request request-5772 venmo-token friend-adrian-burton friend)",
+      "(supervisor-complete-task request-5772 request-5966)"
     ],
     "message": "",
-    "seconds": 1.18
+    "seconds": 0.86
   },
   "solution_used": true,
   "has_reference_solution": true,

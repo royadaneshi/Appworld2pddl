@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login username-3383946795 phone-password venmo-token)",
+      "pddl": "(phone-login username-3383946795 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3383946795",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login username-mel-bailey-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login username-mel-bailey-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "mel.bailey@gmail.com",
@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-roommate roommate)",
+      "pddl": "(phone-search-contacts phone-token query-roommate roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "roommate",
         "relationship": "roommate"
@@ -60,53 +60,87 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-social-feed phone-token)",
+      "pddl": "(venmo-show-social-feed venmo-token)",
       "api": "venmo.show_social_feed",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-like-transaction tx-today-roommate-1 phone-token roommate-1 roommate today)",
+      "pddl": "(venmo-like-transaction tx-1245 venmo-token roommate-anita-burch roommate today)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_social_feed",
-          "field": "transaction_id of each feed entry (paginate page_index) whose created_at is today and whose sender.email or receiver.email is one of the roommate emails",
-          "object": "tx-today-roommate-1"
+          "field": "transaction_id of the feed entry created at 2023-05-18T06:12:19 (Anita Burch -> Anthony Harrison); it involves a roommate contact",
+          "object": "tx-1245"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-like-transaction tx-today-roommate-2 phone-token roommate-2 roommate today)",
+      "pddl": "(venmo-like-transaction tx-7294 venmo-token roommate-nicholas-weber roommate today)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_social_feed",
-          "field": "transaction_id of each feed entry (paginate page_index) whose created_at is today and whose sender.email or receiver.email is one of the roommate emails",
-          "object": "tx-today-roommate-2"
+          "field": "transaction_id of the feed entry created at 2023-05-18T01:54:35 (Nancy Ritter -> Nicholas Weber); it involves a roommate contact",
+          "object": "tx-7294"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(supervisor-complete-task tx-today-roommate-1 tx-today-roommate-2)",
+      "pddl": "(venmo-like-transaction tx-8219 venmo-token roommate-nicholas-weber roommate today)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-18T08:04:36 (Eric Bailey -> Nicholas Weber); it involves a roommate contact",
+          "object": "tx-8219"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-like-transaction tx-8230 venmo-token roommate-anita-burch roommate today)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-18T09:32:28 (Anita Burch -> Debra Ritter); it involves a roommate contact",
+          "object": "tx-8230"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task tx-1245 tx-7294)",
       "api": "supervisor.complete_task",
       "args": {}
     }

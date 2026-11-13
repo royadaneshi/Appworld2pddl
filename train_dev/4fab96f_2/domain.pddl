@@ -4,8 +4,9 @@
     app person username password token query relationship status payment-request - object)
   (:constants
     phone venmo - app
-    pr-coworker-1-old pr-coworker-2-old - payment-request)
+    request-4575 request-4580 request-4583 request-4512 request-4571 request-4576 request-4511 request-4509 request-4531 request-4581 request-4562 request-4515 request-4518 request-4561 request-4565 request-4559 - payment-request)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (current-date-known)
@@ -45,7 +46,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (profile-known) (passwords-known)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (not (task-completed)) (profile-known) (passwords-known)
                        (username-for phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)))
     :effect (and (has-token phone ?t)))
@@ -60,7 +61,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (profile-known) (passwords-known)
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (not (task-completed)) (profile-known) (passwords-known)
                        (username-for venmo ?u) (password-for venmo ?pw)
                        (not (has-token venmo ?t)))
     :effect (and (has-token venmo ?t)))
@@ -84,8 +85,23 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed))
-                       (reminded pr-coworker-1-old)
-                       (reminded pr-coworker-2-old))
+    :precondition (and
+      (reminded request-4575)
+      (reminded request-4580)
+      (reminded request-4583)
+      (reminded request-4512)
+      (reminded request-4571)
+      (reminded request-4576)
+      (reminded request-4511)
+      (reminded request-4509)
+      (reminded request-4531)
+      (reminded request-4581)
+      (reminded request-4562)
+      (reminded request-4515)
+      (reminded request-4518)
+      (reminded request-4561)
+      (reminded request-4565)
+      (reminded request-4559)
+      (not (task-completed)))
     :effect (and (task-completed)))
 )

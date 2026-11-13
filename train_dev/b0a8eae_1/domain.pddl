@@ -7,6 +7,7 @@
     simple-note spotify phone - app
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (date-known)
@@ -52,7 +53,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw)
       (not (task-completed))
       (profile-known)
       (passwords-known)
@@ -91,7 +92,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw)
       (not (task-completed))
       (profile-known)
       (passwords-known)

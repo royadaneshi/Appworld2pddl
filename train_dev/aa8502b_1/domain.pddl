@@ -4,7 +4,7 @@
     app person username password token song artist - object)
   (:constants
     spotify - app
-    artist-a artist-b artist-c - artist)
+    artist-olivia-roberts artist-phoenix-rivers artist-marigold-muse artist-ava-morgan artist-seraphina-dawn artist-orion-steele artist-zoey-james artist-eliana-harper artist-mia-sullivan artist-luna-starlight artist-grace-harrison artist-violet-cascade artist-apollo-serenade - artist)
   (:predicates
     (profile-known)
     (passwords-known)
@@ -70,9 +70,20 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (following artist-a)
-                       (following artist-b)
-                       (following artist-c)
-                       (not (task-completed)))
+    :precondition (and
+      (following artist-olivia-roberts)
+      (following artist-phoenix-rivers)
+      (following artist-marigold-muse)
+      (following artist-ava-morgan)
+      (following artist-seraphina-dawn)
+      (following artist-orion-steele)
+      (following artist-zoey-james)
+      (following artist-eliana-harper)
+      (following artist-mia-sullivan)
+      (following artist-luna-starlight)
+      (following artist-grace-harrison)
+      (following artist-violet-cascade)
+      (following artist-apollo-serenade)
+      (not (task-completed)))
     :effect (task-completed))
 )

@@ -88,7 +88,7 @@
         "description": "Payment",
         "payment_card_id": {
           "$from": "venmo.show_payment_cards",
-          "field": "payment_card_id of a card whose expiry (expiry_year/expiry_month) is after the current date from phone.get_current_date_and_time",
+          "field": "payment_card_id of the one non-expired card that can fund the payment: MasterCard (expires 2024-06). Being non-expired is not sufficient: the other non-expired cards (HSBC, American Express, Visa) are rejected with \"Your payment card does not have $91.00 to make this transaction.\" and card funds are not shown by the API, so non-expired cards must be tried in order until create_transaction succeeds",
           "object": "venmo-card-1"
         },
         "private": true

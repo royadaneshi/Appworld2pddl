@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-3383946795 phone-password venmo-token)",
+      "pddl": "(phone-login phone-3383946795 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3383946795",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login mel-bailey-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login mel-bailey-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "mel.bailey@gmail.com",
@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-coworker coworker)",
+      "pddl": "(phone-search-contacts phone-token query-coworker coworker)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "coworker",
         "relationship": "coworker"
@@ -60,94 +60,846 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-transactions phone-token coworker-a-email date-2023-01-01 coworker-a)",
+      "pddl": "(venmo-show-transactions venmo-token email-edwin-wilson date-2023-01-01 coworker-edwin-wilson)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the 1st contact returned (query=\"coworker\", relationship=\"coworker\", all pages)",
-          "object": "coworker-a-email"
+          "field": "email of the coworker contact Edwin Wilson (ed_wilson@gmail.com)",
+          "object": "email-edwin-wilson"
         },
         "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-show-transactions phone-token coworker-b-email date-2023-01-01 coworker-b)",
+      "pddl": "(venmo-show-transactions venmo-token email-gina-burch date-2023-01-01 coworker-gina-burch)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the 2nd contact returned (query=\"coworker\", relationship=\"coworker\", all pages)",
-          "object": "coworker-b-email"
+          "field": "email of the coworker contact Gina Burch (gina-ritter@gmail.com)",
+          "object": "email-gina-burch"
         },
         "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-like-transaction txn-a1 phone-token coworker-a)",
-      "api": "venmo.like_transaction",
+      "pddl": "(venmo-show-transactions venmo-token email-jose-harrison date-2023-01-01 coworker-jose-harrison)",
+      "api": "venmo.show_transactions",
       "args": {
-        "transaction_id": {
-          "$from": "venmo.show_transactions",
-          "field": "transaction_id of 1st result for user_email=coworker-a-email, min_created_at=date-2023-01-01 (all pages)",
-          "object": "txn-a1"
-        },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
-        }
+          "object": "venmo-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the coworker contact Jose Harrison (joseharr@gmail.com)",
+          "object": "email-jose-harrison"
+        },
+        "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 10,
-      "pddl": "(venmo-like-transaction txn-a2 phone-token coworker-a)",
-      "api": "venmo.like_transaction",
+      "pddl": "(venmo-show-transactions venmo-token email-leslie-ball date-2023-01-01 coworker-leslie-ball)",
+      "api": "venmo.show_transactions",
       "args": {
-        "transaction_id": {
-          "$from": "venmo.show_transactions",
-          "field": "transaction_id of 2nd result for user_email=coworker-a-email, min_created_at=date-2023-01-01 (all pages)",
-          "object": "txn-a2"
-        },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
-        }
+          "object": "venmo-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the coworker contact Leslie Ball (les_ball@gmail.com)",
+          "object": "email-leslie-ball"
+        },
+        "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 11,
-      "pddl": "(venmo-like-transaction txn-b1 phone-token coworker-b)",
-      "api": "venmo.like_transaction",
+      "pddl": "(venmo-show-transactions venmo-token email-robert-martinez date-2023-01-01 coworker-robert-martinez)",
+      "api": "venmo.show_transactions",
       "args": {
-        "transaction_id": {
-          "$from": "venmo.show_transactions",
-          "field": "transaction_id of 1st result for user_email=coworker-b-email, min_created_at=date-2023-01-01 (all pages)",
-          "object": "txn-b1"
-        },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
-        }
+          "object": "venmo-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the coworker contact Robert Martinez (robertmartinez@gmail.com)",
+          "object": "email-robert-martinez"
+        },
+        "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 12,
-      "pddl": "(supervisor-complete-task txn-a1 txn-a2 txn-b1)",
+      "pddl": "(venmo-show-transactions venmo-token email-troy-solomon date-2023-01-01 coworker-troy-solomon)",
+      "api": "venmo.show_transactions",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the coworker contact Troy Solomon (tr_solo@gmail.com)",
+          "object": "email-troy-solomon"
+        },
+        "min_created_at": "2023-01-01"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-like-transaction tx-6241 venmo-token coworker-edwin-wilson)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $83.0 payment sent to Edwin Wilson at 2023-03-02T20:18:01 (on or after 2023-01-01)",
+          "object": "tx-6241"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-like-transaction tx-6242 venmo-token coworker-edwin-wilson)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $20.0 payment sent to Edwin Wilson at 2023-02-01T21:55:30 (on or after 2023-01-01)",
+          "object": "tx-6242"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-like-transaction tx-6243 venmo-token coworker-edwin-wilson)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $51.0 payment sent to Edwin Wilson at 2023-03-14T00:38:12 (on or after 2023-01-01)",
+          "object": "tx-6243"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-like-transaction tx-6244 venmo-token coworker-edwin-wilson)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $61.0 payment sent to Edwin Wilson at 2023-01-26T09:27:31 (on or after 2023-01-01)",
+          "object": "tx-6244"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(venmo-like-transaction tx-6246 venmo-token coworker-edwin-wilson)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $6.0 payment sent to Edwin Wilson at 2023-01-18T08:07:16 (on or after 2023-01-01)",
+          "object": "tx-6246"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(venmo-like-transaction tx-6247 venmo-token coworker-edwin-wilson)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $14.0 payment sent to Edwin Wilson at 2023-04-16T20:10:21 (on or after 2023-01-01)",
+          "object": "tx-6247"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(venmo-like-transaction tx-7345 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $30.0 payment received from Gina Burch at 2023-03-31T19:31:25 (on or after 2023-01-01)",
+          "object": "tx-7345"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(venmo-like-transaction tx-7346 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $7.0 payment received from Gina Burch at 2023-03-21T22:41:24 (on or after 2023-01-01)",
+          "object": "tx-7346"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(venmo-like-transaction tx-7347 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $91.0 payment received from Gina Burch at 2023-02-16T02:28:13 (on or after 2023-01-01)",
+          "object": "tx-7347"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(venmo-like-transaction tx-7348 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $49.0 payment received from Gina Burch at 2023-02-14T10:15:43 (on or after 2023-01-01)",
+          "object": "tx-7348"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(venmo-like-transaction tx-7349 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $35.0 payment received from Gina Burch at 2023-01-03T15:03:39 (on or after 2023-01-01)",
+          "object": "tx-7349"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(venmo-like-transaction tx-7350 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $40.0 payment received from Gina Burch at 2023-03-05T00:49:48 (on or after 2023-01-01)",
+          "object": "tx-7350"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(venmo-like-transaction tx-7351 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $25.0 payment received from Gina Burch at 2023-01-14T00:33:40 (on or after 2023-01-01)",
+          "object": "tx-7351"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(venmo-like-transaction tx-7352 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $76.0 payment received from Gina Burch at 2023-01-09T19:44:43 (on or after 2023-01-01)",
+          "object": "tx-7352"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(venmo-like-transaction tx-7353 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $26.0 payment received from Gina Burch at 2023-02-26T08:22:59 (on or after 2023-01-01)",
+          "object": "tx-7353"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(venmo-like-transaction tx-7354 venmo-token coworker-gina-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $50.0 payment received from Gina Burch at 2023-04-16T05:33:35 (on or after 2023-01-01)",
+          "object": "tx-7354"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(venmo-like-transaction tx-1043 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $76.0 payment received from Jose Harrison at 2023-03-02T01:08:20 (on or after 2023-01-01)",
+          "object": "tx-1043"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(venmo-like-transaction tx-1044 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $74.0 payment received from Jose Harrison at 2023-02-26T03:17:14 (on or after 2023-01-01)",
+          "object": "tx-1044"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(venmo-like-transaction tx-1045 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $97.0 payment received from Jose Harrison at 2023-05-11T20:42:28 (on or after 2023-01-01)",
+          "object": "tx-1045"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(venmo-like-transaction tx-1046 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $86.0 payment received from Jose Harrison at 2023-01-07T16:32:21 (on or after 2023-01-01)",
+          "object": "tx-1046"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(venmo-like-transaction tx-1047 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $51.0 payment received from Jose Harrison at 2023-02-15T06:32:56 (on or after 2023-01-01)",
+          "object": "tx-1047"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(venmo-like-transaction tx-1048 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $57.0 payment received from Jose Harrison at 2023-03-04T21:05:35 (on or after 2023-01-01)",
+          "object": "tx-1048"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(venmo-like-transaction tx-1049 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $36.0 payment received from Jose Harrison at 2023-01-23T04:18:44 (on or after 2023-01-01)",
+          "object": "tx-1049"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(venmo-like-transaction tx-1050 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $22.0 payment received from Jose Harrison at 2023-02-21T14:38:54 (on or after 2023-01-01)",
+          "object": "tx-1050"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(venmo-like-transaction tx-1051 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $30.0 payment received from Jose Harrison at 2023-01-26T03:06:06 (on or after 2023-01-01)",
+          "object": "tx-1051"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(venmo-like-transaction tx-1052 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $16.0 payment received from Jose Harrison at 2023-01-16T08:15:14 (on or after 2023-01-01)",
+          "object": "tx-1052"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(venmo-like-transaction tx-6265 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $41.0 payment received from Jose Harrison at 2023-02-02T09:10:59 (on or after 2023-01-01)",
+          "object": "tx-6265"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(venmo-like-transaction tx-6266 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $93.0 payment received from Jose Harrison at 2023-05-01T01:14:31 (on or after 2023-01-01)",
+          "object": "tx-6266"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(venmo-like-transaction tx-6267 venmo-token coworker-jose-harrison)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $11.0 payment received from Jose Harrison at 2023-01-26T20:40:58 (on or after 2023-01-01)",
+          "object": "tx-6267"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(venmo-like-transaction tx-371 venmo-token coworker-leslie-ball)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $94.0 payment sent to Leslie Ball at 2023-05-05T15:24:36 (on or after 2023-01-01)",
+          "object": "tx-371"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(venmo-like-transaction tx-372 venmo-token coworker-leslie-ball)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $16.0 payment sent to Leslie Ball at 2023-03-02T06:31:54 (on or after 2023-01-01)",
+          "object": "tx-372"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(venmo-like-transaction tx-6261 venmo-token coworker-leslie-ball)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $36.0 payment received from Leslie Ball at 2023-03-05T11:04:06 (on or after 2023-01-01)",
+          "object": "tx-6261"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(venmo-like-transaction tx-6262 venmo-token coworker-leslie-ball)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $54.0 payment received from Leslie Ball at 2023-04-23T02:36:56 (on or after 2023-01-01)",
+          "object": "tx-6262"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(venmo-like-transaction tx-6263 venmo-token coworker-leslie-ball)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $104.0 payment received from Leslie Ball at 2023-05-07T06:15:11 (on or after 2023-01-01)",
+          "object": "tx-6263"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(venmo-like-transaction tx-6264 venmo-token coworker-leslie-ball)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $8.0 payment received from Leslie Ball at 2023-03-14T20:53:41 (on or after 2023-01-01)",
+          "object": "tx-6264"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(venmo-like-transaction tx-5902 venmo-token coworker-robert-martinez)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $27.0 payment received from Robert Martinez at 2023-04-19T17:19:28 (on or after 2023-01-01)",
+          "object": "tx-5902"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(venmo-like-transaction tx-5903 venmo-token coworker-robert-martinez)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $18.0 payment received from Robert Martinez at 2023-01-24T11:01:36 (on or after 2023-01-01)",
+          "object": "tx-5903"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(venmo-like-transaction tx-5904 venmo-token coworker-robert-martinez)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $99.0 payment received from Robert Martinez at 2023-04-04T10:59:53 (on or after 2023-01-01)",
+          "object": "tx-5904"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(venmo-like-transaction tx-5918 venmo-token coworker-robert-martinez)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $33.0 payment sent to Robert Martinez at 2023-05-18T03:25:51 (on or after 2023-01-01)",
+          "object": "tx-5918"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(venmo-like-transaction tx-5920 venmo-token coworker-robert-martinez)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $21.0 payment sent to Robert Martinez at 2023-05-17T07:10:40 (on or after 2023-01-01)",
+          "object": "tx-5920"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(venmo-like-transaction tx-6260 venmo-token coworker-troy-solomon)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $24.0 payment received from Troy Solomon at 2023-01-16T00:04:34 (on or after 2023-01-01)",
+          "object": "tx-6260"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(venmo-like-transaction tx-861 venmo-token coworker-troy-solomon)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $30.0 payment sent to Troy Solomon at 2023-04-29T04:12:20 (on or after 2023-01-01)",
+          "object": "tx-861"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(venmo-like-transaction tx-862 venmo-token coworker-troy-solomon)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $93.0 payment sent to Troy Solomon at 2023-03-21T21:49:22 (on or after 2023-01-01)",
+          "object": "tx-862"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(supervisor-complete-task tx-6260 tx-861 tx-862)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -58,19 +58,19 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-song rec-song-1)",
+      "pddl": "(spotify-show-song song-265)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_recommendations",
-          "field": "song_id (iterate all pages; keep after spotify.show_song shows genre == \"classical\" and release_date >= 2023-01-01)",
-          "object": "rec-song-1"
+          "field": "song_id of the recommended song \"Secrets of the Heart\" (genre classical, released 2023 via spotify.show_song; goes into the playlist)",
+          "object": "song-265"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-add-song-to-playlist spotify-recommended-songs-playlist rec-song-1 spotify-token classical year-2023)",
+      "pddl": "(spotify-add-song-to-playlist spotify-recommended-songs-playlist song-265 spotify-token classical year-2023)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -80,8 +80,8 @@
         },
         "song_id": {
           "$from": "spotify.show_recommendations",
-          "field": "song_id (iterate all pages; keep after spotify.show_song shows genre == \"classical\" and release_date >= 2023-01-01)",
-          "object": "rec-song-1"
+          "field": "song_id of the recommended song \"Secrets of the Heart\" (genre classical, released 2023 via spotify.show_song; goes into the playlist)",
+          "object": "song-265"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -92,19 +92,19 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-song rec-song-2)",
+      "pddl": "(spotify-show-song song-273)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_recommendations",
-          "field": "song_id (iterate all pages; keep after spotify.show_song shows genre == \"classical\" and release_date >= 2023-01-01)",
-          "object": "rec-song-2"
+          "field": "song_id of the recommended song \"Endless Drift\" (genre classical, released 2023 via spotify.show_song; goes into the playlist)",
+          "object": "song-273"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-add-song-to-playlist spotify-recommended-songs-playlist rec-song-2 spotify-token classical year-2023)",
+      "pddl": "(spotify-add-song-to-playlist spotify-recommended-songs-playlist song-273 spotify-token classical year-2023)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -114,8 +114,8 @@
         },
         "song_id": {
           "$from": "spotify.show_recommendations",
-          "field": "song_id (iterate all pages; keep after spotify.show_song shows genre == \"classical\" and release_date >= 2023-01-01)",
-          "object": "rec-song-2"
+          "field": "song_id of the recommended song \"Endless Drift\" (genre classical, released 2023 via spotify.show_song; goes into the playlist)",
+          "object": "song-273"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -126,7 +126,7 @@
     },
     {
       "step": 11,
-      "pddl": "(supervisor-complete-task spotify-recommended-songs-playlist title-spotify-recommended-songs rec-song-1 rec-song-2)",
+      "pddl": "(supervisor-complete-task spotify-recommended-songs-playlist title-spotify-recommended-songs song-265 song-273)",
       "api": "supervisor.complete_task",
       "args": {}
     }

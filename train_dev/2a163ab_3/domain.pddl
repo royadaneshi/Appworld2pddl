@@ -6,9 +6,10 @@
   (:constants
     phone venmo - app
     coworker - relationship
-    txn-recent-coworker-1 txn-recent-coworker-2 txn-old-coworker txn-recent-noncoworker - transaction
+    tx-8219 tx-7334 tx-8026 tx-1749 tx-2699 tx-8226 tx-5326 tx-3156 tx-4751 tx-8218 tx-8229 tx-8225 tx-484 tx-3299 tx-8015 - transaction
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (profile-known)
     (passwords-known)
     (current-datetime-known)
@@ -46,7 +47,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (profile-known) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (and (has-token phone ?t))
   )
   ; API: phone.search_contacts
@@ -58,7 +59,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (profile-known) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (and (has-token venmo ?t))
   )
   ; API: venmo.show_social_feed
@@ -76,7 +77,23 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (liked txn-recent-coworker-1) (liked txn-recent-coworker-2) (not (liked txn-old-coworker)) (not (liked txn-recent-noncoworker)) (not (task-completed)))
+    :precondition (and
+      (liked tx-8219)
+      (liked tx-7334)
+      (liked tx-8026)
+      (liked tx-1749)
+      (liked tx-2699)
+      (liked tx-8226)
+      (liked tx-5326)
+      (liked tx-3156)
+      (liked tx-4751)
+      (liked tx-8218)
+      (liked tx-8229)
+      (liked tx-8225)
+      (liked tx-484)
+      (liked tx-3299)
+      (liked tx-8015)
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

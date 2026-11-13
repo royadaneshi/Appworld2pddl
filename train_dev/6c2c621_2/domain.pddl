@@ -3,6 +3,7 @@
   (:types app person username password token note file-path content - object)
   (:constants simple-note file-system - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (username-of ?p - person ?u - username)
@@ -31,7 +32,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (profile-known) (passwords-known) (password-for simple-note ?pw) (not (has-token simple-note ?t)) (not (task-completed)))
     :effect (has-token simple-note ?t))
 
   ; API: simple_note.search_notes
@@ -49,7 +50,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (profile-known) (passwords-known) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
     :effect (has-token file-system ?t))
 
   ; API: file_system.create_file

@@ -14,6 +14,10 @@
     card-nonexpired - payment-card
     tx-68-private - transaction)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-3016947686)
     (username-for venmo jar-calhoun-at-gmail-com)
     (password-for phone phone-password)

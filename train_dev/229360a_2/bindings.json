@@ -18,45 +18,147 @@
     "field": "access_token"
   },
   {
-    "object": "song-liked-downloaded",
+    "object": "song-an-ode-to-forgotten-dreams",
     "value": null,
     "from_api": "spotify.show_song_library",
-    "field": "song_id (all pages) where song_id is in spotify.show_liked_songs[].song_id AND in spotify.show_downloaded_songs[].song_id; kept, never passed to an API"
+    "field": "song_id of the library song titled \"An Ode to Forgotten Dreams\" (to remove; liked=False, downloaded=False)"
   },
   {
-    "object": "song-liked-not-downloaded",
+    "object": "song-in-the-arms-of-a-stranger",
     "value": null,
     "from_api": "spotify.show_song_library",
-    "field": "song_id (all pages) where song_id is in spotify.show_liked_songs[].song_id but NOT in spotify.show_downloaded_songs[].song_id; one removal call per such song"
+    "field": "song_id of the library song titled \"In the Arms of a Stranger\" (to remove; liked=True, downloaded=False)"
   },
   {
-    "object": "song-downloaded-not-liked",
+    "object": "song-lost-in-the-embrace-of-night",
     "value": null,
     "from_api": "spotify.show_song_library",
-    "field": "song_id (all pages) where song_id is in spotify.show_downloaded_songs[].song_id but NOT in spotify.show_liked_songs[].song_id; one removal call per such song"
+    "field": "song_id of the library song titled \"Lost in the Embrace of Night\" (to remove; liked=False, downloaded=False)"
   },
   {
-    "object": "song-not-liked-not-downloaded",
+    "object": "song-a-labyrinth-of-empty-streets",
     "value": null,
     "from_api": "spotify.show_song_library",
-    "field": "song_id (all pages) where song_id is neither in spotify.show_liked_songs[].song_id nor in spotify.show_downloaded_songs[].song_id; one removal call per such song"
+    "field": "song_id of the library song titled \"A Labyrinth of Empty Streets\" (kept; liked=True, downloaded=True)"
   },
   {
-    "object": "album-liked-all-downloaded",
+    "object": "song-in-the-silence-of-your-absence",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"In the Silence of Your Absence\" (to remove; liked=True, downloaded=False)"
+  },
+  {
+    "object": "song-in-the-theater-of-broken-promises",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"In the Theater of Broken Promises\" (to remove; liked=False, downloaded=False)"
+  },
+  {
+    "object": "song-shadows-in-the-twilight",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"Shadows in the Twilight\" (to remove; liked=False, downloaded=True)"
+  },
+  {
+    "object": "song-eternal-reverie",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"Eternal Reverie\" (kept; liked=True, downloaded=True)"
+  },
+  {
+    "object": "song-unspoken-words",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"Unspoken Words\" (to remove; liked=False, downloaded=True)"
+  },
+  {
+    "object": "song-yearning-for-a-glimpse-of-heaven",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"Yearning for a Glimpse of Heaven\" (to remove; liked=True, downloaded=False)"
+  },
+  {
+    "object": "song-dream-s-end",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"Dream's End\" (to remove; liked=False, downloaded=True)"
+  },
+  {
+    "object": "song-the-weight-of-a-thousand-stars",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"The Weight of a Thousand Stars\" (kept; liked=True, downloaded=True)"
+  },
+  {
+    "object": "song-journey-through-the-unknown",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"Journey Through the Unknown\" (to remove; liked=False, downloaded=False)"
+  },
+  {
+    "object": "song-hearts-on-fire",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"Hearts on Fire\" (to remove; liked=False, downloaded=False)"
+  },
+  {
+    "object": "song-when-silence-becomes-deafening",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"When Silence Becomes Deafening\" (to remove; liked=False, downloaded=False)"
+  },
+  {
+    "object": "song-eternal-solitude",
+    "value": null,
+    "from_api": "spotify.show_song_library",
+    "field": "song_id of the library song titled \"Eternal Solitude\" (to remove; liked=False, downloaded=False)"
+  },
+  {
+    "object": "album-nocturnal-melodies",
     "value": null,
     "from_api": "spotify.show_album_library",
-    "field": "album_id (all pages) where album_id is in spotify.show_liked_albums[].album_id AND every entry of the album's song_ids is in spotify.show_downloaded_songs[].song_id; kept, never passed to an API"
+    "field": "album_id of the library album titled \"Nocturnal Melodies\" (to remove; liked=True, all songs downloaded=False)"
   },
   {
-    "object": "album-liked-partly-downloaded",
+    "object": "album-celestial-harmonies",
     "value": null,
     "from_api": "spotify.show_album_library",
-    "field": "album_id (all pages) where album_id is in spotify.show_liked_albums[].album_id but some entry of song_ids is NOT in spotify.show_downloaded_songs[].song_id; one removal call per such album"
+    "field": "album_id of the library album titled \"Celestial Harmonies\" (to remove; liked=True, all songs downloaded=False)"
   },
   {
-    "object": "album-not-liked",
+    "object": "album-velvet-underground",
     "value": null,
     "from_api": "spotify.show_album_library",
-    "field": "album_id (all pages) where album_id is NOT in spotify.show_liked_albums[].album_id; one removal call per such album"
+    "field": "album_id of the library album titled \"Velvet Underground\" (kept; liked=True, all songs downloaded=True)"
+  },
+  {
+    "object": "album-midnight-serenade",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of the library album titled \"Midnight Serenade\" (to remove; liked=False, all songs downloaded=False)"
+  },
+  {
+    "object": "album-ethereal-rhapsody",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of the library album titled \"Ethereal Rhapsody\" (to remove; liked=False, all songs downloaded=False)"
+  },
+  {
+    "object": "album-synaptic-serenity",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of the library album titled \"Synaptic Serenity\" (kept; liked=True, all songs downloaded=True)"
+  },
+  {
+    "object": "album-astral-journey",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of the library album titled \"Astral Journey\" (to remove; liked=False, all songs downloaded=False)"
+  },
+  {
+    "object": "album-vibrant-visions",
+    "value": null,
+    "from_api": "spotify.show_album_library",
+    "field": "album_id of the library album titled \"Vibrant Visions\" (to remove; liked=False, all songs downloaded=False)"
   }
 ]

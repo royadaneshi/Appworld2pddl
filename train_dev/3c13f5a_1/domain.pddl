@@ -5,6 +5,7 @@
     directory-path substring entry-type file-path amount note - object)
   (:constants venmo phone file-system - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (username-for ?a - app ?u - username)
@@ -35,7 +36,7 @@
   (:action phone-login
     ; API: phone.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (profile-known) (passwords-known)
                        (username-for phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t))
@@ -55,7 +56,7 @@
   (:action file-system-login
     ; API: file_system.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (profile-known) (passwords-known)
                        (username-for file-system ?u) (password-for file-system ?pw)
                        (not (has-token file-system ?t)) (not (task-completed)))
     :effect (has-token file-system ?t))
@@ -75,7 +76,7 @@
   (:action venmo-login
     ; API: venmo.login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (profile-known) (passwords-known)
                        (username-for venmo ?u) (password-for venmo ?pw)
                        (not (has-token venmo ?t)) (not (task-completed)))
     :effect (has-token venmo ?t))

@@ -39,122 +39,150 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-artist artist-1)",
+      "pddl": "(spotify-show-artist artist-carter-knight)",
       "api": "spotify.show_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_following_artists",
-          "field": "artist_id (first followed artist; iterate page_index over all pages)",
-          "object": "artist-1"
+          "field": "artist_id of the followed artist \"Carter Knight\" (iterate all pages)",
+          "object": "artist-carter-knight"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-artist artist-2)",
+      "pddl": "(spotify-show-artist artist-ethan-wallace)",
       "api": "spotify.show_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_following_artists",
-          "field": "artist_id (second followed artist; one placeholder per followed artist)",
-          "object": "artist-2"
+          "field": "artist_id of the followed artist \"Ethan Wallace\" (iterate all pages)",
+          "object": "artist-ethan-wallace"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-search-songs query-artist-1-name artist-1)",
-      "api": "spotify.search_songs",
+      "pddl": "(spotify-show-artist artist-felix-blackwood)",
+      "api": "spotify.show_artist",
       "args": {
-        "query": {
-          "$from": "spotify.show_artist",
-          "field": "name (for artist-1)",
-          "object": "query-artist-1-name"
-        },
         "artist_id": {
           "$from": "spotify.show_following_artists",
-          "field": "artist_id (first followed artist; iterate page_index over all pages)",
-          "object": "artist-1"
+          "field": "artist_id of the followed artist \"Felix Blackwood\" (iterate all pages)",
+          "object": "artist-felix-blackwood"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-like-song song-1-1 spotify-token artist-1)",
-      "api": "spotify.like_song",
+      "pddl": "(spotify-show-artist artist-grace-harrison)",
+      "api": "spotify.show_artist",
       "args": {
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id (results for artist_id == artist-1; iterate page_index over all pages)",
-          "object": "song-1-1"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Grace Harrison\" (iterate all pages)",
+          "object": "artist-grace-harrison"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-like-song song-1-2 spotify-token artist-1)",
-      "api": "spotify.like_song",
+      "pddl": "(spotify-show-artist artist-jasper-skye)",
+      "api": "spotify.show_artist",
       "args": {
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id (results for artist_id == artist-1)",
-          "object": "song-1-2"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Jasper Skye\" (iterate all pages)",
+          "object": "artist-jasper-skye"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-search-songs query-artist-2-name artist-2)",
-      "api": "spotify.search_songs",
+      "pddl": "(spotify-show-artist artist-lucas-diaz)",
+      "api": "spotify.show_artist",
       "args": {
-        "query": {
-          "$from": "spotify.show_artist",
-          "field": "name (for artist-2)",
-          "object": "query-artist-2-name"
-        },
         "artist_id": {
           "$from": "spotify.show_following_artists",
-          "field": "artist_id (second followed artist; one placeholder per followed artist)",
-          "object": "artist-2"
+          "field": "artist_id of the followed artist \"Lucas Diaz\" (iterate all pages)",
+          "object": "artist-lucas-diaz"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(spotify-like-song song-2-1 spotify-token artist-2)",
-      "api": "spotify.like_song",
+      "pddl": "(spotify-show-artist artist-luna-starlight)",
+      "api": "spotify.show_artist",
       "args": {
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id (results for artist_id == artist-2; iterate page_index over all pages)",
-          "object": "song-2-1"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Luna Starlight\" (iterate all pages)",
+          "object": "artist-luna-starlight"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-like-song song-2-2 spotify-token artist-2)",
+      "pddl": "(spotify-show-artist artist-marigold-muse)",
+      "api": "spotify.show_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Marigold Muse\" (iterate all pages)",
+          "object": "artist-marigold-muse"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-show-artist artist-oceanic-odyssey)",
+      "api": "spotify.show_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Oceanic Odyssey\" (iterate all pages)",
+          "object": "artist-oceanic-odyssey"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-show-artist artist-orion-steele)",
+      "api": "spotify.show_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Orion Steele\" (iterate all pages)",
+          "object": "artist-orion-steele"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-search-songs query-carter-knight artist-carter-knight)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Carter Knight\")",
+          "object": "query-carter-knight"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Carter Knight\" (iterate all pages)",
+          "object": "artist-carter-knight"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-like-song song-259 spotify-token artist-carter-knight)",
       "api": "spotify.like_song",
       "args": {
         "song_id": {
           "$from": "spotify.search_songs",
-          "field": "song_id (results for artist_id == artist-2)",
-          "object": "song-2-2"
+          "field": "song_id of \"Invisible Whispers\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-259"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -164,7 +192,1605 @@
       }
     },
     {
-      "step": 13,
+      "step": 17,
+      "pddl": "(spotify-like-song song-260 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Mystery of Your Love\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-260"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-like-song song-261 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Shadows That Haunt Us\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-261"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-like-song song-262 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Spiral of Unending Thoughts\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-262"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-like-song song-263 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Heaven's Tears\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-263"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-like-song song-264 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Hope's Edge\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-264"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-like-song song-265 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Secrets of the Heart\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-265"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-like-song song-77 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Whispers of the Soul\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-77"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-like-song song-78 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"A Love That Never Was\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-78"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-like-song song-79 spotify-token artist-carter-knight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Fleeting Touch\" (result for artist_id of Carter Knight; iterate all pages)",
+          "object": "song-79"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-search-songs query-ethan-wallace artist-ethan-wallace)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Ethan Wallace\")",
+          "object": "query-ethan-wallace"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Ethan Wallace\" (iterate all pages)",
+          "object": "artist-ethan-wallace"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-like-song song-201 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Caught in a Storm of Emotions\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-201"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-like-song song-202 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Summer's End\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-202"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(spotify-like-song song-203 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Lost in the Echoes of Time\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-203"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-like-song song-204 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Love's Lure\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-204"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-like-song song-205 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Cursed Fate\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-205"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-like-song song-206 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Escaping the Chains of Fate\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-206"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(spotify-like-song song-29 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Violet Rain\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-29"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(spotify-like-song song-30 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Eternal Flame\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-30"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(spotify-like-song song-31 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Waves of Yesterday\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-31"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(spotify-like-song song-32 spotify-token artist-ethan-wallace)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Wading Through Rivers of Tears\" (result for artist_id of Ethan Wallace; iterate all pages)",
+          "object": "song-32"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(spotify-search-songs query-felix-blackwood artist-felix-blackwood)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Felix Blackwood\")",
+          "object": "query-felix-blackwood"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Felix Blackwood\" (iterate all pages)",
+          "object": "artist-felix-blackwood"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(spotify-like-song song-304 spotify-token artist-felix-blackwood)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Shadows in the Moonlight\" (result for artist_id of Felix Blackwood; iterate all pages)",
+          "object": "song-304"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(spotify-like-song song-305 spotify-token artist-felix-blackwood)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Electric Pulse\" (result for artist_id of Felix Blackwood; iterate all pages)",
+          "object": "song-305"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(spotify-like-song song-306 spotify-token artist-felix-blackwood)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Wilted Grace\" (result for artist_id of Felix Blackwood; iterate all pages)",
+          "object": "song-306"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(spotify-like-song song-307 spotify-token artist-felix-blackwood)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Fractured\" (result for artist_id of Felix Blackwood; iterate all pages)",
+          "object": "song-307"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(spotify-like-song song-308 spotify-token artist-felix-blackwood)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Melancholy of Wasted Years\" (result for artist_id of Felix Blackwood; iterate all pages)",
+          "object": "song-308"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(spotify-like-song song-80 spotify-token artist-felix-blackwood)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Wandering the Streets Alone\" (result for artist_id of Felix Blackwood; iterate all pages)",
+          "object": "song-80"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(spotify-like-song song-81 spotify-token artist-felix-blackwood)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Echoes of the Whispering Wind\" (result for artist_id of Felix Blackwood; iterate all pages)",
+          "object": "song-81"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(spotify-like-song song-82 spotify-token artist-felix-blackwood)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Lost in the Twilight of Hope\" (result for artist_id of Felix Blackwood; iterate all pages)",
+          "object": "song-82"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(spotify-search-songs query-grace-harrison artist-grace-harrison)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Grace Harrison\")",
+          "object": "query-grace-harrison"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Grace Harrison\" (iterate all pages)",
+          "object": "artist-grace-harrison"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(spotify-like-song song-162 spotify-token artist-grace-harrison)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Caught in the Afterglow of Love\" (result for artist_id of Grace Harrison; iterate all pages)",
+          "object": "song-162"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(spotify-like-song song-163 spotify-token artist-grace-harrison)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Veiled Sorrow\" (result for artist_id of Grace Harrison; iterate all pages)",
+          "object": "song-163"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(spotify-like-song song-164 spotify-token artist-grace-harrison)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Waiting for the Morning Light\" (result for artist_id of Grace Harrison; iterate all pages)",
+          "object": "song-164"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(spotify-like-song song-165 spotify-token artist-grace-harrison)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Hearts on Fire\" (result for artist_id of Grace Harrison; iterate all pages)",
+          "object": "song-165"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(spotify-like-song song-166 spotify-token artist-grace-harrison)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"In the Embrace of Solitude\" (result for artist_id of Grace Harrison; iterate all pages)",
+          "object": "song-166"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(spotify-like-song song-167 spotify-token artist-grace-harrison)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Tragic Beauty of Love\" (result for artist_id of Grace Harrison; iterate all pages)",
+          "object": "song-167"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(spotify-like-song song-168 spotify-token artist-grace-harrison)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Where Echoes Go to Die\" (result for artist_id of Grace Harrison; iterate all pages)",
+          "object": "song-168"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(spotify-search-songs query-jasper-skye artist-jasper-skye)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Jasper Skye\")",
+          "object": "query-jasper-skye"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Jasper Skye\" (iterate all pages)",
+          "object": "artist-jasper-skye"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(spotify-like-song song-1 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Painting Shadows on the Wall\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-1"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(spotify-like-song song-100 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Fragile Bonds\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-100"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 57,
+      "pddl": "(spotify-like-song song-2 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Lost in the Mists of Time\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-2"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 58,
+      "pddl": "(spotify-like-song song-3 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Fragrance of Fading Roses\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-3"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 59,
+      "pddl": "(spotify-like-song song-4 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Puzzle of My Heart\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 60,
+      "pddl": "(spotify-like-song song-5 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Chasing the Ghosts of Yesterday\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-5"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 61,
+      "pddl": "(spotify-like-song song-6 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Reflections in a Pool of Regret\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-6"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 62,
+      "pddl": "(spotify-like-song song-7 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Memories Stitched in Time\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-7"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 63,
+      "pddl": "(spotify-like-song song-93 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Ephemeral Dance of Love\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-93"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 64,
+      "pddl": "(spotify-like-song song-94 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Bridges Burned and Rivers Crossed\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-94"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 65,
+      "pddl": "(spotify-like-song song-95 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Swept Away\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-95"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 66,
+      "pddl": "(spotify-like-song song-96 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"In the Chambers of My Mind\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-96"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 67,
+      "pddl": "(spotify-like-song song-97 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Holding Onto Threads of Hope\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-97"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 68,
+      "pddl": "(spotify-like-song song-98 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Chasing Echoes in the Rain\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-98"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 69,
+      "pddl": "(spotify-like-song song-99 spotify-token artist-jasper-skye)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Distance Between Two Hearts\" (result for artist_id of Jasper Skye; iterate all pages)",
+          "object": "song-99"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 70,
+      "pddl": "(spotify-search-songs query-lucas-diaz artist-lucas-diaz)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Lucas Diaz\")",
+          "object": "query-lucas-diaz"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Lucas Diaz\" (iterate all pages)",
+          "object": "artist-lucas-diaz"
+        }
+      }
+    },
+    {
+      "step": 71,
+      "pddl": "(spotify-like-song song-274 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Broken Strings\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-274"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 72,
+      "pddl": "(spotify-like-song song-275 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"In the Arms of Solitude\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-275"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 73,
+      "pddl": "(spotify-like-song song-276 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Velvet Skies\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-276"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 74,
+      "pddl": "(spotify-like-song song-277 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Hidden Scars\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-277"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 75,
+      "pddl": "(spotify-like-song song-278 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"A Broken Heart's Lament\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-278"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 76,
+      "pddl": "(spotify-like-song song-279 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Silence After the Storm\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-279"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 77,
+      "pddl": "(spotify-like-song song-70 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Serenade of the Forgotten Stars\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-70"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 78,
+      "pddl": "(spotify-like-song song-71 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Eternal Fade\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-71"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 79,
+      "pddl": "(spotify-like-song song-72 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Wandering Through Time's Embrace\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-72"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 80,
+      "pddl": "(spotify-like-song song-73 spotify-token artist-lucas-diaz)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"When Silence Becomes Deafening\" (result for artist_id of Lucas Diaz; iterate all pages)",
+          "object": "song-73"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 81,
+      "pddl": "(spotify-search-songs query-luna-starlight artist-luna-starlight)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Luna Starlight\")",
+          "object": "query-luna-starlight"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Luna Starlight\" (iterate all pages)",
+          "object": "artist-luna-starlight"
+        }
+      }
+    },
+    {
+      "step": 82,
+      "pddl": "(spotify-like-song song-155 spotify-token artist-luna-starlight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"When the Night Steals Your Name\" (result for artist_id of Luna Starlight; iterate all pages)",
+          "object": "song-155"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 83,
+      "pddl": "(spotify-like-song song-156 spotify-token artist-luna-starlight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Whispers in the Night\" (result for artist_id of Luna Starlight; iterate all pages)",
+          "object": "song-156"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 84,
+      "pddl": "(spotify-like-song song-157 spotify-token artist-luna-starlight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Chasing the Elusive Horizon\" (result for artist_id of Luna Starlight; iterate all pages)",
+          "object": "song-157"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 85,
+      "pddl": "(spotify-like-song song-158 spotify-token artist-luna-starlight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Siren's Call\" (result for artist_id of Luna Starlight; iterate all pages)",
+          "object": "song-158"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 86,
+      "pddl": "(spotify-like-song song-159 spotify-token artist-luna-starlight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Forgotten Pages of Time\" (result for artist_id of Luna Starlight; iterate all pages)",
+          "object": "song-159"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 87,
+      "pddl": "(spotify-like-song song-160 spotify-token artist-luna-starlight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Weeping Sky\" (result for artist_id of Luna Starlight; iterate all pages)",
+          "object": "song-160"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 88,
+      "pddl": "(spotify-like-song song-161 spotify-token artist-luna-starlight)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"In the Embrace of Midnight\" (result for artist_id of Luna Starlight; iterate all pages)",
+          "object": "song-161"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 89,
+      "pddl": "(spotify-search-songs query-marigold-muse artist-marigold-muse)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Marigold Muse\")",
+          "object": "query-marigold-muse"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Marigold Muse\" (iterate all pages)",
+          "object": "artist-marigold-muse"
+        }
+      }
+    },
+    {
+      "step": 90,
+      "pddl": "(spotify-like-song song-101 spotify-token artist-marigold-muse)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Morning Haze\" (result for artist_id of Marigold Muse; iterate all pages)",
+          "object": "song-101"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 91,
+      "pddl": "(spotify-like-song song-102 spotify-token artist-marigold-muse)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Autumn's Lament\" (result for artist_id of Marigold Muse; iterate all pages)",
+          "object": "song-102"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 92,
+      "pddl": "(spotify-like-song song-103 spotify-token artist-marigold-muse)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Last Dance of Summer\" (result for artist_id of Marigold Muse; iterate all pages)",
+          "object": "song-103"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 93,
+      "pddl": "(spotify-like-song song-104 spotify-token artist-marigold-muse)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Nostalgia's Hold\" (result for artist_id of Marigold Muse; iterate all pages)",
+          "object": "song-104"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 94,
+      "pddl": "(spotify-like-song song-105 spotify-token artist-marigold-muse)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Beyond the Horizon's Reach\" (result for artist_id of Marigold Muse; iterate all pages)",
+          "object": "song-105"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 95,
+      "pddl": "(spotify-search-songs query-oceanic-odyssey artist-oceanic-odyssey)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Oceanic Odyssey\")",
+          "object": "query-oceanic-odyssey"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Oceanic Odyssey\" (iterate all pages)",
+          "object": "artist-oceanic-odyssey"
+        }
+      }
+    },
+    {
+      "step": 96,
+      "pddl": "(spotify-like-song song-212 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"A Labyrinth of Empty Streets\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-212"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 97,
+      "pddl": "(spotify-like-song song-213 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Serenade of the Silver Moon\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-213"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 98,
+      "pddl": "(spotify-like-song song-214 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Sweet Pain of Reminiscence\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-214"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 99,
+      "pddl": "(spotify-like-song song-215 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"When Dreams Begin to Crumble\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-215"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 100,
+      "pddl": "(spotify-like-song song-216 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Paradox of Our Love\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-216"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 101,
+      "pddl": "(spotify-like-song song-217 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Torn Between Two Worlds\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-217"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 102,
+      "pddl": "(spotify-like-song song-218 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Lost in the Tumult of Emotions\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-218"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 103,
+      "pddl": "(spotify-like-song song-219 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Strangers Again\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-219"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 104,
+      "pddl": "(spotify-like-song song-220 spotify-token artist-oceanic-odyssey)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"The Threads of a Frayed Bond\" (result for artist_id of Oceanic Odyssey; iterate all pages)",
+          "object": "song-220"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 105,
+      "pddl": "(spotify-search-songs query-orion-steele artist-orion-steele)",
+      "api": "spotify.search_songs",
+      "args": {
+        "query": {
+          "$from": "spotify.show_artist",
+          "field": "name of that artist (\"Orion Steele\")",
+          "object": "query-orion-steele"
+        },
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Orion Steele\" (iterate all pages)",
+          "object": "artist-orion-steele"
+        }
+      }
+    },
+    {
+      "step": 106,
+      "pddl": "(spotify-like-song song-118 spotify-token artist-orion-steele)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Lost Hopes\" (result for artist_id of Orion Steele; iterate all pages)",
+          "object": "song-118"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 107,
+      "pddl": "(spotify-like-song song-119 spotify-token artist-orion-steele)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Urban Jungle\" (result for artist_id of Orion Steele; iterate all pages)",
+          "object": "song-119"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 108,
+      "pddl": "(spotify-like-song song-120 spotify-token artist-orion-steele)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Elusive Joy\" (result for artist_id of Orion Steele; iterate all pages)",
+          "object": "song-120"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 109,
+      "pddl": "(spotify-like-song song-121 spotify-token artist-orion-steele)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Astral Serenity\" (result for artist_id of Orion Steele; iterate all pages)",
+          "object": "song-121"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 110,
+      "pddl": "(spotify-like-song song-122 spotify-token artist-orion-steele)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_songs",
+          "field": "song_id of \"Lost Souls\" (result for artist_id of Orion Steele; iterate all pages)",
+          "object": "song-122"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 111,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

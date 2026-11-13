@@ -14,7 +14,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-5734599766 phone-password venmo-token)",
+      "pddl": "(phone-login username-5734599766 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "5734599766",
@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login username-connorbrow-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login username-connorbrow-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "connorbrow@gmail.com",
@@ -40,13 +40,13 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts venmo-token query-friend rel-friend)",
+      "pddl": "(phone-search-contacts phone-token query-friend rel-friend)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "friend",
         "relationship": "friend"
@@ -54,13 +54,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-roommate rel-roommate)",
+      "pddl": "(phone-search-contacts phone-token query-roommate rel-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "roommate",
         "relationship": "roommate"
@@ -68,53 +68,257 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-received-payment-requests phone-token status-pending)",
+      "pddl": "(venmo-show-received-payment-requests venmo-token status-pending)",
       "api": "venmo.show_received_payment_requests",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "status": "pending"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-deny-payment-request pr-from-friend phone-token friend-contact rel-friend count-2 count-1)",
+      "pddl": "(venmo-deny-payment-request request-1843 venmo-token friend-michael-burch rel-friend count-14 count-13)",
       "api": "venmo.deny_payment_request",
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_received_payment_requests",
-          "field": "payment_request_id of each pending request whose sender.email is in the emails returned by phone.search_contacts(relationship=\"friend\") (iterate all pages)",
-          "object": "pr-from-friend"
+          "field": "payment_request_id of the pending request of $27.0 from Michael Burch (friend contact) created at 2023-04-20T15:12:59",
+          "object": "request-1843"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-deny-payment-request pr-from-roommate phone-token roommate-contact rel-roommate count-1 count-0)",
+      "pddl": "(venmo-deny-payment-request request-1844 venmo-token friend-michael-burch rel-friend count-13 count-12)",
       "api": "venmo.deny_payment_request",
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_received_payment_requests",
-          "field": "payment_request_id of each pending request whose sender.email is in the emails returned by phone.search_contacts(relationship=\"roommate\") (iterate all pages)",
-          "object": "pr-from-roommate"
+          "field": "payment_request_id of the pending request of $24.0 from Michael Burch (friend contact) created at 2023-01-31T09:33:23",
+          "object": "request-1844"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 10,
+      "pddl": "(venmo-deny-payment-request request-1846 venmo-token friend-michael-burch rel-friend count-12 count-11)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $10.0 from Michael Burch (friend contact) created at 2023-04-29T00:30:44",
+          "object": "request-1846"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-deny-payment-request request-304 venmo-token friend-bradley-ball rel-friend count-11 count-10)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $28.0 from Bradley Ball (friend contact) created at 2023-04-17T04:05:42",
+          "object": "request-304"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-deny-payment-request request-5565 venmo-token friend-sandra-martinez rel-friend count-10 count-9)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $35.0 from Sandra Martinez (friend contact) created at 2023-02-22T04:06:35",
+          "object": "request-5565"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-deny-payment-request request-5566 venmo-token friend-sandra-martinez rel-friend count-9 count-8)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $24.0 from Sandra Martinez (friend contact) created at 2023-02-17T01:26:42",
+          "object": "request-5566"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-deny-payment-request request-5567 venmo-token friend-sandra-martinez rel-friend count-8 count-7)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $65.0 from Sandra Martinez (friend contact) created at 2023-04-13T15:36:09",
+          "object": "request-5567"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-deny-payment-request request-5568 venmo-token friend-sandra-martinez rel-friend count-7 count-6)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $31.0 from Sandra Martinez (friend contact) created at 2023-04-25T09:20:23",
+          "object": "request-5568"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-deny-payment-request request-6034 venmo-token friend-alex-white rel-friend count-6 count-5)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $24.0 from Alex White (friend contact) created at 2023-04-07T11:10:45",
+          "object": "request-6034"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(venmo-deny-payment-request request-6037 venmo-token friend-alex-white rel-friend count-5 count-4)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $12.0 from Alex White (friend contact) created at 2023-03-21T08:09:08",
+          "object": "request-6037"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(venmo-deny-payment-request request-953 venmo-token friend-morgan-burton rel-friend count-4 count-3)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $64.0 from Morgan Burton (friend contact) created at 2023-02-16T12:16:17",
+          "object": "request-953"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(venmo-deny-payment-request request-956 venmo-token friend-morgan-burton rel-friend count-3 count-2)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $50.0 from Morgan Burton (friend contact) created at 2023-05-05T02:20:42",
+          "object": "request-956"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(venmo-deny-payment-request request-4152 venmo-token roommate-edwin-wilson rel-roommate count-2 count-1)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $18.0 from Edwin Wilson (roommate contact) created at 2023-04-12T01:13:34",
+          "object": "request-4152"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(venmo-deny-payment-request request-4155 venmo-token roommate-edwin-wilson rel-roommate count-1 count-0)",
+      "api": "venmo.deny_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $32.0 from Edwin Wilson (roommate contact) created at 2023-02-02T00:24:52",
+          "object": "request-4155"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 22,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

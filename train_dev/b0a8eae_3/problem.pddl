@@ -12,6 +12,10 @@
     long-enough-playlist-songs - song
   )
   (:init
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
+    (credential-of-app spotify spotify-password)
+    (credential-of-app spotify spotify-token)
     (supervisor-email eri-powe-at-gmail-com)
     (password-for simple-note simple-note-password)
     (password-for spotify spotify-password)

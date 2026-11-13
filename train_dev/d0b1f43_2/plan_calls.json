@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login username-3379617841 phone-password venmo-token)",
+      "pddl": "(phone-login username-3379617841 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3379617841",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login paul-mill-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login paul-mill-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "paul_mill@gmail.com",
@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-coworkers relationship-coworkers coworkers coworker-emails)",
+      "pddl": "(phone-search-contacts phone-token query-coworkers relationship-coworkers coworkers coworker-emails)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "coworkers",
         "relationship": "coworkers"
@@ -60,13 +60,13 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-transactions phone-token coworker-emails date-2023-02-01 direction-received coworkers total-received-amount)",
+      "pddl": "(venmo-show-transactions venmo-token coworker-emails date-2023-02-01 direction-received coworkers total-received-amount)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "user_email": {
           "$from": "phone.search_contacts",

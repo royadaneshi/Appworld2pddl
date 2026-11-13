@@ -5,9 +5,10 @@
   )
   (:constants
     phone venmo - app
-    req-from-roommate req-from-coworker - payment-request
+    request-3730 request-5143 request-4396 request-5139 request-2336 request-2339 request-4401 request-4400 request-3732 request-3731 - payment-request
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (password-for ?a - app ?pw - password)
@@ -42,7 +43,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw)
       (profile-known)
       (passwords-known)
       (username-for phone ?u)
@@ -68,7 +69,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw)
       (profile-known)
       (passwords-known)
       (username-for venmo ?u)
@@ -111,10 +112,17 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (approved req-from-roommate)
-      (approved req-from-coworker)
-      (not (task-completed))
-    )
+      (approved request-3730)
+      (approved request-5143)
+      (approved request-4396)
+      (approved request-5139)
+      (approved request-2336)
+      (approved request-2339)
+      (approved request-4401)
+      (approved request-4400)
+      (approved request-3732)
+      (approved request-3731)
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

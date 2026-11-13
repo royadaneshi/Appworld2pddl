@@ -63,13 +63,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-remove-album-from-library unliked-undownloaded-album spotify-token)",
+      "pddl": "(spotify-remove-album-from-library album-electric-dreamscape spotify-token)",
       "api": "spotify.remove_album_from_library",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id of every library album (iterate all pages) whose album_id is not in spotify.show_liked_albums and whose song_ids are not all contained in spotify.show_downloaded_songs; call remove_album_from_library once per such album",
-          "object": "unliked-undownloaded-album"
+          "field": "album_id of the library album titled \"Electric Dreamscape\" (to remove; liked=False, all songs downloaded=False)",
+          "object": "album-electric-dreamscape"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -80,6 +80,57 @@
     },
     {
       "step": 8,
+      "pddl": "(spotify-remove-album-from-library album-neon-echoes spotify-token)",
+      "api": "spotify.remove_album_from_library",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of the library album titled \"Neon Echoes\" (to remove; liked=False, all songs downloaded=False)",
+          "object": "album-neon-echoes"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-remove-album-from-library album-velvet-underground spotify-token)",
+      "api": "spotify.remove_album_from_library",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of the library album titled \"Velvet Underground\" (to remove; liked=False, all songs downloaded=False)",
+          "object": "album-velvet-underground"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-remove-album-from-library album-vibrant-visions spotify-token)",
+      "api": "spotify.remove_album_from_library",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of the library album titled \"Vibrant Visions\" (to remove; liked=False, all songs downloaded=False)",
+          "object": "album-vibrant-visions"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
       "pddl": "(spotify-show-liked-songs spotify-token)",
       "api": "spotify.show_liked_songs",
       "args": {
@@ -91,7 +142,7 @@
       }
     },
     {
-      "step": 9,
+      "step": 12,
       "pddl": "(spotify-show-song-library spotify-token)",
       "api": "spotify.show_song_library",
       "args": {
@@ -103,14 +154,14 @@
       }
     },
     {
-      "step": 10,
-      "pddl": "(spotify-remove-song-from-library unliked-undownloaded-song spotify-token)",
+      "step": 13,
+      "pddl": "(spotify-remove-song-from-library song-beyond-the-horizon-s-reach spotify-token)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id of every library song (iterate all pages) whose song_id appears in neither spotify.show_liked_songs nor spotify.show_downloaded_songs; call remove_song_from_library once per such song",
-          "object": "unliked-undownloaded-song"
+          "field": "song_id of the library song titled \"Beyond the Horizon's Reach\" (to remove; liked=False, downloaded=False)",
+          "object": "song-beyond-the-horizon-s-reach"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -120,7 +171,109 @@
       }
     },
     {
-      "step": 11,
+      "step": 14,
+      "pddl": "(spotify-remove-song-from-library song-chasing-ghosts spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Chasing Ghosts\" (to remove; liked=False, downloaded=False)",
+          "object": "song-chasing-ghosts"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-remove-song-from-library song-harmony-of-the-distant-stars spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Harmony of the Distant Stars\" (to remove; liked=False, downloaded=False)",
+          "object": "song-harmony-of-the-distant-stars"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-remove-song-from-library song-invisible-whispers spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Invisible Whispers\" (to remove; liked=False, downloaded=False)",
+          "object": "song-invisible-whispers"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-remove-song-from-library song-momentary-bliss spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Momentary Bliss\" (to remove; liked=False, downloaded=False)",
+          "object": "song-momentary-bliss"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-remove-song-from-library song-solitude-s-melancholy spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Solitude's Melancholy\" (to remove; liked=False, downloaded=False)",
+          "object": "song-solitude-s-melancholy"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-remove-song-from-library song-the-sweet-pain-of-reminiscence spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"The Sweet Pain of Reminiscence\" (to remove; liked=False, downloaded=False)",
+          "object": "song-the-sweet-pain-of-reminiscence"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

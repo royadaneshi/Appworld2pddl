@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(spotify-login sab-brown-at-gmail-com spotify-password file-system-token)",
+      "pddl": "(spotify-login sab-brown-at-gmail-com spotify-password spotify-token)",
       "api": "spotify.login",
       "args": {
         "username": "sab-brown@gmail.com",
@@ -40,37 +40,37 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-album-library file-system-token)",
+      "pddl": "(spotify-show-album-library spotify-token)",
       "api": "spotify.show_album_library",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist-library file-system-token)",
+      "pddl": "(spotify-show-playlist-library spotify-token)",
       "api": "spotify.show_playlist_library",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-song-library file-system-token)",
+      "pddl": "(spotify-show-song-library spotify-token)",
       "api": "spotify.show_song_library",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "spotify-token"
         }
       }
     },
@@ -118,13 +118,13 @@
     },
     {
       "step": 11,
-      "pddl": "(spotify-delete-account file-system-token)",
+      "pddl": "(spotify-delete-account spotify-token)",
       "api": "spotify.delete_account",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "spotify-token"
         }
       }
     },

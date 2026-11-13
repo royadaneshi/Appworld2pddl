@@ -4,7 +4,7 @@
     app person alarm username password token clock-time flag - object)
   (:constants
     phone - app
-    alarm-go-to-sleep alarm-other-1 alarm-other-2 - alarm)
+    alarm-go-to-sleep alarm-wake-up alarm-weekly-work-standup-meeting alarm-water-plants - alarm)
   (:predicates
     (passwords-known)
     (profile-known)
@@ -50,6 +50,11 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed)) (alarm-updated alarm-go-to-sleep) (alarm-updated alarm-other-1) (alarm-updated alarm-other-2))
+    :precondition (and
+      (alarm-updated alarm-go-to-sleep)
+      (alarm-updated alarm-wake-up)
+      (alarm-updated alarm-weekly-work-standup-meeting)
+      (alarm-updated alarm-water-plants)
+      (not (task-completed)))
     :effect (and (task-completed)))
 )

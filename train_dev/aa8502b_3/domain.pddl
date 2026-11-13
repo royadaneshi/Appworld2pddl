@@ -5,7 +5,7 @@
   )
   (:constants
     spotify - app
-    artist-1 artist-2 artist-3 artist-4 - artist
+    artist-olivia-roberts artist-phoenix-rivers artist-jasper-skye artist-marigold-muse artist-ava-morgan artist-aria-sterling artist-zoe-mitchell artist-eliana-harper artist-mia-sullivan artist-grace-harrison artist-apollo-serenade artist-dylan-stone artist-astrid-nightshade - artist
   )
   (:predicates
     (passwords-known)
@@ -82,11 +82,20 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (following artist-1)
-      (following artist-2)
-      (following artist-3)
-      (not (task-completed))
-    )
+      (following artist-olivia-roberts)
+      (following artist-phoenix-rivers)
+      (following artist-jasper-skye)
+      (following artist-marigold-muse)
+      (following artist-ava-morgan)
+      (following artist-aria-sterling)
+      (following artist-zoe-mitchell)
+      (following artist-eliana-harper)
+      (following artist-mia-sullivan)
+      (following artist-grace-harrison)
+      (following artist-apollo-serenade)
+      (following artist-dylan-stone)
+      (following artist-astrid-nightshade)
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

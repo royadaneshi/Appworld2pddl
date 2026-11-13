@@ -37,13 +37,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-follow-artist artist-1 spotify-token)",
+      "pddl": "(spotify-follow-artist artist-jasper-skye spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.search_artists",
-          "field": "artist_id of 1st result (iterate page_index until empty; keep only results with genre == \"EDM\" and follower_count >= 23)",
-          "object": "artist-1"
+          "field": "artist_id of the only result with genre == \"EDM\" and follower_count >= 23 across all pages (Jasper Skye)",
+          "object": "artist-jasper-skye"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -54,40 +54,6 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-follow-artist artist-2 spotify-token)",
-      "api": "spotify.follow_artist",
-      "args": {
-        "artist_id": {
-          "$from": "spotify.search_artists",
-          "field": "artist_id of 2nd result (same filtered, paginated result list)",
-          "object": "artist-2"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        }
-      }
-    },
-    {
-      "step": 7,
-      "pddl": "(spotify-follow-artist artist-3 spotify-token)",
-      "api": "spotify.follow_artist",
-      "args": {
-        "artist_id": {
-          "$from": "spotify.search_artists",
-          "field": "artist_id of 3rd result (same filtered, paginated result list)",
-          "object": "artist-3"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        }
-      }
-    },
-    {
-      "step": 8,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

@@ -14,7 +14,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login tammy-phone-2738013302 phone-password venmo-token)",
+      "pddl": "(phone-login tammy-phone-2738013302 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2738013302",
@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login tammy-email-ta-weav-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login tammy-email-ta-weav-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "ta.weav@gmail.com",
@@ -40,33 +40,33 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts venmo-token query-robert robert robert-email)",
+      "pddl": "(phone-search-contacts phone-token query-robert robert robert-email)",
       "api": "phone.search_contacts",
-      "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "venmo-token"
-        },
-        "query": "Robert"
-      }
-    },
-    {
-      "step": 6,
-      "pddl": "(venmo-show-sent-payment-requests phone-token status-approved robert robert-email accidental-request amount-of-accidental-request)",
-      "api": "venmo.show_sent_payment_requests",
       "args": {
         "access_token": {
           "$from": "phone.login",
           "field": "access_token",
           "object": "phone-token"
         },
+        "query": "Robert"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-sent-payment-requests venmo-token status-approved robert robert-email accidental-request amount-of-accidental-request)",
+      "api": "venmo.show_sent_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
         "status": "approved"
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-create-transaction robert-email amount-of-accidental-request phone-token note-returning-the-accidental-payment robert accidental-request)",
+      "pddl": "(venmo-create-transaction robert-email amount-of-accidental-request venmo-token note-returning-the-accidental-payment robert accidental-request)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -80,9 +80,9 @@
           "object": "amount-of-accidental-request"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Returning the accidental payment"
       }

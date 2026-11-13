@@ -31,7 +31,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'person', 'transaction', 'password', 'query', 'text-message', 'phone-number', 'note', 'username', 'email', 'message', 'token', 'amount', 'app'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": {
@@ -59,15 +61,15 @@
       "(supervisor-show-account-passwords)",
       "(supervisor-show-profile)",
       "(phone-login username-4886643554 phone-password phone-token)",
-      "(venmo-login username-matthew-blac-at-gmail-com venmo-password phone-token)",
+      "(venmo-login username-matthew-blac-at-gmail-com venmo-password venmo-token)",
       "(phone-search-contacts phone-token query-kristin kristin kristin-email kristin-phone-number)",
       "(phone-search-text-messages phone-token kristin-phone-number kristin amount-owed-for-groceries)",
-      "(venmo-create-transaction kristin-email amount-owed-for-groceries phone-token note-groceries kristin groceries-payment)",
+      "(venmo-create-transaction kristin-email amount-owed-for-groceries venmo-token note-groceries kristin groceries-payment)",
       "(phone-send-text-message kristin-phone-number message-it-is-done phone-token kristin done-text)",
       "(supervisor-complete-task groceries-payment done-text)"
     ],
     "message": "",
-    "seconds": 1.13
+    "seconds": 1.19
   },
   "solution_used": true,
   "has_reference_solution": true,

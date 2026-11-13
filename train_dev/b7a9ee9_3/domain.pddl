@@ -5,7 +5,7 @@
   (:constants
     spotify - app
     indie - genre
-    indie-artist-1 indie-artist-2 - artist)
+    artist-ethan-wallace artist-nova-harmony artist-noah-bennett - artist)
   (:predicates
     (passwords-known)
     (profile-known)
@@ -66,6 +66,10 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (following indie-artist-1) (following indie-artist-2) (not (task-completed)))
+    :precondition (and
+      (following artist-ethan-wallace)
+      (following artist-nova-harmony)
+      (following artist-noah-bennett)
+      (not (task-completed)))
     :effect (task-completed))
 )

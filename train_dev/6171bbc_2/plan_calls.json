@@ -52,13 +52,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-457 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the 1st playlist returned (iterate all page_index values until empty)",
-          "object": "playlist-1"
+          "field": "playlist_id of the library playlist \"The Baby Boomer Box: Classic Cuts\" (iterate all pages)",
+          "object": "playlist-457"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -69,13 +69,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-458 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of the 2nd playlist returned (one object per playlist in the library)",
-          "object": "playlist-2"
+          "field": "playlist_id of the library playlist \"Opera Opulence: Timeless Arias\" (iterate all pages)",
+          "object": "playlist-458"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -86,42 +86,47 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-song song-1a playlist-1)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-playlist playlist-459 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum)",
-          "object": "song-1a"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the library playlist \"Yoga Retreat: Mind & Body\" (iterate all pages)",
+          "object": "playlist-459"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-song song-1b playlist-1)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-playlist playlist-460 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-1 (the other songs; one object per song)",
-          "object": "song-1b"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the library playlist \"Countryside Chronicles: Folk Favorites\" (iterate all pages)",
+          "object": "playlist-460"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-1a spotify-token playlist-1 song-1b)",
-      "api": "spotify.add_song_to_playlist",
+      "pddl": "(spotify-show-playlist playlist-461 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
-          "$from": "spotify.create_playlist",
-          "field": "playlist_id",
-          "object": "my-highest-rated-playlist-songs"
-        },
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-1 (the one whose spotify.show_song rating is the maximum)",
-          "object": "song-1a"
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the library playlist \"Velvet Voices: Best of R&B\" (iterate all pages)",
+          "object": "playlist-461"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -132,31 +137,31 @@
     },
     {
       "step": 11,
-      "pddl": "(spotify-show-song song-2a playlist-2)",
+      "pddl": "(spotify-show-song song-164 playlist-457)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-2 (the other songs; one object per song)",
-          "object": "song-2a"
+          "field": "songs[].id of \"Waiting for the Morning Light\" (rating 3.5 via spotify.show_song); the top song of its playlist",
+          "object": "song-164"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(spotify-show-song song-2b playlist-2)",
+      "pddl": "(spotify-show-song song-99 playlist-457)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-2 (the one whose spotify.show_song rating is the maximum)",
-          "object": "song-2b"
+          "field": "songs[].id of \"The Distance Between Two Hearts\" (rating 0.0 via spotify.show_song)",
+          "object": "song-99"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-2b spotify-token playlist-2 song-2a)",
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-164 spotify-token playlist-457 song-99)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -166,8 +171,8 @@
         },
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-2 (the one whose spotify.show_song rating is the maximum)",
-          "object": "song-2b"
+          "field": "songs[].id of \"Waiting for the Morning Light\" (rating 3.5 via spotify.show_song); the top song of its playlist",
+          "object": "song-164"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -178,7 +183,191 @@
     },
     {
       "step": 14,
-      "pddl": "(supervisor-complete-task my-highest-rated-playlist-songs title-my-highest-rated-playlist-songs playlist-1 playlist-2)",
+      "pddl": "(spotify-show-song song-58 playlist-458)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Cursed Love\" (rating 4.0 via spotify.show_song); the top song of its playlist",
+          "object": "song-58"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-show-song song-76 playlist-458)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Whispers of the Heart\" (rating 3.0 via spotify.show_song)",
+          "object": "song-76"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-58 spotify-token playlist-458 song-76)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "my-highest-rated-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Cursed Love\" (rating 4.0 via spotify.show_song); the top song of its playlist",
+          "object": "song-58"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-show-song song-209 playlist-459)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Through the Veil of Tears\" (rating 4.0 via spotify.show_song); the top song of its playlist",
+          "object": "song-209"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-show-song song-51 playlist-459)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"The Silence Between Us\" (rating 0.0 via spotify.show_song)",
+          "object": "song-51"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-209 spotify-token playlist-459 song-51)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "my-highest-rated-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Through the Veil of Tears\" (rating 4.0 via spotify.show_song); the top song of its playlist",
+          "object": "song-209"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-show-song song-146 playlist-460)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Drifting Through Eternal Skies\" (rating 3.5 via spotify.show_song); the top song of its playlist",
+          "object": "song-146"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-show-song song-80 playlist-460)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Wandering the Streets Alone\" (rating 0.0 via spotify.show_song)",
+          "object": "song-80"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-146 spotify-token playlist-460 song-80)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "my-highest-rated-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Drifting Through Eternal Skies\" (rating 3.5 via spotify.show_song); the top song of its playlist",
+          "object": "song-146"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-show-song song-304 playlist-461)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Shadows in the Moonlight\" (rating 2.0 via spotify.show_song)",
+          "object": "song-304"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-show-song song-36 playlist-461)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"A Whisper in the Midnight Air\" (rating 3.7 via spotify.show_song); the top song of its playlist",
+          "object": "song-36"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-add-song-to-playlist my-highest-rated-playlist-songs song-36 spotify-token playlist-461 song-304)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "my-highest-rated-playlist-songs"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"A Whisper in the Midnight Air\" (rating 3.7 via spotify.show_song); the top song of its playlist",
+          "object": "song-36"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(supervisor-complete-task my-highest-rated-playlist-songs title-my-highest-rated-playlist-songs playlist-457 playlist-458)",
       "api": "supervisor.complete_task",
       "args": {}
     }

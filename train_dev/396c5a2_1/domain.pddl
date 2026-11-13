@@ -3,7 +3,7 @@
   (:types app person username password token query artist song playcount - object)
   (:constants
     spotify - app
-    lily-moon-song-1 lily-moon-song-2 lily-moon-song-3 - song)
+    lily-moon-song-1 - song)
   (:predicates
     (passwords-known)
     (profile-known)
@@ -58,6 +58,8 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed)) (in-queue lily-moon-song-1) (in-queue lily-moon-song-2) (in-queue lily-moon-song-3))
+    :precondition (and
+      (in-queue lily-moon-song-1)
+      (not (task-completed)))
     :effect (task-completed))
 )

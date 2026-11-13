@@ -69,61 +69,7 @@
     "object": "note-friends-dinner",
     "value": null,
     "from_api": "simple_note.search_notes",
-    "field": "note_id of the matching note whose created_at >= start of yesterday (2023-05-19)"
-  },
-  {
-    "object": "email-friend-1",
-    "value": null,
-    "from_api": "phone.search_contacts",
-    "field": "email of the friend contact whose first_name equals the first name listed in the note"
-  },
-  {
-    "object": "email-friend-2",
-    "value": null,
-    "from_api": "phone.search_contacts",
-    "field": "email of the friend contact whose first_name equals the second pending name listed in the note"
-  },
-  {
-    "object": "email-friend-3",
-    "value": null,
-    "from_api": "phone.search_contacts",
-    "field": "email of the friend contact whose first_name equals the third pending name listed in the note"
-  },
-  {
-    "object": "amount-share-1",
-    "value": null,
-    "from_api": "simple_note.show_note",
-    "field": "content: dollar value parsed from the line '- <name> => $<share>' for that friend"
-  },
-  {
-    "object": "amount-share-2",
-    "value": null,
-    "from_api": "simple_note.show_note",
-    "field": "content: dollar value parsed from the line '- <name> => $<share>' for that friend"
-  },
-  {
-    "object": "amount-share-3",
-    "value": null,
-    "from_api": "simple_note.show_note",
-    "field": "content: dollar value parsed from the line '- <name> => $<share>' for that friend"
-  },
-  {
-    "object": "dinner-friend-2",
-    "value": null,
-    "from_api": "venmo.show_transactions",
-    "field": "a friend named in the note whose email has NO received transaction with description == \"Friends Dinner\" since yesterday (pending)"
-  },
-  {
-    "object": "dinner-friend-3",
-    "value": null,
-    "from_api": "venmo.show_transactions",
-    "field": "a friend named in the note whose email has NO received transaction with description == \"Friends Dinner\" since yesterday (pending)"
-  },
-  {
-    "object": "dinner-friend-1",
-    "value": null,
-    "from_api": "venmo.show_transactions",
-    "field": "a friend named in the note whose email appears as sender of a received transaction with description == \"Friends Dinner\" (already paid; no request)"
+    "field": "note_id of the result titled \"... Expense Shares ...\" created yesterday (2023-05-19); the search also returns an older \"Friends Dinner at ...\" note that must be ignored"
   },
   {
     "object": "direction-received",
@@ -142,5 +88,101 @@
     "value": "Friends Dinner",
     "from_api": null,
     "field": null
+  },
+  {
+    "object": "email-adrian",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the friend contact whose first_name == \"Adrian\" (Adrian Burton; pending: no such received transaction)"
+  },
+  {
+    "object": "share-adrian",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Adrian => $36'"
+  },
+  {
+    "object": "email-katie",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the friend contact whose first_name == \"Katie\" (Katie Simpson; pending: no such received transaction)"
+  },
+  {
+    "object": "share-katie",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Katie => $30'"
+  },
+  {
+    "object": "email-martin",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the friend contact whose first_name == \"Martin\" (Martin Blackburn; already paid: sender of a received venmo transaction described \"Friends Dinner\" since yesterday)"
+  },
+  {
+    "object": "share-martin",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Martin => $35'"
+  },
+  {
+    "object": "email-robin",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the friend contact whose first_name == \"Robin\" (Robin Burton; already paid: sender of a received venmo transaction described \"Friends Dinner\" since yesterday)"
+  },
+  {
+    "object": "share-robin",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Robin => $36'"
+  },
+  {
+    "object": "email-matthew",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the friend contact whose first_name == \"Matthew\" (Matthew Blackburn; already paid: sender of a received venmo transaction described \"Friends Dinner\" since yesterday)"
+  },
+  {
+    "object": "share-matthew",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Matthew => $19'"
+  },
+  {
+    "object": "email-melissa",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the friend contact whose first_name == \"Melissa\" (Melissa Bailey; pending: no such received transaction)"
+  },
+  {
+    "object": "share-melissa",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Melissa => $31'"
+  },
+  {
+    "object": "email-glenn",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the friend contact whose first_name == \"Glenn\" (Glenn Burton; pending: no such received transaction)"
+  },
+  {
+    "object": "share-glenn",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Glenn => $32'"
+  },
+  {
+    "object": "email-brenda",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the friend contact whose first_name == \"Brenda\" (Brenda Smith; already paid: sender of a received venmo transaction described \"Friends Dinner\" since yesterday)"
+  },
+  {
+    "object": "share-brenda",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Brenda => $40'"
   }
 ]

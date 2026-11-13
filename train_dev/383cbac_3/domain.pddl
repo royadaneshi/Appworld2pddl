@@ -5,6 +5,7 @@
     phone venmo - app
     coworker manager - relationship)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (password-for ?a - app ?pw - password)
@@ -33,7 +34,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (not (task-completed))
                        (profile-known)
                        (passwords-known)
                        (username-for phone ?u)
@@ -58,7 +59,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (not (task-completed))
                        (profile-known)
                        (passwords-known)
                        (username-for venmo ?u)

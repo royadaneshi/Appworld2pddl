@@ -4,25 +4,26 @@
     nicholas-weber-at-gmail-com - username
     file-system-password - password
     file-system-token - token
-    vacations-dir spot-dir-1 spot-dir-2 spot-dir-3 - directory
-    spot-zip-1 spot-zip-2 spot-zip-3 - filepath
     flag-true - flag
+    vacations-dir dir-athens dir-maui dir-stockholm dir-tokyo - directory
+    zip-athens zip-maui zip-stockholm zip-tokyo - filepath
   )
   (:init
     (password-for file-system file-system-password)
     (supervisor-username nicholas-weber-at-gmail-com)
-    (sub-directory-of spot-dir-1 vacations-dir)
-    (sub-directory-of spot-dir-2 vacations-dir)
-    (sub-directory-of spot-dir-3 vacations-dir)
-    (zip-target spot-dir-1 spot-zip-1)
-    (zip-target spot-dir-2 spot-zip-2)
-    (zip-target spot-dir-3 spot-zip-3)
     (is-true flag-true)
-  )
+    (sub-directory-of dir-athens vacations-dir)
+    (sub-directory-of dir-maui vacations-dir)
+    (sub-directory-of dir-stockholm vacations-dir)
+    (sub-directory-of dir-tokyo vacations-dir)
+    (zip-target dir-athens zip-athens)
+    (zip-target dir-maui zip-maui)
+    (zip-target dir-stockholm zip-stockholm)
+    (zip-target dir-tokyo zip-tokyo))
   (:goal (and
-    (archived spot-dir-1)
-    (archived spot-dir-2)
-    (archived spot-dir-3)
-    (task-completed)
-  ))
+    (archived dir-athens)
+    (archived dir-maui)
+    (archived dir-stockholm)
+    (archived dir-tokyo)
+    (task-completed)))
 )

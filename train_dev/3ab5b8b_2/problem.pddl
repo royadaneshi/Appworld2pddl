@@ -5,16 +5,28 @@
     ch-burch-at-gmail-com - username
     spotify-password - password
     spotify-token - token
-    song-liked-in-library-1 song-liked-in-library-2 song-library-only song-liked-only - song)
+    song-9 song-28 song-87 song-110 song-151 song-199 - song
+  )
   (:init
     (username-for spotify ch-burch-at-gmail-com)
     (password-for spotify spotify-password)
-    (in-library song-liked-in-library-1)
-    (liked song-liked-in-library-1)
-    (in-library song-liked-in-library-2)
-    (liked song-liked-in-library-2)
-    (in-library song-library-only)
-    (liked song-liked-only))
-  (:goal (and (downloaded song-liked-in-library-1)
-              (downloaded song-liked-in-library-2)
-              (task-completed))))
+    (in-library song-9)
+    (in-library song-28)
+    (in-library song-87)
+    (in-library song-110)
+    (in-library song-151)
+    (in-library song-199)
+    (liked song-9)
+    (liked song-28)
+    (liked song-87)
+    (liked song-110)
+    (liked song-151)
+    (liked song-199))
+  (:goal (and
+    (downloaded song-9)
+    (downloaded song-28)
+    (downloaded song-87)
+    (downloaded song-110)
+    (downloaded song-151)
+    (downloaded song-199)
+    (task-completed))))

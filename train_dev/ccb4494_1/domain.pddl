@@ -4,7 +4,7 @@
     app person username password token song - object)
   (:constants
     spotify - app
-    song-queue-1 song-queue-2 song-current - song)
+    song-55 song-30 song-242 song-179 song-111 song-322 - song)
   (:predicates
     (passwords-known)
     (profile-known)
@@ -68,9 +68,13 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed))
-                       (liked song-queue-1)
-                       (liked song-queue-2)
-                       (liked song-current))
+    :precondition (and
+      (liked song-55)
+      (liked song-30)
+      (liked song-242)
+      (liked song-179)
+      (liked song-111)
+      (liked song-322)
+      (not (task-completed)))
     :effect (task-completed))
 )

@@ -59,48 +59,14 @@
         },
         "song_id": {
           "$from": "spotify.search_songs",
-          "field": "song_id of 1st result with play_count > 990",
+          "field": "song_id of the only result with play_count > 990 (search_songs with artist_id of Aria Sterling and min_play_count=990 returns exactly one song)",
           "object": "aria-song-1"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-add-to-queue spotify-token aria-song-2 aria-sterling playcount-990)",
-      "api": "spotify.add_to_queue",
-      "args": {
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of 2nd result with play_count > 990",
-          "object": "aria-song-2"
-        }
-      }
-    },
-    {
-      "step": 8,
-      "pddl": "(spotify-add-to-queue spotify-token aria-song-3 aria-sterling playcount-990)",
-      "api": "spotify.add_to_queue",
-      "args": {
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of 3rd result with play_count > 990",
-          "object": "aria-song-3"
-        }
-      }
-    },
-    {
-      "step": 9,
-      "pddl": "(supervisor-complete-task aria-song-1 aria-song-2 aria-song-3)",
+      "pddl": "(supervisor-complete-task aria-song-1)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(simple-note-login pa-ritter-at-gmail-com simple-note-password phone-token)",
+      "pddl": "(simple-note-login pa-ritter-at-gmail-com simple-note-password simple-note-token)",
       "api": "simple_note.login",
       "args": {
         "username": "pa_ritter@gmail.com",
@@ -71,20 +71,20 @@
     },
     {
       "step": 7,
-      "pddl": "(simple-note-search-notes phone-token query-movie-recommendation-suggestion note-movie-recommendations)",
+      "pddl": "(simple-note-search-notes simple-note-token query-movie-recommendation-suggestion note-movie-recommendations)",
       "api": "simple_note.search_notes",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "simple-note-token"
         },
         "query": "movie recommendation suggestion"
       }
     },
     {
       "step": 8,
-      "pddl": "(simple-note-show-note note-movie-recommendations phone-token)",
+      "pddl": "(simple-note-show-note note-movie-recommendations simple-note-token)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
@@ -93,9 +93,9 @@
           "object": "note-movie-recommendations"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "simple-note-token"
         }
       }
     },

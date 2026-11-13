@@ -4,8 +4,9 @@
     app person username password token email query relationship datetime transaction - object)
   (:constants
     supervisor phone venmo - app
-    tx-1 tx-2 tx-3 tx-4 - transaction)
+    tx-1067 tx-1082 tx-1086 tx-1087 tx-1107 tx-1108 tx-1115 tx-1120 tx-1122 tx-2642 tx-4444 tx-4450 tx-4492 tx-5984 tx-5986 tx-6343 tx-8229 tx-8231 tx-8232 tx-8234 tx-8237 tx-8239 tx-8243 tx-8246 - transaction)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (profile-known)
     (passwords-known)
     (current-datetime-known)
@@ -44,7 +45,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (profile-known) (passwords-known)
                        (username-for phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)) (not (task-completed)))
     :effect (has-token phone ?t))
@@ -58,7 +59,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (profile-known) (passwords-known)
                        (username-for venmo ?u) (password-for venmo ?pw)
                        (not (has-token venmo ?t)) (not (task-completed)))
     :effect (has-token venmo ?t))
@@ -82,6 +83,31 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (liked tx-1) (liked tx-2) (liked tx-3) (not (task-completed)))
+    :precondition (and
+      (liked tx-1067)
+      (liked tx-1082)
+      (liked tx-1086)
+      (liked tx-1087)
+      (liked tx-1107)
+      (liked tx-1108)
+      (liked tx-1115)
+      (liked tx-1120)
+      (liked tx-1122)
+      (liked tx-2642)
+      (liked tx-4444)
+      (liked tx-4450)
+      (liked tx-4492)
+      (liked tx-5984)
+      (liked tx-5986)
+      (liked tx-6343)
+      (liked tx-8229)
+      (liked tx-8231)
+      (liked tx-8232)
+      (liked tx-8234)
+      (liked tx-8237)
+      (liked tx-8239)
+      (liked tx-8243)
+      (liked tx-8246)
+      (not (task-completed)))
     :effect (task-completed))
 )

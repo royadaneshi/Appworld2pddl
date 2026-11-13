@@ -51,13 +51,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-unfollow-artist artist-no-liked-1 spotify-token)",
+      "pddl": "(spotify-unfollow-artist artist-emily-rivers spotify-token)",
       "api": "spotify.unfollow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_following_artists",
-          "field": "artist_id of a followed artist (all pages) whose id does NOT appear in the union of artists[].id over all pages of spotify.show_liked_songs",
-          "object": "artist-no-liked-1"
+          "field": "artist_id of the followed artist \"Emily Rivers\"; none of the liked songs is by this artist -> unfollow",
+          "object": "artist-emily-rivers"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -68,13 +68,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-unfollow-artist artist-no-liked-2 spotify-token)",
+      "pddl": "(spotify-unfollow-artist artist-ethan-wallace spotify-token)",
       "api": "spotify.unfollow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_following_artists",
-          "field": "artist_id of another followed artist whose id does NOT appear in any liked song's artists[].id (one unfollow call per such artist)",
-          "object": "artist-no-liked-2"
+          "field": "artist_id of the followed artist \"Ethan Wallace\"; none of the liked songs is by this artist -> unfollow",
+          "object": "artist-ethan-wallace"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -85,6 +85,57 @@
     },
     {
       "step": 8,
+      "pddl": "(spotify-unfollow-artist artist-lily-moon spotify-token)",
+      "api": "spotify.unfollow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Lily Moon\"; none of the liked songs is by this artist -> unfollow",
+          "object": "artist-lily-moon"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-unfollow-artist artist-marcus-lane spotify-token)",
+      "api": "spotify.unfollow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Marcus Lane\"; none of the liked songs is by this artist -> unfollow",
+          "object": "artist-marcus-lane"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-unfollow-artist artist-nova-harmony spotify-token)",
+      "api": "spotify.unfollow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_following_artists",
+          "field": "artist_id of the followed artist \"Nova Harmony\"; none of the liked songs is by this artist -> unfollow",
+          "object": "artist-nova-harmony"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

@@ -51,7 +51,7 @@
     "object": "card-non-expired",
     "value": null,
     "from_api": "venmo.show_payment_cards",
-    "field": "payment_card_id of a card whose (expiry_year, expiry_month) is after the current date from phone.get_current_date_and_time; try the next non-expired card if create_transaction fails"
+    "field": "payment_card_id of the one non-expired card that can fund the payment: Wells Fargo (expires 2023-10). Being non-expired is not sufficient: the other non-expired cards (American Express, Discover) are rejected with \"Your payment card does not have $100.00 to make this transaction.\" and card funds are not shown by the API, so non-expired cards must be tried in order until create_transaction succeeds"
   },
   {
     "object": "amount-100",

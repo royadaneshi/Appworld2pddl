@@ -39,13 +39,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-395 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of each item (iterate all page_index values until empty)",
-          "object": "playlist-1"
+          "field": "playlist_id of \"Golden Oldies: A Nostalgic Trip\" (contains indie songs)",
+          "object": "playlist-395"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -56,13 +56,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-398 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of each item (iterate all page_index values until empty)",
-          "object": "playlist-2"
+          "field": "playlist_id of \"Reggae Rhythms: Island Vibes\" (contains indie songs)",
+          "object": "playlist-398"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -73,25 +73,25 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-song indie-song-1 playlist-1)",
+      "pddl": "(spotify-show-song song-202 playlist-395)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id",
-          "object": "indie-song-1"
+          "field": "songs[].id of \"Summer's End\" (genre indie via spotify.show_song)",
+          "object": "song-202"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-follow-artist indie-artist-1 spotify-token indie-song-1)",
+      "pddl": "(spotify-follow-artist artist-ethan-wallace spotify-token song-202)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id where genre == \"indie\"",
-          "object": "indie-artist-1"
+          "field": "artists[].id of \"Ethan Wallace\" (artist of a indie playlist song, not yet followed)",
+          "object": "artist-ethan-wallace"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -102,25 +102,25 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-song indie-song-2 playlist-2)",
+      "pddl": "(spotify-show-song song-32 playlist-398)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_playlist",
-          "field": "songs[].id",
-          "object": "indie-song-2"
+          "field": "songs[].id of \"Wading Through Rivers of Tears\" (genre indie via spotify.show_song)",
+          "object": "song-32"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-follow-artist indie-artist-2 spotify-token indie-song-2)",
+      "pddl": "(spotify-follow-artist artist-noah-bennett spotify-token song-32)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id where genre == \"indie\"",
-          "object": "indie-artist-2"
+          "field": "artists[].id of \"Noah Bennett\" (artist of a indie playlist song, not yet followed)",
+          "object": "artist-noah-bennett"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -131,6 +131,23 @@
     },
     {
       "step": 11,
+      "pddl": "(spotify-follow-artist artist-nova-harmony spotify-token song-32)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Nova Harmony\" (artist of a indie playlist song, not yet followed)",
+          "object": "artist-nova-harmony"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

@@ -6,6 +6,7 @@
     venmo phone file-system - app
     c-all - count)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (profile-known)
     (passwords-known)
     (date-known)
@@ -45,7 +46,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (profile-known) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (and (has-token phone ?t)))
 
   ; API: phone.get_current_date_and_time
@@ -63,7 +64,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (username-for file-system ?u) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (profile-known) (passwords-known) (username-for file-system ?u) (password-for file-system ?pw) (not (has-token file-system ?t)) (not (task-completed)))
     :effect (and (has-token file-system ?t)))
 
   ; API: file_system.show_directory
@@ -81,7 +82,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (profile-known) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (and (has-token venmo ?t)))
 
   ; API: venmo.create_payment_request

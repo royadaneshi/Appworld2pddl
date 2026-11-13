@@ -5,8 +5,8 @@
   )
   (:constants
     spotify - app
-    liked-song-in-library downloaded-song-in-library unliked-undownloaded-song - song
-    liked-album-in-library fully-downloaded-album-in-library unliked-undownloaded-album - album
+    song-the-last-waltz-of-a-broken-heart song-heart-s-abyss song-yearning-for-a-glimpse-of-heaven song-in-the-theater-of-broken-promises song-beyond-the-horizon-s-reach song-memories-etched-in-melancholy song-under-the-willow song-the-sweet-pain-of-reminiscence song-chasing-ghosts song-momentary-bliss song-invisible-whispers song-ephemeral-beauty song-harmony-of-the-distant-stars song-trapped-in-a-daydream song-solitude-s-melancholy song-glass-castles - song
+    album-echo-chamber-chronicles album-vibrant-visions album-echoes-of-eternity album-neon-echoes album-enchanted-melodies album-electric-dreamscape album-velvet-underground - album
   )
   (:predicates
     (passwords-known)
@@ -127,14 +127,30 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (not (in-song-library unliked-undownloaded-song))
-      (in-song-library liked-song-in-library)
-      (in-song-library downloaded-song-in-library)
-      (not (in-album-library unliked-undownloaded-album))
-      (in-album-library liked-album-in-library)
-      (in-album-library fully-downloaded-album-in-library)
-      (not (task-completed))
-    )
+      (in-song-library song-the-last-waltz-of-a-broken-heart)
+      (in-song-library song-heart-s-abyss)
+      (in-song-library song-yearning-for-a-glimpse-of-heaven)
+      (in-song-library song-in-the-theater-of-broken-promises)
+      (not (in-song-library song-beyond-the-horizon-s-reach))
+      (in-song-library song-memories-etched-in-melancholy)
+      (in-song-library song-under-the-willow)
+      (not (in-song-library song-the-sweet-pain-of-reminiscence))
+      (not (in-song-library song-chasing-ghosts))
+      (not (in-song-library song-momentary-bliss))
+      (not (in-song-library song-invisible-whispers))
+      (in-song-library song-ephemeral-beauty)
+      (not (in-song-library song-harmony-of-the-distant-stars))
+      (in-song-library song-trapped-in-a-daydream)
+      (not (in-song-library song-solitude-s-melancholy))
+      (in-song-library song-glass-castles)
+      (in-album-library album-echo-chamber-chronicles)
+      (not (in-album-library album-vibrant-visions))
+      (in-album-library album-echoes-of-eternity)
+      (not (in-album-library album-neon-echoes))
+      (in-album-library album-enchanted-melodies)
+      (not (in-album-library album-electric-dreamscape))
+      (not (in-album-library album-velvet-underground))
+      (not (task-completed)))
     :effect (task-completed)
   )
 )

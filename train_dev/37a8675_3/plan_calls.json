@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-3016947686 phone-password venmo-token)",
+      "pddl": "(phone-login phone-3016947686 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3016947686",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login jar-calhoun-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login jar-calhoun-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "jar_calhoun@gmail.com",
@@ -46,32 +46,32 @@
     },
     {
       "step": 6,
-      "pddl": "(venmo-show-payment-cards phone-token card-nonexpired)",
+      "pddl": "(venmo-show-payment-cards venmo-token card-nonexpired)",
       "api": "venmo.show_payment_cards",
-      "args": {
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
-      "step": 7,
-      "pddl": "(phone-search-contacts venmo-token query-2114992604 contact-2114992604 phone-2114992604 contact-email)",
-      "api": "phone.search_contacts",
       "args": {
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
           "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token query-2114992604 contact-2114992604 phone-2114992604 contact-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
         },
         "query": "2114992604"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-create-transaction contact-email amount-68 phone-token description-payment card-nonexpired private-true contact-2114992604 tx-68-private)",
+      "pddl": "(venmo-create-transaction contact-email amount-68 venmo-token description-payment card-nonexpired private-true contact-2114992604 tx-68-private)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -81,14 +81,14 @@
         },
         "amount": 68,
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Payment",
         "payment_card_id": {
           "$from": "venmo.show_payment_cards",
-          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is after the current date from phone.get_current_date_and_time; if create_transaction fails, retry with the next non-expired card",
+          "field": "payment_card_id of the one non-expired card that can fund the payment: American Express (expires 2024-05). Being non-expired is not sufficient: the other non-expired cards (Chase, HSBC) are rejected with \"Your payment card does not have $68.00 to make this transaction.\" and card funds are not shown by the API, so non-expired cards must be tried in order until create_transaction succeeds",
           "object": "card-nonexpired"
         },
         "private": true

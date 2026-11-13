@@ -48,7 +48,7 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-login username-4288705164 phone-password venmo-token)",
+      "pddl": "(phone-login username-4288705164 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "4288705164",
@@ -61,7 +61,7 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-login username-jepowell-at-gmail-com venmo-password file-system-token)",
+      "pddl": "(venmo-login username-jepowell-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "jepowell@gmail.com",
@@ -91,13 +91,13 @@
     },
     {
       "step": 9,
-      "pddl": "(phone-search-contacts venmo-token query-roommate relationship-roommate)",
+      "pddl": "(phone-search-contacts phone-token query-roommate relationship-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "roommate",
         "relationship": "roommate"
@@ -105,13 +105,13 @@
     },
     {
       "step": 10,
-      "pddl": "(venmo-create-payment-request roommate-1-email amount-bill-share file-system-token note-i-paid-for-cable-bill roommate-1 c0 c1)",
+      "pddl": "(venmo-create-payment-request roommate-connor-email amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-connor c0 c1)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of 1st contact with relationship roommate",
-          "object": "roommate-1-email"
+          "field": "email of the roommate contact Connor Brown (connorbrow@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
+          "object": "roommate-connor-email"
         },
         "amount": {
           "$from": "file_system.show_file",
@@ -119,22 +119,22 @@
           "object": "amount-bill-share"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "description": "I paid for cable bill."
       }
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-payment-request roommate-2-email amount-bill-share file-system-token note-i-paid-for-cable-bill roommate-2 c1 c-all)",
+      "pddl": "(venmo-create-payment-request roommate-ed-email amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-ed c1 c2)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of 2nd contact with relationship roommate",
-          "object": "roommate-2-email"
+          "field": "email of the roommate contact Ed Wilson (ed_wilson@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
+          "object": "roommate-ed-email"
         },
         "amount": {
           "$from": "file_system.show_file",
@@ -142,15 +142,38 @@
           "object": "amount-bill-share"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "venmo-token"
         },
         "description": "I paid for cable bill."
       }
     },
     {
       "step": 12,
+      "pddl": "(venmo-create-payment-request roommate-martin-email amount-bill-share venmo-token note-i-paid-for-cable-bill roommate-martin c2 c-all)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the roommate contact Martin Blackburn (mar_blac@gmail.com); one of 3 contacts with relationship roommate (paginate all pages)",
+          "object": "roommate-martin-email"
+        },
+        "amount": {
+          "$from": "file_system.show_file",
+          "field": "content: parse 'Total Amount => $<total>'; amount = round(total / (number of roommate contacts from phone.search_contacts + 1))",
+          "object": "amount-bill-share"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "I paid for cable bill."
+      }
+    },
+    {
+      "step": 13,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

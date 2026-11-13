@@ -7,6 +7,7 @@
     supervisor phone simple-note spotify - app
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (profile-known)
     (passwords-known)
     (date-known)
@@ -50,7 +51,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw)
       (profile-known)
       (passwords-known)
       (supervisor-email ?u)
@@ -88,7 +89,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw)
       (profile-known)
       (passwords-known)
       (supervisor-email ?u)

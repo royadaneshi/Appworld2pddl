@@ -8,11 +8,12 @@
     query-coworker query-dinner-with-colleagues - query
     relationship-coworker - relationship
     note-dinner-with-colleagues - note
-    email-coworker-1 email-coworker-2 email-coworker-3 - email
-    amount-share-1 amount-share-2 amount-share-3 - amount
     description-dinner-with-colleagues - description
     received - direction
-    date-2023-05-19 - datetime)
+    date-2023-05-19 - datetime
+    share-stephen share-sabrina share-jamie share-allison share-stacy share-travis share-kristin share-anita share-kayla - amount
+    email-stephen email-sabrina email-jamie email-allison email-stacy email-travis email-kristin email-anita email-kayla - email
+  )
   (:init
     (username-for phone phone-7056722825)
     (username-for simple-note gra-martinez-at-gmail-com)
@@ -27,19 +28,41 @@
     (contact-relationship relationship-coworker)
     (note-query query-dinner-with-colleagues)
     (note-for-query note-dinner-with-colleagues query-dinner-with-colleagues)
-    (coworker-email coworker-1 email-coworker-1)
-    (coworker-email coworker-2 email-coworker-2)
-    (coworker-email coworker-3 email-coworker-3)
-    (share-in-note note-dinner-with-colleagues coworker-1 amount-share-1)
-    (share-in-note note-dinner-with-colleagues coworker-2 amount-share-2)
-    (share-in-note note-dinner-with-colleagues coworker-3 amount-share-3)
-    (already-paid coworker-3)
     (request-description description-dinner-with-colleagues)
     (direction-received received)
-    (date-yesterday date-2023-05-19))
+    (date-yesterday date-2023-05-19)
+    (coworker-email coworker-stephen email-stephen)
+    (coworker-email coworker-sabrina email-sabrina)
+    (coworker-email coworker-jamie email-jamie)
+    (coworker-email coworker-allison email-allison)
+    (coworker-email coworker-stacy email-stacy)
+    (coworker-email coworker-travis email-travis)
+    (coworker-email coworker-kristin email-kristin)
+    (coworker-email coworker-anita email-anita)
+    (coworker-email coworker-kayla email-kayla)
+    (share-in-note note-dinner-with-colleagues coworker-stephen share-stephen)
+    (share-in-note note-dinner-with-colleagues coworker-sabrina share-sabrina)
+    (share-in-note note-dinner-with-colleagues coworker-jamie share-jamie)
+    (share-in-note note-dinner-with-colleagues coworker-allison share-allison)
+    (share-in-note note-dinner-with-colleagues coworker-stacy share-stacy)
+    (share-in-note note-dinner-with-colleagues coworker-travis share-travis)
+    (share-in-note note-dinner-with-colleagues coworker-kristin share-kristin)
+    (share-in-note note-dinner-with-colleagues coworker-anita share-anita)
+    (share-in-note note-dinner-with-colleagues coworker-kayla share-kayla)
+    (already-paid coworker-allison)
+    (already-paid coworker-stacy)
+    (already-paid coworker-travis)
+    (already-paid coworker-kristin)
+    (already-paid coworker-kayla))
   (:goal (and
-    (payment-requested coworker-1)
-    (payment-requested coworker-2)
-    (not (payment-requested coworker-3))
+    (payment-requested coworker-stephen)
+    (payment-requested coworker-sabrina)
+    (payment-requested coworker-jamie)
+    (payment-requested coworker-anita)
+    (not (payment-requested coworker-allison))
+    (not (payment-requested coworker-stacy))
+    (not (payment-requested coworker-travis))
+    (not (payment-requested coworker-kristin))
+    (not (payment-requested coworker-kayla))
     (task-completed)))
 )

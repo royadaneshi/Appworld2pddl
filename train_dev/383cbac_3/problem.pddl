@@ -8,6 +8,10 @@
     query-coworker query-manager - query
     amount-34 total-dinner-amount - amount)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-username-2254213734)
     (username-for venmo venmo-username-jo-harr-at-gmail-com)
     (password-for phone phone-password)

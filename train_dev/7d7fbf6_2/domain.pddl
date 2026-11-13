@@ -5,8 +5,8 @@
   )
   (:constants
     file-system - app
-    spot-dir-1 spot-dir-2 spot-dir-3 - dirpath
-    spot-tar-1 spot-tar-2 spot-tar-3 - filepath
+    dir-bali dir-barcelona dir-kyoto dir-maldives - dirpath
+    tar-bali tar-barcelona tar-kyoto tar-maldives - filepath
   )
   (:predicates
     (passwords-known)
@@ -79,12 +79,14 @@
   (:action supervisor-complete-task
     :parameters ()
     :precondition (and
-      (compressed-to spot-dir-1 spot-tar-1)
-      (directory-deleted spot-dir-1)
-      (compressed-to spot-dir-2 spot-tar-2)
-      (directory-deleted spot-dir-2)
-      (compressed-to spot-dir-3 spot-tar-3)
-      (directory-deleted spot-dir-3)
+      (compressed-to dir-bali tar-bali)
+      (directory-deleted dir-bali)
+      (compressed-to dir-barcelona tar-barcelona)
+      (directory-deleted dir-barcelona)
+      (compressed-to dir-kyoto tar-kyoto)
+      (directory-deleted dir-kyoto)
+      (compressed-to dir-maldives tar-maldives)
+      (directory-deleted dir-maldives)
       (not (task-completed)))
     :effect (and (task-completed))
   )

@@ -14,6 +14,10 @@
     flag-true - flag
   )
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
     (username-for phone phone-username-3155673041)
     (username-for simple-note simple-note-username-joyce-weav-at-gmail-com)
     (password-for phone phone-password)

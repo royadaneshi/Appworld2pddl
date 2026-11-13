@@ -29,7 +29,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'person', 'payment-request', 'password', 'query', 'description', 'username', 'email', 'token', 'amount', 'app', 'status'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": {
@@ -53,15 +55,15 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(supervisor-show-profile)",
-      "(phone-login username-2444880289 phone-password venmo-token)",
-      "(venmo-login username-pa-ritter-at-gmail-com venmo-password phone-token)",
-      "(phone-search-contacts venmo-token query-brandon brandon brandon-email)",
-      "(venmo-show-sent-payment-requests phone-token status-approved brandon brandon-email last-approved-request-to-brandon amount-of-last-request-to-brandon)",
-      "(venmo-create-transaction brandon-email amount-of-last-request-to-brandon phone-token desc-returning-the-accidental-payment brandon)",
+      "(phone-login username-2444880289 phone-password phone-token)",
+      "(venmo-login username-pa-ritter-at-gmail-com venmo-password venmo-token)",
+      "(phone-search-contacts phone-token query-brandon brandon brandon-email)",
+      "(venmo-show-sent-payment-requests venmo-token status-approved brandon brandon-email last-approved-request-to-brandon amount-of-last-request-to-brandon)",
+      "(venmo-create-transaction brandon-email amount-of-last-request-to-brandon venmo-token desc-returning-the-accidental-payment brandon)",
       "(supervisor-complete-task brandon amount-of-last-request-to-brandon)"
     ],
     "message": "",
-    "seconds": 1.15
+    "seconds": 0.82
   },
   "solution_used": true,
   "has_reference_solution": true,

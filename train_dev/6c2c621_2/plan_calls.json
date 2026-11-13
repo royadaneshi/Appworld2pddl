@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(simple-note-login spencer-powell-at-gmail-com simple-note-password file-system-token)",
+      "pddl": "(simple-note-login spencer-powell-at-gmail-com simple-note-password simple-note-token)",
       "api": "simple_note.login",
       "args": {
         "username": "spencer.powell@gmail.com",
@@ -40,43 +40,39 @@
     },
     {
       "step": 5,
-      "pddl": "(simple-note-search-notes file-system-token)",
+      "pddl": "(simple-note-search-notes simple-note-token)",
       "api": "simple_note.search_notes",
       "args": {
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 6,
-      "pddl": "(simple-note-show-note note-1 file-system-token content-note-1)",
+      "pddl": "(simple-note-show-note note-book-reading-lists simple-note-token content-book-reading-lists)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the 1st note (iterate all page_index values until empty)",
-          "object": "note-1"
+          "field": "note_id of the note titled \"Book Reading Lists\" (iterate all pages)",
+          "object": "note-book-reading-lists"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(file-system-create-file backups-notes-note-1-md file-system-token content-note-1 note-1)",
+      "pddl": "(file-system-create-file file-book-reading-lists file-system-token content-book-reading-lists note-book-reading-lists)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": {
-          "$from": "simple_note.search_notes",
-          "field": "\"~/backups/notes/\" + title.replace(\" \", \"_\") + \".md\" for note-1",
-          "object": "backups-notes-note-1-md"
-        },
+        "file_path": "~/backups/notes/Book_Reading_Lists.md",
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -84,38 +80,34 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content (for note_id of note-1)",
-          "object": "content-note-1"
+          "field": "content of that note",
+          "object": "content-book-reading-lists"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(simple-note-show-note note-2 file-system-token content-note-2)",
+      "pddl": "(simple-note-show-note note-food-recipes simple-note-token content-food-recipes)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the 2nd note (iterate all page_index values until empty)",
-          "object": "note-2"
+          "field": "note_id of the note titled \"Food Recipes\" (iterate all pages)",
+          "object": "note-food-recipes"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(file-system-create-file backups-notes-note-2-md file-system-token content-note-2 note-2)",
+      "pddl": "(file-system-create-file file-food-recipes file-system-token content-food-recipes note-food-recipes)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": {
-          "$from": "simple_note.search_notes",
-          "field": "\"~/backups/notes/\" + title.replace(\" \", \"_\") + \".md\" for note-2",
-          "object": "backups-notes-note-2-md"
-        },
+        "file_path": "~/backups/notes/Food_Recipes.md",
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -123,38 +115,34 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content (for note_id of note-2)",
-          "object": "content-note-2"
+          "field": "content of that note",
+          "object": "content-food-recipes"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(simple-note-show-note note-3 file-system-token content-note-3)",
+      "pddl": "(simple-note-show-note note-funny-quotes-collection simple-note-token content-funny-quotes-collection)",
       "api": "simple_note.show_note",
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the 3rd note (iterate all page_index values until empty)",
-          "object": "note-3"
+          "field": "note_id of the note titled \"Funny Quotes Collection\" (iterate all pages)",
+          "object": "note-funny-quotes-collection"
         },
         "access_token": {
-          "$from": "file_system.login",
+          "$from": "simple_note.login",
           "field": "access_token",
-          "object": "file-system-token"
+          "object": "simple-note-token"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(file-system-create-file backups-notes-note-3-md file-system-token content-note-3 note-3)",
+      "pddl": "(file-system-create-file file-funny-quotes-collection file-system-token content-funny-quotes-collection note-funny-quotes-collection)",
       "api": "file_system.create_file",
       "args": {
-        "file_path": {
-          "$from": "simple_note.search_notes",
-          "field": "\"~/backups/notes/\" + title.replace(\" \", \"_\") + \".md\" for note-3",
-          "object": "backups-notes-note-3-md"
-        },
+        "file_path": "~/backups/notes/Funny_Quotes_Collection.md",
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
@@ -162,14 +150,819 @@
         },
         "content": {
           "$from": "simple_note.show_note",
-          "field": "content (for note_id of note-3)",
-          "object": "content-note-3"
+          "field": "content of that note",
+          "object": "content-funny-quotes-collection"
         }
       }
     },
     {
       "step": 12,
-      "pddl": "(supervisor-complete-task note-1 note-2 note-3)",
+      "pddl": "(simple-note-show-note note-gift-ideas-for-various-occasions simple-note-token content-gift-ideas-for-various-occasions)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Gift Ideas for Various Occasions\" (iterate all pages)",
+          "object": "note-gift-ideas-for-various-occasions"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-create-file file-gift-ideas-for-various-occasions file-system-token content-gift-ideas-for-various-occasions note-gift-ideas-for-various-occasions)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Gift_Ideas_for_Various_Occasions.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-gift-ideas-for-various-occasions"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(simple-note-show-note note-grocery-list simple-note-token content-grocery-list)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Grocery List\" (iterate all pages)",
+          "object": "note-grocery-list"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(file-system-create-file file-grocery-list file-system-token content-grocery-list note-grocery-list)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Grocery_List.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-grocery-list"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-02 simple-note-token content-habit-tracking-log-for-2023-05-02)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-02\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-02"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-02 file-system-token content-habit-tracking-log-for-2023-05-02 note-habit-tracking-log-for-2023-05-02)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-02.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-02"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-03 simple-note-token content-habit-tracking-log-for-2023-05-03)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-03\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-03"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-03 file-system-token content-habit-tracking-log-for-2023-05-03 note-habit-tracking-log-for-2023-05-03)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-03.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-03"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-04 simple-note-token content-habit-tracking-log-for-2023-05-04)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-04\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-04"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-04 file-system-token content-habit-tracking-log-for-2023-05-04 note-habit-tracking-log-for-2023-05-04)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-04.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-04"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-05 simple-note-token content-habit-tracking-log-for-2023-05-05)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-05\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-05"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-05 file-system-token content-habit-tracking-log-for-2023-05-05 note-habit-tracking-log-for-2023-05-05)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-05.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-05"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-06 simple-note-token content-habit-tracking-log-for-2023-05-06)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-06\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-06"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-06 file-system-token content-habit-tracking-log-for-2023-05-06 note-habit-tracking-log-for-2023-05-06)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-06.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-06"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-07 simple-note-token content-habit-tracking-log-for-2023-05-07)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-07\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-07"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-07 file-system-token content-habit-tracking-log-for-2023-05-07 note-habit-tracking-log-for-2023-05-07)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-07.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-07"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-08 simple-note-token content-habit-tracking-log-for-2023-05-08)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-08\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-08"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-08 file-system-token content-habit-tracking-log-for-2023-05-08 note-habit-tracking-log-for-2023-05-08)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-08.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-08"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-09 simple-note-token content-habit-tracking-log-for-2023-05-09)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-09\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-09"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-09 file-system-token content-habit-tracking-log-for-2023-05-09 note-habit-tracking-log-for-2023-05-09)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-09.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-09"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-10 simple-note-token content-habit-tracking-log-for-2023-05-10)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-10\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-10"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-10 file-system-token content-habit-tracking-log-for-2023-05-10 note-habit-tracking-log-for-2023-05-10)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-10.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-10"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-11 simple-note-token content-habit-tracking-log-for-2023-05-11)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-11\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-11"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-11 file-system-token content-habit-tracking-log-for-2023-05-11 note-habit-tracking-log-for-2023-05-11)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-11.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-11"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-12 simple-note-token content-habit-tracking-log-for-2023-05-12)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-12\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-12"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-12 file-system-token content-habit-tracking-log-for-2023-05-12 note-habit-tracking-log-for-2023-05-12)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-12.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-12"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-13 simple-note-token content-habit-tracking-log-for-2023-05-13)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-13\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-13"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-13 file-system-token content-habit-tracking-log-for-2023-05-13 note-habit-tracking-log-for-2023-05-13)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-13.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-13"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-14 simple-note-token content-habit-tracking-log-for-2023-05-14)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-14\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-14"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-14 file-system-token content-habit-tracking-log-for-2023-05-14 note-habit-tracking-log-for-2023-05-14)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-14.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-14"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-15 simple-note-token content-habit-tracking-log-for-2023-05-15)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-15\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-15"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-15 file-system-token content-habit-tracking-log-for-2023-05-15 note-habit-tracking-log-for-2023-05-15)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-15.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-15"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-16 simple-note-token content-habit-tracking-log-for-2023-05-16)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-16\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-16"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-16 file-system-token content-habit-tracking-log-for-2023-05-16 note-habit-tracking-log-for-2023-05-16)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-16.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-16"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(simple-note-show-note note-habit-tracking-log-for-2023-05-17 simple-note-token content-habit-tracking-log-for-2023-05-17)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Habit Tracking Log for 2023-05-17\" (iterate all pages)",
+          "object": "note-habit-tracking-log-for-2023-05-17"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(file-system-create-file file-habit-tracking-log-for-2023-05-17 file-system-token content-habit-tracking-log-for-2023-05-17 note-habit-tracking-log-for-2023-05-17)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Habit_Tracking_Log_for_2023-05-17.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-habit-tracking-log-for-2023-05-17"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(simple-note-show-note note-inspirational-quotes-collection simple-note-token content-inspirational-quotes-collection)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Inspirational Quotes Collection\" (iterate all pages)",
+          "object": "note-inspirational-quotes-collection"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(file-system-create-file file-inspirational-quotes-collection file-system-token content-inspirational-quotes-collection note-inspirational-quotes-collection)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Inspirational_Quotes_Collection.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-inspirational-quotes-collection"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(simple-note-show-note note-movie-quotes-collection simple-note-token content-movie-quotes-collection)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Movie Quotes Collection\" (iterate all pages)",
+          "object": "note-movie-quotes-collection"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(file-system-create-file file-movie-quotes-collection file-system-token content-movie-quotes-collection note-movie-quotes-collection)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Movie_Quotes_Collection.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-movie-quotes-collection"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(simple-note-show-note note-movie-recommendations simple-note-token content-movie-recommendations)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Movie Recommendations\" (iterate all pages)",
+          "object": "note-movie-recommendations"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(file-system-create-file file-movie-recommendations file-system-token content-movie-recommendations note-movie-recommendations)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Movie_Recommendations.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-movie-recommendations"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(simple-note-show-note note-my-bucket-list-x-done-not-done simple-note-token content-my-bucket-list-x-done-not-done)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"My Bucket List ([x] = done, [ ] = not done))\" (iterate all pages)",
+          "object": "note-my-bucket-list-x-done-not-done"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(file-system-create-file file-my-bucket-list-x-done-not-done file-system-token content-my-bucket-list-x-done-not-done note-my-bucket-list-x-done-not-done)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/My_Bucket_List_([x]_=_done,_[_]_=_not_done)).md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-my-bucket-list-x-done-not-done"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(simple-note-show-note note-weekly-workout-plan simple-note-token content-weekly-workout-plan)",
+      "api": "simple_note.show_note",
+      "args": {
+        "note_id": {
+          "$from": "simple_note.search_notes",
+          "field": "note_id of the note titled \"Weekly Workout Plan\" (iterate all pages)",
+          "object": "note-weekly-workout-plan"
+        },
+        "access_token": {
+          "$from": "simple_note.login",
+          "field": "access_token",
+          "object": "simple-note-token"
+        }
+      }
+    },
+    {
+      "step": 57,
+      "pddl": "(file-system-create-file file-weekly-workout-plan file-system-token content-weekly-workout-plan note-weekly-workout-plan)",
+      "api": "file_system.create_file",
+      "args": {
+        "file_path": "~/backups/notes/Weekly_Workout_Plan.md",
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "content": {
+          "$from": "simple_note.show_note",
+          "field": "content of that note",
+          "object": "content-weekly-workout-plan"
+        }
+      }
+    },
+    {
+      "step": 58,
+      "pddl": "(supervisor-complete-task note-movie-recommendations note-my-bucket-list-x-done-not-done note-weekly-workout-plan)",
       "api": "supervisor.complete_task",
       "args": {}
     }

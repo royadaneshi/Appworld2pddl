@@ -6,7 +6,7 @@
   ; supervisor-complete-task can state the full goal conjunction
   (:constants
     spotify - app
-    artist-1 artist-2 artist-3 artist-4 - artist)
+    artist-olivia-roberts artist-phoenix-rivers artist-jasper-skye artist-ava-morgan artist-seraphina-dawn artist-orion-steele artist-aria-sterling artist-zoey-james artist-eliana-harper artist-violet-cascade artist-liam-palmer artist-velvet-echo artist-isabella-cruz artist-lucas-diaz artist-marcus-lane artist-hazel-winter artist-lucas-grey artist-felix-blackwood artist-lily-moon artist-noah-bennett - artist)
   (:predicates
     (profile-known)
     (passwords-known)
@@ -74,5 +74,26 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (following artist-1) (following artist-2) (following artist-3) (following artist-4) (not (task-completed)))
+    :precondition (and
+      (following artist-olivia-roberts)
+      (following artist-phoenix-rivers)
+      (following artist-jasper-skye)
+      (following artist-ava-morgan)
+      (following artist-seraphina-dawn)
+      (following artist-orion-steele)
+      (following artist-aria-sterling)
+      (following artist-zoey-james)
+      (following artist-eliana-harper)
+      (following artist-violet-cascade)
+      (following artist-liam-palmer)
+      (following artist-velvet-echo)
+      (following artist-isabella-cruz)
+      (following artist-lucas-diaz)
+      (following artist-marcus-lane)
+      (following artist-hazel-winter)
+      (following artist-lucas-grey)
+      (following artist-felix-blackwood)
+      (following artist-lily-moon)
+      (following artist-noah-bennett)
+      (not (task-completed)))
     :effect (and (task-completed))))

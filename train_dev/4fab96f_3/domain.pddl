@@ -5,9 +5,10 @@
   )
   (:constants
     phone venmo - app
-    stale-request-roommate-1 stale-request-roommate-2 recent-request-roommate-1 stale-request-friend - payment-request
+    request-1608 request-1627 request-1615 request-1613 request-1612 request-1624 - payment-request
   )
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (password-for ?a - app ?pw - password)
@@ -44,7 +45,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (profile-known) (passwords-known) (username-for phone ?u) (password-for phone ?pw) (not (has-token phone ?t)) (not (task-completed)))
     :effect (and (has-token phone ?t))
   )
 
@@ -65,7 +66,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (profile-known) (passwords-known) (username-for venmo ?u) (password-for venmo ?pw) (not (has-token venmo ?t)) (not (task-completed)))
     :effect (and (has-token venmo ?t))
   )
 
@@ -86,7 +87,14 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (reminded stale-request-roommate-1) (reminded stale-request-roommate-2) (not (reminded recent-request-roommate-1)) (not (reminded stale-request-friend)) (not (task-completed)))
+    :precondition (and
+      (reminded request-1608)
+      (reminded request-1627)
+      (reminded request-1615)
+      (reminded request-1613)
+      (reminded request-1612)
+      (reminded request-1624)
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

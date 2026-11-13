@@ -39,13 +39,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-402 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (each playlist in the paginated library listing)",
-          "object": "playlist-1"
+          "field": "playlist_id of \"Urban Jazz Fusion\"",
+          "object": "playlist-402"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -56,6 +56,108 @@
     },
     {
       "step": 6,
+      "pddl": "(spotify-show-playlist playlist-403 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Groove Galaxy: Funk & Soul\"",
+          "object": "playlist-403"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-playlist playlist-405 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
+          "object": "playlist-405"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-playlist playlist-406 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-406"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-playlist playlist-407 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
+          "object": "playlist-407"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-playlist playlist-408 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
+          "object": "playlist-408"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-show-playlist playlist-409 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-409"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
       "pddl": "(spotify-show-song-library spotify-token my-song-library)",
       "api": "spotify.show_song_library",
       "args": {
@@ -67,60 +169,26 @@
       }
     },
     {
-      "step": 7,
-      "pddl": "(spotify-show-song song-released-2022 playlist-1)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id; selected because spotify.show_song release_date year > 2021",
-          "object": "song-released-2022"
-        }
-      }
-    },
-    {
-      "step": 8,
-      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-released-2022 spotify-token n3 n2)",
-      "api": "spotify.remove_song_from_playlist",
-      "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (each playlist in the paginated library listing)",
-          "object": "playlist-1"
-        },
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id; selected because spotify.show_song release_date year > 2021",
-          "object": "song-released-2022"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        }
-      }
-    },
-    {
-      "step": 9,
-      "pddl": "(spotify-show-song song-released-2023 playlist-1)",
+      "step": 13,
+      "pddl": "(spotify-show-song song-124 my-song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021",
-          "object": "song-released-2023"
+          "field": "song_id of \"Drowning Sorrows\" (release_date 2022-07-16 via spotify.show_song; to remove)",
+          "object": "song-124"
         }
       }
     },
     {
-      "step": 10,
-      "pddl": "(spotify-remove-song-from-library song-released-2023 spotify-token my-song-library n2 n1)",
+      "step": 14,
+      "pddl": "(spotify-remove-song-from-library song-124 spotify-token my-song-library n34 n33)",
       "api": "spotify.remove_song_from_library",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_library",
-          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021",
-          "object": "song-released-2023"
+          "field": "song_id of \"Drowning Sorrows\" (release_date 2022-07-16 via spotify.show_song; to remove)",
+          "object": "song-124"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -130,19 +198,205 @@
       }
     },
     {
-      "step": 11,
-      "pddl": "(spotify-remove-song-from-playlist playlist-1 song-released-2023 spotify-token n1 n0)",
+      "step": 15,
+      "pddl": "(spotify-show-song song-157 my-song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Chasing the Elusive Horizon\" (release_date 2023-02-02 via spotify.show_song; to remove)",
+          "object": "song-157"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-remove-song-from-library song-157 spotify-token my-song-library n33 n32)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Chasing the Elusive Horizon\" (release_date 2023-02-02 via spotify.show_song; to remove)",
+          "object": "song-157"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-show-song song-182 my-song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Melodies of the Forgotten Past\" (release_date 2022-03-16 via spotify.show_song; to remove)",
+          "object": "song-182"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-remove-song-from-library song-182 spotify-token my-song-library n32 n31)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Melodies of the Forgotten Past\" (release_date 2022-03-16 via spotify.show_song; to remove)",
+          "object": "song-182"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-show-song song-236 my-song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"A Portrait of Love Unrequited\" (release_date 2022-08-20 via spotify.show_song; to remove)",
+          "object": "song-236"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-remove-song-from-library song-236 spotify-token my-song-library n31 n30)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"A Portrait of Love Unrequited\" (release_date 2022-08-20 via spotify.show_song; to remove)",
+          "object": "song-236"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-show-song song-28 my-song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Invisible Lines\" (release_date 2022-07-15 via spotify.show_song; to remove)",
+          "object": "song-28"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-remove-song-from-library song-28 spotify-token my-song-library n30 n29)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Invisible Lines\" (release_date 2022-07-15 via spotify.show_song; to remove)",
+          "object": "song-28"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-show-song song-53 my-song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Unearthed Secrets\" (release_date 2022-11-11 via spotify.show_song; to remove)",
+          "object": "song-53"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-remove-song-from-library song-53 spotify-token my-song-library n29 n28)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Unearthed Secrets\" (release_date 2022-11-11 via spotify.show_song; to remove)",
+          "object": "song-53"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-show-song song-81 my-song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Echoes of the Whispering Wind\" (release_date 2022-07-06 via spotify.show_song; to remove)",
+          "object": "song-81"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-remove-song-from-library song-81 spotify-token my-song-library n28 n27)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Echoes of the Whispering Wind\" (release_date 2022-07-06 via spotify.show_song; to remove)",
+          "object": "song-81"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-show-song song-153 playlist-402)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Love's Aftermath\" (release_date 2022-08-08 via spotify.show_song; to remove)",
+          "object": "song-153"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-remove-song-from-playlist playlist-402 song-153 spotify-token n27 n26)",
       "api": "spotify.remove_song_from_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (each playlist in the paginated library listing)",
-          "object": "playlist-1"
+          "field": "playlist_id of \"Urban Jazz Fusion\"",
+          "object": "playlist-402"
         },
         "song_id": {
-          "$from": "spotify.show_song_library",
-          "field": "song_id (also songs[].id of spotify.show_playlist); selected because spotify.show_song release_date year > 2021",
-          "object": "song-released-2023"
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Love's Aftermath\" (release_date 2022-08-08 via spotify.show_song; to remove)",
+          "object": "song-153"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -152,7 +406,879 @@
       }
     },
     {
-      "step": 12,
+      "step": 29,
+      "pddl": "(spotify-show-song song-271 playlist-402)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Hidden Language of Love\" (release_date 2022-11-04 via spotify.show_song; to remove)",
+          "object": "song-271"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-remove-song-from-playlist playlist-402 song-271 spotify-token n26 n25)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Urban Jazz Fusion\"",
+          "object": "playlist-402"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Hidden Language of Love\" (release_date 2022-11-04 via spotify.show_song; to remove)",
+          "object": "song-271"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-show-song song-56 playlist-402)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Distant Love\" (release_date 2022-12-11 via spotify.show_song; to remove)",
+          "object": "song-56"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-remove-song-from-playlist playlist-402 song-56 spotify-token n25 n24)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Urban Jazz Fusion\"",
+          "object": "playlist-402"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Distant Love\" (release_date 2022-12-11 via spotify.show_song; to remove)",
+          "object": "song-56"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(spotify-show-song song-152 playlist-403)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Enigma of Love\" (release_date 2022-05-12 via spotify.show_song; to remove)",
+          "object": "song-152"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(spotify-remove-song-from-playlist playlist-403 song-152 spotify-token n24 n23)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Groove Galaxy: Funk & Soul\"",
+          "object": "playlist-403"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Enigma of Love\" (release_date 2022-05-12 via spotify.show_song; to remove)",
+          "object": "song-152"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(spotify-show-song song-322 playlist-403)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Lost in the Labyrinth of Love\" (release_date 2022-09-24 via spotify.show_song; to remove)",
+          "object": "song-322"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(spotify-remove-song-from-playlist playlist-403 song-322 spotify-token n23 n22)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Groove Galaxy: Funk & Soul\"",
+          "object": "playlist-403"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Lost in the Labyrinth of Love\" (release_date 2022-09-24 via spotify.show_song; to remove)",
+          "object": "song-322"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(spotify-show-song song-57 playlist-403)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Silver Lining\" (release_date 2022-12-11 via spotify.show_song; to remove)",
+          "object": "song-57"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(spotify-remove-song-from-playlist playlist-403 song-57 spotify-token n22 n21)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Groove Galaxy: Funk & Soul\"",
+          "object": "playlist-403"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Silver Lining\" (release_date 2022-12-11 via spotify.show_song; to remove)",
+          "object": "song-57"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(spotify-show-song song-10 playlist-405)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Curse of Loving You\" (release_date 2022-05-21 via spotify.show_song; to remove)",
+          "object": "song-10"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(spotify-remove-song-from-playlist playlist-405 song-10 spotify-token n21 n20)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
+          "object": "playlist-405"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Curse of Loving You\" (release_date 2022-05-21 via spotify.show_song; to remove)",
+          "object": "song-10"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(spotify-show-song song-207 playlist-405)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Tale of Unspoken Longing\" (release_date 2022-02-27 via spotify.show_song; to remove)",
+          "object": "song-207"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(spotify-remove-song-from-playlist playlist-405 song-207 spotify-token n20 n19)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
+          "object": "playlist-405"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Tale of Unspoken Longing\" (release_date 2022-02-27 via spotify.show_song; to remove)",
+          "object": "song-207"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(spotify-show-song song-306 playlist-405)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Wilted Grace\" (release_date 2022-01-05 via spotify.show_song; to remove)",
+          "object": "song-306"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(spotify-remove-song-from-playlist playlist-405 song-306 spotify-token n19 n18)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
+          "object": "playlist-405"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Wilted Grace\" (release_date 2022-01-05 via spotify.show_song; to remove)",
+          "object": "song-306"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(spotify-show-song song-88 playlist-405)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Crimson Skies of Longing\" (release_date 2022-11-09 via spotify.show_song; to remove)",
+          "object": "song-88"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(spotify-remove-song-from-playlist playlist-405 song-88 spotify-token n18 n17)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Office Anthems: Beat the 9-5 Blues\"",
+          "object": "playlist-405"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Crimson Skies of Longing\" (release_date 2022-11-09 via spotify.show_song; to remove)",
+          "object": "song-88"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(spotify-remove-song-from-playlist playlist-409 song-88 spotify-token n17 n16)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-409"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Crimson Skies of Longing\" (release_date 2022-11-09 via spotify.show_song; to remove)",
+          "object": "song-88"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(spotify-show-song song-111 playlist-406)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Lonesome Road\" (release_date 2022-06-30 via spotify.show_song; to remove)",
+          "object": "song-111"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(spotify-remove-song-from-playlist playlist-406 song-111 spotify-token n16 n15)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-406"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Lonesome Road\" (release_date 2022-06-30 via spotify.show_song; to remove)",
+          "object": "song-111"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(spotify-show-song song-144 playlist-406)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Longing for a Touch Unfelt\" (release_date 2022-01-06 via spotify.show_song; to remove)",
+          "object": "song-144"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(spotify-remove-song-from-playlist playlist-406 song-144 spotify-token n15 n14)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-406"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Longing for a Touch Unfelt\" (release_date 2022-01-06 via spotify.show_song; to remove)",
+          "object": "song-144"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(spotify-show-song song-267 playlist-406)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Maze of Forgotten Whispers\" (release_date 2022-12-12 via spotify.show_song; to remove)",
+          "object": "song-267"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(spotify-remove-song-from-playlist playlist-406 song-267 spotify-token n14 n13)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-406"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Maze of Forgotten Whispers\" (release_date 2022-12-12 via spotify.show_song; to remove)",
+          "object": "song-267"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(spotify-show-song song-221 playlist-407)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Sailing on the Sea of Dreams\" (release_date 2023-04-11 via spotify.show_song; to remove)",
+          "object": "song-221"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-221 spotify-token n13 n12)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
+          "object": "playlist-407"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Sailing on the Sea of Dreams\" (release_date 2023-04-11 via spotify.show_song; to remove)",
+          "object": "song-221"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(spotify-show-song song-292 playlist-407)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Final Echo\" (release_date 2022-07-16 via spotify.show_song; to remove)",
+          "object": "song-292"
+        }
+      }
+    },
+    {
+      "step": 57,
+      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-292 spotify-token n12 n11)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
+          "object": "playlist-407"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Final Echo\" (release_date 2022-07-16 via spotify.show_song; to remove)",
+          "object": "song-292"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 58,
+      "pddl": "(spotify-show-song song-299 playlist-407)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"In the Wake of Goodbye\" (release_date 2022-01-08 via spotify.show_song; to remove)",
+          "object": "song-299"
+        }
+      }
+    },
+    {
+      "step": 59,
+      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-299 spotify-token n11 n10)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
+          "object": "playlist-407"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"In the Wake of Goodbye\" (release_date 2022-01-08 via spotify.show_song; to remove)",
+          "object": "song-299"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 60,
+      "pddl": "(spotify-show-song song-4 playlist-407)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Puzzle of My Heart\" (release_date 2022-10-29 via spotify.show_song; to remove)",
+          "object": "song-4"
+        }
+      }
+    },
+    {
+      "step": 61,
+      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-4 spotify-token n10 n9)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
+          "object": "playlist-407"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Puzzle of My Heart\" (release_date 2022-10-29 via spotify.show_song; to remove)",
+          "object": "song-4"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 62,
+      "pddl": "(spotify-show-song song-67 playlist-407)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Echoes of a Silent Heart\" (release_date 2022-02-21 via spotify.show_song; to remove)",
+          "object": "song-67"
+        }
+      }
+    },
+    {
+      "step": 63,
+      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-67 spotify-token n9 n8)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
+          "object": "playlist-407"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Echoes of a Silent Heart\" (release_date 2022-02-21 via spotify.show_song; to remove)",
+          "object": "song-67"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 64,
+      "pddl": "(spotify-show-song song-84 playlist-407)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Wilted Petals\" (release_date 2022-06-06 via spotify.show_song; to remove)",
+          "object": "song-84"
+        }
+      }
+    },
+    {
+      "step": 65,
+      "pddl": "(spotify-remove-song-from-playlist playlist-407 song-84 spotify-token n8 n7)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"October Feels: Autumn Aesthetics\"",
+          "object": "playlist-407"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Wilted Petals\" (release_date 2022-06-06 via spotify.show_song; to remove)",
+          "object": "song-84"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 66,
+      "pddl": "(spotify-show-song song-288 playlist-408)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Love's Mirage\" (release_date 2022-08-08 via spotify.show_song; to remove)",
+          "object": "song-288"
+        }
+      }
+    },
+    {
+      "step": 67,
+      "pddl": "(spotify-remove-song-from-playlist playlist-408 song-288 spotify-token n7 n6)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
+          "object": "playlist-408"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Love's Mirage\" (release_date 2022-08-08 via spotify.show_song; to remove)",
+          "object": "song-288"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 68,
+      "pddl": "(spotify-show-song song-51 playlist-408)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Silence Between Us\" (release_date 2022-11-11 via spotify.show_song; to remove)",
+          "object": "song-51"
+        }
+      }
+    },
+    {
+      "step": 69,
+      "pddl": "(spotify-remove-song-from-playlist playlist-408 song-51 spotify-token n6 n5)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
+          "object": "playlist-408"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Silence Between Us\" (release_date 2022-11-11 via spotify.show_song; to remove)",
+          "object": "song-51"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 70,
+      "pddl": "(spotify-show-song song-87 playlist-408)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Eternal Melancholy\" (release_date 2023-04-26 via spotify.show_song; to remove)",
+          "object": "song-87"
+        }
+      }
+    },
+    {
+      "step": 71,
+      "pddl": "(spotify-remove-song-from-playlist playlist-408 song-87 spotify-token n5 n4)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
+          "object": "playlist-408"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Eternal Melancholy\" (release_date 2023-04-26 via spotify.show_song; to remove)",
+          "object": "song-87"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 72,
+      "pddl": "(spotify-show-song song-9 playlist-408)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"When Fate Becomes a Foe\" (release_date 2022-05-21 via spotify.show_song; to remove)",
+          "object": "song-9"
+        }
+      }
+    },
+    {
+      "step": 73,
+      "pddl": "(spotify-remove-song-from-playlist playlist-408 song-9 spotify-token n4 n3)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Weekend Warriors: Party Anthems\"",
+          "object": "playlist-408"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"When Fate Becomes a Foe\" (release_date 2022-05-21 via spotify.show_song; to remove)",
+          "object": "song-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 74,
+      "pddl": "(spotify-show-song song-106 playlist-409)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Irony of a Perfect Moment\" (release_date 2022-11-01 via spotify.show_song; to remove)",
+          "object": "song-106"
+        }
+      }
+    },
+    {
+      "step": 75,
+      "pddl": "(spotify-remove-song-from-playlist playlist-409 song-106 spotify-token n3 n2)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-409"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Irony of a Perfect Moment\" (release_date 2022-11-01 via spotify.show_song; to remove)",
+          "object": "song-106"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 76,
+      "pddl": "(spotify-show-song song-174 playlist-409)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Fading Light of Memory\" (release_date 2023-02-26 via spotify.show_song; to remove)",
+          "object": "song-174"
+        }
+      }
+    },
+    {
+      "step": 77,
+      "pddl": "(spotify-remove-song-from-playlist playlist-409 song-174 spotify-token n2 n1)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-409"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Fading Light of Memory\" (release_date 2023-02-26 via spotify.show_song; to remove)",
+          "object": "song-174"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 78,
+      "pddl": "(spotify-show-song song-8 playlist-409)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Shadows of the Past\" (release_date 2022-05-21 via spotify.show_song; to remove)",
+          "object": "song-8"
+        }
+      }
+    },
+    {
+      "step": 79,
+      "pddl": "(spotify-remove-song-from-playlist playlist-409 song-8 spotify-token n1 n0)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-409"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Shadows of the Past\" (release_date 2022-05-21 via spotify.show_song; to remove)",
+          "object": "song-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 80,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

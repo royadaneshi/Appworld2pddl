@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(spotify-show-song-queue spotify-token song-queue-1)",
+      "pddl": "(spotify-show-song-queue spotify-token song-2)",
       "api": "spotify.show_song_queue",
       "args": {
         "access_token": {
@@ -51,13 +51,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-like-song song-queue-1 spotify-token song-queue-2)",
+      "pddl": "(spotify-like-song song-2 spotify-token song-91)",
       "api": "spotify.like_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_queue",
-          "field": "song_id of the first queue entry",
-          "object": "song-queue-1"
+          "field": "song_id at queue position 1 of 10 (played before the current song)",
+          "object": "song-2"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -68,13 +68,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-like-song song-queue-2 spotify-token song-current)",
+      "pddl": "(spotify-like-song song-91 spotify-token song-168)",
       "api": "spotify.like_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_song_queue",
-          "field": "song_id of the second queue entry",
-          "object": "song-queue-2"
+          "field": "song_id at queue position 2 of 10 (played before the current song)",
+          "object": "song-91"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -85,13 +85,13 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-like-song song-current spotify-token song-queue-4)",
+      "pddl": "(spotify-like-song song-168 spotify-token song-137)",
       "api": "spotify.like_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_current_song",
-          "field": "song_id (the queue entry equal to the current song; last song to like)",
-          "object": "song-current"
+          "$from": "spotify.show_song_queue",
+          "field": "song_id at queue position 3 of 10 (played before the current song)",
+          "object": "song-168"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -102,7 +102,58 @@
     },
     {
       "step": 9,
-      "pddl": "(supervisor-complete-task song-current)",
+      "pddl": "(spotify-like-song song-137 spotify-token song-250)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_queue",
+          "field": "song_id at queue position 4 of 10 (played before the current song)",
+          "object": "song-137"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-like-song song-250 spotify-token song-227)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_queue",
+          "field": "song_id at queue position 5 of 10 (played before the current song)",
+          "object": "song-250"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-like-song song-227 spotify-token song-130)",
+      "api": "spotify.like_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_queue",
+          "field": "song_id at queue position 6 of 10 (the current song, per spotify.show_current_song)",
+          "object": "song-227"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(supervisor-complete-task song-227)",
       "api": "supervisor.complete_task",
       "args": {}
     }

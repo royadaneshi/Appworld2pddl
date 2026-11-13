@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-3643463570 phone-password venmo-token)",
+      "pddl": "(phone-login phone-3643463570 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3643463570",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login anita-burch-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login anita-burch-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "anita.burch@gmail.com",
@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-roommate rel-roommate)",
+      "pddl": "(phone-search-contacts phone-token query-roommate rel-roommate)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "roommate",
         "relationship": "roommate"
@@ -60,93 +60,145 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-transactions phone-token roommate-1-email date-2023-01-01 roommate-1 rel-roommate)",
+      "pddl": "(venmo-show-transactions venmo-token email-anthony-harrison date-2023-01-01 roommate-anthony-harrison rel-roommate)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the 1st contact returned (relationship roommate, all pages)",
-          "object": "roommate-1-email"
+          "field": "email of the roommate contact Anthony Harrison (an-harrison@gmail.com)",
+          "object": "email-anthony-harrison"
         },
         "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-show-transactions phone-token roommate-2-email date-2023-01-01 roommate-2 rel-roommate)",
+      "pddl": "(venmo-show-transactions venmo-token email-melissa-bailey date-2023-01-01 roommate-melissa-bailey rel-roommate)",
       "api": "venmo.show_transactions",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the 2nd contact returned (relationship roommate, all pages)",
-          "object": "roommate-2-email"
+          "field": "email of the roommate contact Melissa Bailey (mel.bailey@gmail.com)",
+          "object": "email-melissa-bailey"
         },
         "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-like-transaction tx-roommate-1-a phone-token roommate-1-email date-2023-01-01)",
-      "api": "venmo.like_transaction",
+      "pddl": "(venmo-show-transactions venmo-token email-nicholas-weber date-2023-01-01 roommate-nicholas-weber rel-roommate)",
+      "api": "venmo.show_transactions",
       "args": {
-        "transaction_id": {
-          "$from": "venmo.show_transactions",
-          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 1st result",
-          "object": "tx-roommate-1-a"
-        },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
-        }
+          "object": "venmo-token"
+        },
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the roommate contact Nicholas Weber (nicholas.weber@gmail.com)",
+          "object": "email-nicholas-weber"
+        },
+        "min_created_at": "2023-01-01"
       }
     },
     {
       "step": 10,
-      "pddl": "(venmo-like-transaction tx-roommate-1-b phone-token roommate-1-email date-2023-01-01)",
+      "pddl": "(venmo-like-transaction tx-1245 venmo-token email-anthony-harrison date-2023-01-01)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id (user_email = roommate-1-email, min_created_at = year start, all pages) - 2nd result",
-          "object": "tx-roommate-1-b"
+          "field": "transaction_id of the $72.0 payment sent to Anthony Harrison at 2023-05-18T06:12:19 (on or after 2023-01-01)",
+          "object": "tx-1245"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(venmo-like-transaction tx-roommate-2-a phone-token roommate-2-email date-2023-01-01)",
+      "pddl": "(venmo-like-transaction tx-6221 venmo-token email-melissa-bailey date-2023-01-01)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_transactions",
-          "field": "transaction_id (user_email = roommate-2-email, min_created_at = year start, all pages) - 1st result",
-          "object": "tx-roommate-2-a"
+          "field": "transaction_id of the $17.0 payment received from Melissa Bailey at 2023-04-18T11:06:01 (on or after 2023-01-01)",
+          "object": "tx-6221"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 12,
+      "pddl": "(venmo-like-transaction tx-6224 venmo-token email-melissa-bailey date-2023-01-01)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $44.0 payment received from Melissa Bailey at 2023-01-18T22:37:10 (on or after 2023-01-01)",
+          "object": "tx-6224"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-like-transaction tx-3809 venmo-token email-nicholas-weber date-2023-01-01)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $39.0 payment received from Nicholas Weber at 2023-02-21T04:24:23 (on or after 2023-01-01)",
+          "object": "tx-3809"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-like-transaction tx-3813 venmo-token email-nicholas-weber date-2023-01-01)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_transactions",
+          "field": "transaction_id of the $86.0 payment received from Nicholas Weber at 2023-04-13T04:32:12 (on or after 2023-01-01)",
+          "object": "tx-3813"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-number-3567801924 phone-password venmo-token)",
+      "pddl": "(phone-login phone-number-3567801924 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "3567801924",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login lindseysimpson-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login lindseysimpson-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "lindseysimpson@gmail.com",
@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-roommates relationship-roommates)",
+      "pddl": "(phone-search-contacts phone-token query-roommates relationship-roommates)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "roommates",
         "relationship": "roommates"
@@ -60,54 +60,139 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-sent-payment-requests phone-token status-pending)",
+      "pddl": "(venmo-show-sent-payment-requests venmo-token status-pending)",
       "api": "venmo.show_sent_payment_requests",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "status": "pending"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-remind-payment-request request-roommate-1-old phone-token roommate-1)",
+      "pddl": "(venmo-remind-payment-request request-3455 venmo-token roommate-jose-harrison)",
       "api": "venmo.remind_payment_request",
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_sent_payment_requests",
-          "field": "payment_request_id of a pending request (approved_at and denied_at null) whose receiver.email is one of the roommate emails returned by phone.search_contacts (field email) and whose created_at <= current datetime (phone.get_current_date_and_time) minus 30 days; one such request per qualifying item",
-          "object": "request-roommate-1-old"
+          "field": "payment_request_id of the pending request of $29.0 to Jose Harrison created at 2023-02-27T05:16:56 (30+ days before 2023-05-18)",
+          "object": "request-3455"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-remind-payment-request request-roommate-2-old phone-token roommate-2)",
+      "pddl": "(venmo-remind-payment-request request-3456 venmo-token roommate-jose-harrison)",
       "api": "venmo.remind_payment_request",
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_sent_payment_requests",
-          "field": "payment_request_id of another pending request to a roommate email created 30 or more days ago (same selection rule as request-roommate-1-old)",
-          "object": "request-roommate-2-old"
+          "field": "payment_request_id of the pending request of $62.0 to Jose Harrison created at 2022-12-17T21:06:12 (30+ days before 2023-05-18)",
+          "object": "request-3456"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(supervisor-complete-task request-roommate-1-old request-roommate-2-old)",
+      "pddl": "(venmo-remind-payment-request request-3457 venmo-token roommate-jose-harrison)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $17.0 to Jose Harrison created at 2023-03-07T10:10:05 (30+ days before 2023-05-18)",
+          "object": "request-3457"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-remind-payment-request request-3461 venmo-token roommate-paul-miller)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $36.0 to Paul Miller created at 2022-12-08T21:24:23 (30+ days before 2023-05-18)",
+          "object": "request-3461"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-remind-payment-request request-3463 venmo-token roommate-paul-miller)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $60.0 to Paul Miller created at 2023-01-25T20:06:45 (30+ days before 2023-05-18)",
+          "object": "request-3463"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-remind-payment-request request-3464 venmo-token roommate-paul-miller)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $19.0 to Paul Miller created at 2023-04-15T08:02:02 (30+ days before 2023-05-18)",
+          "object": "request-3464"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-remind-payment-request request-3470 venmo-token roommate-paul-miller)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $21.0 to Paul Miller created at 2023-01-20T22:41:22 (30+ days before 2023-05-18)",
+          "object": "request-3470"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(supervisor-complete-task request-3464 request-3470)",
       "api": "supervisor.complete_task",
       "args": {}
     }

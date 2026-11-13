@@ -10,6 +10,10 @@
     backups-spotify-library-csv - file-path
     library-csv-content - file-content)
   (:init
+    (credential-of-app spotify spotify-password)
+    (credential-of-app spotify spotify-token)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (supervisor-username sab-brown-at-gmail-com)
     (password-for spotify spotify-password)
     (password-for file-system file-system-password)

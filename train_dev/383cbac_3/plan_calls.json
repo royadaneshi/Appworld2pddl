@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-username-2254213734 phone-password venmo-token)",
+      "pddl": "(phone-login phone-username-2254213734 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2254213734",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login venmo-username-jo-harr-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login venmo-username-jo-harr-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "jo-harr@gmail.com",
@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-coworker coworker)",
+      "pddl": "(phone-search-contacts phone-token query-coworker coworker)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "coworker",
         "relationship": "coworker"
@@ -60,13 +60,13 @@
     },
     {
       "step": 7,
-      "pddl": "(phone-search-contacts venmo-token query-manager manager)",
+      "pddl": "(phone-search-contacts phone-token query-manager manager)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "manager",
         "relationship": "manager"
@@ -74,13 +74,13 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-show-social-feed phone-token amount-34 total-dinner-amount)",
+      "pddl": "(venmo-show-social-feed venmo-token amount-34 total-dinner-amount)",
       "api": "venmo.show_social_feed",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },

@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login morgan-harrison-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login morgan-harrison-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "morgan-harrison@gmail.com",
@@ -76,7 +76,7 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-create-transaction joseph-email grocery-amount phone-token desc-grocery-bill joseph)",
+      "pddl": "(venmo-create-transaction joseph-email grocery-amount venmo-token desc-grocery-bill joseph)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -90,9 +90,9 @@
           "object": "grocery-amount"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Grocery Bill"
       }

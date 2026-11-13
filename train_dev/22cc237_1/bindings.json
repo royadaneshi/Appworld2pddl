@@ -69,31 +69,7 @@
     "object": "work-dinner-note",
     "value": null,
     "from_api": "simple_note.search_notes",
-    "field": "note_id of the result (query \"Work Dinner\") whose created_at >= start of yesterday"
-  },
-  {
-    "object": "coworker-2-email",
-    "value": null,
-    "from_api": "phone.search_contacts",
-    "field": "email of the coworker contact whose first_name appears in a '- <name> => $<share>' line of the note and who has NOT sent a received venmo transaction with description \"Work Dinner\" since yesterday (venmo.show_transactions, sender.email)"
-  },
-  {
-    "object": "coworker-3-email",
-    "value": null,
-    "from_api": "phone.search_contacts",
-    "field": "email of another such pending coworker contact (same selection rule as coworker-2-email)"
-  },
-  {
-    "object": "share-coworker-2",
-    "value": null,
-    "from_api": "simple_note.show_note",
-    "field": "content: integer after '=>' (strip '$') on the line naming coworker-2"
-  },
-  {
-    "object": "share-coworker-3",
-    "value": null,
-    "from_api": "simple_note.show_note",
-    "field": "content: integer after '=>' (strip '$') on the line naming coworker-3"
+    "field": "note_id of the result titled \"... Expense Shares ...\" created yesterday (2023-05-19); the search also returns an older \"Work Dinner at ...\" note that must be ignored"
   },
   {
     "object": "work-dinner",
@@ -112,5 +88,89 @@
     "value": "2023-05-19",
     "from_api": "phone.get_current_date_and_time",
     "field": "current_date_and_time minus 1 day, formatted %Y-%m-%d"
+  },
+  {
+    "object": "email-kayla",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the coworker contact whose first_name == \"Kayla\" (Kayla Burton; already paid: sender of a received venmo transaction described \"Work Dinner\" since yesterday)"
+  },
+  {
+    "object": "share-kayla",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Kayla => $20'"
+  },
+  {
+    "object": "email-sandra",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the coworker contact whose first_name == \"Sandra\" (Sandra Martinez; pending: no such received transaction)"
+  },
+  {
+    "object": "share-sandra",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Sandra => $19'"
+  },
+  {
+    "object": "email-stephen",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the coworker contact whose first_name == \"Stephen\" (Stephen Mccoy; pending: no such received transaction)"
+  },
+  {
+    "object": "share-stephen",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Stephen => $20'"
+  },
+  {
+    "object": "email-jamie",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the coworker contact whose first_name == \"Jamie\" (Jamie Solomon; already paid: sender of a received venmo transaction described \"Work Dinner\" since yesterday)"
+  },
+  {
+    "object": "share-jamie",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Jamie => $15'"
+  },
+  {
+    "object": "email-anita",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the coworker contact whose first_name == \"Anita\" (Anita Burch; already paid: sender of a received venmo transaction described \"Work Dinner\" since yesterday)"
+  },
+  {
+    "object": "share-anita",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Anita => $23'"
+  },
+  {
+    "object": "email-travis",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the coworker contact whose first_name == \"Travis\" (Travis Wilson; pending: no such received transaction)"
+  },
+  {
+    "object": "share-travis",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Travis => $39'"
+  },
+  {
+    "object": "email-sabrina",
+    "value": null,
+    "from_api": "phone.search_contacts",
+    "field": "email of the coworker contact whose first_name == \"Sabrina\" (Sabrina Brown; already paid: sender of a received venmo transaction described \"Work Dinner\" since yesterday)"
+  },
+  {
+    "object": "share-sabrina",
+    "value": null,
+    "from_api": "simple_note.show_note",
+    "field": "content: integer after '=> $' on the line '- Sabrina => $39'"
   }
 ]

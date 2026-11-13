@@ -6,6 +6,7 @@
   )
   (:constants venmo phone file-system - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (current-date-known)
@@ -47,7 +48,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw)
       (not (task-completed))
       (profile-known)
       (passwords-known)
@@ -80,7 +81,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw)
       (not (task-completed))
       (profile-known)
       (passwords-known)
@@ -123,7 +124,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw)
       (not (task-completed))
       (profile-known)
       (passwords-known)

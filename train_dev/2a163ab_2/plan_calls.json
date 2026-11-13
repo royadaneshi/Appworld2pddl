@@ -72,13 +72,13 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-like-transaction sibling-txn-1 venmo-token)",
+      "pddl": "(venmo-like-transaction tx-3299 venmo-token)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_social_feed",
-          "field": "transaction_id of a feed entry (iterate all pages) whose created_at falls on yesterday (2023-05-17, relative to phone.get_current_date_and_time) and whose sender.email or receiver.email is in the set of emails returned by phone.search_contacts(query=\"sibling\", relationship=\"sibling\") (field email); first such entry",
-          "object": "sibling-txn-1"
+          "field": "transaction_id of the feed entry created at 2023-05-17T08:15:56 (Kevin Blackburn -> Cody Smith); it involves a sibling contact",
+          "object": "tx-3299"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -89,13 +89,13 @@
     },
     {
       "step": 9,
-      "pddl": "(venmo-like-transaction sibling-txn-2 venmo-token)",
+      "pddl": "(venmo-like-transaction tx-4243 venmo-token)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_social_feed",
-          "field": "transaction_id of the second feed entry matching the same rule (yesterday + sibling participant); one placeholder per matching entry at runtime",
-          "object": "sibling-txn-2"
+          "field": "transaction_id of the feed entry created at 2023-05-17T02:55:50 (Hunter Weaver -> Marcus Smith); it involves a sibling contact",
+          "object": "tx-4243"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -106,7 +106,109 @@
     },
     {
       "step": 10,
-      "pddl": "(supervisor-complete-task sibling-txn-1 sibling-txn-2)",
+      "pddl": "(venmo-like-transaction tx-5215 venmo-token)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T11:13:07 (Cody Smith -> Allison Calhoun); it involves a sibling contact",
+          "object": "tx-5215"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-like-transaction tx-5224 venmo-token)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T09:28:54 (Cody Smith -> Stephen Mccoy); it involves a sibling contact",
+          "object": "tx-5224"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-like-transaction tx-6909 venmo-token)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T00:56:08 (Carl Brown -> Cody Smith); it involves a sibling contact",
+          "object": "tx-6909"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-like-transaction tx-8218 venmo-token)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T13:03:26 (Stacy Maldonado -> Cody Smith); it involves a sibling contact",
+          "object": "tx-8218"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-like-transaction tx-8220 venmo-token)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T09:03:52 (Melissa Bailey -> Cody Smith); it involves a sibling contact",
+          "object": "tx-8220"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-like-transaction tx-8223 venmo-token)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T13:55:26 (Alex White -> Marcus Smith); it involves a sibling contact",
+          "object": "tx-8223"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(supervisor-complete-task tx-8220 tx-8223)",
       "api": "supervisor.complete_task",
       "args": {}
     }

@@ -13,6 +13,10 @@
     last-approved-request-to-brandon - payment-request
   )
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (password-for phone phone-password)
     (password-for venmo venmo-password)
     (login-username phone username-2444880289)

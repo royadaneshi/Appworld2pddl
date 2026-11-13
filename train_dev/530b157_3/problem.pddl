@@ -12,6 +12,10 @@
     desc-thanks-for-the-groceries - description
     msg-done-thanks - message)
   (:init
+    (credential-of-app phone password-phone)
+    (credential-of-app phone token-phone)
+    (credential-of-app venmo password-venmo)
+    (credential-of-app venmo token-venmo)
     (username-for phone username-2786837088)
     (username-for venmo username-jer-calhoun-at-gmail-com)
     (password-for phone password-phone)

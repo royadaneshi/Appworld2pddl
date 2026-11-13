@@ -63,13 +63,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-remove-album-from-library album-unkept-1 spotify-token)",
+      "pddl": "(spotify-remove-album-from-library album-dreamscape-delights spotify-token)",
       "api": "spotify.remove_album_from_library",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id (paginate all pages) where album_id not in spotify.show_liked_albums[*].album_id and not all(song_ids) in spotify.show_downloaded_songs[*].song_id; first such album",
-          "object": "album-unkept-1"
+          "field": "album_id of the library album titled \"Dreamscape Delights\" (to remove; liked=False, all songs downloaded=False)",
+          "object": "album-dreamscape-delights"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -80,13 +80,13 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-remove-album-from-library album-unkept-2 spotify-token)",
+      "pddl": "(spotify-remove-album-from-library album-echoes-of-eternity spotify-token)",
       "api": "spotify.remove_album_from_library",
       "args": {
         "album_id": {
           "$from": "spotify.show_album_library",
-          "field": "album_id (paginate all pages) where album_id not in spotify.show_liked_albums[*].album_id and not all(song_ids) in spotify.show_downloaded_songs[*].song_id; next such album (one remove call per such album)",
-          "object": "album-unkept-2"
+          "field": "album_id of the library album titled \"Echoes of Eternity\" (to remove; liked=False, all songs downloaded=False)",
+          "object": "album-echoes-of-eternity"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -97,6 +97,40 @@
     },
     {
       "step": 9,
+      "pddl": "(spotify-remove-album-from-library album-neon-echoes spotify-token)",
+      "api": "spotify.remove_album_from_library",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of the library album titled \"Neon Echoes\" (to remove; liked=False, all songs downloaded=False)",
+          "object": "album-neon-echoes"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-remove-album-from-library album-whispers-in-the-wind spotify-token)",
+      "api": "spotify.remove_album_from_library",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_album_library",
+          "field": "album_id of the library album titled \"Whispers in the Wind\" (to remove; liked=False, all songs downloaded=False)",
+          "object": "album-whispers-in-the-wind"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
       "pddl": "(spotify-show-liked-songs spotify-token)",
       "api": "spotify.show_liked_songs",
       "args": {
@@ -108,7 +142,7 @@
       }
     },
     {
-      "step": 10,
+      "step": 12,
       "pddl": "(spotify-show-song-library spotify-token)",
       "api": "spotify.show_song_library",
       "args": {
@@ -120,42 +154,212 @@
       }
     },
     {
-      "step": 11,
-      "pddl": "(spotify-remove-song-from-library song-unkept-1 spotify-token)",
-      "api": "spotify.remove_song_from_library",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_song_library",
-          "field": "song_id (paginate all pages) where song_id not in spotify.show_liked_songs[*].song_id and not in spotify.show_downloaded_songs[*].song_id; first such song",
-          "object": "song-unkept-1"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        }
-      }
-    },
-    {
-      "step": 12,
-      "pddl": "(spotify-remove-song-from-library song-unkept-2 spotify-token)",
-      "api": "spotify.remove_song_from_library",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_song_library",
-          "field": "song_id (paginate all pages) where song_id not in spotify.show_liked_songs[*].song_id and not in spotify.show_downloaded_songs[*].song_id; next such song (one remove call per such song)",
-          "object": "song-unkept-2"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        }
-      }
-    },
-    {
       "step": 13,
-      "pddl": "(supervisor-complete-task song-unkept-1 song-unkept-2 album-unkept-1 album-unkept-2)",
+      "pddl": "(spotify-remove-song-from-library song-bleeding-sun spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Bleeding Sun\" (to remove; liked=False, downloaded=False)",
+          "object": "song-bleeding-sun"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-remove-song-from-library song-chasing-echoes-in-the-dark spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Chasing Echoes in the Dark\" (to remove; liked=False, downloaded=False)",
+          "object": "song-chasing-echoes-in-the-dark"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-remove-song-from-library song-dark-reverie spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Dark Reverie\" (to remove; liked=False, downloaded=False)",
+          "object": "song-dark-reverie"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-remove-song-from-library song-enchanted-reverie spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Enchanted Reverie\" (to remove; liked=False, downloaded=False)",
+          "object": "song-enchanted-reverie"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-remove-song-from-library song-escaping-the-chains-of-fate spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Escaping the Chains of Fate\" (to remove; liked=False, downloaded=False)",
+          "object": "song-escaping-the-chains-of-fate"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-remove-song-from-library song-in-the-embrace-of-solitude spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"In the Embrace of Solitude\" (to remove; liked=False, downloaded=False)",
+          "object": "song-in-the-embrace-of-solitude"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-remove-song-from-library song-invisible-chains spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Invisible Chains\" (to remove; liked=False, downloaded=False)",
+          "object": "song-invisible-chains"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-remove-song-from-library song-lonesome-road spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Lonesome Road\" (to remove; liked=False, downloaded=False)",
+          "object": "song-lonesome-road"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-remove-song-from-library song-the-last-waltz-of-a-broken-heart spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"The Last Waltz of a Broken Heart\" (to remove; liked=False, downloaded=False)",
+          "object": "song-the-last-waltz-of-a-broken-heart"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-remove-song-from-library song-walking-through-the-valley-of-shadows spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Walking Through the Valley of Shadows\" (to remove; liked=False, downloaded=False)",
+          "object": "song-walking-through-the-valley-of-shadows"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-remove-song-from-library song-whispers-of-a-forgotten-love spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Whispers of a Forgotten Love\" (to remove; liked=False, downloaded=False)",
+          "object": "song-whispers-of-a-forgotten-love"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-remove-song-from-library song-whispers-of-the-soul spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of the library song titled \"Whispers of the Soul\" (to remove; liked=False, downloaded=False)",
+          "object": "song-whispers-of-the-soul"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(supervisor-complete-task song-bleeding-sun song-chasing-echoes-in-the-dark album-neon-echoes album-whispers-in-the-wind)",
       "api": "supervisor.complete_task",
       "args": {}
     }

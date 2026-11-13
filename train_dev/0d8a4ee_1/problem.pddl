@@ -9,6 +9,10 @@
     parent-1-email parent-2-email sibling-1-email sibling-2-email - email
     parent-1-phone parent-2-phone sibling-1-phone sibling-2-phone - phone-number)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone phone-username-4226809725)
     (username-for venmo venmo-username-erikabail-at-gmail-com)
     (password-for phone phone-password)

@@ -4,6 +4,7 @@
     app person username password token song artist file-path file-content - object)
   (:constants spotify file-system - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (profile-known)
     (passwords-known)
     (supervisor-username ?u - username)
@@ -37,7 +38,7 @@
   ; API: spotify.login
   (:action spotify-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app spotify ?t) (credential-of-app spotify ?pw) (profile-known) (passwords-known)
                        (supervisor-username ?u) (password-for spotify ?pw)
                        (not (has-token spotify ?t)) (not (account-deleted spotify))
                        (not (task-completed)))
@@ -77,7 +78,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (profile-known) (passwords-known)
                        (supervisor-username ?u) (password-for file-system ?pw)
                        (not (has-token file-system ?t)) (not (task-completed)))
     :effect (and (has-token file-system ?t)))

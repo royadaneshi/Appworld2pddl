@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-login timothy-whit-at-gmail-com spotify-password simple-note-token)",
+      "pddl": "(spotify-login timothy-whit-at-gmail-com spotify-password spotify-token)",
       "api": "spotify.login",
       "args": {
         "username": "timothy.whit@gmail.com",
@@ -76,13 +76,13 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-playlist-library simple-note-token long-enough-playlist)",
+      "pddl": "(spotify-show-playlist-library spotify-token long-enough-playlist)",
       "api": "spotify.show_playlist_library",
       "args": {
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "spotify-token"
         }
       }
     },
@@ -100,13 +100,13 @@
     },
     {
       "step": 10,
-      "pddl": "(spotify-play-music simple-note-token long-enough-playlist workout-duration-today)",
+      "pddl": "(spotify-play-music spotify-token long-enough-playlist workout-duration-today)",
       "api": "spotify.play_music",
       "args": {
         "access_token": {
-          "$from": "simple_note.login",
+          "$from": "spotify.login",
           "field": "access_token",
-          "object": "simple-note-token"
+          "object": "spotify-token"
         },
         "playlist_id": {
           "$from": "spotify.show_playlist_library",

@@ -13,6 +13,10 @@
     note-returning-the-accidental-payment - description
   )
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone tammy-phone-2738013302)
     (username-for venmo tammy-email-ta-weav-at-gmail-com)
     (password-for phone phone-password)

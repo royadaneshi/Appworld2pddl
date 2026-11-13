@@ -4,7 +4,7 @@
     app person username password token relationship phone-number email message - object)
   (:constants
     phone venmo - app
-    sibling-1 sibling-2 roommate-1 - person
+    sibling-matthew sibling-martin sibling-kevin roommate-carl roommate-jeremy - person
     msg-get-on-venmo-please - message)
   (:predicates
     (passwords-known)
@@ -75,10 +75,7 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (venmo-status-known sibling-1)
-                       (venmo-status-known sibling-2)
-                       (venmo-status-known roommate-1)
-                       (message-sent sibling-1 msg-get-on-venmo-please)
-                       (message-sent roommate-1 msg-get-on-venmo-please)
+    :precondition (and (venmo-status-known sibling-matthew) (venmo-status-known sibling-martin) (venmo-status-known sibling-kevin) (venmo-status-known roommate-carl) (venmo-status-known roommate-jeremy)
+                       (message-sent sibling-martin msg-get-on-venmo-please) (message-sent roommate-jeremy msg-get-on-venmo-please)
                        (not (task-completed)))
     :effect (and (task-completed))))

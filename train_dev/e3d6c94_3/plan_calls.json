@@ -58,19 +58,19 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-song rec-song-1)",
+      "pddl": "(spotify-show-song song-184)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_recommendations",
-          "field": "song_id (iterate all pages); keep only if spotify.show_song returns genre == \"R&B\" and release_date year == current year from phone.get_current_date_and_time (2023); first qualifying song",
-          "object": "rec-song-1"
+          "field": "song_id of the recommended song \"Enchanted Reverie\" (genre R&B, released 2023 via spotify.show_song; goes into the playlist)",
+          "object": "song-184"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-add-song-to-playlist rnb-recommendation-playlist rec-song-1 spotify-token)",
+      "pddl": "(spotify-add-song-to-playlist rnb-recommendation-playlist song-184 spotify-token)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -80,8 +80,8 @@
         },
         "song_id": {
           "$from": "spotify.show_recommendations",
-          "field": "song_id (iterate all pages); keep only if spotify.show_song returns genre == \"R&B\" and release_date year == current year from phone.get_current_date_and_time (2023); first qualifying song",
-          "object": "rec-song-1"
+          "field": "song_id of the recommended song \"Enchanted Reverie\" (genre R&B, released 2023 via spotify.show_song; goes into the playlist)",
+          "object": "song-184"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -92,19 +92,19 @@
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-song rec-song-2)",
+      "pddl": "(spotify-show-song song-87)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_recommendations",
-          "field": "song_id (iterate all pages); keep only if spotify.show_song returns genre == \"R&B\" and release_date year == current year (2023); second qualifying song",
-          "object": "rec-song-2"
+          "field": "song_id of the recommended song \"Eternal Melancholy\" (genre R&B, released 2023 via spotify.show_song; goes into the playlist)",
+          "object": "song-87"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-add-song-to-playlist rnb-recommendation-playlist rec-song-2 spotify-token)",
+      "pddl": "(spotify-add-song-to-playlist rnb-recommendation-playlist song-87 spotify-token)",
       "api": "spotify.add_song_to_playlist",
       "args": {
         "playlist_id": {
@@ -114,8 +114,8 @@
         },
         "song_id": {
           "$from": "spotify.show_recommendations",
-          "field": "song_id (iterate all pages); keep only if spotify.show_song returns genre == \"R&B\" and release_date year == current year (2023); second qualifying song",
-          "object": "rec-song-2"
+          "field": "song_id of the recommended song \"Eternal Melancholy\" (genre R&B, released 2023 via spotify.show_song; goes into the playlist)",
+          "object": "song-87"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -126,7 +126,7 @@
     },
     {
       "step": 11,
-      "pddl": "(supervisor-complete-task rnb-recommendation-playlist rec-song-1 rec-song-2)",
+      "pddl": "(supervisor-complete-task rnb-recommendation-playlist song-184 song-87)",
       "api": "supervisor.complete_task",
       "args": {}
     }

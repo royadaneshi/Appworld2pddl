@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(file-system-show-file path-my-downloads-file-prior-year file-system-token file-prior-year dir-my-downloads)",
+      "pddl": "(file-system-show-file src-aerobics-class-jpg file-system-token file-aerobics-class-jpg dir-my-downloads)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "entry of the returned path list whose show_file created_at year is earlier than the current year",
-          "object": "path-my-downloads-file-prior-year"
+          "field": "the listed file path \"~/my_downloads/aerobics_class.jpg\"",
+          "object": "src-aerobics-class-jpg"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -63,18 +63,18 @@
     },
     {
       "step": 7,
-      "pddl": "(file-system-move-file path-my-downloads-file-prior-year path-archive-prefixed-file-prior-year file-system-token file-prior-year year-before-2023 dir-archive)",
+      "pddl": "(file-system-move-file src-aerobics-class-jpg dst-aerobics-class-jpg file-system-token file-aerobics-class-jpg year-2023 dir-my-downloads)",
       "api": "file_system.move_file",
       "args": {
         "source_file_path": {
           "$from": "file_system.show_directory",
-          "field": "entry of the returned path list whose show_file created_at year is earlier than the current year",
-          "object": "path-my-downloads-file-prior-year"
+          "field": "the listed file path \"~/my_downloads/aerobics_class.jpg\"",
+          "object": "src-aerobics-class-jpg"
         },
         "destination_file_path": {
           "$from": "file_system.show_file",
-          "field": "'~/archive/' + created_at formatted as YYYY_MM_DD_ + original file name (last segment of path)",
-          "object": "path-archive-prefixed-file-prior-year"
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_01_aerobics_class.jpg\" (created 2023_04_01; stays in the downloads directory)",
+          "object": "dst-aerobics-class-jpg"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -85,13 +85,13 @@
     },
     {
       "step": 8,
-      "pddl": "(file-system-show-file path-my-downloads-file-this-year file-system-token file-this-year dir-my-downloads)",
+      "pddl": "(file-system-show-file src-amusement-park-jpg file-system-token file-amusement-park-jpg dir-my-downloads)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "entry of the returned path list whose show_file created_at year equals the current year (2023)",
-          "object": "path-my-downloads-file-this-year"
+          "field": "the listed file path \"~/my_downloads/amusement_park.jpg\"",
+          "object": "src-amusement-park-jpg"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -102,18 +102,18 @@
     },
     {
       "step": 9,
-      "pddl": "(file-system-move-file path-my-downloads-file-this-year path-my-downloads-prefixed-file-this-year file-system-token file-this-year year-2023 dir-my-downloads)",
+      "pddl": "(file-system-move-file src-amusement-park-jpg dst-amusement-park-jpg file-system-token file-amusement-park-jpg year-2023 dir-my-downloads)",
       "api": "file_system.move_file",
       "args": {
         "source_file_path": {
           "$from": "file_system.show_directory",
-          "field": "entry of the returned path list whose show_file created_at year equals the current year (2023)",
-          "object": "path-my-downloads-file-this-year"
+          "field": "the listed file path \"~/my_downloads/amusement_park.jpg\"",
+          "object": "src-amusement-park-jpg"
         },
         "destination_file_path": {
           "$from": "file_system.show_file",
-          "field": "'~/my_downloads/' + created_at formatted as YYYY_MM_DD_ + original file name (last segment of path)",
-          "object": "path-my-downloads-prefixed-file-this-year"
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_09_amusement_park.jpg\" (created 2023_03_09; stays in the downloads directory)",
+          "object": "dst-amusement-park-jpg"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -124,7 +124,2386 @@
     },
     {
       "step": 10,
-      "pddl": "(supervisor-complete-task file-prior-year file-this-year)",
+      "pddl": "(file-system-show-file src-anniversary-dinner-pdf file-system-token file-anniversary-dinner-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/anniversary_dinner.pdf\"",
+          "object": "src-anniversary-dinner-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(file-system-move-file src-anniversary-dinner-pdf dst-anniversary-dinner-pdf file-system-token file-anniversary-dinner-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/anniversary_dinner.pdf\"",
+          "object": "src-anniversary-dinner-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_01_29_anniversary_dinner.pdf\" (created 2023_01_29; stays in the downloads directory)",
+          "object": "dst-anniversary-dinner-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(file-system-show-file src-astronomy-observation-log-pdf file-system-token file-astronomy-observation-log-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/astronomy_observation_log.pdf\"",
+          "object": "src-astronomy-observation-log-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-move-file src-astronomy-observation-log-pdf dst-astronomy-observation-log-pdf file-system-token file-astronomy-observation-log-pdf year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/astronomy_observation_log.pdf\"",
+          "object": "src-astronomy-observation-log-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_10_15_astronomy_observation_log.pdf\" (created 2022_10_15; not from this year, goes to the trash directory)",
+          "object": "dst-astronomy-observation-log-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(file-system-show-file src-bike-repair-jpg file-system-token file-bike-repair-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/bike_repair.jpg\"",
+          "object": "src-bike-repair-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(file-system-move-file src-bike-repair-jpg dst-bike-repair-jpg file-system-token file-bike-repair-jpg year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/bike_repair.jpg\"",
+          "object": "src-bike-repair-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_10_16_bike_repair.jpg\" (created 2022_10_16; not from this year, goes to the trash directory)",
+          "object": "dst-bike-repair-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(file-system-show-file src-blender-pdf file-system-token file-blender-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/blender.pdf\"",
+          "object": "src-blender-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(file-system-move-file src-blender-pdf dst-blender-pdf file-system-token file-blender-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/blender.pdf\"",
+          "object": "src-blender-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_02_02_blender.pdf\" (created 2023_02_02; stays in the downloads directory)",
+          "object": "dst-blender-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(file-system-show-file src-book-club-tote-bags-pdf file-system-token file-book-club-tote-bags-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/book_club_tote_bags.pdf\"",
+          "object": "src-book-club-tote-bags-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(file-system-move-file src-book-club-tote-bags-pdf dst-book-club-tote-bags-pdf file-system-token file-book-club-tote-bags-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/book_club_tote_bags.pdf\"",
+          "object": "src-book-club-tote-bags-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_02_24_book_club_tote_bags.pdf\" (created 2023_02_24; stays in the downloads directory)",
+          "object": "dst-book-club-tote-bags-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(file-system-show-file src-chef-hat-pdf file-system-token file-chef-hat-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/chef_hat.pdf\"",
+          "object": "src-chef-hat-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(file-system-move-file src-chef-hat-pdf dst-chef-hat-pdf file-system-token file-chef-hat-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/chef_hat.pdf\"",
+          "object": "src-chef-hat-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_12_chef_hat.pdf\" (created 2023_05_12; stays in the downloads directory)",
+          "object": "dst-chef-hat-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(file-system-show-file src-coding-language-reference-sheets-rar file-system-token file-coding-language-reference-sheets-rar dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/coding_language_reference_sheets.rar\"",
+          "object": "src-coding-language-reference-sheets-rar"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(file-system-move-file src-coding-language-reference-sheets-rar dst-coding-language-reference-sheets-rar file-system-token file-coding-language-reference-sheets-rar year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/coding_language_reference_sheets.rar\"",
+          "object": "src-coding-language-reference-sheets-rar"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_02_21_coding_language_reference_sheets.rar\" (created 2022_02_21; not from this year, goes to the trash directory)",
+          "object": "dst-coding-language-reference-sheets-rar"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(file-system-show-file src-coding-projects-portfolio-docx file-system-token file-coding-projects-portfolio-docx dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/coding_projects_portfolio.docx\"",
+          "object": "src-coding-projects-portfolio-docx"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(file-system-move-file src-coding-projects-portfolio-docx dst-coding-projects-portfolio-docx file-system-token file-coding-projects-portfolio-docx year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/coding_projects_portfolio.docx\"",
+          "object": "src-coding-projects-portfolio-docx"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_08_21_coding_projects_portfolio.docx\" (created 2022_08_21; not from this year, goes to the trash directory)",
+          "object": "dst-coding-projects-portfolio-docx"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(file-system-show-file src-courier-services-jpg file-system-token file-courier-services-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/courier_services.jpg\"",
+          "object": "src-courier-services-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(file-system-move-file src-courier-services-jpg dst-courier-services-jpg file-system-token file-courier-services-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/courier_services.jpg\"",
+          "object": "src-courier-services-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_11_courier_services.jpg\" (created 2023_05_11; stays in the downloads directory)",
+          "object": "dst-courier-services-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(file-system-show-file src-cute-cat-gifs-collection-gif file-system-token file-cute-cat-gifs-collection-gif dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/cute_cat_gifs_collection.gif\"",
+          "object": "src-cute-cat-gifs-collection-gif"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(file-system-move-file src-cute-cat-gifs-collection-gif dst-cute-cat-gifs-collection-gif file-system-token file-cute-cat-gifs-collection-gif year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/cute_cat_gifs_collection.gif\"",
+          "object": "src-cute-cat-gifs-collection-gif"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2021_12_23_cute_cat_gifs_collection.gif\" (created 2021_12_23; not from this year, goes to the trash directory)",
+          "object": "dst-cute-cat-gifs-collection-gif"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(file-system-show-file src-date-night-jpg file-system-token file-date-night-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/date_night.jpg\"",
+          "object": "src-date-night-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(file-system-move-file src-date-night-jpg dst-date-night-jpg file-system-token file-date-night-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/date_night.jpg\"",
+          "object": "src-date-night-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_08_date_night.jpg\" (created 2023_04_08; stays in the downloads directory)",
+          "object": "dst-date-night-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(file-system-show-file src-delicious-recipe-videos-zip file-system-token file-delicious-recipe-videos-zip dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/delicious_recipe_videos.zip\"",
+          "object": "src-delicious-recipe-videos-zip"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(file-system-move-file src-delicious-recipe-videos-zip dst-delicious-recipe-videos-zip file-system-token file-delicious-recipe-videos-zip year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/delicious_recipe_videos.zip\"",
+          "object": "src-delicious-recipe-videos-zip"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_10_19_delicious_recipe_videos.zip\" (created 2022_10_19; not from this year, goes to the trash directory)",
+          "object": "dst-delicious-recipe-videos-zip"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(file-system-show-file src-dinner-cruise-jpg file-system-token file-dinner-cruise-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/dinner_cruise.jpg\"",
+          "object": "src-dinner-cruise-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(file-system-move-file src-dinner-cruise-jpg dst-dinner-cruise-jpg file-system-token file-dinner-cruise-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/dinner_cruise.jpg\"",
+          "object": "src-dinner-cruise-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_17_dinner_cruise.jpg\" (created 2023_05_17; stays in the downloads directory)",
+          "object": "dst-dinner-cruise-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(file-system-show-file src-dinner-date-new-jpg file-system-token file-dinner-date-new-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/dinner_date_new.jpg\"",
+          "object": "src-dinner-date-new-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(file-system-move-file src-dinner-date-new-jpg dst-dinner-date-new-jpg file-system-token file-dinner-date-new-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/dinner_date_new.jpg\"",
+          "object": "src-dinner-date-new-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_08_dinner_date_new.jpg\" (created 2023_03_08; stays in the downloads directory)",
+          "object": "dst-dinner-date-new-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(file-system-show-file src-diy-home-repair-guide-docx file-system-token file-diy-home-repair-guide-docx dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/DIY_home_repair_guide.docx\"",
+          "object": "src-diy-home-repair-guide-docx"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(file-system-move-file src-diy-home-repair-guide-docx dst-diy-home-repair-guide-docx file-system-token file-diy-home-repair-guide-docx year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/DIY_home_repair_guide.docx\"",
+          "object": "src-diy-home-repair-guide-docx"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2021_12_01_DIY_home_repair_guide.docx\" (created 2021_12_01; not from this year, goes to the trash directory)",
+          "object": "dst-diy-home-repair-guide-docx"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(file-system-show-file src-easel-pdf file-system-token file-easel-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/easel.pdf\"",
+          "object": "src-easel-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(file-system-move-file src-easel-pdf dst-easel-pdf file-system-token file-easel-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/easel.pdf\"",
+          "object": "src-easel-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_11_easel.pdf\" (created 2023_04_11; stays in the downloads directory)",
+          "object": "dst-easel-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(file-system-show-file src-escape-room-enthusiast-membership-jpg file-system-token file-escape-room-enthusiast-membership-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/escape_room_enthusiast_membership.jpg\"",
+          "object": "src-escape-room-enthusiast-membership-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(file-system-move-file src-escape-room-enthusiast-membership-jpg dst-escape-room-enthusiast-membership-jpg file-system-token file-escape-room-enthusiast-membership-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/escape_room_enthusiast_membership.jpg\"",
+          "object": "src-escape-room-enthusiast-membership-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_04_escape_room_enthusiast_membership.jpg\" (created 2023_04_04; stays in the downloads directory)",
+          "object": "dst-escape-room-enthusiast-membership-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(file-system-show-file src-escape-room-keychain-jpg file-system-token file-escape-room-keychain-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/escape_room_keychain.jpg\"",
+          "object": "src-escape-room-keychain-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(file-system-move-file src-escape-room-keychain-jpg dst-escape-room-keychain-jpg file-system-token file-escape-room-keychain-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/escape_room_keychain.jpg\"",
+          "object": "src-escape-room-keychain-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_13_escape_room_keychain.jpg\" (created 2023_05_13; stays in the downloads directory)",
+          "object": "dst-escape-room-keychain-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(file-system-show-file src-exotic-recipe-adventures-pdf file-system-token file-exotic-recipe-adventures-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/exotic_recipe_adventures.pdf\"",
+          "object": "src-exotic-recipe-adventures-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(file-system-move-file src-exotic-recipe-adventures-pdf dst-exotic-recipe-adventures-pdf file-system-token file-exotic-recipe-adventures-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/exotic_recipe_adventures.pdf\"",
+          "object": "src-exotic-recipe-adventures-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_13_exotic_recipe_adventures.pdf\" (created 2023_05_13; stays in the downloads directory)",
+          "object": "dst-exotic-recipe-adventures-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(file-system-show-file src-festival-wristband-jpg file-system-token file-festival-wristband-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/festival_wristband.jpg\"",
+          "object": "src-festival-wristband-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(file-system-move-file src-festival-wristband-jpg dst-festival-wristband-jpg file-system-token file-festival-wristband-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/festival_wristband.jpg\"",
+          "object": "src-festival-wristband-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_03_festival_wristband.jpg\" (created 2023_04_03; stays in the downloads directory)",
+          "object": "dst-festival-wristband-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(file-system-show-file src-fitness-journey-progress-tracker-xlsx file-system-token file-fitness-journey-progress-tracker-xlsx dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/fitness_journey_progress_tracker.xlsx\"",
+          "object": "src-fitness-journey-progress-tracker-xlsx"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(file-system-move-file src-fitness-journey-progress-tracker-xlsx dst-fitness-journey-progress-tracker-xlsx file-system-token file-fitness-journey-progress-tracker-xlsx year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/fitness_journey_progress_tracker.xlsx\"",
+          "object": "src-fitness-journey-progress-tracker-xlsx"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2021_11_01_fitness_journey_progress_tracker.xlsx\" (created 2021_11_01; not from this year, goes to the trash directory)",
+          "object": "dst-fitness-journey-progress-tracker-xlsx"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(file-system-show-file src-fitness-workout-plan-doc file-system-token file-fitness-workout-plan-doc dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/fitness_workout_plan.doc\"",
+          "object": "src-fitness-workout-plan-doc"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(file-system-move-file src-fitness-workout-plan-doc dst-fitness-workout-plan-doc file-system-token file-fitness-workout-plan-doc year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/fitness_workout_plan.doc\"",
+          "object": "src-fitness-workout-plan-doc"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2021_08_13_fitness_workout_plan.doc\" (created 2021_08_13; not from this year, goes to the trash directory)",
+          "object": "dst-fitness-workout-plan-doc"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(file-system-show-file src-garden-fence-jpg file-system-token file-garden-fence-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/garden_fence.jpg\"",
+          "object": "src-garden-fence-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(file-system-move-file src-garden-fence-jpg dst-garden-fence-jpg file-system-token file-garden-fence-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/garden_fence.jpg\"",
+          "object": "src-garden-fence-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_07_garden_fence.jpg\" (created 2023_05_07; stays in the downloads directory)",
+          "object": "dst-garden-fence-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(file-system-show-file src-garden-netting-jpg file-system-token file-garden-netting-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/garden_netting.jpg\"",
+          "object": "src-garden-netting-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 57,
+      "pddl": "(file-system-move-file src-garden-netting-jpg dst-garden-netting-jpg file-system-token file-garden-netting-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/garden_netting.jpg\"",
+          "object": "src-garden-netting-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_11_garden_netting.jpg\" (created 2023_03_11; stays in the downloads directory)",
+          "object": "dst-garden-netting-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 58,
+      "pddl": "(file-system-show-file src-gloves-pdf file-system-token file-gloves-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/gloves.pdf\"",
+          "object": "src-gloves-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 59,
+      "pddl": "(file-system-move-file src-gloves-pdf dst-gloves-pdf file-system-token file-gloves-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/gloves.pdf\"",
+          "object": "src-gloves-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_01_06_gloves.pdf\" (created 2023_01_06; stays in the downloads directory)",
+          "object": "dst-gloves-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 60,
+      "pddl": "(file-system-show-file src-group-photo-jpg file-system-token file-group-photo-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/group_photo.jpg\"",
+          "object": "src-group-photo-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 61,
+      "pddl": "(file-system-move-file src-group-photo-jpg dst-group-photo-jpg file-system-token file-group-photo-jpg year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/group_photo.jpg\"",
+          "object": "src-group-photo-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_09_04_group_photo.jpg\" (created 2022_09_04; not from this year, goes to the trash directory)",
+          "object": "dst-group-photo-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 62,
+      "pddl": "(file-system-show-file src-hotel-pdf file-system-token file-hotel-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/hotel.pdf\"",
+          "object": "src-hotel-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 63,
+      "pddl": "(file-system-move-file src-hotel-pdf dst-hotel-pdf file-system-token file-hotel-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/hotel.pdf\"",
+          "object": "src-hotel-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_04_hotel.pdf\" (created 2023_03_04; stays in the downloads directory)",
+          "object": "dst-hotel-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 64,
+      "pddl": "(file-system-show-file src-language-learning-podcasts-mp3 file-system-token file-language-learning-podcasts-mp3 dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/language_learning_podcasts.mp3\"",
+          "object": "src-language-learning-podcasts-mp3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 65,
+      "pddl": "(file-system-move-file src-language-learning-podcasts-mp3 dst-language-learning-podcasts-mp3 file-system-token file-language-learning-podcasts-mp3 year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/language_learning_podcasts.mp3\"",
+          "object": "src-language-learning-podcasts-mp3"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_06_25_language_learning_podcasts.mp3\" (created 2022_06_25; not from this year, goes to the trash directory)",
+          "object": "dst-language-learning-podcasts-mp3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 66,
+      "pddl": "(file-system-show-file src-measuring-cups-pdf file-system-token file-measuring-cups-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/measuring_cups.pdf\"",
+          "object": "src-measuring-cups-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 67,
+      "pddl": "(file-system-move-file src-measuring-cups-pdf dst-measuring-cups-pdf file-system-token file-measuring-cups-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/measuring_cups.pdf\"",
+          "object": "src-measuring-cups-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_14_measuring_cups.pdf\" (created 2023_05_14; stays in the downloads directory)",
+          "object": "dst-measuring-cups-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 68,
+      "pddl": "(file-system-show-file src-meeting-room-rental-jpg file-system-token file-meeting-room-rental-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/meeting_room_rental.jpg\"",
+          "object": "src-meeting-room-rental-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 69,
+      "pddl": "(file-system-move-file src-meeting-room-rental-jpg dst-meeting-room-rental-jpg file-system-token file-meeting-room-rental-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/meeting_room_rental.jpg\"",
+          "object": "src-meeting-room-rental-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_02_03_meeting_room_rental.jpg\" (created 2023_02_03; stays in the downloads directory)",
+          "object": "dst-meeting-room-rental-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 70,
+      "pddl": "(file-system-show-file src-movie-rental-pdf file-system-token file-movie-rental-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/movie_rental.pdf\"",
+          "object": "src-movie-rental-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 71,
+      "pddl": "(file-system-move-file src-movie-rental-pdf dst-movie-rental-pdf file-system-token file-movie-rental-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/movie_rental.pdf\"",
+          "object": "src-movie-rental-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_27_movie_rental.pdf\" (created 2023_04_27; stays in the downloads directory)",
+          "object": "dst-movie-rental-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 72,
+      "pddl": "(file-system-show-file src-mugs-pdf file-system-token file-mugs-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/mugs.pdf\"",
+          "object": "src-mugs-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 73,
+      "pddl": "(file-system-move-file src-mugs-pdf dst-mugs-pdf file-system-token file-mugs-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/mugs.pdf\"",
+          "object": "src-mugs-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_01_28_mugs.pdf\" (created 2023_01_28; stays in the downloads directory)",
+          "object": "dst-mugs-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 74,
+      "pddl": "(file-system-show-file src-mystery-thriller-ebook-epub file-system-token file-mystery-thriller-ebook-epub dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/mystery_thriller_ebook.epub\"",
+          "object": "src-mystery-thriller-ebook-epub"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 75,
+      "pddl": "(file-system-move-file src-mystery-thriller-ebook-epub dst-mystery-thriller-ebook-epub file-system-token file-mystery-thriller-ebook-epub year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/mystery_thriller_ebook.epub\"",
+          "object": "src-mystery-thriller-ebook-epub"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_05_29_mystery_thriller_ebook.epub\" (created 2022_05_29; not from this year, goes to the trash directory)",
+          "object": "dst-mystery-thriller-ebook-epub"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 76,
+      "pddl": "(file-system-show-file src-office-curtains-jpg file-system-token file-office-curtains-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/office_curtains.jpg\"",
+          "object": "src-office-curtains-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 77,
+      "pddl": "(file-system-move-file src-office-curtains-jpg dst-office-curtains-jpg file-system-token file-office-curtains-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/office_curtains.jpg\"",
+          "object": "src-office-curtains-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_15_office_curtains.jpg\" (created 2023_04_15; stays in the downloads directory)",
+          "object": "dst-office-curtains-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 78,
+      "pddl": "(file-system-show-file src-office-party-jpg file-system-token file-office-party-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/office_party.jpg\"",
+          "object": "src-office-party-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 79,
+      "pddl": "(file-system-move-file src-office-party-jpg dst-office-party-jpg file-system-token file-office-party-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/office_party.jpg\"",
+          "object": "src-office-party-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_13_office_party.jpg\" (created 2023_05_13; stays in the downloads directory)",
+          "object": "dst-office-party-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 80,
+      "pddl": "(file-system-show-file src-parking-jpg file-system-token file-parking-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/parking.jpg\"",
+          "object": "src-parking-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 81,
+      "pddl": "(file-system-move-file src-parking-jpg dst-parking-jpg file-system-token file-parking-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/parking.jpg\"",
+          "object": "src-parking-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_30_parking.jpg\" (created 2023_03_30; stays in the downloads directory)",
+          "object": "dst-parking-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 82,
+      "pddl": "(file-system-show-file src-photo-booth-jpg file-system-token file-photo-booth-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/photo_booth.jpg\"",
+          "object": "src-photo-booth-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 83,
+      "pddl": "(file-system-move-file src-photo-booth-jpg dst-photo-booth-jpg file-system-token file-photo-booth-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/photo_booth.jpg\"",
+          "object": "src-photo-booth-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_02_photo_booth.jpg\" (created 2023_04_02; stays in the downloads directory)",
+          "object": "dst-photo-booth-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 84,
+      "pddl": "(file-system-show-file src-plant-food-jpg file-system-token file-plant-food-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/plant_food.jpg\"",
+          "object": "src-plant-food-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 85,
+      "pddl": "(file-system-move-file src-plant-food-jpg dst-plant-food-jpg file-system-token file-plant-food-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/plant_food.jpg\"",
+          "object": "src-plant-food-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_16_plant_food.jpg\" (created 2023_05_16; stays in the downloads directory)",
+          "object": "dst-plant-food-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 86,
+      "pddl": "(file-system-show-file src-plant-markers-pdf file-system-token file-plant-markers-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/plant_markers.pdf\"",
+          "object": "src-plant-markers-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 87,
+      "pddl": "(file-system-move-file src-plant-markers-pdf dst-plant-markers-pdf file-system-token file-plant-markers-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/plant_markers.pdf\"",
+          "object": "src-plant-markers-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_01_01_plant_markers.pdf\" (created 2023_01_01; stays in the downloads directory)",
+          "object": "dst-plant-markers-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 88,
+      "pddl": "(file-system-show-file src-retro-music-playlist-mp3 file-system-token file-retro-music-playlist-mp3 dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/retro_music_playlist.mp3\"",
+          "object": "src-retro-music-playlist-mp3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 89,
+      "pddl": "(file-system-move-file src-retro-music-playlist-mp3 dst-retro-music-playlist-mp3 file-system-token file-retro-music-playlist-mp3 year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/retro_music_playlist.mp3\"",
+          "object": "src-retro-music-playlist-mp3"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_18_retro_music_playlist.mp3\" (created 2023_03_18; stays in the downloads directory)",
+          "object": "dst-retro-music-playlist-mp3"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 90,
+      "pddl": "(file-system-show-file src-scientific-research-paper-pdf file-system-token file-scientific-research-paper-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/scientific_research_paper.pdf\"",
+          "object": "src-scientific-research-paper-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 91,
+      "pddl": "(file-system-move-file src-scientific-research-paper-pdf dst-scientific-research-paper-pdf file-system-token file-scientific-research-paper-pdf year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/scientific_research_paper.pdf\"",
+          "object": "src-scientific-research-paper-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_04_02_scientific_research_paper.pdf\" (created 2022_04_02; not from this year, goes to the trash directory)",
+          "object": "dst-scientific-research-paper-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 92,
+      "pddl": "(file-system-show-file src-ski-insurance-pdf file-system-token file-ski-insurance-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/ski_insurance.pdf\"",
+          "object": "src-ski-insurance-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 93,
+      "pddl": "(file-system-move-file src-ski-insurance-pdf dst-ski-insurance-pdf file-system-token file-ski-insurance-pdf year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/ski_insurance.pdf\"",
+          "object": "src-ski-insurance-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_09_08_ski_insurance.pdf\" (created 2022_09_08; not from this year, goes to the trash directory)",
+          "object": "dst-ski-insurance-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 94,
+      "pddl": "(file-system-show-file src-snacks-for-office-jpg file-system-token file-snacks-for-office-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/snacks_for_office.jpg\"",
+          "object": "src-snacks-for-office-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 95,
+      "pddl": "(file-system-move-file src-snacks-for-office-jpg dst-snacks-for-office-jpg file-system-token file-snacks-for-office-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/snacks_for_office.jpg\"",
+          "object": "src-snacks-for-office-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_07_snacks_for_office.jpg\" (created 2023_04_07; stays in the downloads directory)",
+          "object": "dst-snacks-for-office-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 96,
+      "pddl": "(file-system-show-file src-snowboard-rental-jpg file-system-token file-snowboard-rental-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/snowboard_rental.jpg\"",
+          "object": "src-snowboard-rental-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 97,
+      "pddl": "(file-system-move-file src-snowboard-rental-jpg dst-snowboard-rental-jpg file-system-token file-snowboard-rental-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/snowboard_rental.jpg\"",
+          "object": "src-snowboard-rental-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_26_snowboard_rental.jpg\" (created 2023_04_26; stays in the downloads directory)",
+          "object": "dst-snowboard-rental-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 98,
+      "pddl": "(file-system-show-file src-space-discovery-documentary-mp4 file-system-token file-space-discovery-documentary-mp4 dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/space_discovery_documentary.mp4\"",
+          "object": "src-space-discovery-documentary-mp4"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 99,
+      "pddl": "(file-system-move-file src-space-discovery-documentary-mp4 dst-space-discovery-documentary-mp4 file-system-token file-space-discovery-documentary-mp4 year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/space_discovery_documentary.mp4\"",
+          "object": "src-space-discovery-documentary-mp4"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_08_space_discovery_documentary.mp4\" (created 2023_03_08; stays in the downloads directory)",
+          "object": "dst-space-discovery-documentary-mp4"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 100,
+      "pddl": "(file-system-show-file src-space-exploration-encyclopedia-epub file-system-token file-space-exploration-encyclopedia-epub dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/space_exploration_encyclopedia.epub\"",
+          "object": "src-space-exploration-encyclopedia-epub"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 101,
+      "pddl": "(file-system-move-file src-space-exploration-encyclopedia-epub dst-space-exploration-encyclopedia-epub file-system-token file-space-exploration-encyclopedia-epub year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/space_exploration_encyclopedia.epub\"",
+          "object": "src-space-exploration-encyclopedia-epub"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2021_07_19_space_exploration_encyclopedia.epub\" (created 2021_07_19; not from this year, goes to the trash directory)",
+          "object": "dst-space-exploration-encyclopedia-epub"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 102,
+      "pddl": "(file-system-show-file src-streaming-service-pdf file-system-token file-streaming-service-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/streaming_service.pdf\"",
+          "object": "src-streaming-service-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 103,
+      "pddl": "(file-system-move-file src-streaming-service-pdf dst-streaming-service-pdf file-system-token file-streaming-service-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/streaming_service.pdf\"",
+          "object": "src-streaming-service-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_26_streaming_service.pdf\" (created 2023_03_26; stays in the downloads directory)",
+          "object": "dst-streaming-service-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 104,
+      "pddl": "(file-system-show-file src-sustainable-living-handbook-pdf file-system-token file-sustainable-living-handbook-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/sustainable_living_handbook.pdf\"",
+          "object": "src-sustainable-living-handbook-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 105,
+      "pddl": "(file-system-move-file src-sustainable-living-handbook-pdf dst-sustainable-living-handbook-pdf file-system-token file-sustainable-living-handbook-pdf year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/sustainable_living_handbook.pdf\"",
+          "object": "src-sustainable-living-handbook-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2021_10_14_sustainable_living_handbook.pdf\" (created 2021_10_14; not from this year, goes to the trash directory)",
+          "object": "dst-sustainable-living-handbook-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 106,
+      "pddl": "(file-system-show-file src-team-building-retreat-jpg file-system-token file-team-building-retreat-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/team_building_retreat.jpg\"",
+          "object": "src-team-building-retreat-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 107,
+      "pddl": "(file-system-move-file src-team-building-retreat-jpg dst-team-building-retreat-jpg file-system-token file-team-building-retreat-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/team_building_retreat.jpg\"",
+          "object": "src-team-building-retreat-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_29_team_building_retreat.jpg\" (created 2023_04_29; stays in the downloads directory)",
+          "object": "dst-team-building-retreat-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 108,
+      "pddl": "(file-system-show-file src-team-outing-jpg file-system-token file-team-outing-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/team_outing.jpg\"",
+          "object": "src-team-outing-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 109,
+      "pddl": "(file-system-move-file src-team-outing-jpg dst-team-outing-jpg file-system-token file-team-outing-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/team_outing.jpg\"",
+          "object": "src-team-outing-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_18_team_outing.jpg\" (created 2023_05_18; stays in the downloads directory)",
+          "object": "dst-team-outing-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 110,
+      "pddl": "(file-system-show-file src-theater-tickets-jpg file-system-token file-theater-tickets-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/theater_tickets.jpg\"",
+          "object": "src-theater-tickets-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 111,
+      "pddl": "(file-system-move-file src-theater-tickets-jpg dst-theater-tickets-jpg file-system-token file-theater-tickets-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/theater_tickets.jpg\"",
+          "object": "src-theater-tickets-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_03_17_theater_tickets.jpg\" (created 2023_03_17; stays in the downloads directory)",
+          "object": "dst-theater-tickets-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 112,
+      "pddl": "(file-system-show-file src-theater-tickets-new-jpg file-system-token file-theater-tickets-new-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/theater_tickets_new.jpg\"",
+          "object": "src-theater-tickets-new-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 113,
+      "pddl": "(file-system-move-file src-theater-tickets-new-jpg dst-theater-tickets-new-jpg file-system-token file-theater-tickets-new-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/theater_tickets_new.jpg\"",
+          "object": "src-theater-tickets-new-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_01_15_theater_tickets_new.jpg\" (created 2023_01_15; stays in the downloads directory)",
+          "object": "dst-theater-tickets-new-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 114,
+      "pddl": "(file-system-show-file src-thermal-wear-jpg file-system-token file-thermal-wear-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/thermal_wear.jpg\"",
+          "object": "src-thermal-wear-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 115,
+      "pddl": "(file-system-move-file src-thermal-wear-jpg dst-thermal-wear-jpg file-system-token file-thermal-wear-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/thermal_wear.jpg\"",
+          "object": "src-thermal-wear-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_05_13_thermal_wear.jpg\" (created 2023_05_13; stays in the downloads directory)",
+          "object": "dst-thermal-wear-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 116,
+      "pddl": "(file-system-show-file src-training-session-pdf file-system-token file-training-session-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/training_session.pdf\"",
+          "object": "src-training-session-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 117,
+      "pddl": "(file-system-move-file src-training-session-pdf dst-training-session-pdf file-system-token file-training-session-pdf year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/training_session.pdf\"",
+          "object": "src-training-session-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_01_30_training_session.pdf\" (created 2023_01_30; stays in the downloads directory)",
+          "object": "dst-training-session-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 118,
+      "pddl": "(file-system-show-file src-vacation-pdf file-system-token file-vacation-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/vacation.pdf\"",
+          "object": "src-vacation-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 119,
+      "pddl": "(file-system-move-file src-vacation-pdf dst-vacation-pdf file-system-token file-vacation-pdf year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/vacation.pdf\"",
+          "object": "src-vacation-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_12_20_vacation.pdf\" (created 2022_12_20; not from this year, goes to the trash directory)",
+          "object": "dst-vacation-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 120,
+      "pddl": "(file-system-show-file src-virtual-reality-gaming-experience-zip file-system-token file-virtual-reality-gaming-experience-zip dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/virtual_reality_gaming_experience.zip\"",
+          "object": "src-virtual-reality-gaming-experience-zip"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 121,
+      "pddl": "(file-system-move-file src-virtual-reality-gaming-experience-zip dst-virtual-reality-gaming-experience-zip file-system-token file-virtual-reality-gaming-experience-zip year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/virtual_reality_gaming_experience.zip\"",
+          "object": "src-virtual-reality-gaming-experience-zip"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_04_22_virtual_reality_gaming_experience.zip\" (created 2022_04_22; not from this year, goes to the trash directory)",
+          "object": "dst-virtual-reality-gaming-experience-zip"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 122,
+      "pddl": "(file-system-show-file src-watering-can-jpg file-system-token file-watering-can-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/watering_can.jpg\"",
+          "object": "src-watering-can-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 123,
+      "pddl": "(file-system-move-file src-watering-can-jpg dst-watering-can-jpg file-system-token file-watering-can-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/watering_can.jpg\"",
+          "object": "src-watering-can-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_18_watering_can.jpg\" (created 2023_04_18; stays in the downloads directory)",
+          "object": "dst-watering-can-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 124,
+      "pddl": "(file-system-show-file src-wildlife-conservation-report-pdf file-system-token file-wildlife-conservation-report-pdf dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/wildlife_conservation_report.pdf\"",
+          "object": "src-wildlife-conservation-report-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 125,
+      "pddl": "(file-system-move-file src-wildlife-conservation-report-pdf dst-wildlife-conservation-report-pdf file-system-token file-wildlife-conservation-report-pdf year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/wildlife_conservation_report.pdf\"",
+          "object": "src-wildlife-conservation-report-pdf"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_07_18_wildlife_conservation_report.pdf\" (created 2022_07_18; not from this year, goes to the trash directory)",
+          "object": "dst-wildlife-conservation-report-pdf"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 126,
+      "pddl": "(file-system-show-file src-wildlife-photography-collection-jpg file-system-token file-wildlife-photography-collection-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/wildlife_photography_collection.jpg\"",
+          "object": "src-wildlife-photography-collection-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 127,
+      "pddl": "(file-system-move-file src-wildlife-photography-collection-jpg dst-wildlife-photography-collection-jpg file-system-token file-wildlife-photography-collection-jpg year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/wildlife_photography_collection.jpg\"",
+          "object": "src-wildlife-photography-collection-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_10_07_wildlife_photography_collection.jpg\" (created 2022_10_07; not from this year, goes to the trash directory)",
+          "object": "dst-wildlife-photography-collection-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 128,
+      "pddl": "(file-system-show-file src-wine-bottles-jpg file-system-token file-wine-bottles-jpg dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/wine_bottles.jpg\"",
+          "object": "src-wine-bottles-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 129,
+      "pddl": "(file-system-move-file src-wine-bottles-jpg dst-wine-bottles-jpg file-system-token file-wine-bottles-jpg year-2023 dir-my-downloads)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/wine_bottles.jpg\"",
+          "object": "src-wine-bottles-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/my_downloads/2023_04_13_wine_bottles.jpg\" (created 2023_04_13; stays in the downloads directory)",
+          "object": "dst-wine-bottles-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 130,
+      "pddl": "(file-system-show-file src-world-travel-itinerary-docx file-system-token file-world-travel-itinerary-docx dir-my-downloads)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/world_travel_itinerary.docx\"",
+          "object": "src-world-travel-itinerary-docx"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 131,
+      "pddl": "(file-system-move-file src-world-travel-itinerary-docx dst-world-travel-itinerary-docx file-system-token file-world-travel-itinerary-docx year-before-2023 dir-archive)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path \"~/my_downloads/world_travel_itinerary.docx\"",
+          "object": "src-world-travel-itinerary-docx"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_file",
+          "field": "computed from created_at of that file: \"~/archive/2022_11_14_world_travel_itinerary.docx\" (created 2022_11_14; not from this year, goes to the trash directory)",
+          "object": "dst-world-travel-itinerary-docx"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 132,
+      "pddl": "(supervisor-complete-task file-wine-bottles-jpg file-world-travel-itinerary-docx)",
       "api": "supervisor.complete_task",
       "args": {}
     }

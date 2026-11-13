@@ -5,30 +5,32 @@
     caiburc-at-gmail-com - username
     spotify-password - password
     spotify-token - token
-    rec-song-1 rec-song-2 rec-song-3 rec-song-4 - song
     rnb-recommendation-playlist - playlist
     title-rnb-recommendation - title
+    song-12 song-87 song-88 song-174 song-184 song-273 - song
   )
   (:init
     (supervisor caitlin-burch)
     (supervisor-username caiburc-at-gmail-com)
     (password-for spotify spotify-password)
-    (recommended rec-song-1)
-    (recommended rec-song-2)
-    (recommended rec-song-3)
-    (recommended rec-song-4)
-    (genre-rnb rec-song-1)
-    (released-this-year rec-song-1)
-    (genre-rnb rec-song-2)
-    (released-this-year rec-song-2)
-    (released-this-year rec-song-3)
-    (genre-rnb rec-song-4)
     (playlist-title rnb-recommendation-playlist title-rnb-recommendation)
-  )
+    (recommended song-12)
+    (recommended song-87)
+    (recommended song-88)
+    (recommended song-174)
+    (recommended song-184)
+    (recommended song-273)
+    (genre-rnb song-12)
+    (genre-rnb song-87)
+    (genre-rnb song-88)
+    (genre-rnb song-184)
+    (released-this-year song-87)
+    (released-this-year song-174)
+    (released-this-year song-184)
+    (released-this-year song-273))
   (:goal (and
     (playlist-created rnb-recommendation-playlist)
-    (in-playlist rnb-recommendation-playlist rec-song-1)
-    (in-playlist rnb-recommendation-playlist rec-song-2)
-    (task-completed)
-  ))
+    (in-playlist rnb-recommendation-playlist song-87)
+    (in-playlist rnb-recommendation-playlist song-184)
+    (task-completed)))
 )

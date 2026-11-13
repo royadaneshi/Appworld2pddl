@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-username-8267279358 phone-password venmo-token)",
+      "pddl": "(phone-login phone-username-8267279358 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "8267279358",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login venmo-username-spencer-powell-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login venmo-username-spencer-powell-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "spencer.powell@gmail.com",
@@ -46,32 +46,32 @@
     },
     {
       "step": 6,
-      "pddl": "(venmo-show-payment-cards phone-token card-non-expired)",
+      "pddl": "(venmo-show-payment-cards venmo-token card-non-expired)",
       "api": "venmo.show_payment_cards",
-      "args": {
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        }
-      }
-    },
-    {
-      "step": 7,
-      "pddl": "(phone-search-contacts venmo-token query-5734599766 contact contact-email)",
-      "api": "phone.search_contacts",
       "args": {
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
           "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(phone-search-contacts phone-token query-5734599766 contact contact-email)",
+      "api": "phone.search_contacts",
+      "args": {
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
         },
         "query": "5734599766"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-create-transaction contact-email amount-100 phone-token description-payment card-non-expired public contact tx-1)",
+      "pddl": "(venmo-create-transaction contact-email amount-100 venmo-token description-payment card-non-expired public contact tx-1)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -81,14 +81,14 @@
         },
         "amount": 100,
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Payment",
         "payment_card_id": {
           "$from": "venmo.show_payment_cards",
-          "field": "payment_card_id of a card whose (expiry_year, expiry_month) is after the current date from phone.get_current_date_and_time; try the next non-expired card if create_transaction fails",
+          "field": "payment_card_id of the one non-expired card that can fund the payment: Wells Fargo (expires 2023-10). Being non-expired is not sufficient: the other non-expired cards (American Express, Discover) are rejected with \"Your payment card does not have $100.00 to make this transaction.\" and card funds are not shown by the API, so non-expired cards must be tried in order until create_transaction succeeds",
           "object": "card-non-expired"
         },
         "private": false

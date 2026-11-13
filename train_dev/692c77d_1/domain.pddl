@@ -3,7 +3,7 @@
   (:types app email password token song review rating - object)
   (:constants
     spotify - app
-    song-a song-b song-d - song
+    song-28 song-40 song-95 song-122 song-175 song-231 song-239 song-249 song-159 song-211 song-254 - song
     rating-5 - rating)
   (:predicates
     (profile-known)
@@ -73,6 +73,18 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (rated song-a rating-5) (rated song-b rating-5) (rated song-d rating-5) (not (task-completed)))
+    :precondition (and
+      (rated song-28 rating-5)
+      (rated song-40 rating-5)
+      (rated song-95 rating-5)
+      (rated song-122 rating-5)
+      (rated song-175 rating-5)
+      (rated song-231 rating-5)
+      (rated song-239 rating-5)
+      (rated song-249 rating-5)
+      (rated song-159 rating-5)
+      (rated song-211 rating-5)
+      (rated song-254 rating-5)
+      (not (task-completed)))
     :effect (task-completed))
 )

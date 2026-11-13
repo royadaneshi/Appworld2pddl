@@ -15,6 +15,10 @@
     done-text - text-message
   )
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone username-4886643554)
     (username-for venmo username-matthew-blac-at-gmail-com)
     (password-for phone phone-password)

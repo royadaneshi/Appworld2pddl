@@ -39,13 +39,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-127 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of each entry (paginate over page_index until empty)",
-          "object": "playlist-1"
+          "field": "playlist_id of \"Harmonic Horizons: Indie & Alternative\" (5 songs, total 1323 s = 22 min)",
+          "object": "playlist-127"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -56,13 +56,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-128 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of each entry (paginate over page_index until empty)",
-          "object": "playlist-2"
+          "field": "playlist_id of \"Heartbreak Hotel: Songs of Sorrow\" (5 songs, total 1263 s = 21 min)",
+          "object": "playlist-128"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -73,54 +73,470 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-song song-1-1 playlist-1 song-1-2)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-playlist playlist-129 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-1",
-          "object": "song-1-1"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Bollywood Beats: Desi Dance Off\" (5 songs, total 1282 s = 21 min)",
+          "object": "playlist-129"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-song song-1-2 playlist-1 song-2-1)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-playlist playlist-130 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-1",
-          "object": "song-1-2"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Lunar Lullabies: Sleep Aid\" (5 songs, total 1206 s = 20 min)",
+          "object": "playlist-130"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-song song-2-1 playlist-2 song-2-2)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-playlist playlist-131 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-2",
-          "object": "song-2-1"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Eco Tunes: Songs for Planet Earth\" (8 songs, total 1964 s = 33 min; the longest playlist)",
+          "object": "playlist-131"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-show-song song-2-2 playlist-2 minutes-answer)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-playlist playlist-132 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[*].id for playlist-2",
-          "object": "song-2-2"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Groovy Gardens: Botanical Beats\" (5 songs, total 1079 s = 18 min)",
+          "object": "playlist-132"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 11,
+      "pddl": "(spotify-show-song song-135 playlist-128 song-162)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 135 (duration 208 s via spotify.show_song)",
+          "object": "song-135"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-show-song song-162 playlist-128 song-274)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 162 (duration 228 s via spotify.show_song)",
+          "object": "song-162"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-show-song song-274 playlist-128 song-293)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 274 (duration 247 s via spotify.show_song)",
+          "object": "song-274"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-show-song song-293 playlist-128 song-310)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 293 (duration 291 s via spotify.show_song)",
+          "object": "song-293"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-show-song song-310 playlist-128 song-42)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 310 (duration 289 s via spotify.show_song)",
+          "object": "song-310"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-show-song song-42 playlist-129 song-70)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 42 (duration 199 s via spotify.show_song)",
+          "object": "song-42"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-show-song song-70 playlist-129 song-76)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 70 (duration 265 s via spotify.show_song)",
+          "object": "song-70"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-show-song song-76 playlist-129 song-156)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 76 (duration 270 s via spotify.show_song)",
+          "object": "song-76"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-show-song song-156 playlist-129 song-192)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 156 (duration 282 s via spotify.show_song)",
+          "object": "song-156"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-show-song song-192 playlist-129 song-25)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 192 (duration 266 s via spotify.show_song)",
+          "object": "song-192"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-show-song song-25 playlist-131 song-64)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 25 (duration 260 s via spotify.show_song)",
+          "object": "song-25"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-show-song song-64 playlist-131 song-108)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 64 (duration 280 s via spotify.show_song)",
+          "object": "song-64"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-show-song song-108 playlist-131 song-151)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 108 (duration 262 s via spotify.show_song)",
+          "object": "song-108"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-show-song song-151 playlist-131 song-155)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 151 (duration 257 s via spotify.show_song)",
+          "object": "song-151"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-show-song song-155 playlist-131 song-224)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 155 (duration 225 s via spotify.show_song)",
+          "object": "song-155"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-show-song song-224 playlist-131 song-225)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 224 (duration 230 s via spotify.show_song)",
+          "object": "song-224"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-show-song song-225 playlist-131 song-230)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 225 (duration 244 s via spotify.show_song)",
+          "object": "song-225"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-show-song song-230 playlist-131 song-102)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 230 (duration 206 s via spotify.show_song)",
+          "object": "song-230"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(spotify-show-song song-102 playlist-130 song-133)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 102 (duration 292 s via spotify.show_song)",
+          "object": "song-102"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-show-song song-133 playlist-130 song-149)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 133 (duration 275 s via spotify.show_song)",
+          "object": "song-133"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-show-song song-149 playlist-130 song-167)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 149 (duration 234 s via spotify.show_song)",
+          "object": "song-149"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-show-song song-167 playlist-130 song-250)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 167 (duration 190 s via spotify.show_song)",
+          "object": "song-167"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(spotify-show-song song-250 playlist-130 song-150)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 250 (duration 215 s via spotify.show_song)",
+          "object": "song-250"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(spotify-show-song song-150 playlist-127 song-231)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 150 (duration 248 s via spotify.show_song)",
+          "object": "song-150"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(spotify-show-song song-231 playlist-127 song-248)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 231 (duration 278 s via spotify.show_song)",
+          "object": "song-231"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(spotify-show-song song-248 playlist-127 song-270)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 248 (duration 288 s via spotify.show_song)",
+          "object": "song-248"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(spotify-show-song song-270 playlist-127 song-317)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 270 (duration 284 s via spotify.show_song)",
+          "object": "song-270"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(spotify-show-song song-317 playlist-127 song-2)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 317 (duration 225 s via spotify.show_song)",
+          "object": "song-317"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(spotify-show-song song-2 playlist-132 song-84)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 2 (duration 224 s via spotify.show_song)",
+          "object": "song-2"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(spotify-show-song song-84 playlist-132 song-122)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 84 (duration 217 s via spotify.show_song)",
+          "object": "song-84"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(spotify-show-song song-122 playlist-132 song-169)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 122 (duration 206 s via spotify.show_song)",
+          "object": "song-122"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(spotify-show-song song-169 playlist-132 song-207)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 169 (duration 226 s via spotify.show_song)",
+          "object": "song-169"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(spotify-show-song song-207 playlist-132 minutes-answer)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id 207 (duration 206 s via spotify.show_song)",
+          "object": "song-207"
+        }
+      }
+    },
+    {
+      "step": 44,
       "pddl": "(supervisor-complete-task minutes-answer)",
       "api": "supervisor.complete_task",
       "args": {

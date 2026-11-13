@@ -10,54 +10,102 @@
     },
     {
       "step": 2,
-      "pddl": "(spotify-show-song other-song-1 velvet-underground song-start)",
+      "pddl": "(spotify-show-song song-37 velvet-underground song-start)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.search_albums",
-          "field": "song_ids[i] of the matched album (one show_song call per song id)",
-          "object": "other-song-1"
+          "field": "song_ids entry 37 of the album \"Velvet Underground\": \"Endless Roads\" (play_count 379 via spotify.show_song)",
+          "object": "song-37"
         }
       }
     },
     {
       "step": 3,
-      "pddl": "(spotify-show-song most-played-song velvet-underground other-song-1)",
+      "pddl": "(spotify-show-song song-38 velvet-underground song-37)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_song",
-          "field": "song_id of the album song with the maximum play_count over all show_song responses",
-          "object": "most-played-song"
+          "$from": "spotify.search_albums",
+          "field": "song_ids entry 38 of the album \"Velvet Underground\": \"Destiny's Game\" (play_count 178 via spotify.show_song)",
+          "object": "song-38"
         }
       }
     },
     {
       "step": 4,
-      "pddl": "(spotify-show-song other-song-2 velvet-underground most-played-song)",
+      "pddl": "(spotify-show-song song-39 velvet-underground song-38)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
           "$from": "spotify.search_albums",
-          "field": "song_ids[i] of the matched album (one show_song call per song id)",
-          "object": "other-song-2"
+          "field": "song_ids entry 39 of the album \"Velvet Underground\": \"A Pathway to Nowhere\" (play_count 594 via spotify.show_song)",
+          "object": "song-39"
         }
       }
     },
     {
       "step": 5,
+      "pddl": "(spotify-show-song song-40 velvet-underground song-39)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_albums",
+          "field": "song_ids entry 40 of the album \"Velvet Underground\": \"Burning Like a Distant Star\" (play_count 120 via spotify.show_song)",
+          "object": "song-40"
+        }
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(spotify-show-song song-41 velvet-underground song-40)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_albums",
+          "field": "song_ids entry 41 of the album \"Velvet Underground\": \"Gone Astray\" (play_count 629 via spotify.show_song); the most played song of the album",
+          "object": "song-41"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-song song-42 velvet-underground song-41)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_albums",
+          "field": "song_ids entry 42 of the album \"Velvet Underground\": \"Unspoken Words\" (play_count 349 via spotify.show_song)",
+          "object": "song-42"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-song song-43 velvet-underground song-42)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.search_albums",
+          "field": "song_ids entry 43 of the album \"Velvet Underground\": \"Whispers of Destiny\" (play_count 433 via spotify.show_song)",
+          "object": "song-43"
+        }
+      }
+    },
+    {
+      "step": 9,
       "pddl": "(supervisor-show-account-passwords)",
       "api": "supervisor.show_account_passwords",
       "args": {}
     },
     {
-      "step": 6,
+      "step": 10,
       "pddl": "(supervisor-show-profile jeremy-calhoun jer-calhoun-at-gmail-com)",
       "api": "supervisor.show_profile",
       "args": {}
     },
     {
-      "step": 7,
+      "step": 11,
       "pddl": "(spotify-login jer-calhoun-at-gmail-com spotify-password spotify-token)",
       "api": "spotify.login",
       "args": {
@@ -70,8 +118,8 @@
       }
     },
     {
-      "step": 8,
-      "pddl": "(spotify-play-music spotify-token most-played-song velvet-underground other-song-2)",
+      "step": 12,
+      "pddl": "(spotify-play-music spotify-token song-41 velvet-underground song-43)",
       "api": "spotify.play_music",
       "args": {
         "access_token": {
@@ -80,14 +128,14 @@
           "object": "spotify-token"
         },
         "song_id": {
-          "$from": "spotify.show_song",
-          "field": "song_id of the album song with the maximum play_count over all show_song responses",
-          "object": "most-played-song"
+          "$from": "spotify.search_albums",
+          "field": "song_ids entry 41 of the album \"Velvet Underground\": \"Gone Astray\" (play_count 629 via spotify.show_song); the most played song of the album",
+          "object": "song-41"
         }
       }
     },
     {
-      "step": 9,
+      "step": 13,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

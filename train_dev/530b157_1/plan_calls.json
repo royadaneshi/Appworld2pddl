@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login username-matthew-blac-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login username-matthew-blac-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "matthew.blac@gmail.com",
@@ -76,7 +76,7 @@
     },
     {
       "step": 8,
-      "pddl": "(venmo-create-transaction kristin-email amount-owed-for-groceries phone-token note-groceries kristin groceries-payment)",
+      "pddl": "(venmo-create-transaction kristin-email amount-owed-for-groceries venmo-token note-groceries kristin groceries-payment)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -90,9 +90,9 @@
           "object": "amount-owed-for-groceries"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Groceries"
       }

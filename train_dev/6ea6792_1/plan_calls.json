@@ -14,7 +14,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login phone-2307354647 phone-password venmo-token)",
+      "pddl": "(phone-login phone-2307354647 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2307354647",
@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login nan-ritt-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login nan-ritt-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "nan_ritt@gmail.com",
@@ -40,13 +40,13 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts venmo-token query-coworker coworker)",
+      "pddl": "(phone-search-contacts phone-token query-coworker coworker)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "coworker",
         "relationship": "coworker"
@@ -54,67 +54,189 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-roommate roommate)",
-      "api": "phone.search_contacts",
+      "pddl": "(venmo-show-received-payment-requests venmo-token status-pending)",
+      "api": "venmo.show_received_payment_requests",
       "args": {
         "access_token": {
           "$from": "venmo.login",
           "field": "access_token",
           "object": "venmo-token"
         },
-        "query": "roommate",
-        "relationship": "roommate"
-      }
-    },
-    {
-      "step": 7,
-      "pddl": "(venmo-show-received-payment-requests phone-token status-pending)",
-      "api": "venmo.show_received_payment_requests",
-      "args": {
-        "access_token": {
-          "$from": "phone.login",
-          "field": "access_token",
-          "object": "phone-token"
-        },
         "status": "pending"
       }
     },
     {
-      "step": 8,
-      "pddl": "(venmo-approve-payment-request req-from-coworker phone-token coworker-sender coworker)",
+      "step": 7,
+      "pddl": "(venmo-approve-payment-request request-2336 venmo-token coworker-martin-blackburn coworker)",
       "api": "venmo.approve_payment_request",
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_received_payment_requests",
-          "field": "payment_request_id of each pending request whose sender.email is in the email set returned by phone.search_contacts(relationship=\"coworker\") (all pages)",
-          "object": "req-from-coworker"
+          "field": "payment_request_id of the pending request of $18.0 from Martin Blackburn (coworker contact) created at 2023-04-07T01:28:17",
+          "object": "request-2336"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(venmo-approve-payment-request request-2339 venmo-token coworker-martin-blackburn coworker)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $5.0 from Martin Blackburn (coworker contact) created at 2023-03-31T23:44:48",
+          "object": "request-2339"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-approve-payment-request req-from-roommate phone-token roommate-sender roommate)",
+      "pddl": "(venmo-approve-payment-request request-3730 venmo-token coworker-marcus-smith coworker)",
       "api": "venmo.approve_payment_request",
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_received_payment_requests",
-          "field": "payment_request_id of each pending request whose sender.email is in the email set returned by phone.search_contacts(relationship=\"roommate\") (all pages)",
-          "object": "req-from-roommate"
+          "field": "payment_request_id of the pending request of $68.0 from Marcus Smith (coworker contact) created at 2023-05-05T22:09:17",
+          "object": "request-3730"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 10,
+      "pddl": "(venmo-approve-payment-request request-3731 venmo-token coworker-marcus-smith coworker)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $16.0 from Marcus Smith (coworker contact) created at 2022-11-25T06:26:34",
+          "object": "request-3731"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-approve-payment-request request-3732 venmo-token coworker-marcus-smith coworker)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $16.0 from Marcus Smith (coworker contact) created at 2022-11-25T11:40:56",
+          "object": "request-3732"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-approve-payment-request request-4396 venmo-token coworker-william-martinez coworker)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $28.0 from William Martinez (coworker contact) created at 2023-04-28T10:35:37",
+          "object": "request-4396"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-approve-payment-request request-4400 venmo-token coworker-william-martinez coworker)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $24.0 from William Martinez (coworker contact) created at 2023-01-24T09:17:02",
+          "object": "request-4400"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-approve-payment-request request-4401 venmo-token coworker-william-martinez coworker)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $50.0 from William Martinez (coworker contact) created at 2023-02-17T14:27:00",
+          "object": "request-4401"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-approve-payment-request request-5139 venmo-token coworker-carl-brown coworker)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $33.0 from Carl Brown (coworker contact) created at 2023-04-17T16:48:58",
+          "object": "request-5139"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-approve-payment-request request-5143 venmo-token coworker-carl-brown coworker)",
+      "api": "venmo.approve_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_received_payment_requests",
+          "field": "payment_request_id of the pending request of $22.0 from Carl Brown (coworker contact) created at 2023-05-05T12:02:30",
+          "object": "request-5143"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 17,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

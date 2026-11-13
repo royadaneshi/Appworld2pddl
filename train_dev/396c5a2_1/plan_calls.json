@@ -59,47 +59,13 @@
         },
         "song_id": {
           "$from": "spotify.search_songs",
-          "field": "song_id of a result with play_count > 980 (1st)",
+          "field": "song_id of the only result with play_count > 980 (search_songs with artist_id of Lily Moon and min_play_count=980 returns exactly one song)",
           "object": "lily-moon-song-1"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-add-to-queue spotify-token lily-moon-song-2 lily-moon playcount-980)",
-      "api": "spotify.add_to_queue",
-      "args": {
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of a result with play_count > 980 (2nd)",
-          "object": "lily-moon-song-2"
-        }
-      }
-    },
-    {
-      "step": 8,
-      "pddl": "(spotify-add-to-queue spotify-token lily-moon-song-3 lily-moon playcount-980)",
-      "api": "spotify.add_to_queue",
-      "args": {
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        },
-        "song_id": {
-          "$from": "spotify.search_songs",
-          "field": "song_id of a result with play_count > 980 (3rd)",
-          "object": "lily-moon-song-3"
-        }
-      }
-    },
-    {
-      "step": 9,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

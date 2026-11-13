@@ -5,6 +5,7 @@
   )
   (:constants phone simple-note - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (username-for ?a - app ?u - username)
@@ -43,7 +44,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw)
       (profile-known)
       (passwords-known)
       (username-for phone ?u)
@@ -83,7 +84,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw)
       (profile-known)
       (passwords-known)
       (username-for simple-note ?u)

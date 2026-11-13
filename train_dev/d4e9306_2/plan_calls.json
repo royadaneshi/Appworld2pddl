@@ -51,25 +51,25 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-album liked-album-1 artist-3)",
+      "pddl": "(spotify-show-album album-1 artist-isabella-cruz)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_liked_albums",
-          "field": "album_id of each entry (iterate page_index until an empty page)",
-          "object": "liked-album-1"
+          "field": "album_id of the liked album \"Echo Chamber Chronicles\"",
+          "object": "album-1"
         }
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-follow-artist artist-3 spotify-token)",
+      "pddl": "(spotify-follow-artist artist-isabella-cruz spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
-          "$from": "spotify.show_album",
-          "field": "artists[].id",
-          "object": "artist-3"
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Isabella Cruz\" (artist of a liked song, not yet followed)",
+          "object": "artist-isabella-cruz"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -80,25 +80,25 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-album liked-album-2 artist-4)",
+      "pddl": "(spotify-show-album album-1 artist-jasper-skye)",
       "api": "spotify.show_album",
       "args": {
         "album_id": {
           "$from": "spotify.show_liked_albums",
-          "field": "album_id of each entry (iterate page_index until an empty page)",
-          "object": "liked-album-2"
+          "field": "album_id of the liked album \"Echo Chamber Chronicles\"",
+          "object": "album-1"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-follow-artist artist-4 spotify-token)",
+      "pddl": "(spotify-follow-artist artist-jasper-skye spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_album",
-          "field": "artists[].id",
-          "object": "artist-4"
+          "field": "artists[].id of \"Jasper Skye\" (artist of a liked album, not yet followed)",
+          "object": "artist-jasper-skye"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -109,25 +109,25 @@
     },
     {
       "step": 10,
-      "pddl": "(spotify-show-song liked-song-1 artist-1)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-album album-1 artist-seraphina-dawn)",
+      "api": "spotify.show_album",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_liked_songs",
-          "field": "song_id of each entry (iterate page_index until an empty page)",
-          "object": "liked-song-1"
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Echo Chamber Chronicles\"",
+          "object": "album-1"
         }
       }
     },
     {
       "step": 11,
-      "pddl": "(spotify-follow-artist artist-1 spotify-token)",
+      "pddl": "(spotify-follow-artist artist-seraphina-dawn spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
-          "$from": "spotify.show_song",
-          "field": "artists[].id",
-          "object": "artist-1"
+          "$from": "spotify.show_album",
+          "field": "artists[].id of \"Seraphina Dawn\" (artist of a liked album, not yet followed)",
+          "object": "artist-seraphina-dawn"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -138,25 +138,25 @@
     },
     {
       "step": 12,
-      "pddl": "(spotify-show-song liked-song-2 artist-2)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-album album-11 artist-ava-morgan)",
+      "api": "spotify.show_album",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_liked_songs",
-          "field": "song_id of each entry (iterate page_index until an empty page)",
-          "object": "liked-song-2"
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Synaptic Serenity\"",
+          "object": "album-11"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(spotify-follow-artist artist-2 spotify-token)",
+      "pddl": "(spotify-follow-artist artist-ava-morgan spotify-token)",
       "api": "spotify.follow_artist",
       "args": {
         "artist_id": {
           "$from": "spotify.show_song",
-          "field": "artists[].id",
-          "object": "artist-2"
+          "field": "artists[].id of \"Ava Morgan\" (artist of a liked song, not yet followed)",
+          "object": "artist-ava-morgan"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -167,6 +167,470 @@
     },
     {
       "step": 14,
+      "pddl": "(spotify-show-album album-13 artist-hazel-winter)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Starlight Serenades\"",
+          "object": "album-13"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-follow-artist artist-hazel-winter spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Hazel Winter\" (artist of a liked song, not yet followed)",
+          "object": "artist-hazel-winter"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-show-album album-14 artist-lily-moon)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Midnight Serenade\"",
+          "object": "album-14"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-follow-artist artist-lily-moon spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Lily Moon\" (artist of a liked song, not yet followed)",
+          "object": "artist-lily-moon"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-show-album album-14 artist-zoey-james)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Midnight Serenade\"",
+          "object": "album-14"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-follow-artist artist-zoey-james spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Zoey James\" (artist of a liked song, not yet followed)",
+          "object": "artist-zoey-james"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-show-album album-15 artist-lucas-diaz)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Whispers in the Wind\"",
+          "object": "album-15"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-follow-artist artist-lucas-diaz spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_album",
+          "field": "artists[].id of \"Lucas Diaz\" (artist of a liked album, not yet followed)",
+          "object": "artist-lucas-diaz"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-show-album album-15 artist-orion-steele)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Whispers in the Wind\"",
+          "object": "album-15"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-follow-artist artist-orion-steele spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Orion Steele\" (artist of a liked song, not yet followed)",
+          "object": "artist-orion-steele"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-show-album album-2 artist-lucas-grey)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Celestial Harmonies\"",
+          "object": "album-2"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-follow-artist artist-lucas-grey spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Lucas Grey\" (artist of a liked song, not yet followed)",
+          "object": "artist-lucas-grey"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-show-album album-4 artist-noah-bennett)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Neon Echoes\"",
+          "object": "album-4"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-follow-artist artist-noah-bennett spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_album",
+          "field": "artists[].id of \"Noah Bennett\" (artist of a liked album, not yet followed)",
+          "object": "artist-noah-bennett"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-show-album album-5 artist-velvet-echo)",
+      "api": "spotify.show_album",
+      "args": {
+        "album_id": {
+          "$from": "spotify.show_liked_albums",
+          "field": "album_id of the liked album \"Velvet Shadows\"",
+          "object": "album-5"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(spotify-follow-artist artist-velvet-echo spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Velvet Echo\" (artist of a liked song, not yet followed)",
+          "object": "artist-velvet-echo"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-show-song song-149 artist-eliana-harper)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id of the liked song \"Ephemeral Beauty\"",
+          "object": "song-149"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-follow-artist artist-eliana-harper spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Eliana Harper\" (artist of a liked song, not yet followed)",
+          "object": "artist-eliana-harper"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-show-song song-175 artist-violet-cascade)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id of the liked song \"Stardust Serenade\"",
+          "object": "song-175"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(spotify-follow-artist artist-violet-cascade spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Violet Cascade\" (artist of a liked song, not yet followed)",
+          "object": "artist-violet-cascade"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(spotify-show-song song-237 artist-liam-palmer)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id of the liked song \"Veiled Behind a Mask of Joy\"",
+          "object": "song-237"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(spotify-follow-artist artist-liam-palmer spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Liam Palmer\" (artist of a liked song, not yet followed)",
+          "object": "artist-liam-palmer"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(spotify-show-song song-285 artist-marcus-lane)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id of the liked song \"Wading Through the Ashes of Love\"",
+          "object": "song-285"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(spotify-follow-artist artist-marcus-lane spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Marcus Lane\" (artist of a liked song, not yet followed)",
+          "object": "artist-marcus-lane"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(spotify-show-song song-306 artist-felix-blackwood)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id of the liked song \"Wilted Grace\"",
+          "object": "song-306"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(spotify-follow-artist artist-felix-blackwood spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Felix Blackwood\" (artist of a liked song, not yet followed)",
+          "object": "artist-felix-blackwood"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(spotify-show-song song-42 artist-aria-sterling)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id of the liked song \"Unspoken Words\"",
+          "object": "song-42"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(spotify-follow-artist artist-aria-sterling spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Aria Sterling\" (artist of a liked song, not yet followed)",
+          "object": "artist-aria-sterling"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(spotify-show-song song-83 artist-olivia-roberts)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id of the liked song \"Where Shadows Come to Life\"",
+          "object": "song-83"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(spotify-follow-artist artist-olivia-roberts spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Olivia Roberts\" (artist of a liked song, not yet followed)",
+          "object": "artist-olivia-roberts"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(spotify-show-song song-92 artist-phoenix-rivers)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id of the liked song \"Crimson Veil\"",
+          "object": "song-92"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(spotify-follow-artist artist-phoenix-rivers spotify-token)",
+      "api": "spotify.follow_artist",
+      "args": {
+        "artist_id": {
+          "$from": "spotify.show_song",
+          "field": "artists[].id of \"Phoenix Rivers\" (artist of a liked song, not yet followed)",
+          "object": "artist-phoenix-rivers"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 46,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

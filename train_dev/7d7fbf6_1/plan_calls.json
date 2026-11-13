@@ -40,79 +40,87 @@
     },
     {
       "step": 5,
-      "pddl": "(file-system-compress-directory spot-dir-1 file-system-token spot-zip-1 flag-true flag-true vacations-dir)",
+      "pddl": "(file-system-compress-directory dir-athens file-system-token zip-athens flag-true flag-true vacations-dir)",
       "api": "file_system.compress_directory",
       "args": {
         "directory_path": {
           "$from": "file_system.show_directory",
-          "field": "1st sub-directory path in the listing of ~/photographs/vacations/ (recursive=false)",
-          "object": "spot-dir-1"
+          "field": "the listed sub-directory \"~/photographs/vacations/athens\" (one of 4 vacation-spot sub-directories)",
+          "object": "dir-athens"
         },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
           "object": "file-system-token"
         },
-        "compressed_file_path": {
-          "$from": "file_system.show_directory",
-          "field": "\"~/photographs/vacations/\" + basename(spot-dir-1) + \".zip\"",
-          "object": "spot-zip-1"
-        },
+        "compressed_file_path": "~/photographs/vacations/athens.zip",
         "delete_directory": true,
         "overwrite": true
       }
     },
     {
       "step": 6,
-      "pddl": "(file-system-compress-directory spot-dir-2 file-system-token spot-zip-2 flag-true flag-true vacations-dir)",
+      "pddl": "(file-system-compress-directory dir-maui file-system-token zip-maui flag-true flag-true vacations-dir)",
       "api": "file_system.compress_directory",
       "args": {
         "directory_path": {
           "$from": "file_system.show_directory",
-          "field": "2nd sub-directory path in the listing of ~/photographs/vacations/",
-          "object": "spot-dir-2"
+          "field": "the listed sub-directory \"~/photographs/vacations/maui\" (one of 4 vacation-spot sub-directories)",
+          "object": "dir-maui"
         },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
           "object": "file-system-token"
         },
-        "compressed_file_path": {
-          "$from": "file_system.show_directory",
-          "field": "\"~/photographs/vacations/\" + basename(spot-dir-2) + \".zip\"",
-          "object": "spot-zip-2"
-        },
+        "compressed_file_path": "~/photographs/vacations/maui.zip",
         "delete_directory": true,
         "overwrite": true
       }
     },
     {
       "step": 7,
-      "pddl": "(file-system-compress-directory spot-dir-3 file-system-token spot-zip-3 flag-true flag-true vacations-dir)",
+      "pddl": "(file-system-compress-directory dir-stockholm file-system-token zip-stockholm flag-true flag-true vacations-dir)",
       "api": "file_system.compress_directory",
       "args": {
         "directory_path": {
           "$from": "file_system.show_directory",
-          "field": "3rd sub-directory path in the listing of ~/photographs/vacations/",
-          "object": "spot-dir-3"
+          "field": "the listed sub-directory \"~/photographs/vacations/stockholm\" (one of 4 vacation-spot sub-directories)",
+          "object": "dir-stockholm"
         },
         "access_token": {
           "$from": "file_system.login",
           "field": "access_token",
           "object": "file-system-token"
         },
-        "compressed_file_path": {
-          "$from": "file_system.show_directory",
-          "field": "\"~/photographs/vacations/\" + basename(spot-dir-3) + \".zip\"",
-          "object": "spot-zip-3"
-        },
+        "compressed_file_path": "~/photographs/vacations/stockholm.zip",
         "delete_directory": true,
         "overwrite": true
       }
     },
     {
       "step": 8,
-      "pddl": "(supervisor-complete-task spot-dir-1 spot-dir-2 spot-dir-3)",
+      "pddl": "(file-system-compress-directory dir-tokyo file-system-token zip-tokyo flag-true flag-true vacations-dir)",
+      "api": "file_system.compress_directory",
+      "args": {
+        "directory_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed sub-directory \"~/photographs/vacations/tokyo\" (one of 4 vacation-spot sub-directories)",
+          "object": "dir-tokyo"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        },
+        "compressed_file_path": "~/photographs/vacations/tokyo.zip",
+        "delete_directory": true,
+        "overwrite": true
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task dir-maui dir-stockholm dir-tokyo)",
       "api": "supervisor.complete_task",
       "args": {}
     }

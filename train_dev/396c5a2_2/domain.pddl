@@ -63,8 +63,10 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?s1 - song ?s2 - song ?s3 - song)
-    :precondition (and (in-queue ?s1) (in-queue ?s2) (in-queue ?s3) (not (= ?s1 ?s2)) (not (= ?s1 ?s3)) (not (= ?s2 ?s3)) (not (task-completed)))
+    :parameters (?s1 - song)
+    :precondition (and
+      (in-queue ?s1)
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

@@ -13,6 +13,10 @@
     req-cory-latest-approved - payment-request
   )
   (:init
+    (credential-of-app phone password-phone)
+    (credential-of-app phone token-phone)
+    (credential-of-app venmo password-venmo)
+    (credential-of-app venmo token-venmo)
     (username-for phone username-7763361246)
     (username-for venmo username-chelsea-burch-at-gmail-com)
     (password-for phone password-phone)

@@ -59,7 +59,7 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-next-song spotify-token queued-song-1 lily-moon-song)",
+      "pddl": "(spotify-next-song spotify-token queued-song-1 queued-song-2)",
       "api": "spotify.next_song",
       "args": {
         "access_token": {
@@ -71,7 +71,7 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-current-song spotify-token lily-moon-song lily-moon)",
+      "pddl": "(spotify-show-current-song spotify-token queued-song-2 other-artist)",
       "api": "spotify.show_current_song",
       "args": {
         "access_token": {
@@ -83,6 +83,54 @@
     },
     {
       "step": 9,
+      "pddl": "(spotify-next-song spotify-token queued-song-2 queued-song-3)",
+      "api": "spotify.next_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-current-song spotify-token queued-song-3 other-artist)",
+      "api": "spotify.show_current_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-next-song spotify-token queued-song-3 lily-moon-song)",
+      "api": "spotify.next_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-show-current-song spotify-token lily-moon-song lily-moon)",
+      "api": "spotify.show_current_song",
+      "args": {
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
       "pddl": "(supervisor-complete-task lily-moon-song lily-moon)",
       "api": "supervisor.complete_task",
       "args": {}

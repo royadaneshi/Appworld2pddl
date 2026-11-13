@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-number-8683971586 phone-password venmo-token)",
+      "pddl": "(phone-login phone-number-8683971586 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "8683971586",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login ja-solomon-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login ja-solomon-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "ja-solomon@gmail.com",
@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts venmo-token query-coworker coworker)",
+      "pddl": "(phone-search-contacts phone-token query-coworker coworker)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "venmo-token"
+          "object": "phone-token"
         },
         "query": "coworker",
         "relationship": "coworker"
@@ -60,52 +60,273 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-social-feed phone-token)",
+      "pddl": "(venmo-show-social-feed venmo-token)",
       "api": "venmo.show_social_feed",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-like-transaction txn-recent-coworker-1 phone-token coworker-1)",
+      "pddl": "(venmo-like-transaction tx-1749 venmo-token coworker-claudia-miller)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_social_feed",
-          "field": "transaction_id of each feed entry (all pages) whose created_at falls on yesterday or today (relative to phone.get_current_date_and_time) and whose sender.email or receiver.email is in the set of email values returned by phone.search_contacts(relationship=\"coworker\")",
-          "object": "txn-recent-coworker-1"
+          "field": "transaction_id of the feed entry created at 2023-05-18T10:08:54 (Claudia Miller -> Robin Burton); it involves a coworker contact",
+          "object": "tx-1749"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-like-transaction txn-recent-coworker-2 phone-token coworker-2)",
+      "pddl": "(venmo-like-transaction tx-2699 venmo-token coworker-claudia-miller)",
       "api": "venmo.like_transaction",
       "args": {
         "transaction_id": {
           "$from": "venmo.show_social_feed",
-          "field": "same selection rule as txn-recent-coworker-1 (one object per qualifying feed transaction)",
-          "object": "txn-recent-coworker-2"
+          "field": "transaction_id of the feed entry created at 2023-05-18T08:09:09 (Chelsea Burch -> Claudia Miller); it involves a coworker contact",
+          "object": "tx-2699"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         }
       }
     },
     {
       "step": 10,
+      "pddl": "(venmo-like-transaction tx-3156 venmo-token coworker-robin-burton)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-18T02:09:42 (Matthew Blackburn -> Robin Burton); it involves a coworker contact",
+          "object": "tx-3156"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-like-transaction tx-3299 venmo-token coworker-kevin-blackburn)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T08:15:56 (Kevin Blackburn -> Cody Smith); it involves a coworker contact",
+          "object": "tx-3299"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-like-transaction tx-4751 venmo-token coworker-robin-burton)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T22:25:40 (Robin Burton -> Jason Simpson); it involves a coworker contact",
+          "object": "tx-4751"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-like-transaction tx-484 venmo-token coworker-robin-burton)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T12:35:40 (Katherine Smith -> Robin Burton); it involves a coworker contact",
+          "object": "tx-484"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-like-transaction tx-5326 venmo-token coworker-brandon-weber)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-18T03:49:28 (Angelica Wilson -> Brandon Weber); it involves a coworker contact",
+          "object": "tx-5326"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-like-transaction tx-7334 venmo-token coworker-claudia-miller)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-18T10:49:39 (Claudia Miller -> Nancy Ritter); it involves a coworker contact",
+          "object": "tx-7334"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-like-transaction tx-8015 venmo-token coworker-timothy-white)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T07:18:16 (Timothy White -> Leslie Ball); it involves a coworker contact",
+          "object": "tx-8015"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(venmo-like-transaction tx-8026 venmo-token coworker-timothy-white)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-18T10:27:03 (Timothy White -> Jack Maldonado); it involves a coworker contact",
+          "object": "tx-8026"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(venmo-like-transaction tx-8218 venmo-token coworker-timothy-white)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T16:22:59 (Timothy White -> Kevin Blackburn); it involves a coworker contact",
+          "object": "tx-8218"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(venmo-like-transaction tx-8219 venmo-token coworker-brandon-weber)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-18T11:40:34 (Brandon Weber -> Timothy White); it involves a coworker contact",
+          "object": "tx-8219"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(venmo-like-transaction tx-8225 venmo-token coworker-michael-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T13:30:26 (Robert Martinez -> Michael Burch); it involves a coworker contact",
+          "object": "tx-8225"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(venmo-like-transaction tx-8226 venmo-token coworker-michael-burch)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-18T04:31:09 (Michael Burch -> Grant Martinez); it involves a coworker contact",
+          "object": "tx-8226"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(venmo-like-transaction tx-8229 venmo-token coworker-claudia-miller)",
+      "api": "venmo.like_transaction",
+      "args": {
+        "transaction_id": {
+          "$from": "venmo.show_social_feed",
+          "field": "transaction_id of the feed entry created at 2023-05-17T15:23:20 (Claudia Miller -> Norman Smith); it involves a coworker contact",
+          "object": "tx-8229"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        }
+      }
+    },
+    {
+      "step": 23,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

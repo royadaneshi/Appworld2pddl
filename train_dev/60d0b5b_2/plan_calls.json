@@ -14,7 +14,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-7763361246 password-phone token-venmo)",
+      "pddl": "(phone-login username-7763361246 password-phone token-phone)",
       "api": "phone.login",
       "args": {
         "username": "7763361246",
@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login username-chelsea-burch-at-gmail-com password-venmo token-phone)",
+      "pddl": "(venmo-login username-chelsea-burch-at-gmail-com password-venmo token-venmo)",
       "api": "venmo.login",
       "args": {
         "username": "chelsea-burch@gmail.com",
@@ -40,33 +40,33 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts token-venmo query-cory cory cory-email)",
+      "pddl": "(phone-search-contacts token-phone query-cory cory cory-email)",
       "api": "phone.search_contacts",
-      "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "token-venmo"
-        },
-        "query": "Cory"
-      }
-    },
-    {
-      "step": 6,
-      "pddl": "(venmo-show-sent-payment-requests token-phone status-approved cory cory-email req-cory-latest-approved)",
-      "api": "venmo.show_sent_payment_requests",
       "args": {
         "access_token": {
           "$from": "phone.login",
           "field": "access_token",
           "object": "token-phone"
         },
+        "query": "Cory"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-sent-payment-requests token-venmo status-approved cory cory-email req-cory-latest-approved)",
+      "api": "venmo.show_sent_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "token-venmo"
+        },
         "status": "approved"
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-create-transaction cory-email amount-accident-cost token-phone description-returning-the-accidental-payment cory req-cory-latest-approved)",
+      "pddl": "(venmo-create-transaction cory-email amount-accident-cost token-venmo description-returning-the-accidental-payment cory req-cory-latest-approved)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -80,9 +80,9 @@
           "object": "amount-accident-cost"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "token-phone"
+          "object": "token-venmo"
         },
         "description": "Returning the accidental payment"
       }

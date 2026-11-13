@@ -14,7 +14,7 @@
     },
     {
       "step": 3,
-      "pddl": "(phone-login username-2444880289 phone-password venmo-token)",
+      "pddl": "(phone-login username-2444880289 phone-password phone-token)",
       "api": "phone.login",
       "args": {
         "username": "2444880289",
@@ -27,7 +27,7 @@
     },
     {
       "step": 4,
-      "pddl": "(venmo-login username-pa-ritter-at-gmail-com venmo-password phone-token)",
+      "pddl": "(venmo-login username-pa-ritter-at-gmail-com venmo-password venmo-token)",
       "api": "venmo.login",
       "args": {
         "username": "pa_ritter@gmail.com",
@@ -40,33 +40,33 @@
     },
     {
       "step": 5,
-      "pddl": "(phone-search-contacts venmo-token query-brandon brandon brandon-email)",
+      "pddl": "(phone-search-contacts phone-token query-brandon brandon brandon-email)",
       "api": "phone.search_contacts",
-      "args": {
-        "access_token": {
-          "$from": "venmo.login",
-          "field": "access_token",
-          "object": "venmo-token"
-        },
-        "query": "Brandon"
-      }
-    },
-    {
-      "step": 6,
-      "pddl": "(venmo-show-sent-payment-requests phone-token status-approved brandon brandon-email last-approved-request-to-brandon amount-of-last-request-to-brandon)",
-      "api": "venmo.show_sent_payment_requests",
       "args": {
         "access_token": {
           "$from": "phone.login",
           "field": "access_token",
           "object": "phone-token"
         },
+        "query": "Brandon"
+      }
+    },
+    {
+      "step": 6,
+      "pddl": "(venmo-show-sent-payment-requests venmo-token status-approved brandon brandon-email last-approved-request-to-brandon amount-of-last-request-to-brandon)",
+      "api": "venmo.show_sent_payment_requests",
+      "args": {
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
         "status": "approved"
       }
     },
     {
       "step": 7,
-      "pddl": "(venmo-create-transaction brandon-email amount-of-last-request-to-brandon phone-token desc-returning-the-accidental-payment brandon)",
+      "pddl": "(venmo-create-transaction brandon-email amount-of-last-request-to-brandon venmo-token desc-returning-the-accidental-payment brandon)",
       "api": "venmo.create_transaction",
       "args": {
         "receiver_email": {
@@ -80,9 +80,9 @@
           "object": "amount-of-last-request-to-brandon"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "phone-token"
+          "object": "venmo-token"
         },
         "description": "Returning the accidental payment"
       }

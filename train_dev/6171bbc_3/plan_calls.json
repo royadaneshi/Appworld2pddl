@@ -52,13 +52,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-172 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one entry per playlist in the library, iterate all pages)",
-          "object": "playlist-1"
+          "field": "playlist_id of the library playlist \"Global Grooves: A World Music Tour\" (iterate all pages)",
+          "object": "playlist-172"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -69,13 +69,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-playlist playlist-2 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-173 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id (one entry per playlist in the library, iterate all pages)",
-          "object": "playlist-2"
+          "field": "playlist_id of the library playlist \"Rainy Day Reveries\" (iterate all pages)",
+          "object": "playlist-173"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -86,42 +86,47 @@
     },
     {
       "step": 8,
-      "pddl": "(spotify-show-song other-song-1 playlist-1)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-playlist playlist-174 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of playlist-1 (every remaining song, each inspected via spotify.show_song)",
-          "object": "other-song-1"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the library playlist \"Indie Unearthed: Hidden Gems\" (iterate all pages)",
+          "object": "playlist-174"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(spotify-show-song top-song-1 playlist-1)",
-      "api": "spotify.show_song",
+      "pddl": "(spotify-show-playlist playlist-175 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of playlist-1 whose spotify.show_song play_count is maximal",
-          "object": "top-song-1"
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the library playlist \"Retro Rewind: 80's & 90's Mix\" (iterate all pages)",
+          "object": "playlist-175"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
         }
       }
     },
     {
       "step": 10,
-      "pddl": "(spotify-add-song-to-playlist new-playlist top-song-1 spotify-token playlist-1 other-song-1)",
-      "api": "spotify.add_song_to_playlist",
+      "pddl": "(spotify-show-playlist playlist-176 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
-          "$from": "spotify.create_playlist",
-          "field": "playlist_id",
-          "object": "new-playlist"
-        },
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of playlist-1 whose spotify.show_song play_count is maximal",
-          "object": "top-song-1"
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the library playlist \"October Feels: Autumn Aesthetics\" (iterate all pages)",
+          "object": "playlist-176"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -132,42 +137,13 @@
     },
     {
       "step": 11,
-      "pddl": "(spotify-show-song other-song-2 playlist-2)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of playlist-2 (every remaining song, each inspected via spotify.show_song)",
-          "object": "other-song-2"
-        }
-      }
-    },
-    {
-      "step": 12,
-      "pddl": "(spotify-show-song top-song-2 playlist-2)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of playlist-2 whose spotify.show_song play_count is maximal",
-          "object": "top-song-2"
-        }
-      }
-    },
-    {
-      "step": 13,
-      "pddl": "(spotify-add-song-to-playlist new-playlist top-song-2 spotify-token playlist-2 other-song-2)",
-      "api": "spotify.add_song_to_playlist",
+      "pddl": "(spotify-show-playlist playlist-177 spotify-token)",
+      "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
-          "$from": "spotify.create_playlist",
-          "field": "playlist_id",
-          "object": "new-playlist"
-        },
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id of playlist-2 whose spotify.show_song play_count is maximal",
-          "object": "top-song-2"
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the library playlist \"Retro Future: Synthwave & Vaporwave\" (iterate all pages)",
+          "object": "playlist-177"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -177,7 +153,334 @@
       }
     },
     {
+      "step": 12,
+      "pddl": "(spotify-show-playlist playlist-178 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of the library playlist \"Treadmill Titans: Workout Fuel\" (iterate all pages)",
+          "object": "playlist-178"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-show-song song-202 playlist-172)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Summer's End\" (play_count 356 via spotify.show_song)",
+          "object": "song-202"
+        }
+      }
+    },
+    {
       "step": 14,
+      "pddl": "(spotify-show-song song-27 playlist-172)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"When Angels Weep for Us\" (play_count 472 via spotify.show_song); the top song of its playlist",
+          "object": "song-27"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-27 spotify-token playlist-172 song-202)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"When Angels Weep for Us\" (play_count 472 via spotify.show_song); the top song of its playlist",
+          "object": "song-27"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-show-song song-21 playlist-173)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Lost in the Embrace of Night\" (play_count 926 via spotify.show_song); the top song of its playlist",
+          "object": "song-21"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-show-song song-111 playlist-174)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Lonesome Road\" (play_count 658 via spotify.show_song)",
+          "object": "song-111"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-show-song song-304 playlist-174)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Shadows in the Moonlight\" (play_count 877 via spotify.show_song); the top song of its playlist",
+          "object": "song-304"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-304 spotify-token playlist-174 song-111)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Shadows in the Moonlight\" (play_count 877 via spotify.show_song); the top song of its playlist",
+          "object": "song-304"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-show-song song-123 playlist-175)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Between Reality and Reverie\" (play_count 826 via spotify.show_song)",
+          "object": "song-123"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-show-song song-19 playlist-173)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Forged in Fire\" (play_count 519 via spotify.show_song)",
+          "object": "song-19"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-21 spotify-token playlist-173 song-19)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Lost in the Embrace of Night\" (play_count 926 via spotify.show_song); the top song of its playlist",
+          "object": "song-21"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-show-song song-162 playlist-175)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Caught in the Afterglow of Love\" (play_count 967 via spotify.show_song); the top song of its playlist",
+          "object": "song-162"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-162 spotify-token playlist-175 song-123)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Caught in the Afterglow of Love\" (play_count 967 via spotify.show_song); the top song of its playlist",
+          "object": "song-162"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-show-song song-185 playlist-176)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Mysteries of the Silent Sea\" (play_count 990 via spotify.show_song); the top song of its playlist",
+          "object": "song-185"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-show-song song-238 playlist-176)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"The Illusion of Forever\" (play_count 716 via spotify.show_song)",
+          "object": "song-238"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-185 spotify-token playlist-176 song-238)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Mysteries of the Silent Sea\" (play_count 990 via spotify.show_song); the top song of its playlist",
+          "object": "song-185"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-show-song song-12 playlist-177)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Haunted Memories\" (play_count 965 via spotify.show_song); the top song of its playlist",
+          "object": "song-12"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-12 spotify-token playlist-177 song-202)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Haunted Memories\" (play_count 965 via spotify.show_song); the top song of its playlist",
+          "object": "song-12"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-show-song song-206 playlist-177)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Escaping the Chains of Fate\" (play_count 175 via spotify.show_song)",
+          "object": "song-206"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-show-song song-53 playlist-178)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Unearthed Secrets\" (play_count 648 via spotify.show_song); the top song of its playlist",
+          "object": "song-53"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-add-song-to-playlist new-playlist song-53 spotify-token playlist-178 song-206)",
+      "api": "spotify.add_song_to_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.create_playlist",
+          "field": "playlist_id",
+          "object": "new-playlist"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist",
+          "field": "songs[].id of \"Unearthed Secrets\" (play_count 648 via spotify.show_song); the top song of its playlist",
+          "object": "song-53"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 33,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

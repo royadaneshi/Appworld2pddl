@@ -20,7 +20,7 @@
     },
     {
       "step": 4,
-      "pddl": "(phone-login phone-8909828624 pw-phone tok-venmo)",
+      "pddl": "(phone-login phone-8909828624 pw-phone tok-phone)",
       "api": "phone.login",
       "args": {
         "username": "8909828624",
@@ -33,7 +33,7 @@
     },
     {
       "step": 5,
-      "pddl": "(venmo-login kia-bailey-at-gmail-com pw-venmo tok-phone)",
+      "pddl": "(venmo-login kia-bailey-at-gmail-com pw-venmo tok-venmo)",
       "api": "venmo.login",
       "args": {
         "username": "kia_bailey@gmail.com",
@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-search-contacts tok-venmo query-coworkers rel-coworkers)",
+      "pddl": "(phone-search-contacts tok-phone query-coworkers rel-coworkers)",
       "api": "phone.search_contacts",
       "args": {
         "access_token": {
-          "$from": "venmo.login",
+          "$from": "phone.login",
           "field": "access_token",
-          "object": "tok-venmo"
+          "object": "tok-phone"
         },
         "query": "coworkers",
         "relationship": "coworkers"
@@ -60,53 +60,291 @@
     },
     {
       "step": 7,
-      "pddl": "(venmo-show-sent-payment-requests tok-phone status-pending)",
+      "pddl": "(venmo-show-sent-payment-requests tok-venmo status-pending)",
       "api": "venmo.show_sent_payment_requests",
       "args": {
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "tok-phone"
+          "object": "tok-venmo"
         },
         "status": "pending"
       }
     },
     {
       "step": 8,
-      "pddl": "(venmo-remind-payment-request pr-coworker-1-old tok-phone coworker-1)",
+      "pddl": "(venmo-remind-payment-request request-4509 tok-venmo coworker-jeffery-simpson)",
       "api": "venmo.remind_payment_request",
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_sent_payment_requests",
-          "field": "payment_request_id of a request (paginate all pages, status=pending) whose receiver.email is in the emails returned by phone.search_contacts(relationship=coworkers), approved_at and denied_at are null, and created_at <= 2023-04-08T11:58:00 (now minus 40 days)",
-          "object": "pr-coworker-1-old"
+          "field": "payment_request_id of the pending request of $6.0 to Jeffery Simpson created at 2023-01-18T13:08:39 (40+ days before 2023-05-18)",
+          "object": "request-4509"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "tok-phone"
+          "object": "tok-venmo"
         }
       }
     },
     {
       "step": 9,
-      "pddl": "(venmo-remind-payment-request pr-coworker-2-old tok-phone coworker-2)",
+      "pddl": "(venmo-remind-payment-request request-4511 tok-venmo coworker-jeffery-simpson)",
       "api": "venmo.remind_payment_request",
       "args": {
         "payment_request_id": {
           "$from": "venmo.show_sent_payment_requests",
-          "field": "payment_request_id of another request satisfying the same coworker / pending / created_at <= 2023-04-08T11:58:00 filter",
-          "object": "pr-coworker-2-old"
+          "field": "payment_request_id of the pending request of $14.0 to Jeffery Simpson created at 2023-01-25T03:19:53 (40+ days before 2023-05-18)",
+          "object": "request-4511"
         },
         "access_token": {
-          "$from": "phone.login",
+          "$from": "venmo.login",
           "field": "access_token",
-          "object": "tok-phone"
+          "object": "tok-venmo"
         }
       }
     },
     {
       "step": 10,
+      "pddl": "(venmo-remind-payment-request request-4512 tok-venmo coworker-jeffery-simpson)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $45.0 to Jeffery Simpson created at 2023-03-02T13:32:15 (40+ days before 2023-05-18)",
+          "object": "request-4512"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(venmo-remind-payment-request request-4515 tok-venmo coworker-jeffery-simpson)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $195.0 to Jeffery Simpson created at 2022-12-28T01:01:41 (40+ days before 2023-05-18)",
+          "object": "request-4515"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(venmo-remind-payment-request request-4518 tok-venmo coworker-jeffery-simpson)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $14.0 to Jeffery Simpson created at 2022-12-15T14:06:18 (40+ days before 2023-05-18)",
+          "object": "request-4518"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(venmo-remind-payment-request request-4531 tok-venmo coworker-angelica-wilson)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $326.0 to Angelica Wilson created at 2023-01-12T19:16:28 (40+ days before 2023-05-18)",
+          "object": "request-4531"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-remind-payment-request request-4559 tok-venmo coworker-kathryn-maldonado)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $6.0 to Kathryn Maldonado created at 2022-10-13T11:12:11 (40+ days before 2023-05-18)",
+          "object": "request-4559"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(venmo-remind-payment-request request-4561 tok-venmo coworker-kathryn-maldonado)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $23.0 to Kathryn Maldonado created at 2022-12-12T23:37:33 (40+ days before 2023-05-18)",
+          "object": "request-4561"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(venmo-remind-payment-request request-4562 tok-venmo coworker-kathryn-maldonado)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $40.0 to Kathryn Maldonado created at 2022-12-30T23:02:19 (40+ days before 2023-05-18)",
+          "object": "request-4562"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(venmo-remind-payment-request request-4565 tok-venmo coworker-kathryn-maldonado)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $25.0 to Kathryn Maldonado created at 2022-11-05T13:59:43 (40+ days before 2023-05-18)",
+          "object": "request-4565"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(venmo-remind-payment-request request-4571 tok-venmo coworker-matthew-blackburn)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $60.0 to Matthew Blackburn created at 2023-02-05T03:02:30 (40+ days before 2023-05-18)",
+          "object": "request-4571"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(venmo-remind-payment-request request-4575 tok-venmo coworker-matthew-blackburn)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $25.0 to Matthew Blackburn created at 2023-04-07T04:54:45 (40+ days before 2023-05-18)",
+          "object": "request-4575"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(venmo-remind-payment-request request-4576 tok-venmo coworker-matthew-blackburn)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $30.0 to Matthew Blackburn created at 2023-01-25T17:48:02 (40+ days before 2023-05-18)",
+          "object": "request-4576"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(venmo-remind-payment-request request-4580 tok-venmo coworker-denise-maldonado)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $9.0 to Denise Maldonado created at 2023-03-22T17:20:45 (40+ days before 2023-05-18)",
+          "object": "request-4580"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(venmo-remind-payment-request request-4581 tok-venmo coworker-denise-maldonado)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $35.0 to Denise Maldonado created at 2023-01-04T15:59:10 (40+ days before 2023-05-18)",
+          "object": "request-4581"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(venmo-remind-payment-request request-4583 tok-venmo coworker-denise-maldonado)",
+      "api": "venmo.remind_payment_request",
+      "args": {
+        "payment_request_id": {
+          "$from": "venmo.show_sent_payment_requests",
+          "field": "payment_request_id of the pending request of $90.0 to Denise Maldonado created at 2023-03-16T13:30:50 (40+ days before 2023-05-18)",
+          "object": "request-4583"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "tok-venmo"
+        }
+      }
+    },
+    {
+      "step": 24,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

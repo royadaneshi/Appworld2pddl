@@ -46,13 +46,13 @@
     },
     {
       "step": 6,
-      "pddl": "(file-system-show-file photo-feb file-system-token vacations-dir february-2023)",
+      "pddl": "(file-system-show-file photo-img-02237d7-jpg file-system-token vacations-dir february-2023)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "each listed file path whose file_system.show_file created_at is in February of the current year (2023-02)",
-          "object": "photo-feb"
+          "field": "the listed file path ending in \"img_02237d7.jpg\" (/home/paul/photographs/vacations/img_02237d7.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-02237d7-jpg"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -63,13 +63,13 @@
     },
     {
       "step": 7,
-      "pddl": "(file-system-show-file photo-mar file-system-token vacations-dir march-2023)",
+      "pddl": "(file-system-show-file photo-img-0d36b21-jpeg file-system-token vacations-dir other-date)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "each listed file path whose file_system.show_file created_at is in March of the current year (2023-03)",
-          "object": "photo-mar"
+          "field": "the listed file path ending in \"img_0d36b21.jpeg\" (/home/paul/photographs/vacations/img_0d36b21.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-0d36b21-jpeg"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -80,13 +80,13 @@
     },
     {
       "step": 8,
-      "pddl": "(file-system-show-file photo-other file-system-token vacations-dir other-date)",
+      "pddl": "(file-system-show-file photo-img-0e15e48-jpg file-system-token vacations-dir march-2023)",
       "api": "file_system.show_file",
       "args": {
         "file_path": {
           "$from": "file_system.show_directory",
-          "field": "each listed file path whose file_system.show_file created_at is neither Feb nor Mar of the current year",
-          "object": "photo-other"
+          "field": "the listed file path ending in \"img_0e15e48.jpg\" (/home/paul/photographs/vacations/img_0e15e48.jpg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-0e15e48-jpg"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -97,18 +97,13 @@
     },
     {
       "step": 9,
-      "pddl": "(file-system-move-file photo-feb photo-feb-in-petra file-system-token february-2023 petra-dir)",
-      "api": "file_system.move_file",
+      "pddl": "(file-system-show-file photo-img-164a3fe-jpeg file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
       "args": {
-        "source_file_path": {
+        "file_path": {
           "$from": "file_system.show_directory",
-          "field": "each listed file path whose file_system.show_file created_at is in February of the current year (2023-02)",
-          "object": "photo-feb"
-        },
-        "destination_file_path": {
-          "$from": "file_system.show_directory",
-          "field": "\"~/photographs/vacations/Petra/\" + basename of photo-feb (original file name kept)",
-          "object": "photo-feb-in-petra"
+          "field": "the listed file path ending in \"img_164a3fe.jpeg\" (/home/paul/photographs/vacations/img_164a3fe.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-164a3fe-jpeg"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -119,18 +114,13 @@
     },
     {
       "step": 10,
-      "pddl": "(file-system-move-file photo-mar photo-mar-in-budapest file-system-token march-2023 budapest-dir)",
-      "api": "file_system.move_file",
+      "pddl": "(file-system-show-file photo-img-16b39ad-png file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
       "args": {
-        "source_file_path": {
+        "file_path": {
           "$from": "file_system.show_directory",
-          "field": "each listed file path whose file_system.show_file created_at is in March of the current year (2023-03)",
-          "object": "photo-mar"
-        },
-        "destination_file_path": {
-          "$from": "file_system.show_directory",
-          "field": "\"~/photographs/vacations/Budapest/\" + basename of photo-mar (original file name kept)",
-          "object": "photo-mar-in-budapest"
+          "field": "the listed file path ending in \"img_16b39ad.png\" (/home/paul/photographs/vacations/img_16b39ad.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-16b39ad-png"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -141,18 +131,13 @@
     },
     {
       "step": 11,
-      "pddl": "(file-system-move-file photo-other photo-other-in-amsterdam file-system-token other-date amsterdam-dir)",
-      "api": "file_system.move_file",
+      "pddl": "(file-system-show-file photo-img-18b06cc-png file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
       "args": {
-        "source_file_path": {
+        "file_path": {
           "$from": "file_system.show_directory",
-          "field": "each listed file path whose file_system.show_file created_at is neither Feb nor Mar of the current year",
-          "object": "photo-other"
-        },
-        "destination_file_path": {
-          "$from": "file_system.show_directory",
-          "field": "\"~/photographs/vacations/Amsterdam/\" + basename of photo-other (original file name kept)",
-          "object": "photo-other-in-amsterdam"
+          "field": "the listed file path ending in \"img_18b06cc.png\" (/home/paul/photographs/vacations/img_18b06cc.png); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-18b06cc-png"
         },
         "access_token": {
           "$from": "file_system.login",
@@ -163,6 +148,1542 @@
     },
     {
       "step": 12,
+      "pddl": "(file-system-show-file photo-img-1a2b16d-jpeg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_1a2b16d.jpeg\" (/home/paul/photographs/vacations/img_1a2b16d.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-1a2b16d-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(file-system-show-file photo-img-254fbd9-jpg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_254fbd9.jpg\" (/home/paul/photographs/vacations/img_254fbd9.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-254fbd9-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(file-system-show-file photo-img-26cb65d-png file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_26cb65d.png\" (/home/paul/photographs/vacations/img_26cb65d.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-26cb65d-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(file-system-show-file photo-img-29f19c8-jpg file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_29f19c8.jpg\" (/home/paul/photographs/vacations/img_29f19c8.jpg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-29f19c8-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(file-system-show-file photo-img-2dbefae-png file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_2dbefae.png\" (/home/paul/photographs/vacations/img_2dbefae.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-2dbefae-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(file-system-show-file photo-img-2ecf83d-jpeg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_2ecf83d.jpeg\" (/home/paul/photographs/vacations/img_2ecf83d.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-2ecf83d-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(file-system-show-file photo-img-301305f-jpg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_301305f.jpg\" (/home/paul/photographs/vacations/img_301305f.jpg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-301305f-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(file-system-show-file photo-img-32dc30d-jpeg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_32dc30d.jpeg\" (/home/paul/photographs/vacations/img_32dc30d.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-32dc30d-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(file-system-show-file photo-img-44361f7-jpeg file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_44361f7.jpeg\" (/home/paul/photographs/vacations/img_44361f7.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-44361f7-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(file-system-show-file photo-img-4d1aafc-jpeg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_4d1aafc.jpeg\" (/home/paul/photographs/vacations/img_4d1aafc.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-4d1aafc-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(file-system-show-file photo-img-4d7f44a-jpeg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_4d7f44a.jpeg\" (/home/paul/photographs/vacations/img_4d7f44a.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-4d7f44a-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(file-system-show-file photo-img-537a8a3-png file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_537a8a3.png\" (/home/paul/photographs/vacations/img_537a8a3.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-537a8a3-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(file-system-show-file photo-img-5c2f56b-jpeg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_5c2f56b.jpeg\" (/home/paul/photographs/vacations/img_5c2f56b.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-5c2f56b-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(file-system-show-file photo-img-62679d2-jpeg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_62679d2.jpeg\" (/home/paul/photographs/vacations/img_62679d2.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-62679d2-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(file-system-show-file photo-img-6a1d6f6-jpeg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_6a1d6f6.jpeg\" (/home/paul/photographs/vacations/img_6a1d6f6.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-6a1d6f6-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(file-system-show-file photo-img-6a74f01-jpeg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_6a74f01.jpeg\" (/home/paul/photographs/vacations/img_6a74f01.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-6a74f01-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(file-system-show-file photo-img-6d078f8-jpg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_6d078f8.jpg\" (/home/paul/photographs/vacations/img_6d078f8.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-6d078f8-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(file-system-show-file photo-img-750c944-jpeg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_750c944.jpeg\" (/home/paul/photographs/vacations/img_750c944.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-750c944-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(file-system-show-file photo-img-799a654-jpeg file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_799a654.jpeg\" (/home/paul/photographs/vacations/img_799a654.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-799a654-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(file-system-show-file photo-img-7e6273e-png file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_7e6273e.png\" (/home/paul/photographs/vacations/img_7e6273e.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-7e6273e-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(file-system-show-file photo-img-846760e-jpg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_846760e.jpg\" (/home/paul/photographs/vacations/img_846760e.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-846760e-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(file-system-show-file photo-img-8df984b-png file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_8df984b.png\" (/home/paul/photographs/vacations/img_8df984b.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-8df984b-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(file-system-show-file photo-img-8f8933a-jpeg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_8f8933a.jpeg\" (/home/paul/photographs/vacations/img_8f8933a.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-8f8933a-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(file-system-show-file photo-img-a1640a1-png file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_a1640a1.png\" (/home/paul/photographs/vacations/img_a1640a1.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-a1640a1-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(file-system-show-file photo-img-a46cf01-jpg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_a46cf01.jpg\" (/home/paul/photographs/vacations/img_a46cf01.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-a46cf01-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(file-system-show-file photo-img-a5da8e1-png file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_a5da8e1.png\" (/home/paul/photographs/vacations/img_a5da8e1.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-a5da8e1-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(file-system-show-file photo-img-abab143-png file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_abab143.png\" (/home/paul/photographs/vacations/img_abab143.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-abab143-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(file-system-show-file photo-img-b70df1d-png file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_b70df1d.png\" (/home/paul/photographs/vacations/img_b70df1d.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-b70df1d-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(file-system-show-file photo-img-c1d84e4-jpeg file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_c1d84e4.jpeg\" (/home/paul/photographs/vacations/img_c1d84e4.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-c1d84e4-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(file-system-show-file photo-img-d77a00c-png file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_d77a00c.png\" (/home/paul/photographs/vacations/img_d77a00c.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-d77a00c-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(file-system-show-file photo-img-da771fe-jpeg file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_da771fe.jpeg\" (/home/paul/photographs/vacations/img_da771fe.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-da771fe-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(file-system-show-file photo-img-ede9877-jpeg file-system-token vacations-dir other-date)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_ede9877.jpeg\" (/home/paul/photographs/vacations/img_ede9877.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-ede9877-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(file-system-show-file photo-img-f1ac2b4-jpg file-system-token vacations-dir february-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_f1ac2b4.jpg\" (/home/paul/photographs/vacations/img_f1ac2b4.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-f1ac2b4-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(file-system-show-file photo-img-f24e638-jpeg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_f24e638.jpeg\" (/home/paul/photographs/vacations/img_f24e638.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-f24e638-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(file-system-show-file photo-img-f8dd7c3-jpeg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_f8dd7c3.jpeg\" (/home/paul/photographs/vacations/img_f8dd7c3.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-f8dd7c3-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(file-system-show-file photo-img-fcc5ff7-jpeg file-system-token vacations-dir march-2023)",
+      "api": "file_system.show_file",
+      "args": {
+        "file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_fcc5ff7.jpeg\" (/home/paul/photographs/vacations/img_fcc5ff7.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-fcc5ff7-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(file-system-move-file photo-img-02237d7-jpg dst-img-02237d7-jpg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_02237d7.jpg\" (/home/paul/photographs/vacations/img_02237d7.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-02237d7-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_02237d7.jpg\"",
+          "object": "dst-img-02237d7-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(file-system-move-file photo-img-0d36b21-jpeg dst-img-0d36b21-jpeg file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_0d36b21.jpeg\" (/home/paul/photographs/vacations/img_0d36b21.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-0d36b21-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_0d36b21.jpeg\"",
+          "object": "dst-img-0d36b21-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(file-system-move-file photo-img-0e15e48-jpg dst-img-0e15e48-jpg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_0e15e48.jpg\" (/home/paul/photographs/vacations/img_0e15e48.jpg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-0e15e48-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_0e15e48.jpg\"",
+          "object": "dst-img-0e15e48-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(file-system-move-file photo-img-164a3fe-jpeg dst-img-164a3fe-jpeg file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_164a3fe.jpeg\" (/home/paul/photographs/vacations/img_164a3fe.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-164a3fe-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_164a3fe.jpeg\"",
+          "object": "dst-img-164a3fe-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(file-system-move-file photo-img-16b39ad-png dst-img-16b39ad-png file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_16b39ad.png\" (/home/paul/photographs/vacations/img_16b39ad.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-16b39ad-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_16b39ad.png\"",
+          "object": "dst-img-16b39ad-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(file-system-move-file photo-img-18b06cc-png dst-img-18b06cc-png file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_18b06cc.png\" (/home/paul/photographs/vacations/img_18b06cc.png); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-18b06cc-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_18b06cc.png\"",
+          "object": "dst-img-18b06cc-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(file-system-move-file photo-img-1a2b16d-jpeg dst-img-1a2b16d-jpeg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_1a2b16d.jpeg\" (/home/paul/photographs/vacations/img_1a2b16d.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-1a2b16d-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_1a2b16d.jpeg\"",
+          "object": "dst-img-1a2b16d-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(file-system-move-file photo-img-254fbd9-jpg dst-img-254fbd9-jpg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_254fbd9.jpg\" (/home/paul/photographs/vacations/img_254fbd9.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-254fbd9-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_254fbd9.jpg\"",
+          "object": "dst-img-254fbd9-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(file-system-move-file photo-img-26cb65d-png dst-img-26cb65d-png file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_26cb65d.png\" (/home/paul/photographs/vacations/img_26cb65d.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-26cb65d-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_26cb65d.png\"",
+          "object": "dst-img-26cb65d-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 57,
+      "pddl": "(file-system-move-file photo-img-29f19c8-jpg dst-img-29f19c8-jpg file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_29f19c8.jpg\" (/home/paul/photographs/vacations/img_29f19c8.jpg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-29f19c8-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_29f19c8.jpg\"",
+          "object": "dst-img-29f19c8-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 58,
+      "pddl": "(file-system-move-file photo-img-2dbefae-png dst-img-2dbefae-png file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_2dbefae.png\" (/home/paul/photographs/vacations/img_2dbefae.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-2dbefae-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_2dbefae.png\"",
+          "object": "dst-img-2dbefae-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 59,
+      "pddl": "(file-system-move-file photo-img-2ecf83d-jpeg dst-img-2ecf83d-jpeg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_2ecf83d.jpeg\" (/home/paul/photographs/vacations/img_2ecf83d.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-2ecf83d-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_2ecf83d.jpeg\"",
+          "object": "dst-img-2ecf83d-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 60,
+      "pddl": "(file-system-move-file photo-img-301305f-jpg dst-img-301305f-jpg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_301305f.jpg\" (/home/paul/photographs/vacations/img_301305f.jpg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-301305f-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_301305f.jpg\"",
+          "object": "dst-img-301305f-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 61,
+      "pddl": "(file-system-move-file photo-img-32dc30d-jpeg dst-img-32dc30d-jpeg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_32dc30d.jpeg\" (/home/paul/photographs/vacations/img_32dc30d.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-32dc30d-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_32dc30d.jpeg\"",
+          "object": "dst-img-32dc30d-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 62,
+      "pddl": "(file-system-move-file photo-img-44361f7-jpeg dst-img-44361f7-jpeg file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_44361f7.jpeg\" (/home/paul/photographs/vacations/img_44361f7.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-44361f7-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_44361f7.jpeg\"",
+          "object": "dst-img-44361f7-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 63,
+      "pddl": "(file-system-move-file photo-img-4d1aafc-jpeg dst-img-4d1aafc-jpeg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_4d1aafc.jpeg\" (/home/paul/photographs/vacations/img_4d1aafc.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-4d1aafc-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_4d1aafc.jpeg\"",
+          "object": "dst-img-4d1aafc-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 64,
+      "pddl": "(file-system-move-file photo-img-4d7f44a-jpeg dst-img-4d7f44a-jpeg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_4d7f44a.jpeg\" (/home/paul/photographs/vacations/img_4d7f44a.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-4d7f44a-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_4d7f44a.jpeg\"",
+          "object": "dst-img-4d7f44a-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 65,
+      "pddl": "(file-system-move-file photo-img-537a8a3-png dst-img-537a8a3-png file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_537a8a3.png\" (/home/paul/photographs/vacations/img_537a8a3.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-537a8a3-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_537a8a3.png\"",
+          "object": "dst-img-537a8a3-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 66,
+      "pddl": "(file-system-move-file photo-img-5c2f56b-jpeg dst-img-5c2f56b-jpeg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_5c2f56b.jpeg\" (/home/paul/photographs/vacations/img_5c2f56b.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-5c2f56b-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_5c2f56b.jpeg\"",
+          "object": "dst-img-5c2f56b-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 67,
+      "pddl": "(file-system-move-file photo-img-62679d2-jpeg dst-img-62679d2-jpeg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_62679d2.jpeg\" (/home/paul/photographs/vacations/img_62679d2.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-62679d2-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_62679d2.jpeg\"",
+          "object": "dst-img-62679d2-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 68,
+      "pddl": "(file-system-move-file photo-img-6a1d6f6-jpeg dst-img-6a1d6f6-jpeg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_6a1d6f6.jpeg\" (/home/paul/photographs/vacations/img_6a1d6f6.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-6a1d6f6-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_6a1d6f6.jpeg\"",
+          "object": "dst-img-6a1d6f6-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 69,
+      "pddl": "(file-system-move-file photo-img-6a74f01-jpeg dst-img-6a74f01-jpeg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_6a74f01.jpeg\" (/home/paul/photographs/vacations/img_6a74f01.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-6a74f01-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_6a74f01.jpeg\"",
+          "object": "dst-img-6a74f01-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 70,
+      "pddl": "(file-system-move-file photo-img-6d078f8-jpg dst-img-6d078f8-jpg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_6d078f8.jpg\" (/home/paul/photographs/vacations/img_6d078f8.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-6d078f8-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_6d078f8.jpg\"",
+          "object": "dst-img-6d078f8-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 71,
+      "pddl": "(file-system-move-file photo-img-750c944-jpeg dst-img-750c944-jpeg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_750c944.jpeg\" (/home/paul/photographs/vacations/img_750c944.jpeg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-750c944-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_750c944.jpeg\"",
+          "object": "dst-img-750c944-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 72,
+      "pddl": "(file-system-move-file photo-img-799a654-jpeg dst-img-799a654-jpeg file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_799a654.jpeg\" (/home/paul/photographs/vacations/img_799a654.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-799a654-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_799a654.jpeg\"",
+          "object": "dst-img-799a654-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 73,
+      "pddl": "(file-system-move-file photo-img-7e6273e-png dst-img-7e6273e-png file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_7e6273e.png\" (/home/paul/photographs/vacations/img_7e6273e.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-7e6273e-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_7e6273e.png\"",
+          "object": "dst-img-7e6273e-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 74,
+      "pddl": "(file-system-move-file photo-img-846760e-jpg dst-img-846760e-jpg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_846760e.jpg\" (/home/paul/photographs/vacations/img_846760e.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-846760e-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_846760e.jpg\"",
+          "object": "dst-img-846760e-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 75,
+      "pddl": "(file-system-move-file photo-img-8df984b-png dst-img-8df984b-png file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_8df984b.png\" (/home/paul/photographs/vacations/img_8df984b.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-8df984b-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_8df984b.png\"",
+          "object": "dst-img-8df984b-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 76,
+      "pddl": "(file-system-move-file photo-img-8f8933a-jpeg dst-img-8f8933a-jpeg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_8f8933a.jpeg\" (/home/paul/photographs/vacations/img_8f8933a.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-8f8933a-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_8f8933a.jpeg\"",
+          "object": "dst-img-8f8933a-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 77,
+      "pddl": "(file-system-move-file photo-img-a1640a1-png dst-img-a1640a1-png file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_a1640a1.png\" (/home/paul/photographs/vacations/img_a1640a1.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-a1640a1-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_a1640a1.png\"",
+          "object": "dst-img-a1640a1-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 78,
+      "pddl": "(file-system-move-file photo-img-a46cf01-jpg dst-img-a46cf01-jpg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_a46cf01.jpg\" (/home/paul/photographs/vacations/img_a46cf01.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-a46cf01-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_a46cf01.jpg\"",
+          "object": "dst-img-a46cf01-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 79,
+      "pddl": "(file-system-move-file photo-img-a5da8e1-png dst-img-a5da8e1-png file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_a5da8e1.png\" (/home/paul/photographs/vacations/img_a5da8e1.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-a5da8e1-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_a5da8e1.png\"",
+          "object": "dst-img-a5da8e1-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 80,
+      "pddl": "(file-system-move-file photo-img-abab143-png dst-img-abab143-png file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_abab143.png\" (/home/paul/photographs/vacations/img_abab143.png); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-abab143-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_abab143.png\"",
+          "object": "dst-img-abab143-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 81,
+      "pddl": "(file-system-move-file photo-img-b70df1d-png dst-img-b70df1d-png file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_b70df1d.png\" (/home/paul/photographs/vacations/img_b70df1d.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-b70df1d-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_b70df1d.png\"",
+          "object": "dst-img-b70df1d-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 82,
+      "pddl": "(file-system-move-file photo-img-c1d84e4-jpeg dst-img-c1d84e4-jpeg file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_c1d84e4.jpeg\" (/home/paul/photographs/vacations/img_c1d84e4.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-c1d84e4-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_c1d84e4.jpeg\"",
+          "object": "dst-img-c1d84e4-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 83,
+      "pddl": "(file-system-move-file photo-img-d77a00c-png dst-img-d77a00c-png file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_d77a00c.png\" (/home/paul/photographs/vacations/img_d77a00c.png); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-d77a00c-png"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_d77a00c.png\"",
+          "object": "dst-img-d77a00c-png"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 84,
+      "pddl": "(file-system-move-file photo-img-da771fe-jpeg dst-img-da771fe-jpeg file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_da771fe.jpeg\" (/home/paul/photographs/vacations/img_da771fe.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-da771fe-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_da771fe.jpeg\"",
+          "object": "dst-img-da771fe-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 85,
+      "pddl": "(file-system-move-file photo-img-ede9877-jpeg dst-img-ede9877-jpeg file-system-token other-date amsterdam-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_ede9877.jpeg\" (/home/paul/photographs/vacations/img_ede9877.jpeg); its show_file created_at puts it in the Amsterdam group",
+          "object": "photo-img-ede9877-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Amsterdam/img_ede9877.jpeg\"",
+          "object": "dst-img-ede9877-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 86,
+      "pddl": "(file-system-move-file photo-img-f1ac2b4-jpg dst-img-f1ac2b4-jpg file-system-token february-2023 petra-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_f1ac2b4.jpg\" (/home/paul/photographs/vacations/img_f1ac2b4.jpg); its show_file created_at puts it in the Petra group",
+          "object": "photo-img-f1ac2b4-jpg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Petra/img_f1ac2b4.jpg\"",
+          "object": "dst-img-f1ac2b4-jpg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 87,
+      "pddl": "(file-system-move-file photo-img-f24e638-jpeg dst-img-f24e638-jpeg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_f24e638.jpeg\" (/home/paul/photographs/vacations/img_f24e638.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-f24e638-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_f24e638.jpeg\"",
+          "object": "dst-img-f24e638-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 88,
+      "pddl": "(file-system-move-file photo-img-f8dd7c3-jpeg dst-img-f8dd7c3-jpeg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_f8dd7c3.jpeg\" (/home/paul/photographs/vacations/img_f8dd7c3.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-f8dd7c3-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_f8dd7c3.jpeg\"",
+          "object": "dst-img-f8dd7c3-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 89,
+      "pddl": "(file-system-move-file photo-img-fcc5ff7-jpeg dst-img-fcc5ff7-jpeg file-system-token march-2023 budapest-dir)",
+      "api": "file_system.move_file",
+      "args": {
+        "source_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "the listed file path ending in \"img_fcc5ff7.jpeg\" (/home/paul/photographs/vacations/img_fcc5ff7.jpeg); its show_file created_at puts it in the Budapest group",
+          "object": "photo-img-fcc5ff7-jpeg"
+        },
+        "destination_file_path": {
+          "$from": "file_system.show_directory",
+          "field": "computed: \"~/photographs/vacations/Budapest/img_fcc5ff7.jpeg\"",
+          "object": "dst-img-fcc5ff7-jpeg"
+        },
+        "access_token": {
+          "$from": "file_system.login",
+          "field": "access_token",
+          "object": "file-system-token"
+        }
+      }
+    },
+    {
+      "step": 90,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

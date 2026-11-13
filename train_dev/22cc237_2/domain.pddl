@@ -4,10 +4,11 @@
     app person username password token email query relationship note amount description direction datetime - object)
   (:constants
     phone simple-note venmo - app
-    dinner-friend-2 dinner-friend-3 - person
-    amount-share-2 amount-share-3 - amount
+    dinner-friend-adrian dinner-friend-katie dinner-friend-martin dinner-friend-robin dinner-friend-matthew dinner-friend-melissa dinner-friend-glenn dinner-friend-brenda - person
+    share-adrian share-katie share-martin share-robin share-matthew share-melissa share-glenn share-brenda - amount
     description-friends-dinner - description)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (profile-known)
     (passwords-known)
     (current-datetime-known)
@@ -47,7 +48,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (profile-known) (passwords-known)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (not (task-completed)) (profile-known) (passwords-known)
                        (username-for phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)))
     :effect (has-token phone ?t))
@@ -61,7 +62,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (profile-known) (passwords-known)
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (not (task-completed)) (profile-known) (passwords-known)
                        (username-for simple-note ?u) (password-for simple-note ?pw)
                        (not (has-token simple-note ?t)))
     :effect (has-token simple-note ?t))
@@ -82,7 +83,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (profile-known) (passwords-known)
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (not (task-completed)) (profile-known) (passwords-known)
                        (username-for venmo ?u) (password-for venmo ?pw)
                        (not (has-token venmo ?t)))
     :effect (has-token venmo ?t))
@@ -106,8 +107,11 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (not (task-completed))
-                       (payment-request-created dinner-friend-2 amount-share-2 description-friends-dinner)
-                       (payment-request-created dinner-friend-3 amount-share-3 description-friends-dinner))
+    :precondition (and
+      (payment-request-created dinner-friend-adrian share-adrian description-friends-dinner)
+      (payment-request-created dinner-friend-katie share-katie description-friends-dinner)
+      (payment-request-created dinner-friend-melissa share-melissa description-friends-dinner)
+      (payment-request-created dinner-friend-glenn share-glenn description-friends-dinner)
+      (not (task-completed)))
     :effect (task-completed))
 )

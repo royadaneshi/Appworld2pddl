@@ -69,7 +69,7 @@
     "object": "card-nonexpired",
     "value": null,
     "from_api": "venmo.show_payment_cards",
-    "field": "payment_card_id of a card whose (expiry_year, expiry_month) is after the current date from phone.get_current_date_and_time; if create_transaction fails, retry with the next non-expired card"
+    "field": "payment_card_id of the one non-expired card that can fund the payment: American Express (expires 2024-05). Being non-expired is not sufficient: the other non-expired cards (Chase, HSBC) are rejected with \"Your payment card does not have $68.00 to make this transaction.\" and card funds are not shown by the API, so non-expired cards must be tried in order until create_transaction succeeds"
   },
   {
     "object": "tx-68-private",

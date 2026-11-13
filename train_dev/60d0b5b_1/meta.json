@@ -30,7 +30,9 @@
   "validation": {
     "ok": true,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "domain: pddl-lib parser: types ['object'] of term Variable(c) are not in available types {'person', 'payment-request', 'password', 'query', 'description', 'username', 'email', 'token', 'amount', 'app', 'status'}"
+    ],
     "parser": "pddl",
     "api_issues": [],
     "reference_check": {
@@ -54,15 +56,15 @@
     "plan": [
       "(supervisor-show-account-passwords)",
       "(supervisor-show-profile)",
-      "(phone-login tammy-phone-2738013302 phone-password venmo-token)",
-      "(venmo-login tammy-email-ta-weav-at-gmail-com venmo-password phone-token)",
-      "(phone-search-contacts venmo-token query-robert robert robert-email)",
-      "(venmo-show-sent-payment-requests phone-token status-approved robert robert-email accidental-request amount-of-accidental-request)",
-      "(venmo-create-transaction robert-email amount-of-accidental-request phone-token note-returning-the-accidental-payment robert accidental-request)",
+      "(phone-login tammy-phone-2738013302 phone-password phone-token)",
+      "(venmo-login tammy-email-ta-weav-at-gmail-com venmo-password venmo-token)",
+      "(phone-search-contacts phone-token query-robert robert robert-email)",
+      "(venmo-show-sent-payment-requests venmo-token status-approved robert robert-email accidental-request amount-of-accidental-request)",
+      "(venmo-create-transaction robert-email amount-of-accidental-request venmo-token note-returning-the-accidental-payment robert accidental-request)",
       "(supervisor-complete-task accidental-request robert amount-of-accidental-request)"
     ],
     "message": "",
-    "seconds": 1.19
+    "seconds": 0.83
   },
   "solution_used": true,
   "has_reference_solution": true,

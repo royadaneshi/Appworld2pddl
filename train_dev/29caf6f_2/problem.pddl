@@ -13,6 +13,10 @@
     reply-movie-titles - message
   )
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app simple-note simple-note-password)
+    (credential-of-app simple-note simple-note-token)
     (username-for phone username-8346699249)
     (username-for simple-note username-gl-moore-at-gmail-com)
     (password-for phone phone-password)

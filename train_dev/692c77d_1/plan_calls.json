@@ -51,39 +51,156 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-show-song-reviews song-a as-moore-at-gmail-com)",
+      "pddl": "(spotify-show-song-reviews song-122 as-moore-at-gmail-com)",
       "api": "spotify.show_song_reviews",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_ids (union over all playlists, all pages) intersected with song_id values of spotify.show_liked_songs (all pages); representative target song for which spotify.show_song_reviews(user_email=supervisor email) returns no review -> needs review_song",
-          "object": "song-a"
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 122: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-122"
         },
         "user_email": "as_moore@gmail.com"
       }
     },
     {
       "step": 7,
-      "pddl": "(spotify-show-song-reviews song-b as-moore-at-gmail-com)",
+      "pddl": "(spotify-show-song-reviews song-159 as-moore-at-gmail-com)",
       "api": "spotify.show_song_reviews",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_ids (union over all playlists) intersected with spotify.show_liked_songs song_id; representative target song whose existing supervisor review has rating < 5 -> needs update_song_review",
-          "object": "song-b"
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 159: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; already reviewed by the supervisor with a different rating",
+          "object": "song-159"
         },
         "user_email": "as_moore@gmail.com"
       }
     },
     {
       "step": 8,
-      "pddl": "(spotify-review-song song-a rating-5 spotify-token)",
+      "pddl": "(spotify-show-song-reviews song-175 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 175: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-175"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-song-reviews song-211 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 211: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; already reviewed by the supervisor with a different rating",
+          "object": "song-211"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-song-reviews song-231 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 231: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-231"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-show-song-reviews song-239 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 239: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-239"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-show-song-reviews song-249 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 249: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-249"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-show-song-reviews song-254 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 254: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; already reviewed by the supervisor with a different rating",
+          "object": "song-254"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-show-song-reviews song-28 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 28: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-28"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-show-song-reviews song-40 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 40: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-40"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-show-song-reviews song-95 as-moore-at-gmail-com)",
+      "api": "spotify.show_song_reviews",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 95: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-95"
+        },
+        "user_email": "as_moore@gmail.com"
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-review-song song-122 rating-5 spotify-token)",
       "api": "spotify.review_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "song_ids (union over all playlists, all pages) intersected with song_id values of spotify.show_liked_songs (all pages); representative target song for which spotify.show_song_reviews(user_email=supervisor email) returns no review -> needs review_song",
-          "object": "song-a"
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 122: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-122"
         },
         "rating": 5,
         "access_token": {
@@ -94,14 +211,14 @@
       }
     },
     {
-      "step": 9,
-      "pddl": "(spotify-update-song-review review-b spotify-token rating-5 song-b)",
+      "step": 18,
+      "pddl": "(spotify-update-song-review review-of-song-159 spotify-token rating-5 song-159)",
       "api": "spotify.update_song_review",
       "args": {
         "review_id": {
           "$from": "spotify.show_song_reviews",
-          "field": "song_review_id of the review returned for song-b with user_email == supervisor email",
-          "object": "review-b"
+          "field": "song_review_id of the supervisor's existing review of song 159",
+          "object": "review-of-song-159"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -112,7 +229,169 @@
       }
     },
     {
-      "step": 10,
+      "step": 19,
+      "pddl": "(spotify-review-song song-175 rating-5 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 175: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-175"
+        },
+        "rating": 5,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-update-song-review review-of-song-211 spotify-token rating-5 song-211)",
+      "api": "spotify.update_song_review",
+      "args": {
+        "review_id": {
+          "$from": "spotify.show_song_reviews",
+          "field": "song_review_id of the supervisor's existing review of song 211",
+          "object": "review-of-song-211"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "rating": 5
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-review-song song-231 rating-5 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 231: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-231"
+        },
+        "rating": 5,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-review-song song-239 rating-5 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 239: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-239"
+        },
+        "rating": 5,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-review-song song-249 rating-5 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 249: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-249"
+        },
+        "rating": 5,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-update-song-review review-of-song-254 spotify-token rating-5 song-254)",
+      "api": "spotify.update_song_review",
+      "args": {
+        "review_id": {
+          "$from": "spotify.show_song_reviews",
+          "field": "song_review_id of the supervisor's existing review of song 254",
+          "object": "review-of-song-254"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        },
+        "rating": 5
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-review-song song-28 rating-5 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 28: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-28"
+        },
+        "rating": 5,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-review-song song-40 rating-5 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 40: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-40"
+        },
+        "rating": 5,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-review-song song-95 rating-5 spotify-token)",
+      "api": "spotify.review_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_liked_songs",
+          "field": "song_id 95: in a playlist of the playlist library (spotify.show_playlist_library song_ids) and liked; no review by the supervisor yet (spotify.show_song_reviews with user_email returns none)",
+          "object": "song-95"
+        },
+        "rating": 5,
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 28,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

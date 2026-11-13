@@ -62,13 +62,13 @@
     },
     {
       "step": 6,
-      "pddl": "(phone-update-alarm alarm-other-1 phone-token time-other-1 false-value)",
+      "pddl": "(phone-update-alarm alarm-pick-up-laundry phone-token time-pick-up-laundry false-value)",
       "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
-          "field": "alarm_id of an alarm that is not the go-to-sleep alarm and has enabled == true (one object per such alarm)",
-          "object": "alarm-other-1"
+          "field": "alarm_id of the enabled \"Pick up Laundry\" alarm at 17:30",
+          "object": "alarm-pick-up-laundry"
         },
         "access_token": {
           "$from": "phone.login",
@@ -77,21 +77,21 @@
         },
         "time": {
           "$from": "phone.show_alarms",
-          "field": "time (\"%H:%M\") of alarm-other-1 itself (passed back unchanged so that only `enabled` changes)",
-          "object": "time-other-1"
+          "field": "time (\"%H:%M\") of that alarm, passed back unchanged",
+          "object": "time-pick-up-laundry"
         },
         "enabled": false
       }
     },
     {
       "step": 7,
-      "pddl": "(phone-update-alarm alarm-other-2 phone-token time-other-2 false-value)",
+      "pddl": "(phone-update-alarm alarm-wake-up-weekdays phone-token time-wake-up-weekdays false-value)",
       "api": "phone.update_alarm",
       "args": {
         "alarm_id": {
           "$from": "phone.show_alarms",
-          "field": "alarm_id of another alarm that is not the go-to-sleep alarm and has enabled == true (one object per such alarm)",
-          "object": "alarm-other-2"
+          "field": "alarm_id of the enabled \"Wake Up\" alarm at 07:30 repeating monday-friday",
+          "object": "alarm-wake-up-weekdays"
         },
         "access_token": {
           "$from": "phone.login",
@@ -100,15 +100,38 @@
         },
         "time": {
           "$from": "phone.show_alarms",
-          "field": "time (\"%H:%M\") of alarm-other-2 itself (passed back unchanged so that only `enabled` changes)",
-          "object": "time-other-2"
+          "field": "time (\"%H:%M\") of that alarm, passed back unchanged",
+          "object": "time-wake-up-weekdays"
         },
         "enabled": false
       }
     },
     {
       "step": 8,
-      "pddl": "(supervisor-complete-task alarm-go-to-sleep alarm-other-1 alarm-other-2)",
+      "pddl": "(phone-update-alarm alarm-wake-up-weekend phone-token time-wake-up-weekend false-value)",
+      "api": "phone.update_alarm",
+      "args": {
+        "alarm_id": {
+          "$from": "phone.show_alarms",
+          "field": "alarm_id of the enabled \"Wake Up\" alarm at 08:30 repeating saturday/sunday",
+          "object": "alarm-wake-up-weekend"
+        },
+        "access_token": {
+          "$from": "phone.login",
+          "field": "access_token",
+          "object": "phone-token"
+        },
+        "time": {
+          "$from": "phone.show_alarms",
+          "field": "time (\"%H:%M\") of that alarm, passed back unchanged",
+          "object": "time-wake-up-weekend"
+        },
+        "enabled": false
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(supervisor-complete-task alarm-go-to-sleep alarm-pick-up-laundry alarm-wake-up-weekdays)",
       "api": "supervisor.complete_task",
       "args": {}
     }

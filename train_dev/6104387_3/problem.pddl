@@ -10,6 +10,10 @@
     backups-spotify-songs-csv - file-path
     csv-title-artists - content)
   (:init
+    (credential-of-app spotify spotify-password)
+    (credential-of-app spotify spotify-token)
+    (credential-of-app file-system file-system-password)
+    (credential-of-app file-system file-system-token)
     (supervisor-username chrharrison-at-gmail-com)
     (password-for spotify spotify-password)
     (password-for file-system file-system-password)

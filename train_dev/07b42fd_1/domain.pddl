@@ -5,7 +5,7 @@
   )
   (:constants
     spotify supervisor - app
-    classical-artist-1 classical-artist-2 classical-artist-3 - artist
+    artist-grace-harrison - artist
   )
   (:predicates
     (profile-known)
@@ -50,7 +50,7 @@
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
     :parameters ()
-    :precondition (and (following classical-artist-1) (following classical-artist-2) (following classical-artist-3) (not (task-completed)))
+    :precondition (and (following artist-grace-harrison) (not (task-completed)))
     :effect (task-completed)
   )
 )

@@ -12,6 +12,10 @@
     desc-grocery-bill - description
     msg-done - message)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (password-for phone phone-password)
     (password-for venmo venmo-password)
     (username-for phone phone-8903665635)

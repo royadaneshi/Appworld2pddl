@@ -8,6 +8,7 @@
     simple-note file-system - app
     no-more-notes - note-marker)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (passwords-known)
     (profile-known)
     (task-completed)
@@ -39,7 +40,7 @@
   ; API: simple_note.login
   (:action simple-note-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app simple-note ?t) (credential-of-app simple-note ?pw) (profile-known) (passwords-known)
                        (supervisor-username ?u)
                        (password-for simple-note ?pw)
                        (not (has-token simple-note ?t))
@@ -49,7 +50,7 @@
   ; API: file_system.login
   (:action file-system-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (profile-known) (passwords-known)
+    :precondition (and (credential-of-app file-system ?t) (credential-of-app file-system ?pw) (profile-known) (passwords-known)
                        (supervisor-username ?u)
                        (password-for file-system ?pw)
                        (not (has-token file-system ?t))

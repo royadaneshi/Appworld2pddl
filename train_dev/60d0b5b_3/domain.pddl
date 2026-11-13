@@ -5,6 +5,7 @@
   )
   (:constants phone venmo - app)
   (:predicates
+    (credential-of-app ?a - app ?c - object)
     (profile-known)
     (passwords-known)
     (password-for ?a - app ?pw - password)
@@ -40,7 +41,7 @@
   ; API: phone.login
   (:action phone-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (profile-known) (passwords-known)
+    :precondition (and (credential-of-app phone ?t) (credential-of-app phone ?pw) (not (task-completed)) (profile-known) (passwords-known)
                        (login-username phone ?u) (password-for phone ?pw)
                        (not (has-token phone ?t)))
     :effect (has-token phone ?t)
@@ -58,7 +59,7 @@
   ; API: venmo.login
   (:action venmo-login
     :parameters (?u - username ?pw - password ?t - token)
-    :precondition (and (not (task-completed)) (profile-known) (passwords-known)
+    :precondition (and (credential-of-app venmo ?t) (credential-of-app venmo ?pw) (not (task-completed)) (profile-known) (passwords-known)
                        (login-username venmo ?u) (password-for venmo ?pw)
                        (not (has-token venmo ?t)))
     :effect (has-token venmo ?t)

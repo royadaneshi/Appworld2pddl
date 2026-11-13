@@ -51,13 +51,13 @@
     },
     {
       "step": 6,
-      "pddl": "(spotify-download-song song-lib-liked-1 spotify-token)",
+      "pddl": "(spotify-download-song song-31 spotify-token)",
       "api": "spotify.download_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_album_library",
-          "field": "song_ids (union over all albums/pages) intersected with song_id values from spotify.show_liked_songs (all pages); first element of the intersection",
-          "object": "song-lib-liked-1"
+          "field": "song_id 31: in an album of the album library, also in spotify.show_liked_songs, and not yet in spotify.show_downloaded_songs",
+          "object": "song-31"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -68,13 +68,13 @@
     },
     {
       "step": 7,
-      "pddl": "(spotify-download-song song-lib-liked-2 spotify-token)",
+      "pddl": "(spotify-download-song song-32 spotify-token)",
       "api": "spotify.download_song",
       "args": {
         "song_id": {
           "$from": "spotify.show_album_library",
-          "field": "song_ids (union over all albums/pages) intersected with song_id values from spotify.show_liked_songs (all pages); second element of the intersection (one download per element)",
-          "object": "song-lib-liked-2"
+          "field": "song_id 32: in an album of the album library, also in spotify.show_liked_songs, and not yet in spotify.show_downloaded_songs",
+          "object": "song-32"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -85,6 +85,108 @@
     },
     {
       "step": 8,
+      "pddl": "(spotify-download-song song-48 spotify-token)",
+      "api": "spotify.download_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_id 48: in an album of the album library, also in spotify.show_liked_songs, and not yet in spotify.show_downloaded_songs",
+          "object": "song-48"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-download-song song-49 spotify-token)",
+      "api": "spotify.download_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_id 49: in an album of the album library, also in spotify.show_liked_songs, and not yet in spotify.show_downloaded_songs",
+          "object": "song-49"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-download-song song-50 spotify-token)",
+      "api": "spotify.download_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_id 50: in an album of the album library, also in spotify.show_liked_songs, and not yet in spotify.show_downloaded_songs",
+          "object": "song-50"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
+      "pddl": "(spotify-download-song song-51 spotify-token)",
+      "api": "spotify.download_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_id 51: in an album of the album library, also in spotify.show_liked_songs, and not yet in spotify.show_downloaded_songs",
+          "object": "song-51"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 12,
+      "pddl": "(spotify-download-song song-52 spotify-token)",
+      "api": "spotify.download_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_id 52: in an album of the album library, also in spotify.show_liked_songs, and not yet in spotify.show_downloaded_songs",
+          "object": "song-52"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 13,
+      "pddl": "(spotify-download-song song-57 spotify-token)",
+      "api": "spotify.download_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_album_library",
+          "field": "song_id 57: in an album of the album library, also in spotify.show_liked_songs, and not yet in spotify.show_downloaded_songs",
+          "object": "song-57"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 14,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

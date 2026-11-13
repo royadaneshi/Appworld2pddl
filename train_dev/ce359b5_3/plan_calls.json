@@ -39,13 +39,13 @@
     },
     {
       "step": 5,
-      "pddl": "(spotify-show-playlist playlist-1 spotify-token)",
+      "pddl": "(spotify-show-playlist playlist-10 spotify-token)",
       "api": "spotify.show_playlist",
       "args": {
         "playlist_id": {
           "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of each playlist (iterate page_index)",
-          "object": "playlist-1"
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-10"
         },
         "access_token": {
           "$from": "spotify.login",
@@ -56,6 +56,91 @@
     },
     {
       "step": 6,
+      "pddl": "(spotify-show-playlist playlist-11 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-11"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 7,
+      "pddl": "(spotify-show-playlist playlist-12 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Blues & Brews: Laid Back Tracks\"",
+          "object": "playlist-12"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 8,
+      "pddl": "(spotify-show-playlist playlist-13 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Zen Zone: Mindful Melodies\"",
+          "object": "playlist-13"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 9,
+      "pddl": "(spotify-show-playlist playlist-8 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Midweek Motivation: Hump Day Hits\"",
+          "object": "playlist-8"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 10,
+      "pddl": "(spotify-show-playlist playlist-9 spotify-token)",
+      "api": "spotify.show_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Classical Cornerstones\"",
+          "object": "playlist-9"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 11,
       "pddl": "(spotify-show-song-library spotify-token)",
       "api": "spotify.show_song_library",
       "args": {
@@ -67,95 +152,1134 @@
       }
     },
     {
-      "step": 7,
-      "pddl": "(spotify-show-song library-song-2019 song-library)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_song_library",
-          "field": "song_id of each library entry (iterate page_index); release_date.year <= 2021 confirmed via spotify.show_song",
-          "object": "library-song-2019"
-        }
-      }
-    },
-    {
-      "step": 8,
-      "pddl": "(spotify-remove-song-from-library library-song-2019 spotify-token)",
-      "api": "spotify.remove_song_from_library",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_song_library",
-          "field": "song_id of each library entry (iterate page_index); release_date.year <= 2021 confirmed via spotify.show_song",
-          "object": "library-song-2019"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        }
-      }
-    },
-    {
-      "step": 9,
-      "pddl": "(spotify-show-song library-song-2023 song-library)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_song_library",
-          "field": "song_id of each library entry (iterate page_index); release_date.year > 2021 confirmed via spotify.show_song",
-          "object": "library-song-2023"
-        }
-      }
-    },
-    {
-      "step": 10,
-      "pddl": "(spotify-show-song playlist-song-2020 playlist-1)",
-      "api": "spotify.show_song",
-      "args": {
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id for the playlist; release_date.year <= 2021 confirmed via spotify.show_song",
-          "object": "playlist-song-2020"
-        }
-      }
-    },
-    {
-      "step": 11,
-      "pddl": "(spotify-remove-song-from-playlist playlist-1 playlist-song-2020 spotify-token)",
-      "api": "spotify.remove_song_from_playlist",
-      "args": {
-        "playlist_id": {
-          "$from": "spotify.show_playlist_library",
-          "field": "playlist_id of each playlist (iterate page_index)",
-          "object": "playlist-1"
-        },
-        "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id for the playlist; release_date.year <= 2021 confirmed via spotify.show_song",
-          "object": "playlist-song-2020"
-        },
-        "access_token": {
-          "$from": "spotify.login",
-          "field": "access_token",
-          "object": "spotify-token"
-        }
-      }
-    },
-    {
       "step": 12,
-      "pddl": "(spotify-show-song playlist-song-2022 playlist-1)",
+      "pddl": "(spotify-show-song song-175 song-library)",
       "api": "spotify.show_song",
       "args": {
         "song_id": {
-          "$from": "spotify.show_playlist",
-          "field": "songs[].id for the playlist; release_date.year > 2021 confirmed via spotify.show_song",
-          "object": "playlist-song-2022"
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Stardust Serenade\" (release_date 2019-04-20 via spotify.show_song; to remove)",
+          "object": "song-175"
         }
       }
     },
     {
       "step": 13,
-      "pddl": "(supervisor-complete-task library-song-2019 library-song-2023 playlist-1 library-song-2019 playlist-song-2022)",
+      "pddl": "(spotify-remove-song-from-library song-175 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Stardust Serenade\" (release_date 2019-04-20 via spotify.show_song; to remove)",
+          "object": "song-175"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(spotify-show-song song-185 song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Mysteries of the Silent Sea\" (release_date 2020-07-21 via spotify.show_song; to remove)",
+          "object": "song-185"
+        }
+      }
+    },
+    {
+      "step": 15,
+      "pddl": "(spotify-remove-song-from-library song-185 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Mysteries of the Silent Sea\" (release_date 2020-07-21 via spotify.show_song; to remove)",
+          "object": "song-185"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 16,
+      "pddl": "(spotify-show-song song-264 song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Hope's Edge\" (release_date 2019-11-14 via spotify.show_song; to remove)",
+          "object": "song-264"
+        }
+      }
+    },
+    {
+      "step": 17,
+      "pddl": "(spotify-remove-song-from-library song-264 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Hope's Edge\" (release_date 2019-11-14 via spotify.show_song; to remove)",
+          "object": "song-264"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 18,
+      "pddl": "(spotify-show-song song-280 song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"The Tragedy of Living Without\" (release_date 2021-07-11 via spotify.show_song; to remove)",
+          "object": "song-280"
+        }
+      }
+    },
+    {
+      "step": 19,
+      "pddl": "(spotify-remove-song-from-library song-280 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"The Tragedy of Living Without\" (release_date 2021-07-11 via spotify.show_song; to remove)",
+          "object": "song-280"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 20,
+      "pddl": "(spotify-show-song song-310 song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Harmony of the Distant Stars\" (release_date 2020-10-02 via spotify.show_song; to remove)",
+          "object": "song-310"
+        }
+      }
+    },
+    {
+      "step": 21,
+      "pddl": "(spotify-remove-song-from-library song-310 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Harmony of the Distant Stars\" (release_date 2020-10-02 via spotify.show_song; to remove)",
+          "object": "song-310"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 22,
+      "pddl": "(spotify-show-song song-61 song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Ocean Eyes\" (release_date 2021-10-02 via spotify.show_song; to remove)",
+          "object": "song-61"
+        }
+      }
+    },
+    {
+      "step": 23,
+      "pddl": "(spotify-remove-song-from-library song-61 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Ocean Eyes\" (release_date 2021-10-02 via spotify.show_song; to remove)",
+          "object": "song-61"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 24,
+      "pddl": "(spotify-show-song song-85 song-library)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Hidden Agony\" (release_date 2020-09-24 via spotify.show_song; to remove)",
+          "object": "song-85"
+        }
+      }
+    },
+    {
+      "step": 25,
+      "pddl": "(spotify-remove-song-from-library song-85 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Hidden Agony\" (release_date 2020-09-24 via spotify.show_song; to remove)",
+          "object": "song-85"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 26,
+      "pddl": "(spotify-show-song song-107 playlist-10)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Quiet Despair\" (release_date 2021-05-21 via spotify.show_song; to remove)",
+          "object": "song-107"
+        }
+      }
+    },
+    {
+      "step": 27,
+      "pddl": "(spotify-remove-song-from-playlist playlist-10 song-107 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-10"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Quiet Despair\" (release_date 2021-05-21 via spotify.show_song; to remove)",
+          "object": "song-107"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 28,
+      "pddl": "(spotify-show-song song-110 playlist-10)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Love Written in the Stars\" (release_date 2019-06-20 via spotify.show_song; to remove)",
+          "object": "song-110"
+        }
+      }
+    },
+    {
+      "step": 29,
+      "pddl": "(spotify-remove-song-from-playlist playlist-10 song-110 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-10"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Love Written in the Stars\" (release_date 2019-06-20 via spotify.show_song; to remove)",
+          "object": "song-110"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 30,
+      "pddl": "(spotify-show-song song-119 playlist-10)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Urban Jungle\" (release_date 2021-07-17 via spotify.show_song; to remove)",
+          "object": "song-119"
+        }
+      }
+    },
+    {
+      "step": 31,
+      "pddl": "(spotify-remove-song-from-playlist playlist-10 song-119 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-10"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Urban Jungle\" (release_date 2021-07-17 via spotify.show_song; to remove)",
+          "object": "song-119"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 32,
+      "pddl": "(spotify-show-song song-167 playlist-10)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Tragic Beauty of Love\" (release_date 2019-05-19 via spotify.show_song; to remove)",
+          "object": "song-167"
+        }
+      }
+    },
+    {
+      "step": 33,
+      "pddl": "(spotify-remove-song-from-playlist playlist-10 song-167 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-10"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Tragic Beauty of Love\" (release_date 2019-05-19 via spotify.show_song; to remove)",
+          "object": "song-167"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 34,
+      "pddl": "(spotify-show-song song-17 playlist-10)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Dancing Through the Veil of Dreams\" (release_date 2021-03-23 via spotify.show_song; to remove)",
+          "object": "song-17"
+        }
+      }
+    },
+    {
+      "step": 35,
+      "pddl": "(spotify-remove-song-from-library song-17 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Dancing Through the Veil of Dreams\" (release_date 2021-03-23 via spotify.show_song; to remove)",
+          "object": "song-17"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 36,
+      "pddl": "(spotify-remove-song-from-playlist playlist-10 song-17 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-10"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Dancing Through the Veil of Dreams\" (release_date 2021-03-23 via spotify.show_song; to remove)",
+          "object": "song-17"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 37,
+      "pddl": "(spotify-show-song song-236 playlist-10)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"A Portrait of Love Unrequited\" (release_date 2022-08-20 via spotify.show_song; keep)",
+          "object": "song-236"
+        }
+      }
+    },
+    {
+      "step": 38,
+      "pddl": "(spotify-show-song song-137 playlist-11)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Symphony of Fading Hopes\" (release_date 2019-12-29 via spotify.show_song; to remove)",
+          "object": "song-137"
+        }
+      }
+    },
+    {
+      "step": 39,
+      "pddl": "(spotify-remove-song-from-playlist playlist-11 song-137 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-11"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Symphony of Fading Hopes\" (release_date 2019-12-29 via spotify.show_song; to remove)",
+          "object": "song-137"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 40,
+      "pddl": "(spotify-show-song song-138 playlist-11)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Inescapable Gravity of Love\" (release_date 2019-08-29 via spotify.show_song; to remove)",
+          "object": "song-138"
+        }
+      }
+    },
+    {
+      "step": 41,
+      "pddl": "(spotify-remove-song-from-playlist playlist-11 song-138 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-11"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Inescapable Gravity of Love\" (release_date 2019-08-29 via spotify.show_song; to remove)",
+          "object": "song-138"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 42,
+      "pddl": "(spotify-show-song song-162 playlist-11)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Caught in the Afterglow of Love\" (release_date 2019-02-02 via spotify.show_song; to remove)",
+          "object": "song-162"
+        }
+      }
+    },
+    {
+      "step": 43,
+      "pddl": "(spotify-remove-song-from-playlist playlist-11 song-162 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-11"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Caught in the Afterglow of Love\" (release_date 2019-02-02 via spotify.show_song; to remove)",
+          "object": "song-162"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 44,
+      "pddl": "(spotify-show-song song-320 playlist-11)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Lost in the Maze of Your Mind\" (release_date 2021-08-24 via spotify.show_song; to remove)",
+          "object": "song-320"
+        }
+      }
+    },
+    {
+      "step": 45,
+      "pddl": "(spotify-remove-song-from-playlist playlist-11 song-320 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Ethereal Escapes: Ambient Grooves\"",
+          "object": "playlist-11"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Lost in the Maze of Your Mind\" (release_date 2021-08-24 via spotify.show_song; to remove)",
+          "object": "song-320"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 46,
+      "pddl": "(spotify-show-song song-133 playlist-12)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Fleeting Joy of Youth\" (release_date 2020-01-24 via spotify.show_song; to remove)",
+          "object": "song-133"
+        }
+      }
+    },
+    {
+      "step": 47,
+      "pddl": "(spotify-remove-song-from-playlist playlist-12 song-133 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Blues & Brews: Laid Back Tracks\"",
+          "object": "playlist-12"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Fleeting Joy of Youth\" (release_date 2020-01-24 via spotify.show_song; to remove)",
+          "object": "song-133"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 48,
+      "pddl": "(spotify-show-song song-33 playlist-12)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Unveiled\" (release_date 2021-02-05 via spotify.show_song; to remove)",
+          "object": "song-33"
+        }
+      }
+    },
+    {
+      "step": 49,
+      "pddl": "(spotify-remove-song-from-playlist playlist-12 song-33 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Blues & Brews: Laid Back Tracks\"",
+          "object": "playlist-12"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Unveiled\" (release_date 2021-02-05 via spotify.show_song; to remove)",
+          "object": "song-33"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 50,
+      "pddl": "(spotify-show-song song-226 playlist-12)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Midnight Whispers\" (release_date 2021-03-31 via spotify.show_song; to remove)",
+          "object": "song-226"
+        }
+      }
+    },
+    {
+      "step": 51,
+      "pddl": "(spotify-remove-song-from-library song-226 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Midnight Whispers\" (release_date 2021-03-31 via spotify.show_song; to remove)",
+          "object": "song-226"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 52,
+      "pddl": "(spotify-remove-song-from-playlist playlist-12 song-226 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Blues & Brews: Laid Back Tracks\"",
+          "object": "playlist-12"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Midnight Whispers\" (release_date 2021-03-31 via spotify.show_song; to remove)",
+          "object": "song-226"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 53,
+      "pddl": "(spotify-show-song song-127 playlist-13)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Mystic Rhythms\" (release_date 2020-04-13 via spotify.show_song; to remove)",
+          "object": "song-127"
+        }
+      }
+    },
+    {
+      "step": 54,
+      "pddl": "(spotify-remove-song-from-playlist playlist-13 song-127 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Zen Zone: Mindful Melodies\"",
+          "object": "playlist-13"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Mystic Rhythms\" (release_date 2020-04-13 via spotify.show_song; to remove)",
+          "object": "song-127"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 55,
+      "pddl": "(spotify-show-song song-272 playlist-13)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Torn Apart\" (release_date 2021-06-02 via spotify.show_song; to remove)",
+          "object": "song-272"
+        }
+      }
+    },
+    {
+      "step": 56,
+      "pddl": "(spotify-remove-song-from-playlist playlist-13 song-272 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Zen Zone: Mindful Melodies\"",
+          "object": "playlist-13"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Torn Apart\" (release_date 2021-06-02 via spotify.show_song; to remove)",
+          "object": "song-272"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 57,
+      "pddl": "(spotify-show-song song-94 playlist-13)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Bridges Burned and Rivers Crossed\" (release_date 2018-11-23 via spotify.show_song; to remove)",
+          "object": "song-94"
+        }
+      }
+    },
+    {
+      "step": 58,
+      "pddl": "(spotify-remove-song-from-playlist playlist-13 song-94 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Zen Zone: Mindful Melodies\"",
+          "object": "playlist-13"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Bridges Burned and Rivers Crossed\" (release_date 2018-11-23 via spotify.show_song; to remove)",
+          "object": "song-94"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 59,
+      "pddl": "(spotify-show-song song-96 playlist-13)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"In the Chambers of My Mind\" (release_date 2018-12-20 via spotify.show_song; to remove)",
+          "object": "song-96"
+        }
+      }
+    },
+    {
+      "step": 60,
+      "pddl": "(spotify-remove-song-from-playlist playlist-13 song-96 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Zen Zone: Mindful Melodies\"",
+          "object": "playlist-13"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"In the Chambers of My Mind\" (release_date 2018-12-20 via spotify.show_song; to remove)",
+          "object": "song-96"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 61,
+      "pddl": "(spotify-show-song song-159 playlist-8)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Forgotten Pages of Time\" (release_date 2020-09-30 via spotify.show_song; to remove)",
+          "object": "song-159"
+        }
+      }
+    },
+    {
+      "step": 62,
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-159 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Midweek Motivation: Hump Day Hits\"",
+          "object": "playlist-8"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Forgotten Pages of Time\" (release_date 2020-09-30 via spotify.show_song; to remove)",
+          "object": "song-159"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 63,
+      "pddl": "(spotify-show-song song-177 playlist-8)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Through the Kaleidoscope of Tears\" (release_date 2020-03-16 via spotify.show_song; to remove)",
+          "object": "song-177"
+        }
+      }
+    },
+    {
+      "step": 64,
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-177 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Midweek Motivation: Hump Day Hits\"",
+          "object": "playlist-8"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Through the Kaleidoscope of Tears\" (release_date 2020-03-16 via spotify.show_song; to remove)",
+          "object": "song-177"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 65,
+      "pddl": "(spotify-show-song song-99 playlist-8)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Distance Between Two Hearts\" (release_date 2018-11-16 via spotify.show_song; to remove)",
+          "object": "song-99"
+        }
+      }
+    },
+    {
+      "step": 66,
+      "pddl": "(spotify-remove-song-from-playlist playlist-8 song-99 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Midweek Motivation: Hump Day Hits\"",
+          "object": "playlist-8"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"The Distance Between Two Hearts\" (release_date 2018-11-16 via spotify.show_song; to remove)",
+          "object": "song-99"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 67,
+      "pddl": "(spotify-show-song song-315 playlist-9)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Kaleidoscope Heart\" (release_date 2020-03-10 via spotify.show_song; to remove)",
+          "object": "song-315"
+        }
+      }
+    },
+    {
+      "step": 68,
+      "pddl": "(spotify-remove-song-from-playlist playlist-9 song-315 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Classical Cornerstones\"",
+          "object": "playlist-9"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Kaleidoscope Heart\" (release_date 2020-03-10 via spotify.show_song; to remove)",
+          "object": "song-315"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 69,
+      "pddl": "(spotify-show-song song-41 playlist-9)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Gone Astray\" (release_date 2021-06-10 via spotify.show_song; to remove)",
+          "object": "song-41"
+        }
+      }
+    },
+    {
+      "step": 70,
+      "pddl": "(spotify-remove-song-from-playlist playlist-9 song-41 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Classical Cornerstones\"",
+          "object": "playlist-9"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Gone Astray\" (release_date 2021-06-10 via spotify.show_song; to remove)",
+          "object": "song-41"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 71,
+      "pddl": "(spotify-show-song song-18 playlist-9)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Secrets We Dare Not Speak\" (release_date 2021-03-23 via spotify.show_song; to remove)",
+          "object": "song-18"
+        }
+      }
+    },
+    {
+      "step": 72,
+      "pddl": "(spotify-remove-song-from-playlist playlist-10 song-18 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Desert Drift: Nomadic Tunes\"",
+          "object": "playlist-10"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Secrets We Dare Not Speak\" (release_date 2021-03-23 via spotify.show_song; to remove)",
+          "object": "song-18"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 73,
+      "pddl": "(spotify-remove-song-from-playlist playlist-9 song-18 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Classical Cornerstones\"",
+          "object": "playlist-9"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"Secrets We Dare Not Speak\" (release_date 2021-03-23 via spotify.show_song; to remove)",
+          "object": "song-18"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 74,
+      "pddl": "(spotify-show-song song-301 playlist-9)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Fading Reflection in Water\" (release_date 2020-07-04 via spotify.show_song; to remove)",
+          "object": "song-301"
+        }
+      }
+    },
+    {
+      "step": 75,
+      "pddl": "(spotify-remove-song-from-playlist playlist-13 song-301 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Zen Zone: Mindful Melodies\"",
+          "object": "playlist-13"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Fading Reflection in Water\" (release_date 2020-07-04 via spotify.show_song; to remove)",
+          "object": "song-301"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 76,
+      "pddl": "(spotify-remove-song-from-playlist playlist-9 song-301 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Classical Cornerstones\"",
+          "object": "playlist-9"
+        },
+        "song_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "song_id of \"A Fading Reflection in Water\" (release_date 2020-07-04 via spotify.show_song; to remove)",
+          "object": "song-301"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 77,
+      "pddl": "(spotify-show-song song-317 playlist-9)",
+      "api": "spotify.show_song",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Trapped in a Daydream\" (release_date 2021-04-27 via spotify.show_song; to remove)",
+          "object": "song-317"
+        }
+      }
+    },
+    {
+      "step": 78,
+      "pddl": "(spotify-remove-song-from-library song-317 spotify-token)",
+      "api": "spotify.remove_song_from_library",
+      "args": {
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Trapped in a Daydream\" (release_date 2021-04-27 via spotify.show_song; to remove)",
+          "object": "song-317"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 79,
+      "pddl": "(spotify-remove-song-from-playlist playlist-9 song-317 spotify-token)",
+      "api": "spotify.remove_song_from_playlist",
+      "args": {
+        "playlist_id": {
+          "$from": "spotify.show_playlist_library",
+          "field": "playlist_id of \"Classical Cornerstones\"",
+          "object": "playlist-9"
+        },
+        "song_id": {
+          "$from": "spotify.show_song_library",
+          "field": "song_id of \"Trapped in a Daydream\" (release_date 2021-04-27 via spotify.show_song; to remove)",
+          "object": "song-317"
+        },
+        "access_token": {
+          "$from": "spotify.login",
+          "field": "access_token",
+          "object": "spotify-token"
+        }
+      }
+    },
+    {
+      "step": 80,
+      "pddl": "(supervisor-complete-task song-107 song-236 playlist-10 song-107 song-236)",
       "api": "supervisor.complete_task",
       "args": {}
     }

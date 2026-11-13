@@ -105,7 +105,7 @@
       "args": {
         "note_id": {
           "$from": "simple_note.search_notes",
-          "field": "note_id of the result whose title contains \"Dinner with Colleagues\" and created_at >= start of yesterday (2023-05-19)",
+          "field": "note_id of the result titled \"... Expense Shares ...\" created yesterday (2023-05-19); the search also returns an older \"Dinner Dinner at ...\" note that must be ignored",
           "object": "note-dinner-with-colleagues"
         },
         "access_token": {
@@ -117,18 +117,18 @@
     },
     {
       "step": 11,
-      "pddl": "(venmo-create-payment-request email-coworker-1 amount-share-1 venmo-token description-dinner-with-colleagues coworker-1 note-dinner-with-colleagues)",
+      "pddl": "(venmo-create-payment-request email-anita share-anita venmo-token description-dinner-with-colleagues coworker-anita note-dinner-with-colleagues)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name matches a name listed in the note and who has NOT sent a received venmo transaction described \"Dinner with Colleagues\" since yesterday (1st such person)",
-          "object": "email-coworker-1"
+          "field": "email of the coworker contact whose first_name == \"Anita\" (Anita Burch; pending: no such received transaction)",
+          "object": "email-anita"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content line \"- <name> => $<share>\" for coworker-1 (integer share)",
-          "object": "amount-share-1"
+          "field": "content: integer after '=> $' on the line '- Anita => $32'",
+          "object": "share-anita"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -140,18 +140,18 @@
     },
     {
       "step": 12,
-      "pddl": "(venmo-create-payment-request email-coworker-2 amount-share-2 venmo-token description-dinner-with-colleagues coworker-2 note-dinner-with-colleagues)",
+      "pddl": "(venmo-create-payment-request email-jamie share-jamie venmo-token description-dinner-with-colleagues coworker-jamie note-dinner-with-colleagues)",
       "api": "venmo.create_payment_request",
       "args": {
         "user_email": {
           "$from": "phone.search_contacts",
-          "field": "email of the coworker contact whose first_name matches a name listed in the note and who has NOT sent a received venmo transaction described \"Dinner with Colleagues\" since yesterday (2nd such person; repeat for every further pending person)",
-          "object": "email-coworker-2"
+          "field": "email of the coworker contact whose first_name == \"Jamie\" (Jamie Solomon; pending: no such received transaction)",
+          "object": "email-jamie"
         },
         "amount": {
           "$from": "simple_note.show_note",
-          "field": "content line \"- <name> => $<share>\" for coworker-2 (integer share)",
-          "object": "amount-share-2"
+          "field": "content: integer after '=> $' on the line '- Jamie => $31'",
+          "object": "share-jamie"
         },
         "access_token": {
           "$from": "venmo.login",
@@ -163,6 +163,52 @@
     },
     {
       "step": 13,
+      "pddl": "(venmo-create-payment-request email-sabrina share-sabrina venmo-token description-dinner-with-colleagues coworker-sabrina note-dinner-with-colleagues)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the coworker contact whose first_name == \"Sabrina\" (Sabrina Brown; pending: no such received transaction)",
+          "object": "email-sabrina"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: integer after '=> $' on the line '- Sabrina => $32'",
+          "object": "share-sabrina"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Dinner with Colleagues"
+      }
+    },
+    {
+      "step": 14,
+      "pddl": "(venmo-create-payment-request email-stephen share-stephen venmo-token description-dinner-with-colleagues coworker-stephen note-dinner-with-colleagues)",
+      "api": "venmo.create_payment_request",
+      "args": {
+        "user_email": {
+          "$from": "phone.search_contacts",
+          "field": "email of the coworker contact whose first_name == \"Stephen\" (Stephen Mccoy; pending: no such received transaction)",
+          "object": "email-stephen"
+        },
+        "amount": {
+          "$from": "simple_note.show_note",
+          "field": "content: integer after '=> $' on the line '- Stephen => $33'",
+          "object": "share-stephen"
+        },
+        "access_token": {
+          "$from": "venmo.login",
+          "field": "access_token",
+          "object": "venmo-token"
+        },
+        "description": "Dinner with Colleagues"
+      }
+    },
+    {
+      "step": 15,
       "pddl": "(supervisor-complete-task)",
       "api": "supervisor.complete_task",
       "args": {}

@@ -12,6 +12,10 @@
     direction-received - direction
     total-received-amount - amount)
   (:init
+    (credential-of-app phone phone-password)
+    (credential-of-app phone phone-token)
+    (credential-of-app venmo venmo-password)
+    (credential-of-app venmo venmo-token)
     (username-for phone username-3379617841)
     (username-for venmo paul-mill-at-gmail-com)
     (password-for phone phone-password)
