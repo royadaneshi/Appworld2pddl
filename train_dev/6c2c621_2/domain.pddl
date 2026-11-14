@@ -61,7 +61,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?n1 - note ?n2 - note ?n3 - note)
-    :precondition (and (exported ?n1) (exported ?n2) (exported ?n3) (not (= ?n1 ?n2)) (not (= ?n1 ?n3)) (not (= ?n2 ?n3)) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

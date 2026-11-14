@@ -69,7 +69,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?a1 ?a2 ?a3 - artist)
-    :precondition (and (following ?a1) (following ?a2) (following ?a3) (not (= ?a1 ?a2)) (not (= ?a1 ?a3)) (not (= ?a2 ?a3)) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

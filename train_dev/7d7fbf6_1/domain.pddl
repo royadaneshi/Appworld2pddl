@@ -76,14 +76,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?d1 - directory ?d2 - directory ?d3 - directory)
+    :parameters ()
     :precondition (and
-      (archived ?d1)
-      (archived ?d2)
-      (archived ?d3)
-      (not (= ?d1 ?d2))
-      (not (= ?d1 ?d3))
-      (not (= ?d2 ?d3))
       (not (task-completed))
     )
     :effect (and (task-completed))

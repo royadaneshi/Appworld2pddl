@@ -92,8 +92,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p - person ?msg - message)
-    :precondition (and (text-sent ?p ?msg) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed)
   )
 )

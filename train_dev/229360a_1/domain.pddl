@@ -92,10 +92,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?s1 ?s2 - song ?al1 ?al2 - album)
-    :precondition (and (not (task-completed))
-                       (not (= ?s1 ?s2)) (not (= ?al1 ?al2))
-                       (song-removed-from-library ?s1) (song-removed-from-library ?s2)
-                       (album-removed-from-library ?al1) (album-removed-from-library ?al2))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

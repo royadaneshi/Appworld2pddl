@@ -80,11 +80,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?pl - playlist ?ti - title ?p1 - playlist ?p2 - playlist)
-    :precondition (and (not (task-completed))
-                       (playlist-titled ?pl ?ti)
-                       (added-highest-rated ?p1 ?pl)
-                       (added-highest-rated ?p2 ?pl)
-                       (not (= ?p1 ?p2)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

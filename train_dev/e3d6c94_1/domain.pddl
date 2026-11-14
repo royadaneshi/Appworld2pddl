@@ -93,12 +93,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?pl - playlist ?ti - title ?s1 - song ?s2 - song)
-    :precondition (and (not (task-completed))
-                       (playlist-created ?pl)
-                       (playlist-title ?pl ?ti)
-                       (in-playlist ?pl ?s1)
-                       (in-playlist ?pl ?s2)
-                       (not (= ?s1 ?s2)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

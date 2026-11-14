@@ -64,6 +64,6 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?c - count)
-    :precondition (and (like-count ?c) (target-like-count ?c) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (and (task-completed))))

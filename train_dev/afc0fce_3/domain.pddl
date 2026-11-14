@@ -94,11 +94,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?x1 - transaction ?x2 - transaction ?x3 - transaction ?c - comment-text)
-    :precondition (and (not (task-completed))
-                       (not (= ?x1 ?x2)) (not (= ?x1 ?x3)) (not (= ?x2 ?x3))
-                       (liked ?x1) (commented ?x1 ?c)
-                       (liked ?x2) (commented ?x2 ?c)
-                       (liked ?x3) (commented ?x3 ?c))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

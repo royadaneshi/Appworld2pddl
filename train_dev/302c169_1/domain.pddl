@@ -63,14 +63,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?target - alarm ?o1 - alarm ?o2 - alarm)
-    :precondition (and (not (task-completed))
-                       (go-to-sleep-alarm ?target)
-                       (not (= ?o1 ?o2))
-                       (not (= ?o1 ?target))
-                       (not (= ?o2 ?target))
-                       (alarm-updated ?target)
-                       (alarm-updated ?o1)
-                       (alarm-updated ?o2))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (and (task-completed)))
 )

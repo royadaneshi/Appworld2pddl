@@ -65,7 +65,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?m - text-message ?v - voice-message)
-    :precondition (and (deleted ?m) (deleted ?v) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

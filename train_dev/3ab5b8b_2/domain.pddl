@@ -58,8 +58,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?s1 - song ?s2 - song)
-    :precondition (and (downloaded ?s1) (downloaded ?s2) (not (= ?s1 ?s2))
-                       (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

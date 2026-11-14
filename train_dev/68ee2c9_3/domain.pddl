@@ -64,7 +64,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?f1 - file ?f2 - file)
-    :precondition (and (renamed ?f1) (renamed ?f2) (not (= ?f1 ?f2)) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

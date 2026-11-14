@@ -56,7 +56,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?n - note ?act - activity)
-    :precondition (and (activity-marked-done ?n ?act) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

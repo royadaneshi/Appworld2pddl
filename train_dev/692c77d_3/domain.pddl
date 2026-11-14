@@ -70,7 +70,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?s1 - song ?s2 - song ?rt - rating)
-    :precondition (and (target-rating ?rt) (not (= ?s1 ?s2)) (in-album-library ?s1) (liked ?s1) (song-rated ?s1 ?rt) (in-album-library ?s2) (liked ?s2) (song-rated ?s2 ?rt) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )

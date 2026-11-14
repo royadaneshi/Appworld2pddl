@@ -108,12 +108,9 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?pr1 - payment-request ?pr2 - payment-request)
+    :parameters ()
     :precondition (and
-      (not (task-completed))
-      (not (= ?pr1 ?pr2))
-      (reminded ?pr1)
-      (reminded ?pr2))
+      (not (task-completed)))
     :effect (and (task-completed))
   )
 )

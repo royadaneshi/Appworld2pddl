@@ -85,8 +85,8 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?p - person ?amt - amount)
-    :precondition (and (not (task-completed)) (transaction-sent ?p ?amt))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed)
   )
 )

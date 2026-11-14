@@ -154,14 +154,9 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?r1 - payment-request ?r2 - payment-request ?amt - amount ?n - note)
+    :parameters ()
     :precondition (and
       (not (task-completed))
-      (not (= ?r1 ?r2))
-      (bill-share ?amt)
-      (request-note ?n)
-      (request-sent ?r1 ?amt ?n)
-      (request-sent ?r2 ?amt ?n)
     )
     :effect (task-completed)
   )

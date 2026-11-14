@@ -73,7 +73,7 @@
 
   ; API: supervisor.complete_task
   (:action supervisor-complete-task
-    :parameters (?old-lib - song ?new-lib - song ?p - playlist ?old-pl - song ?new-pl - song)
-    :precondition (and (release-known ?old-lib) (released-in-or-before-2021 ?old-lib) (not (in-container song-library ?old-lib)) (release-known ?new-lib) (not (released-in-or-before-2021 ?new-lib)) (in-container song-library ?new-lib) (listed ?p) (release-known ?old-pl) (released-in-or-before-2021 ?old-pl) (not (in-container ?p ?old-pl)) (release-known ?new-pl) (not (released-in-or-before-2021 ?new-pl)) (in-container ?p ?new-pl) (not (task-completed)))
+    :parameters ()
+    :precondition (and (not (task-completed)))
     :effect (task-completed))
 )
